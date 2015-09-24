@@ -7,3 +7,6 @@ C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug
 C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.exe
 C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.pdb
 C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.Form1.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\bin\Debug\BeloteClient.exe.config
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.exe
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.pdb
