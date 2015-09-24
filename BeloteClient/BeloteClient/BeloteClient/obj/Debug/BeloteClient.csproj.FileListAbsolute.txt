@@ -1,0 +1,9 @@
+C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\bin\Debug\BeloteClient.exe.config
+C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\bin\Debug\BeloteClient.exe
+C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\bin\Debug\BeloteClient.pdb
+C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.csprojResolveAssemblyReference.cache
+C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.Properties.Resources.resources
+C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.csproj.GenerateResource.Cache
+C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.exe
+C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.pdb
+C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.Form1.resources
