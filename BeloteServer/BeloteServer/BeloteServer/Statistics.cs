@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
-    class Program
+    class Statistics
     {
-        static void Main(string[] args)
-        {
-            Game belote = new Game();
-        }
     }
 }
