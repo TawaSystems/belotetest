@@ -12,11 +12,46 @@ namespace BeloteServer
         private Game game;
         private Profile profile;
 
-        public Player(Game game)
+        public Player(Game game) : this (game, -1)
+        {
+        }
+
+        public Player(Game game, int Id)
         {
             this.game = game;
             statistics = new Statistics();
             profile = new Profile();
+            if (Id >= 0)
+            {
+                ReadPlayerFromDataBase(Id);
+            }
+        }
+
+        private void ReadPlayerFromDataBase(int Id)
+        {
+            List<List<string>> playerData = Game.DataBase.Select(String.Format("SELECT * FROM Players WHERE id={0};", Id), Constants.COLS_PLAYERS);
+            this.profile.Id = Int32.Parse(playerData[0][0]);
+            this.profile.Nickname = playerData[1][0];
+            this.profile.Name = playerData[2][0];
+            this.profile.Surname = playerData[3][0];
+            this.profile.Password = playerData[4][0];
+            this.profile.Email = playerData[5][0];
+            this.profile.Phone = playerData[6][0];
+            this.profile.VK = playerData[7][0];
+            this.profile.FB = playerData[8][0];
+            this.profile.OK = playerData[9][0];
+            this.profile.Country = playerData[10][0];
+            this.profile.Address = playerData[11][0];
+            this.profile.ZipCode = playerData[12][0];
+            this.profile.Language = playerData[13][0];
+            this.profile.Sex = (Int32.Parse(playerData[14][0]) > 0) ? true : false;
+            this.profile.TimeZone = playerData[15][0];
+            this.profile.BirtDate = DateTime.Parse(playerData[16][0]);
+            this.profile.AvatarFile = playerData[17][0];
+            this.profile.VIPExperies = DateTime.Parse(playerData[18][0]);
+            this.profile.USD = Int32.Parse(playerData[19][0]);
+            this.profile.BUSD = Int32.Parse(playerData[20][0]);
+            this.profile.Chips = Int32.Parse(playerData[21][0]);
         }
 
         public Game Game
