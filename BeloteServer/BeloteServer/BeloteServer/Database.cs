@@ -5,24 +5,93 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql;
 using MySql.Data.MySqlClient;
+using System.Threading;
 
 namespace BeloteServer
 {
     class Database
     {
+        // Используются для присоединения к БД
         private MySqlConnection connection;
         private string server;
         private string database;
         private string uid;
         private string password;
+        // Очередь с запросами от клиентов
+        private Queue<string> requestQueue;
+        // Локер на запросы SELECT
+        private object selectLocker;
+        // Рабочий поток для записи в БД
+        private Thread bdWorker;
+        // Флаг завершения работы
+        private bool stopped;
 
         public Database()
         {
             Initialize();
+            requestQueue = new Queue<string>();
+            selectLocker = new object();
+            stopped = false;
+            bdWorker = new Thread(DatabaseWorking);
+            bdWorker.Start();
+        }
+
+        // Метод, записывающий все накопившиеся в очереди потоки в базу данных
+        private void WriteAllRequestToDatabase()
+        {
+            if (OpenConnection())
+            {
+                while (!(requestQueue.Count == 0))
+                {
+                    MySqlCommand cmd = new MySqlCommand(requestQueue.Dequeue(), connection);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException)
+                    {
+                    }
+                }
+                CloseConnection();
+            }
+        }
+
+        // Поток обработки запросов и записи их в базу данных
+        private void DatabaseWorking()
+        {
+            while (true)
+            {
+                lock (requestQueue)
+                {
+                    lock (selectLocker)
+                    {
+                        WriteAllRequestToDatabase();
+                    }
+                }
+                lock((object)stopped)
+                {
+                    if (stopped)
+                        break;
+                }
+                Thread.Sleep(5000);
+            }
+        }
+
+        // Остновка работы с базой данных
+        public void Stop()
+        {
+            lock ((object)stopped)
+            {
+                stopped = true;
+            }
+            bdWorker.Join();
+            CloseConnection();
+
         }
 
         private void Initialize()
         {
+            // подключение к базе данных
             server = "localhost";
             database = "Belote";
             uid = "root";
@@ -34,6 +103,7 @@ namespace BeloteServer
             connection = new MySqlConnection(connectionString);
         }
 
+        // Открытие соединения с БД
         private bool OpenConnection()
         {
             try
@@ -47,6 +117,7 @@ namespace BeloteServer
             }
         }
 
+        // закрытие соединения с БД
         private bool CloseConnection()
         {
             try
@@ -60,25 +131,7 @@ namespace BeloteServer
             }
         }
 
-        public bool ExecuteQuery(string Query)
-        {
-            if (OpenConnection())
-            {
-                MySqlCommand cmd = new MySqlCommand(Query, connection);
-                try
-                {
-                    cmd.ExecuteNonQuery();
-                    return true;
-                }
-                catch (MySqlException ex)
-                {
-                    return false;
-                }
-            }
-            else
-                return false;
-        }
-
+        // Запрос SELECT для возврата множественного результата. ColCount - количество столбцов с таблице
         public List<List<String>> Select(string Query, int ColCount)
         {
             if (ColCount == 0)
@@ -89,25 +142,28 @@ namespace BeloteServer
             
             if (OpenConnection())
             {
-                MySqlCommand cmd = new MySqlCommand(Query, connection);
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-                try
+                lock (selectLocker)
                 {
-                    while (dataReader.Read())
+                    MySqlCommand cmd = new MySqlCommand(Query, connection);
+                    MySqlDataReader dataReader = cmd.ExecuteReader();
+                    try
                     {
-                        for (var i = 0; i < ColCount; i++)
-                            resList[i].Add(dataReader[i].ToString());
+                        while (dataReader.Read())
+                        {
+                            for (var i = 0; i < ColCount; i++)
+                                resList[i].Add(dataReader[i].ToString());
+                        }
+
+                        dataReader.Close();
+
+                        CloseConnection();
+
+                        return resList;
                     }
-
-                    dataReader.Close();
-
-                    CloseConnection();
-
-                    return resList;
-                }
-                catch (Exception ex)
-                {
-                    return null;
+                    catch (Exception ex)
+                    {
+                        return null;
+                    }
                 }
             }
             else
@@ -116,24 +172,38 @@ namespace BeloteServer
             }
         }
 
+        // Запрос SELECT для возврата единственного результата
         public string SelectScalar(string Query)
         {
             if (OpenConnection())
             {
-                MySqlCommand cmd = new MySqlCommand(Query, connection);
+                lock (selectLocker)
+                {
+                    MySqlCommand cmd = new MySqlCommand(Query, connection);
 
-                try
-                {
-                    string res = cmd.ExecuteScalar().ToString();
-                    return res;
-                }
-                catch (MySqlException ex)
-                {
-                    return null;
+                    try
+                    {
+                        string res = cmd.ExecuteScalar().ToString();
+                        CloseConnection();
+                        return res;
+                    }
+                    catch (MySqlException ex)
+                    {
+                        return null;
+                    }
                 }
             }
             else
                 return null;
+        }
+
+        // Добавление запроса, не требующего возвращения результата
+        public void AddQuery(string Query)
+        {
+            lock (requestQueue)
+            {
+                requestQueue.Enqueue(Query);
+            }
         }
     }
 }
