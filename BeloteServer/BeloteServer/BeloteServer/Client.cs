@@ -41,7 +41,29 @@ namespace BeloteServer
                     {
                         break;
                     }
-                default
+                // Тест на наличие эл.почты/ника и т.д.
+                case 'T':
+                    {
+                        switch (command[2])
+                        {
+                            // Адрес электронной почты
+                            case 'E':
+                                {
+                                    break;
+                                }
+                            // Ник
+                            case 'N':
+                                {
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                default:
                     {
                         break;
                     }
@@ -58,12 +80,15 @@ namespace BeloteServer
                 case 'A':
                     {
                         return ProcessAutorization(command, message);
-                        break;
                     }
                 case 'B':
-                    { break; }
+                    {
+                        break;
+                    }
                 default:
-                    break;
+                    {
+                        break;
+                    }
             }
             return null;
         }
