@@ -14,20 +14,21 @@ namespace BeloteServer
             db = new Database();
             Start();
         }
-          
+
+        private void Start()
+        {
+            Server server = new Server(this);
+            server.Start();
+        }
+
         public Database DataBase
         {
             get
             {
                 return db;
             }
-        }
+        }      
 
-        private void Start()
-        {
 
-        }
-
-              
     }
 }

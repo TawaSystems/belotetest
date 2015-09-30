@@ -12,5 +12,9 @@ namespace BeloteServer
         public const int COLS_PLAYERS = 22;
 
         public const int COLS_STATISTICS = 20;
+
+        public const int SERVER_PORT = 8888;
+
+        public const string SERVER_LOCAL_IP = "127.0.0.1";
     }
 }
