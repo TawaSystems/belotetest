@@ -16,5 +16,20 @@ namespace BeloteClient
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (PasswordTextBox.Text != PasswordConfirmTextBox.Text)
+            {
+                MessageBox.Show("Пароли не совпадают!");
+                return;
+            }
+            if ((PasswordTextBox.Text == "") || (NicknameTextBox.Text == "") || (EmailTextBox.Text == "") || (CountryComboBox.Text == ""))
+            {
+                MessageBox.Show("Введены не все данные!");
+            }
+            string Sex = (MaleRadio.Checked ? "1" : "0");
+            Program.Client.Registration(NicknameTextBox.Text, PasswordTextBox.Text, EmailTextBox.Text, CountryComboBox.Text, Sex);
+        }
     }
 }

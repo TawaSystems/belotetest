@@ -28,5 +28,15 @@ namespace BeloteServer
             }
             return result;
         }
+
+        public static string CommandFromStr(string Str)
+        {
+            return Str.Substring(0, 3);
+        }
+
+        public static string MessageFromStr(string Str)
+        {
+            return Str.Substring(3, Str.Length - 3);
+        }
     }
 }

@@ -10,3 +10,12 @@ C:\Users\Валерий\Desktop\BeloteClient\BeloteClient\BeloteClient\obj\Debug
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\bin\Debug\BeloteClient.exe.config
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.exe
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.pdb
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\bin\Debug\BeloteClient.exe
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\bin\Debug\BeloteClient.pdb
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.csprojResolveAssemblyReference.cache
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.EmailAutorizationForm.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.MainGuestForm.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.MainUserForm.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.Properties.Resources.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.RegistrationEmail.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.csproj.GenerateResource.Cache

@@ -21,5 +21,16 @@ namespace BeloteClient
         {
 
         }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void сПомощьюEmailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RegistrationEmail regEmailForm = new RegistrationEmail();
+            regEmailForm.ShowDialog();
+        }
     }
 }

@@ -114,8 +114,8 @@ namespace BeloteServer
 
         private string ProcessCommand(string message)
         {
-            string command = message.Substring(0, 3);
-            string msg = message.Substring(3, message.Length - 3);
+            string command = Helpers.CommandFromStr(message);
+            string msg = Helpers.MessageFromStr(message);
             switch (command[0])
             {
                 // Autorization

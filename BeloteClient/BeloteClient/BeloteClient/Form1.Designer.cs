@@ -44,11 +44,18 @@
             this.сПомощьюFacebookToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сПомощьюВКонтактеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сПомощьюОдноклассникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             войтиСПомощьюОдноклассникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // войтиСПомощьюОдноклассникиToolStripMenuItem
+            // 
+            войтиСПомощьюОдноклассникиToolStripMenuItem.Enabled = false;
+            войтиСПомощьюОдноклассникиToolStripMenuItem.Name = "войтиСПомощьюОдноклассникиToolStripMenuItem";
+            войтиСПомощьюОдноклассникиToolStripMenuItem.Size = new System.Drawing.Size(266, 22);
+            войтиСПомощьюОдноклассникиToolStripMenuItem.Text = "Войти с помощью Одноклассники";
             // 
             // menuStrip1
             // 
@@ -124,13 +131,6 @@
             this.войтиСПомощьюВКонтактеToolStripMenuItem.Size = new System.Drawing.Size(266, 22);
             this.войтиСПомощьюВКонтактеToolStripMenuItem.Text = "Войти с помощью ВКонтакте";
             // 
-            // войтиСПомощьюОдноклассникиToolStripMenuItem
-            // 
-            войтиСПомощьюОдноклассникиToolStripMenuItem.Enabled = false;
-            войтиСПомощьюОдноклассникиToolStripMenuItem.Name = "войтиСПомощьюОдноклассникиToolStripMenuItem";
-            войтиСПомощьюОдноклассникиToolStripMenuItem.Size = new System.Drawing.Size(266, 22);
-            войтиСПомощьюОдноклассникиToolStripMenuItem.Text = "Войти с помощью Одноклассники";
-            // 
             // регистрацияToolStripMenuItem
             // 
             this.регистрацияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -148,6 +148,7 @@
             this.сПомощьюEmailToolStripMenuItem.Name = "сПомощьюEmailToolStripMenuItem";
             this.сПомощьюEmailToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.сПомощьюEmailToolStripMenuItem.Text = "С помощью E-mail";
+            this.сПомощьюEmailToolStripMenuItem.Click += new System.EventHandler(this.сПомощьюEmailToolStripMenuItem_Click);
             // 
             // сПомощьюТелефонаToolStripMenuItem
             // 
@@ -177,6 +178,13 @@
             this.сПомощьюОдноклассникиToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.сПомощьюОдноклассникиToolStripMenuItem.Text = "С помощью Одноклассники";
             // 
+            // выходToolStripMenuItem
+            // 
+            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
+            // 
             // richTextBox1
             // 
             this.richTextBox1.Location = new System.Drawing.Point(12, 27);
@@ -185,12 +193,6 @@
             this.richTextBox1.Size = new System.Drawing.Size(515, 399);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
-            // 
-            // выходToolStripMenuItem
-            // 
-            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.выходToolStripMenuItem.Text = "Выход";
             // 
             // MainGuestForm
             // 

@@ -65,7 +65,8 @@ namespace BeloteServer
                 {
                     lock (selectLocker)
                     {
-                        WriteAllRequestToDatabase();
+                        if (requestQueue.Count > 0)
+                            WriteAllRequestToDatabase();
                     }
                 }
                 lock((object)stopped)
@@ -101,6 +102,13 @@ namespace BeloteServer
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 
             connection = new MySqlConnection(connectionString);
+            
+            if (OpenConnection())
+            {
+                Console.WriteLine("Database connected");
+                CloseConnection();
+            }
+            
         }
 
         // Открытие соединения с БД
@@ -153,17 +161,17 @@ namespace BeloteServer
                             for (var i = 0; i < ColCount; i++)
                                 resList[i].Add(dataReader[i].ToString());
                         }
-
                         dataReader.Close();
-
-                        CloseConnection();
-
-                        return resList;
                     }
                     catch (Exception ex)
                     {
                         return null;
                     }
+                    finally
+                    {
+                        CloseConnection();
+                    }
+                    return resList;
                 }
             }
             else
@@ -180,17 +188,20 @@ namespace BeloteServer
                 lock (selectLocker)
                 {
                     MySqlCommand cmd = new MySqlCommand(Query, connection);
-
+                    string res;
                     try
                     {
-                        string res = cmd.ExecuteScalar().ToString();
-                        CloseConnection();
-                        return res;
+                        res = cmd.ExecuteScalar().ToString();
                     }
                     catch (MySqlException ex)
                     {
                         return null;
                     }
+                    finally
+                    {
+                        CloseConnection();
+                    }
+                    return res;
                 }
             }
             else

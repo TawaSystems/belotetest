@@ -25,7 +25,7 @@ namespace BeloteServer
         // Проверка наличия игрока с указанным ником в базе данных
         public bool NicknameExists(string Nickname)
         {
-            int Count = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT Count(*) FROM Players WHERE Nickname = {0}", Nickname)));
+            int Count = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT Count(*) FROM Players WHERE Nickname = {0};", Nickname)));
             return (Count != 0);
         }
 
@@ -34,7 +34,7 @@ namespace BeloteServer
         {
             if (EmailExists(Email))
                 return false;    
-            string dbPassword = game.DataBase.SelectScalar(String.Format("SELECT Password FROM Players WHERE Emaul = {0}", Email));
+            string dbPassword = game.DataBase.SelectScalar(String.Format("SELECT Password FROM Players WHERE Emaul = {0};", Email));
             return (dbPassword == Password);
         }
 

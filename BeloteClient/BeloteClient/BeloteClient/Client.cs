@@ -14,16 +14,21 @@ namespace BeloteClient
     {
         private TcpClient client;
         private Thread worker;
+        private NetworkStream stream;
 
         public Client()
         {
             if (!Connect())
             {
                 MessageBox.Show("Невозможно подключиться к серверу!");
+                return;
             }
+            stream = client.GetStream();
+            worker = new Thread(ProcessClient);
+            worker.Start();
         }
 
-        public bool Connect()
+        private bool Connect()
         {
             try
             {
@@ -36,15 +41,59 @@ namespace BeloteClient
             }
         }
 
-        public void ProcessClient(string message)
+        private void SendDataToServer(string message)
+        {
+            //lock (stream)
+            //{
+                byte[] data = Encoding.Unicode.GetBytes(message);
+                stream.Write(data, 0, data.Length);
+            //}
+        }
+
+        private void ProcessAutorization(string command, string message)
+        {
+            Dictionary<string, string> regParams = BeloteServer.Helpers.SplitCommandString(message);
+            switch (command[1])
+            {
+                case 'R':
+                    {
+                        if (regParams["Registration"] == "1")
+                            MessageBox.Show("Регистрация прошла успешно");
+                        else
+                            MessageBox.Show("В регистрации отказано");
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+
+        private void ProcessCommand(string message)
+        {
+            string command = BeloteServer.Helpers.CommandFromStr(message);
+            string msg = BeloteServer.Helpers.MessageFromStr(message);
+
+            switch (command[0])
+            {
+                case 'A':
+                    {
+                        ProcessAutorization(command, msg);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+
+        private void ProcessClient()
         {
             try
             {
-                NetworkStream stream = client.GetStream();
-                
-                byte[] data = Encoding.Unicode.GetBytes(message);
-                stream.Write(data, 0, data.Length);
-                data = new byte[64]; 
+                byte[] data = new byte[64]; 
                 StringBuilder builder = new StringBuilder();
 
                 do
@@ -53,15 +102,22 @@ namespace BeloteClient
                     builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                 }
                 while (stream.DataAvailable);
+
+                ProcessCommand(builder.ToString());
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+
             }
-            finally
-            {
-                client.Close();
-            }
+        }
+
+
+
+        public void Registration(string Nickname, string Password, string Email, string Country, string Sex)
+        {
+            string msg = String.Format("AR0Nickname={0},Password={1},Email={2},Country={3},Sex={4}", 
+                Nickname, Password, Email, Country, Sex);
+            SendDataToServer(msg);
         }
     }
 }
