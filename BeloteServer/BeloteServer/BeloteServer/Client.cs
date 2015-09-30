@@ -22,24 +22,51 @@ namespace BeloteServer
             worker.Start();
         }
 
+        // Разбор авторизации пользователя
         private string ProcessAutorization(string command, string message)
         {
+            Dictionary<string, string> regParams = Helpers.SplitCommandString(message);
             switch (command[1])
             {
                 // Регистрация
                 case 'R':
                     {
-                        break;
+                        if (game.Autorization.RegistrationEmail(regParams["Nickname"], regParams["Email"], regParams["Password"],
+                            regParams["Country"], (regParams["Sex"] == "1") ? true : false))
+                        {
+                            // Регистрация прошла успешно
+                            return "AR0Registration=1";
+                        }
+                        else
+                        {
+                            // Ошибка в регистрации
+                            return "AR0Registration=0";
+                        }
                     }
                 // Авторизация
                 case 'A':
                     {
-                        break;
+                        if (game.Autorization.EnterEmail(regParams["Email"], regParams["Password"]))
+                        {
+                            return "AA0Autorization=1";
+                        }
+                        else
+                        {
+                            return "AA0Autorization=0";
+                        }
                     }
                 // Напоминание пароля
                 case 'M':
                     {
-                        break;
+                        string pass = game.Autorization.RemindPasswordEmail(regParams["Email"]);
+                        if (pass != null)
+                        {
+                            return "AM0Password=" + pass;
+                        }
+                        else
+                        {
+                            return "AM0Password= ";
+                        }
                     }
                 // Тест на наличие эл.почты/ника и т.д.
                 case 'T':
@@ -49,12 +76,26 @@ namespace BeloteServer
                             // Адрес электронной почты
                             case 'E':
                                 {
-                                    break;
+                                    if (game.Autorization.EmailExists(regParams["Email"]))
+                                    {
+                                        return "ATEEmail=1";
+                                    }
+                                    else
+                                    {
+                                        return "ATEEmail=0";
+                                    }
                                 }
                             // Ник
                             case 'N':
                                 {
-                                    break;
+                                    if (game.Autorization.NicknameExists(regParams["Nickname"]))
+                                    {
+                                        return "ATNNickname=1";
+                                    }
+                                    else
+                                    {
+                                        return "ATNNickname=0";
+                                    }
                                 }
                             default:
                                 {
@@ -74,12 +115,13 @@ namespace BeloteServer
         private string ProcessCommand(string message)
         {
             string command = message.Substring(0, 3);
+            string msg = message.Substring(3, message.Length - 3);
             switch (command[0])
             {
                 // Autorization
                 case 'A':
                     {
-                        return ProcessAutorization(command, message);
+                        return ProcessAutorization(command, msg);
                     }
                 case 'B':
                     {

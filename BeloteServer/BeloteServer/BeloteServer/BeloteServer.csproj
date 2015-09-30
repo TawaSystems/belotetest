@@ -49,6 +49,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Program.cs" />

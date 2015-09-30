@@ -15,19 +15,22 @@ namespace BeloteServer
             this.game = game;
         }
 
+        // Проверка наличия игрока с указанным E-mail в базе данных
         public bool EmailExists(string Email)
         {
             int Count = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT Count(*) FROM Players WHERE Email = {0}", Email)));
             return (Count != 0);
         }
 
+        // Проверка наличия игрока с указанным ником в базе данных
         public bool NicknameExists(string Nickname)
         {
             int Count = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT Count(*) FROM Players WHERE Nickname = {0}", Nickname)));
             return (Count != 0);
         }
 
-        public bool Enter(string Email, string Password)
+        // Вход пользователя с помощью электронной почты - проверка правильности входа (пароль, E-mail)
+        public bool EnterEmail(string Email, string Password)
         {
             if (EmailExists(Email))
                 return false;    
@@ -35,7 +38,8 @@ namespace BeloteServer
             return (dbPassword == Password);
         }
 
-        public bool Registration(string Nickname, string Email, string Password, string Country, bool Sex)
+        // Регистрация пользователя с помощью электронной почты
+        public bool RegistrationEmail(string Nickname, string Email, string Password, string Country, bool Sex)
         {
             if (NicknameExists(Nickname))
                 return false;
@@ -46,7 +50,8 @@ namespace BeloteServer
             return true;
         }
 
-        public string RemindPassword(string Email)
+        // Напоминание пользователю сообщения на электронную почту
+        public string RemindPasswordEmail(string Email)
         {
             if (!EmailExists(Email))
                 return null;

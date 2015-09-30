@@ -9,9 +9,11 @@ namespace BeloteServer
     class Game
     {
         private Database db;
+        private Autorization autorization;
         public Game()
         {
             db = new Database();
+            autorization = new Autorization(this);
             Start();
         }
 
@@ -29,6 +31,12 @@ namespace BeloteServer
             }
         }      
 
-
+        public Autorization Autorization
+        {
+            get
+            {
+                return autorization;
+            }
+        }
     }
 }
