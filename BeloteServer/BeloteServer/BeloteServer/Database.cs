@@ -48,8 +48,9 @@ namespace BeloteServer
                     {
                         cmd.ExecuteNonQuery();
                     }
-                    catch (MySqlException)
+                    catch (MySqlException ex)
                     {
+                        Console.WriteLine(ex.Message);
                     }
                 }
                 CloseConnection();
@@ -191,7 +192,13 @@ namespace BeloteServer
                     string res;
                     try
                     {
-                        res = cmd.ExecuteScalar().ToString();
+                        var q = cmd.ExecuteScalar();
+                        if (q != null)
+                        {
+                            res = q.ToString();
+                        }
+                        else
+                            return null;
                     }
                     catch (MySqlException ex)
                     {

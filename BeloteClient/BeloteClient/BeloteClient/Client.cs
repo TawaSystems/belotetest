@@ -91,23 +91,26 @@ namespace BeloteClient
 
         private void ProcessClient()
         {
-            try
+            while (true)
             {
-                byte[] data = new byte[64]; 
-                StringBuilder builder = new StringBuilder();
-
-                do
+                try
                 {
-                    int bytes = stream.Read(data, 0, data.Length);
-                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                    byte[] data = new byte[64];
+                    StringBuilder builder = new StringBuilder();
+
+                    do
+                    {
+                        int bytes = stream.Read(data, 0, data.Length);
+                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                    }
+                    while (stream.DataAvailable);
+
+                    ProcessCommand(builder.ToString());
                 }
-                while (stream.DataAvailable);
-
-                ProcessCommand(builder.ToString());
-            }
-            catch (Exception ex)
-            {
-
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
