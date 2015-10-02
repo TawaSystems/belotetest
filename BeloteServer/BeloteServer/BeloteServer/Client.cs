@@ -217,11 +217,11 @@ namespace BeloteServer
                                     string pass = game.Autorization.RemindPasswordEmail(regParams["Email"]);
                                     if (pass != null)
                                     {
-                                        return "AMEPassword=" + pass;
+                                        return "AMERemind=1";
                                     }
                                     else
                                     {
-                                        return "AMEPassword= ";
+                                        return "AMERemind=0";
                                     }
                                 }
                             // Напоминание на телефон
@@ -246,11 +246,11 @@ namespace BeloteServer
                                 {
                                     if (game.Autorization.EmailExists(regParams["Email"]))
                                     {
-                                        return "ATEEmail=1";
+                                        return "ATEExists=1";
                                     }
                                     else
                                     {
-                                        return "ATEEmail=0";
+                                        return "ATEExists=0";
                                     }
                                 }
                             // Ник
@@ -258,11 +258,11 @@ namespace BeloteServer
                                 {
                                     if (game.Autorization.NicknameExists(regParams["Nickname"]))
                                     {
-                                        return "ATNNickname=1";
+                                        return "ATNExists=1";
                                     }
                                     else
                                     {
-                                        return "ATNNickname=0";
+                                        return "ATNExists=0";
                                     }
                                 }
                             // Телефон

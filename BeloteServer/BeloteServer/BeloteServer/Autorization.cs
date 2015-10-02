@@ -36,7 +36,7 @@ namespace BeloteServer
         {
             if (EmailExists(Email))
                 return false;    
-            string dbPassword = game.DataBase.SelectScalar(String.Format("SELECT Password FROM Players WHERE Emaul = {0};", Email));
+            string dbPassword = game.DataBase.SelectScalar(String.Format("SELECT Password FROM Players WHERE Email = \"{0}\";", Email));
             return (dbPassword == Password);
         }
 
@@ -57,7 +57,7 @@ namespace BeloteServer
         {
             if (!EmailExists(Email))
                 return null;
-            string Password = game.DataBase.SelectScalar(String.Format("SELECT Password FROM Players WHERE Email = {0};", Email));
+            string Password = game.DataBase.SelectScalar(String.Format("SELECT Password FROM Players WHERE Email = \"{0}\";", Email));
             return Password;
         }
     }
