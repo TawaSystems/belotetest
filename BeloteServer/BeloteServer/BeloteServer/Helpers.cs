@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Mail;
 
 namespace BeloteServer
 {
@@ -25,7 +27,7 @@ namespace BeloteServer
                     {
                         result.Add(keyvalue[0], keyvalue[1]);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         return null;
                     }
@@ -63,5 +65,36 @@ namespace BeloteServer
                 return null;
             }
         }
+
+        // Функция отправки сообщения электронной почты, необходимо настроить
+        public static bool SendEmail(string Email, string Subject, string Message)
+        {
+            var fromAddress = new MailAddress("tawasystems@gmail.com", "BLOT-ONLINE");
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                Timeout = 500,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, "password")
+            };
+            var msg = new MailMessage(fromAddress, new MailAddress(Email));
+            msg.Subject = Subject;
+            msg.Body = Message;
+            try
+            {
+                smtp.Send(msg);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
     }
 }

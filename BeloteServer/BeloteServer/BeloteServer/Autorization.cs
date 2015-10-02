@@ -53,12 +53,12 @@ namespace BeloteServer
         }
 
         // Напоминание пользователю сообщения на электронную почту
-        public string RemindPasswordEmail(string Email)
+        public bool RemindPasswordEmail(string Email)
         {
             if (!EmailExists(Email))
-                return null;
+                return false;
             string Password = game.DataBase.SelectScalar(String.Format("SELECT Password FROM Players WHERE Email = \"{0}\";", Email));
-            return Password;
+            return Helpers.SendEmail(Email, "Remind password BLOT-ONLINE", "Your password is: " + Password);
         }
     }
 }

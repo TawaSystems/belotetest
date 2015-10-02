@@ -214,8 +214,8 @@ namespace BeloteServer
                             // Напоминание на почту
                             case 'E':
                                 {
-                                    string pass = game.Autorization.RemindPasswordEmail(regParams["Email"]);
-                                    if (pass != null)
+                                    bool resRemind = game.Autorization.RemindPasswordEmail(regParams["Email"]);
+                                    if (resRemind)
                                     {
                                         return "AMERemind=1";
                                     }
