@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
+using System.Diagnostics;
 
 namespace BeloteServer
 {
@@ -69,17 +70,24 @@ namespace BeloteServer
         // Функция отправки сообщения электронной почты, необходимо настроить
         public static bool SendEmail(string Email, string Subject, string Message)
         {
-            var fromAddress = new MailAddress("tawasystems@gmail.com", "BLOT-ONLINE");
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Попытка отправки сообщения электронной почты");
+            Debug.Indent();
+            Debug.WriteLine("Адрес: " + Email);
+            Debug.WriteLine("Тема: " + Subject);
+            Debug.WriteLine("Сообщение: " + Message);
+#endif
+            var fromAddress = new MailAddress(Constants.EMAIL_ADDRESS, Constants.EMAIL_NAME);
 
             var smtp = new SmtpClient
             {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                Timeout = 500,
+                Host = Constants.EMAIL_SMPT,
+                Port = Constants.EMAIL_PORT,
+                Timeout = Constants.EMAIL_TIMEOUT,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, "password")
+                Credentials = new NetworkCredential(fromAddress.Address, Constants.EMAIL_PASSWORD)
             };
             var msg = new MailMessage(fromAddress, new MailAddress(Email));
             msg.Subject = Subject;
@@ -87,11 +95,18 @@ namespace BeloteServer
             try
             {
                 smtp.Send(msg);
+#if DEBUG
+                Debug.WriteLine("Сообщение отправлено успешно");
+                Debug.Unindent();
+#endif
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
+#if DEBUG
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+#endif
                 return false;
             }
         }

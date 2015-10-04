@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace BeloteServer
 {
@@ -34,6 +35,11 @@ namespace BeloteServer
         // Чтение статистики игрока из базы данных
         private void ReadStatisticsFromaDataBase(int IdPlayer)
         {
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Считывание статистики игрока из базы данных");
+            Debug.Indent();
+            Debug.WriteLine("ID игрока: " + IdPlayer);
+#endif
             List<List<string>> playerStatistics = Game.DataBase.Select(String.Format("SELECT * FROM Statistics WHERE PlayerId=\"{0}\";", IdPlayer), Constants.COLS_STATISTICS);
             this.statistics.GamesTotal = Int32.Parse(playerStatistics[2][0]);
             this.statistics.WinsCount = Int32.Parse(playerStatistics[3][0]);
@@ -53,11 +59,19 @@ namespace BeloteServer
             this.statistics.ContraJustified = Int32.Parse(playerStatistics[17][0]);
             this.statistics.CapotAnnounced = Int32.Parse(playerStatistics[18][0]);
             this.statistics.CapotJustified = Int32.Parse(playerStatistics[19][0]);
+#if DEBUG
+            Debug.Unindent();
+#endif
         }
 
         //Чтение игрока из базы данных
         public void ReadPlayerFromDataBase(string parameterName, object parameterValue)
         {
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Считывание игрока из базы данных");
+            Debug.Indent();
+            Debug.WriteLine(String.Format("Название параметра выборки: {0}, Значение параметра выборки: {1}", parameterName, parameterValue));
+#endif
             List<List<string>> playerData = Game.DataBase.Select(String.Format("SELECT * FROM Players WHERE {0}=\"{1}\";", parameterName, parameterValue), Constants.COLS_PLAYERS);
             this.profile.Id = Int32.Parse(playerData[0][0]);
             this.profile.Nickname = playerData[1][0];
@@ -82,6 +96,9 @@ namespace BeloteServer
             this.profile.BUSD = Int32.Parse(playerData[20][0]);
             this.profile.Chips = Int32.Parse(playerData[21][0]);
             ReadStatisticsFromaDataBase(this.Profile.Id);
+#if DEBUG
+            Debug.Unindent();
+#endif
         }
 
         public Game Game

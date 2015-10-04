@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using System.Diagnostics;
 
 namespace BeloteServer
 {
@@ -21,6 +22,9 @@ namespace BeloteServer
 
         public void Start()
         {
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Запуск обработчика клиентов");
+#endif
             try
             {
                 listener = new TcpListener(IPAddress.Parse(Constants.SERVER_LOCAL_IP), Constants.SERVER_PORT);
@@ -34,7 +38,9 @@ namespace BeloteServer
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+#if DEBUG
+                Debug.WriteLine(ex.Message);
+#endif
             }
             finally
             {

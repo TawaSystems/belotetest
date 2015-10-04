@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
+using System.Diagnostics;
+using System.Net;
 
 namespace BeloteServer
 {
@@ -22,6 +24,12 @@ namespace BeloteServer
         // Конструктор с инициализацией всех объектов
         public Client(TcpClient tcpClient, Game game)
         {
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Подключение нового клиента");
+            Debug.Indent();
+            Debug.WriteLine("Client IP: " + ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString());
+            Debug.Unindent();
+#endif
             client = tcpClient;
             this.game = game;
             player = null;
@@ -48,10 +56,26 @@ namespace BeloteServer
                     while (stream.DataAvailable);
 
                     string message = builder.ToString();
-
+#if DEBUG
+                    Debug.WriteLine(DateTime.Now.ToString() + " Получено сообщение от клиента");
+                    Debug.Indent();
+                    Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+                    Debug.WriteLine("Сообщение: " + message);
+                    Debug.Unindent();
+#endif
+                    // Отключение клиента
+                    if (message == "EXT")
+                        break;
                     string result = ProcessCommand(message);
                     if (result != null)
                     {
+#if DEBUG
+                        Debug.WriteLine(DateTime.Now.ToString() + " Отправка сообщения клиенту");
+                        Debug.Indent();
+                        Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+                        Debug.WriteLine("Сообщение: " + result);
+                        Debug.Unindent();
+#endif
                         data = Encoding.Unicode.GetBytes(result);
                         stream.Write(data, 0, data.Length);
                     }
@@ -59,7 +83,9 @@ namespace BeloteServer
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+#if DEBUG
+                Debug.WriteLine(ex.Message);
+#endif
             }
             finally
             {
@@ -67,6 +93,12 @@ namespace BeloteServer
                     stream.Close();
                 if (client != null)
                     client.Close();
+#if DEBUG
+                Debug.WriteLine(DateTime.Now.ToString() + " Отключение клиента");
+                Debug.Indent();
+                Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+                Debug.Unindent();
+#endif
             }
         }
 
@@ -79,12 +111,22 @@ namespace BeloteServer
                 return null;
             }
             string msg = Helpers.MessageFromStr(message);
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Начало обработки сообщения от клиента");
+            Debug.Indent();
+            Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+            Debug.WriteLine("Команда: " + command);
+            Debug.WriteLine("Сообщение: " + msg);
+            Debug.Unindent();
+#endif
+            string Result = null;
             switch (command[0])
             {
                 // Autorization
                 case 'A':
                     {
-                        return ProcessAutorization(command, msg);
+                        Result = ProcessAutorization(command, msg);
+                        break;
                     }
                 case 'B':
                     {
@@ -95,7 +137,16 @@ namespace BeloteServer
                         break;
                     }
             }
-            return null;
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Результат обработки сообщения от клиента");
+            Debug.Indent();
+            Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+            Debug.WriteLine("Команда: " + command);
+            Debug.WriteLine("Сообщение: " + msg);
+            Debug.WriteLine("Результат: " + Result);
+            Debug.Unindent();
+#endif
+            return Result;
         }
 
         // Функция обработки авторизации пользователя - регистрация, вход, напоминание паролей, выход
@@ -106,6 +157,7 @@ namespace BeloteServer
             {
                 return null;
             }
+            String Result = null;
             switch (command[1])
             {
                 // Регистрация
@@ -125,12 +177,14 @@ namespace BeloteServer
                                         player.Profile.Nickname = regParams["Nickname"];
                                         player.Profile.Country = regParams["Country"];
                                         player.Profile.Sex = (regParams["Sex"] == "1");
-                                        return "ARERegistration=1";
+                                        Result = "ARERegistration=1";
+                                        break;
                                     }
                                     else
                                     {
                                         // Ошибка в регистрации
-                                        return "ARERegistration=0";
+                                        Result = "ARERegistration=0";
+                                        break;
                                     }
                                 }
                             // Регистрация с помощью телефона
@@ -172,11 +226,13 @@ namespace BeloteServer
                                     {
                                         player = new Player(this.game);
                                         player.ReadPlayerFromDataBase("Email", regParams["Email"]);
-                                        return "AAEAutorization=1";
+                                        Result = "AAEAutorization=1";
+                                        break;
                                     }
                                     else
                                     {
-                                        return "AAEAutorization=0";
+                                        Result = "AAEAutorization=0";
+                                        break;
                                     }
                                 }
                             // Авторизация с помощью телефона
@@ -217,11 +273,13 @@ namespace BeloteServer
                                     bool resRemind = game.Autorization.RemindPasswordEmail(regParams["Email"]);
                                     if (resRemind)
                                     {
-                                        return "AMERemind=1";
+                                        Result = "AMERemind=1";
+                                        break;
                                     }
                                     else
                                     {
-                                        return "AMERemind=0";
+                                        Result = "AMERemind=0";
+                                        break;
                                     }
                                 }
                             // Напоминание на телефон
@@ -246,24 +304,26 @@ namespace BeloteServer
                                 {
                                     if (game.Autorization.EmailExists(regParams["Email"]))
                                     {
-                                        return "ATEExists=1";
+                                        Result = "ATEExists=1";
                                     }
                                     else
                                     {
-                                        return "ATEExists=0";
+                                        Result = "ATEExists=0";
                                     }
+                                    break;
                                 }
                             // Ник
                             case 'N':
                                 {
                                     if (game.Autorization.NicknameExists(regParams["Nickname"]))
                                     {
-                                        return "ATNExists=1";
+                                        Result = "ATNExists=1";
                                     }
                                     else
                                     {
-                                        return "ATNExists=0";
+                                        Result = "ATNExists=0";
                                     }
+                                    break;
                                 }
                             // Телефон
                             case 'P':
@@ -296,14 +356,14 @@ namespace BeloteServer
                 case 'E':
                     {
                         player = null;
-                        return null;
+                        break;
                     }
                 default:
                     {
                         break;
                     }
             }
-            return null;
+            return Result;
         }
 
     }
