@@ -28,5 +28,6 @@ namespace BeloteServer
         public const int EMAIL_TIMEOUT = 500;
 #else
 #endif
+        public const int GAME_MINIMAL_BET = 10;
     }
 }

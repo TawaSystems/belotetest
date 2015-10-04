@@ -87,7 +87,7 @@ namespace BeloteServer
                             WriteAllRequestToDatabase();
                     }
                 }
-                lock((object)stopped)
+                lock ((object)stopped)
                 {
                     if (stopped)
                         break;
@@ -124,7 +124,7 @@ namespace BeloteServer
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 #else
 #endif
-            connection = new MySqlConnection(connectionString);            
+            connection = new MySqlConnection(connectionString);
         }
 
         // Открытие соединения с БД
@@ -193,7 +193,7 @@ namespace BeloteServer
             List<List<String>> resList = new List<List<string>>();
             for (var i = 0; i < ColCount; i++)
                 resList.Add(new List<string>());
-            
+
             if (OpenConnection())
             {
                 lock (selectLocker)
@@ -295,6 +295,46 @@ namespace BeloteServer
             lock (requestQueue)
             {
                 requestQueue.Enqueue(Query);
+            }
+        }
+
+        // Выполнение запроса без очереди
+        public void ExecuteQueryWithoutQueue(string Query)
+        {
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Выполнение запроса вне очереди");
+            Debug.Indent();
+            Debug.WriteLine(Query);
+#endif
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(Query, connection);
+                try
+                {
+                    lock (requestQueue)
+                    {
+                        lock (selectLocker)
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+#if DEBUG
+                    Debug.WriteLine("Запрос выполнен успешно");
+#endif
+                }
+                catch (MySqlException ex)
+                {
+#if DEBUG
+                    Debug.WriteLine(ex.Message);
+#endif
+                }
+                finally
+                {
+#if DEBUG
+                    Debug.Unindent();
+#endif
+                    CloseConnection();
+                }
             }
         }
     }
