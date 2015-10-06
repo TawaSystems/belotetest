@@ -111,5 +111,15 @@ namespace BeloteServer
             }
         }
 
+        public static string BoolToString(bool Value)
+        {
+            return ((Value) ? "1" : "0");
+        }
+
+        public static bool StringToBool(string Value)
+        {
+            return ((Value == "1") ? true : false);
+        }
+
     }
 }

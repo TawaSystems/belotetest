@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace BeloteServer
 {
@@ -29,6 +30,7 @@ namespace BeloteServer
         private bool moderation;
         private bool ai;
 
+        private int id;
         private TableStatus status;
         private Game game;
 
@@ -48,11 +50,31 @@ namespace BeloteServer
             vipOnly = VIPOnly;
             moderation = Moderation;
             ai = AI;
+            id = -1;
+            CreateTableInDatabase();
         }
 
         private void CreateTableInDatabase()
         {
-
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Добавление записи о созданном столе в базу данных");
+            Debug.Indent();
+            Debug.WriteLine("Table Creator ID: " + TableCreator.Profile.Id);
+#endif   
+            game.DataBase.ExecuteQueryWithoutQueue(String.Format("INSERT INTO Tables {0} VALUES (\"{1}\", \"{2}\", \"{3}\", \"{4}\", \"{5}\", \"{6}\", \"{7}\", \"{8}\", \"{9}\");",
+                "(TableCreatorId, Bet, PlayersVisibility, Chat, MinimalLevel, TableVisibility, VIPOnly, Moderation, Ai)",
+                TableCreator.Profile.Id, Bet, Helpers.BoolToString(PlayersVisibility), Helpers.BoolToString(Chat), MinimalLevel,
+                Helpers.BoolToString(TableVisibility), Helpers.BoolToString(VIPOnly), Helpers.BoolToString(Moderation), Helpers.BoolToString(AI)));
+#if DEBUG
+            Debug.WriteLine("Получение ID созданного стола");
+#endif
+            id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT MAX(ID) FROM (SELECT Id FROM Tables WHERE TableCreatorId = \"{0}\") AS A1;")));
+            if (id != -1)
+                status = TableStatus.WAITING;
+#if DEBUG 
+            Debug.WriteLine("Идентификатор созданного стола: " + id);
+            Debug.Unindent();
+#endif
         }
 
         public Player TableCreator
