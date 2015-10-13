@@ -77,6 +77,14 @@ namespace BeloteServer
 #endif
         }
 
+        public int ID
+        {
+            get
+            {
+                return id;
+            }
+        }
+
         public Player TableCreator
         {
             get
@@ -91,6 +99,10 @@ namespace BeloteServer
             {
                 return player2;
             }
+            set
+            {
+                player2 = value;
+            }
         }
 
         public Player Player3
@@ -99,6 +111,10 @@ namespace BeloteServer
             {
                 return player3;
             }
+            set
+            {
+                player3 = value;
+            }
         }
 
         public Player Player4
@@ -106,6 +122,10 @@ namespace BeloteServer
             get
             {
                 return player4;
+            }
+            set
+            {
+                player4 = value;
             }
         }
 
@@ -146,6 +166,10 @@ namespace BeloteServer
             get
             {
                 return tableVisibility;
+            }
+            set
+            {
+                tableVisibility = value;
             }
         }
 
