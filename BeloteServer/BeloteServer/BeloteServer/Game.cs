@@ -10,10 +10,13 @@ namespace BeloteServer
     {
         private Database db;
         private Autorization autorization;
+        private TablesList tablesList;
+
         public Game()
         {
             db = new Database();
             autorization = new Autorization(this);
+            tablesList = new TablesList(this);
             Start();
         }
 
@@ -36,6 +39,14 @@ namespace BeloteServer
             get
             {
                 return autorization;
+            }
+        }
+
+        public TablesList Tables
+        {
+            get
+            {
+                return tablesList;
             }
         }
     }

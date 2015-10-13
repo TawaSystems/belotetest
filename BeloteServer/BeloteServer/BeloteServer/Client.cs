@@ -132,8 +132,11 @@ namespace BeloteServer
                     {
                         break;
                     }
+                // Обработка команд работы с игровыми столами
+                case 'T':
                 default:
                     {
+                        Result = ProcessTables(command, msg);
                         break;
                     }
             }
@@ -365,6 +368,98 @@ namespace BeloteServer
             }
             return Result;
         }
+
+        // Функция обработки команд на создание, изменение, выборку и удаление игровых столов
+        private string ProcessTables(string command, string message)
+        {
+            Dictionary<string, string> tableParams = Helpers.SplitCommandString(message);
+            if (tableParams == null)
+            {
+                return null;
+            }
+            string Result = null;
+            switch (command[1])
+            {
+                // Модификация - создание, изменение свойств, удаление
+                case 'M':
+                    {
+                        switch (command[2])
+                        {
+                            // Создание игрового стола
+                            case 'C':
+                                {
+                                    break;
+                                }
+                            // Покидание игрового стола создателем
+                            case 'L':
+                                {
+                                    break;
+                                }
+                            // Успешное завершение игры на столе
+                            case 'E':
+                                {
+                                    break;
+                                }
+                            // Открытие стола для всех игроков (TableVisibility = true)
+                            case 'V':
+                                {
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                // Выборка
+                case 'S':
+                    {
+                        switch (command[2])
+                        {
+                            // Выборка списка игровых столов по выбранным параметрам
+                            case 'T':
+                                {
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                // Работа с игроками
+                case 'P':
+                    {
+                        switch (command[2])
+                        {
+                            // Добавление игрока на стол
+                            case 'A':
+                                {
+                                    break;
+                                }
+                            // Удаление игрока со стола
+                            case 'D':
+                                {
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+
+            }
+            return Result;
+        }
+
 
     }
 }
