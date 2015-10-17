@@ -24,5 +24,12 @@ namespace BeloteServer
             return player.Profile.Id;
         }
 
+        public Player this[int ID]
+        {
+            get
+            {
+                return players.Find(p => (p.Profile.Id == ID));
+            }
+        }
     }
 }

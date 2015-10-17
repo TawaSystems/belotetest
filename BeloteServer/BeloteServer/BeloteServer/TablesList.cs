@@ -18,6 +18,13 @@ namespace BeloteServer
             tables = new List<Table>();
         }
 
+        public Table this[int ID]
+        {
+            get
+            {
+                return tables.Find(t => (t.ID == ID));
+            }
+        }
         public int CreateTable(Player Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel,
             bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
         {
@@ -35,7 +42,7 @@ namespace BeloteServer
 
         public void DeleteTable(int ID)
         {
-            this.DeleteTable(tables.Find(t => (t.ID == ID)));
+            this.DeleteTable(this[ID]);
         }
 
         public void DeleteTable(Table table)
@@ -75,7 +82,7 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine("Открытие видимости стола с идентификатором - " + ID.ToString());
 #endif
-            tables[tables.FindIndex(t => (t.ID == ID))].TableVisibility = true;
+            this[ID].TableVisibility = true;
         }
 
         public void AddPlayer2(int TableID, Player Player2)
@@ -84,7 +91,7 @@ namespace BeloteServer
             Debug.WriteLine(String.Format("Добавление второго игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}", 
                 TableID, Player2.Profile.Id));
 #endif
-            tables[tables.FindIndex(t => (t.ID == TableID))].Player2 = Player2;
+            this[TableID].Player2 = Player2;
         }
 
         public void RemovePlayer2(int TableID)
@@ -92,7 +99,7 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine("Удаление второго игрока со стола с идентификатором - " + TableID.ToString());
 #endif
-            tables[tables.FindIndex(t => (t.ID == TableID))].Player2 = null;
+            this[TableID].Player2 = null;
         }
 
         public void AddPlayer3(int TableID, Player Player3)
@@ -101,7 +108,7 @@ namespace BeloteServer
             Debug.WriteLine(String.Format("Добавление третьего игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}",
                 TableID, Player3.Profile.Id));
 #endif
-            tables[tables.FindIndex(t => (t.ID == TableID))].Player3 = Player3;
+            this[TableID].Player3 = Player3;
         }
 
         public void RemovePlayer3(int TableID)
@@ -109,7 +116,7 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine("Удаление третьего игрока со стола с идентификатором - " + TableID.ToString());
 #endif
-            tables[tables.FindIndex(t => (t.ID == TableID))].Player3 = null;
+            this[TableID].Player3 = null;
         }
 
         public void AddPlayer4(int TableID, Player Player4)
@@ -118,7 +125,7 @@ namespace BeloteServer
             Debug.WriteLine(String.Format("Добавление четвертого игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}",
                 TableID, Player4.Profile.Id));
 #endif
-            tables[tables.FindIndex(t => (t.ID == TableID))].Player4 = Player4;
+            this[TableID].Player4 = Player4;
         }
 
         public void RemovePlayer4(int TableID)
@@ -126,7 +133,7 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine("Удаление четвертого игрока со стола с идентификатором - " + TableID.ToString());
 #endif
-            tables[tables.FindIndex(t => (t.ID == TableID))].Player4 = null;
+            this[TableID].Player4 = null;
         }
 
         public int Count
