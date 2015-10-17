@@ -18,7 +18,7 @@ namespace BeloteServer
             tables = new List<Table>();
         }
 
-        public void CreateTable(Player Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel,
+        public int CreateTable(Player Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel,
             bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
         {
 #if DEBUG
@@ -30,6 +30,7 @@ namespace BeloteServer
 #if DEBUG
             Debug.Unindent();
 #endif
+            return table.ID;
         }
 
         public void DeleteTable(int ID)

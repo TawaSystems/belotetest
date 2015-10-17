@@ -68,7 +68,7 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine("Получение ID созданного стола");
 #endif
-            id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT MAX(ID) FROM (SELECT Id FROM Tables WHERE TableCreatorId = \"{0}\") AS A1;")));
+            id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT MAX(ID) FROM (SELECT Id FROM Tables WHERE TableCreatorId = \"{0}\") AS A1;", TableCreator.Profile.Id)));
             if (id != -1)
                 status = TableStatus.WAITING;
 #if DEBUG 

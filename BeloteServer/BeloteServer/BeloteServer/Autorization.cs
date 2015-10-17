@@ -77,7 +77,7 @@ namespace BeloteServer
                 return false;
             if (EmailExists(Email))
                 return false;
-            game.DataBase.AddQuery(String.Format("INSERT INTO Players (Nickname, Email, Password, Sex, Country) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\");",
+            game.DataBase.ExecuteQueryWithoutQueue(String.Format("INSERT INTO Players (Nickname, Email, Password, Sex, Country) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\");",
                 Nickname, Email, Password, (Sex == true) ? "1" : "0", Country));
 #if DEBUG
             Debug.WriteLine("Регистрация успешна");

@@ -180,6 +180,8 @@ namespace BeloteServer
                                         player.Profile.Nickname = regParams["Nickname"];
                                         player.Profile.Country = regParams["Country"];
                                         player.Profile.Sex = (regParams["Sex"] == "1");
+                                        player.Profile.Id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT ID From Players WHERE Email=\"{0}\";", regParams["Email"])));
+                                        this.game.Players.AddPlayer(player);
                                         Result = "ARERegistration=1";
                                         break;
                                     }
@@ -229,6 +231,7 @@ namespace BeloteServer
                                     {
                                         player = new Player(this.game);
                                         player.ReadPlayerFromDataBase("Email", regParams["Email"]);
+                                        this.game.Players.AddPlayer(player);
                                         Result = "AAEAutorization=1";
                                         break;
                                     }

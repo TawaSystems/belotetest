@@ -51,6 +51,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayersList.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
