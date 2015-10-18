@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace BeloteServer
 {
@@ -20,6 +21,9 @@ namespace BeloteServer
 
         public int AddPlayer(Player player)
         {
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Добавление игрока в список. ID = " + player.Profile.Id);
+#endif
             players.Add(player);
             return player.Profile.Id;
         }
@@ -30,6 +34,22 @@ namespace BeloteServer
             {
                 return players.Find(p => (p.Profile.Id == ID));
             }
+        }
+
+        public void DeletePlayer(Player player)
+        {
+            if (player != null)
+            {
+#if DEBUG
+                Debug.WriteLine(DateTime.Now.ToString() + " Удаление игрока из списка. ID = " + player.Profile.Id);
+#endif
+                players.Remove(player);
+            }
+        }
+
+        public void DeletePlayer(int ID)
+        {
+            DeletePlayer(this[ID]);
         }
     }
 }
