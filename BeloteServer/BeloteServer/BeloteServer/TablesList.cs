@@ -86,13 +86,18 @@ namespace BeloteServer
             this[ID].TableVisibility = true;
         }
 
-        public void AddPlayer2(int TableID, Client Player2)
+        public bool AddPlayer2(int TableID, Client Player2)
         {
+            if (this[TableID].Player2 != null)
+            {
+                return false;
+            }
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление второго игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}", 
                 TableID, Player2.ID));
 #endif
             this[TableID].Player2 = Player2;
+            return true;
         }
 
         public void RemovePlayer2(int TableID)
@@ -103,13 +108,18 @@ namespace BeloteServer
             this[TableID].Player2 = null;
         }
 
-        public void AddPlayer3(int TableID, Client Player3)
+        public bool AddPlayer3(int TableID, Client Player3)
         {
+            if (this[TableID].Player3 != null)
+            {
+                return false;
+            }
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление третьего игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}",
                 TableID, Player3.ID));
 #endif
             this[TableID].Player3 = Player3;
+            return true;
         }
 
         public void RemovePlayer3(int TableID)
@@ -120,13 +130,18 @@ namespace BeloteServer
             this[TableID].Player3 = null;
         }
 
-        public void AddPlayer4(int TableID, Client Player4)
+        public bool AddPlayer4(int TableID, Client Player4)
         {
+            if (this[TableID].Player4 != null)
+            {
+                return false;
+            }
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление четвертого игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}",
                 TableID, Player4.ID));
 #endif
             this[TableID].Player4 = Player4;
+            return true;
         }
 
         public void RemovePlayer4(int TableID)

@@ -484,6 +484,42 @@ namespace BeloteServer
                             // Добавление игрока на стол в режиме ожидания
                             case 'A':
                                 {
+                                    int tableID = Int32.Parse(tableParams["ID"]);
+                                    Client c = this.game.Clients[Int32.Parse(tableParams["Player"])];
+                                    int place = Int32.Parse(tableParams["Place"]);
+                                    Result = "TPAResult=";
+                                    switch (place)
+                                    {
+                                        case 2:
+                                            {
+                                                if (this.game.Tables.AddPlayer2(tableID, c))
+                                                    Result += "1";
+                                                else
+                                                    Result += "0";
+                                                break;
+                                            }
+                                        case 3:
+                                            {
+                                                if (this.game.Tables.AddPlayer3(tableID, c))
+                                                    Result += "1";
+                                                else
+                                                    Result += "0";
+                                                break;
+                                            }
+                                        case 4:
+                                            {
+                                                if (this.game.Tables.AddPlayer4(tableID, c))
+                                                    Result += "1";
+                                                else
+                                                    Result += "0";
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                Result += "0";
+                                                break;
+                                            }
+                                    }
                                     break;
                                 }
                             // Удаление игрока со стола в режиме ожидания
