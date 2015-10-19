@@ -18,10 +18,10 @@ namespace BeloteServer
 
     class Table
     {
-        private Player tableCreator;
-        private Player player2;
-        private Player player3;
-        private Player player4;
+        private Client tableCreator;
+        private Client player2;
+        private Client player3;
+        private Client player4;
         private int bet;
         private bool playersVisibility;
         private bool chat;
@@ -35,11 +35,11 @@ namespace BeloteServer
         private TableStatus status;
         private Game game;
 
-        public Table(Game Game, Player Creator) : this(Game, Creator, Constants.GAME_MINIMAL_BET, true, true, 0, true, false, false, true)
+        public Table(Game Game, Client Creator) : this(Game, Creator, Constants.GAME_MINIMAL_BET, true, true, 0, true, false, false, true)
         {
         }
 
-        public Table(Game Game, Player Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
+        public Table(Game Game, Client Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
         {
             status = TableStatus.CREATING;
             tableCreator = Creator;
@@ -60,16 +60,16 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + " Добавление записи о созданном столе в базу данных");
             Debug.Indent();
-            Debug.WriteLine("Table Creator ID: " + TableCreator.Profile.Id);
+            Debug.WriteLine("Table Creator ID: " + TableCreator.ID);
 #endif   
             game.DataBase.ExecuteQueryWithoutQueue(String.Format("INSERT INTO Tables {0} VALUES (\"{1}\", \"{2}\", \"{3}\", \"{4}\", \"{5}\", \"{6}\", \"{7}\", \"{8}\", \"{9}\");",
                 "(TableCreatorId, Bet, PlayersVisibility, Chat, MinimalLevel, TableVisibility, VIPOnly, Moderation, Ai)",
-                TableCreator.Profile.Id, Bet, Helpers.BoolToString(PlayersVisibility), Helpers.BoolToString(Chat), MinimalLevel,
+                TableCreator.ID, Bet, Helpers.BoolToString(PlayersVisibility), Helpers.BoolToString(Chat), MinimalLevel,
                 Helpers.BoolToString(TableVisibility), Helpers.BoolToString(VIPOnly), Helpers.BoolToString(Moderation), Helpers.BoolToString(AI)));
 #if DEBUG
             Debug.WriteLine("Получение ID созданного стола");
 #endif
-            id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT MAX(ID) FROM (SELECT Id FROM Tables WHERE TableCreatorId = \"{0}\") AS A1;", TableCreator.Profile.Id)));
+            id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT MAX(ID) FROM (SELECT Id FROM Tables WHERE TableCreatorId = \"{0}\") AS A1;", TableCreator.ID)));
             if (id != -1)
                 status = TableStatus.WAITING;
             else
@@ -94,7 +94,7 @@ namespace BeloteServer
             }
         }
 
-        public Player TableCreator
+        public Client TableCreator
         {
             get
             {
@@ -102,7 +102,7 @@ namespace BeloteServer
             }
         }
 
-        public Player Player2
+        public Client Player2
         {
             get
             {
@@ -114,7 +114,7 @@ namespace BeloteServer
             }
         }
 
-        public Player Player3
+        public Client Player3
         {
             get
             {
@@ -126,7 +126,7 @@ namespace BeloteServer
             }
         }
 
-        public Player Player4
+        public Client Player4
         {
             get
             {

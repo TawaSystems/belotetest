@@ -26,7 +26,7 @@ namespace BeloteServer
             }
         }
 
-        public int CreateTable(Player Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel,
+        public int CreateTable(Client Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel,
             bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
         {
 #if DEBUG
@@ -86,11 +86,11 @@ namespace BeloteServer
             this[ID].TableVisibility = true;
         }
 
-        public void AddPlayer2(int TableID, Player Player2)
+        public void AddPlayer2(int TableID, Client Player2)
         {
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление второго игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}", 
-                TableID, Player2.Profile.Id));
+                TableID, Player2.ID));
 #endif
             this[TableID].Player2 = Player2;
         }
@@ -103,11 +103,11 @@ namespace BeloteServer
             this[TableID].Player2 = null;
         }
 
-        public void AddPlayer3(int TableID, Player Player3)
+        public void AddPlayer3(int TableID, Client Player3)
         {
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление третьего игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}",
-                TableID, Player3.Profile.Id));
+                TableID, Player3.ID));
 #endif
             this[TableID].Player3 = Player3;
         }
@@ -120,11 +120,11 @@ namespace BeloteServer
             this[TableID].Player3 = null;
         }
 
-        public void AddPlayer4(int TableID, Player Player4)
+        public void AddPlayer4(int TableID, Client Player4)
         {
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление четвертого игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}",
-                TableID, Player4.Profile.Id));
+                TableID, Player4.ID));
 #endif
             this[TableID].Player4 = Player4;
         }

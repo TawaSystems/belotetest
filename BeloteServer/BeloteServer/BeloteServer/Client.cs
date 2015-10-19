@@ -37,11 +37,21 @@ namespace BeloteServer
             worker.Start();
         }
    
+        // Идентификатор клиента
         public int ID
         {
             get
             {
                 return player.Profile.Id;
+            }
+        }
+
+        // Профиль игрока
+        public Player Player
+        {
+            get
+            {
+                return player;
             }
         }
 
@@ -407,7 +417,7 @@ namespace BeloteServer
                             // Создание игрового стола
                             case 'C':
                                 {
-                                    int tableID = this.game.Tables.CreateTable(this.game.Players[Int32.Parse(tableParams["Creator"])], Int32.Parse(tableParams["Bet"]),
+                                    int tableID = this.game.Tables.CreateTable(this, Int32.Parse(tableParams["Bet"]),
                                         Helpers.StringToBool(tableParams["PlayersVisibility"]), Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]),
                                         Helpers.StringToBool(tableParams["TableVisibility"]), Helpers.StringToBool(tableParams["VIPOnly"]), Helpers.StringToBool(tableParams["Moderation"]),
                                         Helpers.StringToBool(tableParams["AI"]));
@@ -419,8 +429,7 @@ namespace BeloteServer
                                 {
                                     Table closingTable = this.game.Tables[Int32.Parse(tableParams["ID"])];
                                     closingTable.CloseTable(false);
-                                    this.game.T
-                                    Result = 
+                                    
                                     break;
                                 }
                             // Успешное завершение игры на столе
