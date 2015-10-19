@@ -435,8 +435,9 @@ namespace BeloteServer
                             case 'L':
                                 {
                                     Table closingTable = this.game.Tables[Int32.Parse(tableParams["ID"])];
-                                    closingTable.CloseTable(false);
-                                    
+                                    closingTable.SendMessageToClientsWithoutCreator("TML");
+                                    closingTable.CloseTable();
+                                    Result = "TML";
                                     break;
                                 }
                             // Успешное завершение игры на столе
@@ -447,6 +448,8 @@ namespace BeloteServer
                             // Открытие стола для всех игроков (TableVisibility = true)
                             case 'V':
                                 {
+                                    this.game.Tables[Int32.Parse(tableParams["ID"])].TableVisibility = true;
+                                    Result = "TMV";
                                     break;
                                 }
                             default:
@@ -478,13 +481,18 @@ namespace BeloteServer
                     {
                         switch (command[2])
                         {
-                            // Добавление игрока на стол
+                            // Добавление игрока на стол в режиме ожидания
                             case 'A':
                                 {
                                     break;
                                 }
-                            // Удаление игрока со стола
+                            // Удаление игрока со стола в режиме ожидания
                             case 'D':
+                                {
+                                    break;
+                                }
+                            // Выход игрока со стола в режиме игры
+                            case 'Q':
                                 {
                                     break;
                                 }

@@ -80,8 +80,27 @@ namespace BeloteServer
 #endif
         }
 
-        // Метод при завершении игры на столе. Successfull - успешно ли завершена игра или досрочно
-        public void CloseTable(bool Successfull)
+        // Посылка сообщения всем клиентам
+        public void SendMessageToClients(string Message)
+        {
+            if (TableCreator != null)
+                TableCreator.SendMessage(Message);
+            SendMessageToClientsWithoutCreator(Message);
+        }
+
+        // Посылка сообщения всем клиентам, кроме создателя стола
+        public void SendMessageToClientsWithoutCreator(string Message)
+        {
+            if (Player2 != null)
+                Player2.SendMessage(Message);
+            if (Player3 != null)
+                Player3.SendMessage(Message);
+            if (Player4 != null)
+                Player4.SendMessage(Message);
+        }
+
+        // Метод при завершении игры на столе
+        public void CloseTable()
         {
             status = TableStatus.ENDING;
         }
