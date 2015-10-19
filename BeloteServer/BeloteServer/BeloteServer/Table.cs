@@ -12,7 +12,8 @@ namespace BeloteServer
         CREATING = 1,
         WAITING = 2,
         PLAYING = 3,
-        ENDING = 4
+        ENDING = 4,
+        ERROR = 5
     }
 
     class Table
@@ -71,10 +72,18 @@ namespace BeloteServer
             id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT MAX(ID) FROM (SELECT Id FROM Tables WHERE TableCreatorId = \"{0}\") AS A1;", TableCreator.Profile.Id)));
             if (id != -1)
                 status = TableStatus.WAITING;
+            else
+                status = TableStatus.ERROR;
 #if DEBUG 
             Debug.WriteLine("Идентификатор созданного стола: " + id);
             Debug.Unindent();
 #endif
+        }
+
+        // Метод при завершении игры на столе. Successfull - успешно ли завершена игра или досрочно
+        public void CloseTable(bool Successfull)
+        {
+            status = TableStatus.ENDING;
         }
 
         public int ID

@@ -37,6 +37,14 @@ namespace BeloteServer
             worker.Start();
         }
    
+        public int ID
+        {
+            get
+            {
+                return player.Profile.Id;
+            }
+        }
+
         // Функция обработки запросов клиента, выполняется в потоке worker
         private void Process()
         {
@@ -65,7 +73,11 @@ namespace BeloteServer
 #endif
                     // Отключение клиента
                     if (message == "EXT")
+                    {
+                        if (this.ID != -1)
+                            this.game.Clients.DeleteClient(this);
                         break;
+                    }
                     string result = ProcessCommand(message);
                     if (result != null)
                     {
@@ -172,7 +184,7 @@ namespace BeloteServer
                             case 'E':
                                 {
                                     if (game.Autorization.RegistrationEmail(regParams["Nickname"], regParams["Email"], regParams["Password"],
-                                        regParams["Country"], (regParams["Sex"] == "1") ? true : false))
+                                        regParams["Country"], (regParams["Sex"] == "1")))
                                     {
                                         // Регистрация прошла успешно
                                         player = new Player(this.game);
@@ -181,7 +193,7 @@ namespace BeloteServer
                                         player.Profile.Country = regParams["Country"];
                                         player.Profile.Sex = (regParams["Sex"] == "1");
                                         player.Profile.Id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT ID From Players WHERE Email=\"{0}\";", regParams["Email"])));
-                                        this.game.Players.AddPlayer(player);
+                                        this.game.Clients.Add(this);
                                         Result = "ARERegistration=1";
                                         break;
                                     }
@@ -231,7 +243,7 @@ namespace BeloteServer
                                     {
                                         player = new Player(this.game);
                                         player.ReadPlayerFromDataBase("Email", regParams["Email"]);
-                                        this.game.Players.AddPlayer(player);
+                                        this.game.Clients.Add(this);
                                         Result = "AAEAutorization=1";
                                         break;
                                     }
@@ -361,6 +373,10 @@ namespace BeloteServer
                 // Выход
                 case 'E':
                     {
+                        if (this.ID != -1)
+                        {
+                            this.game.Clients.DeleteClient(this);
+                        }
                         player = null;
                         break;
                     }
@@ -391,11 +407,20 @@ namespace BeloteServer
                             // Создание игрового стола
                             case 'C':
                                 {
+                                    int tableID = this.game.Tables.CreateTable(this.game.Players[Int32.Parse(tableParams["Creator"])], Int32.Parse(tableParams["Bet"]),
+                                        Helpers.StringToBool(tableParams["PlayersVisibility"]), Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]),
+                                        Helpers.StringToBool(tableParams["TableVisibility"]), Helpers.StringToBool(tableParams["VIPOnly"]), Helpers.StringToBool(tableParams["Moderation"]),
+                                        Helpers.StringToBool(tableParams["AI"]));
+                                    Result = "ID=" + tableID.ToString();
                                     break;
                                 }
                             // Покидание игрового стола создателем
                             case 'L':
                                 {
+                                    Table closingTable = this.game.Tables[Int32.Parse(tableParams["ID"])];
+                                    closingTable.CloseTable(false);
+                                    this.game.T
+                                    Result = 
                                     break;
                                 }
                             // Успешное завершение игры на столе
