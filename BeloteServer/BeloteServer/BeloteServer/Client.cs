@@ -55,6 +55,13 @@ namespace BeloteServer
             }
         }
 
+        // Отправка сообщения клиенту
+        public void SendMessage(string message)
+        {
+            var data = Encoding.Unicode.GetBytes(message);
+            client.GetStream().Write(data, 0, data.Length);
+        }
+
         // Функция обработки запросов клиента, выполняется в потоке worker
         private void Process()
         {
