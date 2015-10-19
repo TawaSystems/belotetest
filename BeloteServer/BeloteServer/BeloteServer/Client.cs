@@ -92,7 +92,7 @@ namespace BeloteServer
                     if (message == "EXT")
                     {
                         if (this.ID != -1)
-                            this.game.Clients.DeleteClient(this);
+                            this.game.Server.Clients.DeleteClient(this);
                         break;
                     }
                     string result = ProcessCommand(message);
@@ -210,7 +210,7 @@ namespace BeloteServer
                                         player.Profile.Country = regParams["Country"];
                                         player.Profile.Sex = (regParams["Sex"] == "1");
                                         player.Profile.Id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT ID From Players WHERE Email=\"{0}\";", regParams["Email"])));
-                                        this.game.Clients.Add(this);
+                                        this.game.Server.Clients.Add(this);
                                         Result = "ARERegistration=1";
                                         break;
                                     }
@@ -260,7 +260,7 @@ namespace BeloteServer
                                     {
                                         player = new Player(this.game);
                                         player.ReadPlayerFromDataBase("Email", regParams["Email"]);
-                                        this.game.Clients.Add(this);
+                                        this.game.Server.Clients.Add(this);
                                         Result = "AAEAutorization=1";
                                         break;
                                     }
@@ -392,7 +392,7 @@ namespace BeloteServer
                     {
                         if (this.ID != -1)
                         {
-                            this.game.Clients.DeleteClient(this);
+                            this.game.Server.Clients.DeleteClient(this);
                         }
                         player = null;
                         break;
@@ -485,7 +485,7 @@ namespace BeloteServer
                             case 'A':
                                 {
                                     int tableID = Int32.Parse(tableParams["ID"]);
-                                    Client c = this.game.Clients[Int32.Parse(tableParams["Player"])];
+                                    Client c = this.game.Server.Clients[Int32.Parse(tableParams["Player"])];
                                     int place = Int32.Parse(tableParams["Place"]);
                                     Result = "TPAResult=";
                                     switch (place)

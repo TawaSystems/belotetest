@@ -14,10 +14,12 @@ namespace BeloteServer
     {
         private static TcpListener listener;
         private Game game;
+        private ClientsList autorizedList;
 
         public Server(Game game)
         {
             this.game = game;
+            autorizedList = new ClientsList(game);
         }
 
         public void Start()
@@ -49,12 +51,26 @@ namespace BeloteServer
             }
         }
 
+        public void SendMessageToClients(String Message, params Client[] clients)
+        {
+            foreach (Client c in clients)
+                c.SendMessage(Message);
+        }
+
         public Game Game
         {
             get
             {
                 return game;
             }
-        } 
+        }
+
+        public ClientsList Clients
+        {
+            get
+            {
+                return autorizedList;
+            }
+        }
     }
 }

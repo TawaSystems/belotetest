@@ -11,20 +11,19 @@ namespace BeloteServer
         private Database db;
         private Autorization autorization;
         private TablesList tablesList;
-        private ClientsList autorizedList;
+        private Server server;
 
         public Game()
         {
             db = new Database();
             autorization = new Autorization(this);
             tablesList = new TablesList(this);
-            autorizedList = new ClientsList(this);
             Start();
         }
 
         private void Start()
         {
-            Server server = new Server(this);
+            server = new Server(this);
             server.Start();
         }
 
@@ -52,11 +51,11 @@ namespace BeloteServer
             }
         }
 
-        public ClientsList Clients
+        public Server Server
         {
             get
             {
-                return autorizedList;
+                return server;
             }
         }
     }
