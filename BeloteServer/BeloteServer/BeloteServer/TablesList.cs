@@ -97,6 +97,8 @@ namespace BeloteServer
                 TableID, Player2.ID));
 #endif
             this[TableID].Player2 = Player2;
+            this.game.Server.SendMessageToClients(String.Format("TPAID={0},Place=2", TableID), this[TableID].Player3,
+                this[TableID].Player4, this[TableID].TableCreator);
             return true;
         }
 
@@ -119,6 +121,8 @@ namespace BeloteServer
                 TableID, Player3.ID));
 #endif
             this[TableID].Player3 = Player3;
+            this.game.Server.SendMessageToClients(String.Format("TPAID={0},Place=3", TableID), this[TableID].Player2,
+                this[TableID].Player4, this[TableID].TableCreator);
             return true;
         }
 
@@ -141,6 +145,8 @@ namespace BeloteServer
                 TableID, Player4.ID));
 #endif
             this[TableID].Player4 = Player4;
+            this.game.Server.SendMessageToClients(String.Format("TPAID={0},Place=4", TableID), this[TableID].Player2,
+                this[TableID].Player3, this[TableID].TableCreator);
             return true;
         }
 

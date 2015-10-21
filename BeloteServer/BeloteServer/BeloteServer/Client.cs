@@ -525,6 +525,30 @@ namespace BeloteServer
                             // Удаление игрока со стола в режиме ожидания
                             case 'D':
                                 {
+                                    int tableID = Int32.Parse(tableParams["ID"]);
+                                    int place = Int32.Parse(tableParams["Place"]);
+                                    switch (place)
+                                    {
+                                        case 2:
+                                            {
+                                                this.game.Tables.RemovePlayer2(tableID);
+                                                break;
+                                            }
+                                        case 3:
+                                            {
+                                                this.game.Tables.RemovePlayer3(tableID);
+                                                break;
+                                            }
+                                        case 4:
+                                            {
+                                                this.game.Tables.RemovePlayer4(tableID);
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                break;
+                                            }
+                                    }
                                     break;
                                 }
                             // Выход игрока со стола в режиме игры
