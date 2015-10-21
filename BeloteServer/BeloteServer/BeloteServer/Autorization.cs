@@ -66,7 +66,7 @@ namespace BeloteServer
         }
 
         // Регистрация пользователя с помощью электронной почты
-        public bool RegistrationEmail(string Nickname, string Email, string Password, string Country, bool Sex)
+        public int RegistrationEmail(string Nickname, string Email, string Password, string Country, bool Sex)
         {
 #if DEBUG 
             Debug.WriteLine(DateTime.Now.ToString() + " Попытка регистрации с помощью Email");
@@ -74,16 +74,21 @@ namespace BeloteServer
             Debug.WriteLine(String.Format("Nickname: {0}, Email: {1}, Password: {2}, Country: {3}, Sex: {4}", Nickname, Email, Password, Country, Sex));
 #endif
             if (NicknameExists(Nickname))
-                return false;
+                return -1;
             if (EmailExists(Email))
-                return false;
+                return -1;
             game.DataBase.ExecuteQueryWithoutQueue(String.Format("INSERT INTO Players (Nickname, Email, Password, Sex, Country) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\");",
                 Nickname, Email, Password, (Sex == true) ? "1" : "0", Country));
+            int id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT ID From Players WHERE Email=\"{0}\";", Email)));
+            if (id != -1)
+            {
+                game.DataBase.AddQuery(String.Format("INSERT INTO Statistics (idPlayer) VALUES ({0});", id));
+            }
 #if DEBUG
             Debug.WriteLine("Регистрация успешна");
             Debug.Unindent();
 #endif
-            return true;
+            return id;
         }
 
         // Напоминание пользователю сообщения на электронную почту

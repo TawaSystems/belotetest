@@ -40,7 +40,7 @@ namespace BeloteServer
             Debug.Indent();
             Debug.WriteLine("ID игрока: " + IdPlayer);
 #endif
-            List<List<string>> playerStatistics = Game.DataBase.Select(String.Format("SELECT * FROM Statistics WHERE PlayerId=\"{0}\";", IdPlayer), Constants.COLS_STATISTICS);
+            List<List<string>> playerStatistics = Game.DataBase.Select(String.Format("SELECT * FROM Statistics WHERE idPlayer=\"{0}\";", IdPlayer), Constants.COLS_STATISTICS);
             int value;
             if (Int32.TryParse(playerStatistics[2][0], out value))
             {

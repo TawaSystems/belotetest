@@ -208,8 +208,9 @@ namespace BeloteServer
                             // Регистрация с помощью электронной почты
                             case 'E':
                                 {
-                                    if (game.Autorization.RegistrationEmail(regParams["Nickname"], regParams["Email"], regParams["Password"],
-                                        regParams["Country"], (regParams["Sex"] == "1")))
+                                    int id = game.Autorization.RegistrationEmail(regParams["Nickname"], regParams["Email"], regParams["Password"],
+                                        regParams["Country"], (regParams["Sex"] == "1"));
+                                    if (id != -1)
                                     {
                                         // Регистрация прошла успешно
                                         player = new Player(this.game);
@@ -217,7 +218,7 @@ namespace BeloteServer
                                         player.Profile.Nickname = regParams["Nickname"];
                                         player.Profile.Country = regParams["Country"];
                                         player.Profile.Sex = (regParams["Sex"] == "1");
-                                        player.Profile.Id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT ID From Players WHERE Email=\"{0}\";", regParams["Email"])));
+                                        player.Profile.Id = ;
                                         this.game.Server.Clients.Add(this);
                                         Result = "ARERegistration=1";
                                         break;
