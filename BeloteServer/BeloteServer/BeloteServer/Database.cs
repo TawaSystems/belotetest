@@ -12,7 +12,7 @@ namespace BeloteServer
 {
     class Database
     {
-        // Используются для присоединения к БД
+        // Используются для присоединения к БД - соединение, адрес сервера, название БД, идентификатор пользователя, пароль
         private MySqlConnection connection;
         private string server;
         private string database;
@@ -113,13 +113,13 @@ namespace BeloteServer
         private void Initialize()
         {
             // подключение к базе данных
+            string connectionString;
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + " Подключение к базе данных");
             server = "localhost";
             database = "Belote";
             uid = "root";
             password = "";
-            string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" +
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 #else

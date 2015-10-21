@@ -26,6 +26,7 @@ namespace BeloteServer
             }
         }
 
+        // Метод создания игрового стола с заданными параметрами и добавление его в список столов
         public int CreateTable(Client Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel,
             bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
         {
@@ -41,11 +42,13 @@ namespace BeloteServer
             return table.ID;
         }
 
+        // Метод удаления игрового стола по его идентификатору
         public void DeleteTable(int ID)
         {
             this.DeleteTable(this[ID]);
         }
 
+        // Метод удаления игрового стола по ссылке на объект
         public void DeleteTable(Table table)
         {
             if (table != null)
@@ -60,6 +63,7 @@ namespace BeloteServer
             }
         }
 
+        // Метод выборки списка игровых столов по заданным параметрам
         public List<Table> FindTables(int BetFrom, int BetTo, bool PlayersVisibility, bool Chat, int MinimalLevel, bool VIPOnly, bool Moderation, bool AI)
         {
 #if DEBUG
@@ -70,7 +74,7 @@ namespace BeloteServer
 #endif
             List<Table> res = tables.FindAll(t => ((t.Bet >= BetFrom) && (t.Bet <= BetTo) && (t.PlayersVisibility == PlayersVisibility) &&
                 (t.Chat == Chat) && (t.MinimalLevel >= MinimalLevel) && (t.VIPOnly == VIPOnly) && (t.Moderation == Moderation) &&
-                (t.AI == AI)));
+                (t.AI == AI) && (t.Status == TableStatus.WAITING)));
 #if DEBUG 
             Debug.WriteLine("Найдено столов: " + res.Count);
             Debug.Unindent();
@@ -78,6 +82,7 @@ namespace BeloteServer
             return res;
         }
 
+        // Метод, делающий игровой стол видимым для всех игроков
         public void MakeTableVisible(int ID)
         {
 #if DEBUG
@@ -86,6 +91,7 @@ namespace BeloteServer
             this[ID].TableVisibility = true;
         }
 
+        // Метод добавления игрока на место №2
         public bool AddPlayer2(int TableID, Client Player2)
         {
             if (this[TableID].Player2 != null)
@@ -106,6 +112,7 @@ namespace BeloteServer
             return true;
         }
 
+        // Метод удаления игрока с места №2
         public void RemovePlayer2(int TableID)
         {
 #if DEBUG
@@ -115,6 +122,7 @@ namespace BeloteServer
             this.game.Server.SendMessageToClients(String.Format("TPDID={0},Place=2", TableID));
         }
 
+        // Метод добавления игрока на место №3
         public bool AddPlayer3(int TableID, Client Player3)
         {
             if (this[TableID].Player3 != null)
@@ -135,6 +143,7 @@ namespace BeloteServer
             return true;
         }
 
+        // Метод удаления игрока с места №3
         public void RemovePlayer3(int TableID)
         {
 #if DEBUG
@@ -144,6 +153,7 @@ namespace BeloteServer
             this.game.Server.SendMessageToClients(String.Format("TPDID={0},Place=3", TableID));
         }
 
+        // Метод добавления игрока на место №4
         public bool AddPlayer4(int TableID, Client Player4)
         {
             if (this[TableID].Player4 != null)
@@ -164,6 +174,7 @@ namespace BeloteServer
             return true;
         }
 
+        // Метод удаления игрока с места №4
         public void RemovePlayer4(int TableID)
         {
 #if DEBUG

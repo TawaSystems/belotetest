@@ -163,9 +163,17 @@ namespace BeloteServer
                     }
                 // Обработка команд работы с игровыми столами
                 case 'T':
-                default:
                     {
                         Result = ProcessTables(command, msg);
+                        break;
+                    }
+                // Обработка команд игрового процесса
+                case 'G':
+                    {
+                        break;
+                    }
+                default:
+                    {
                         break;
                     }
             }

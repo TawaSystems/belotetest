@@ -111,6 +111,7 @@ namespace BeloteServer
             }
         }
 
+        // Методы преобразующие булево значение в строку и обратно
         public static string BoolToString(bool Value)
         {
             return ((Value) ? "1" : "0");

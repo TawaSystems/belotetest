@@ -19,6 +19,7 @@ namespace BeloteServer
             clients = new List<Client>();
         }
 
+        // Добавление клиента в список
         public int Add(Client client)
         {
 #if DEBUG
@@ -28,6 +29,7 @@ namespace BeloteServer
             return client.ID;
         }
 
+        // Обращение-индексатор к списку клиентов. Обращение происходит по идентификатору пользователя
         public Client this[int ID]
         {
             get
@@ -36,6 +38,7 @@ namespace BeloteServer
             }
         }
 
+        // Удаление клиента из списка по ссылке на клиента
         public void DeleteClient(Client client)
         {
             if (client != null)
@@ -47,6 +50,7 @@ namespace BeloteServer
             }
         }
 
+        // Удаление клиента из списка по идентификатору игрока
         public void DeleteClient(int ID)
         {
             DeleteClient(this[ID]);

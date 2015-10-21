@@ -41,6 +41,7 @@ namespace BeloteServer
 
         public Table(Game Game, Client Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
         {
+            this.game = Game;
             status = TableStatus.CREATING;
             tableCreator = Creator;
             bet = Bet;
@@ -55,6 +56,7 @@ namespace BeloteServer
             CreateTableInDatabase();
         }
 
+        // Метод, в котором создается запись об игровом столе внутри базы данных
         private void CreateTableInDatabase()
         {
 #if DEBUG

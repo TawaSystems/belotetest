@@ -22,6 +22,7 @@ namespace BeloteServer
             autorizedList = new ClientsList(game);
         }
 
+        // Метод запуска сервера по приему сооединений от клиентов
         public void Start()
         {
 #if DEBUG
