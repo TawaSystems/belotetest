@@ -118,16 +118,16 @@ namespace BeloteServer
             }
             finally
             {
-                if (stream != null)
-                    stream.Close();
-                if (client != null)
-                    client.Close();
 #if DEBUG
                 Debug.WriteLine(DateTime.Now.ToString() + " Отключение клиента");
                 Debug.Indent();
                 Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
                 Debug.Unindent();
 #endif
+                if (stream != null)
+                    stream.Close();
+                if (client != null)
+                    client.Close();
             }
         }
 

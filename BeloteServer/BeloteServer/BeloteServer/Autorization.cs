@@ -55,7 +55,7 @@ namespace BeloteServer
             Debug.WriteLine("Email: " + Email);
             Debug.WriteLine("Password: " + Password);
 #endif
-            if (EmailExists(Email))
+            if (!EmailExists(Email))
                 return false;    
             string dbPassword = game.DataBase.SelectScalar(String.Format("SELECT Password FROM Players WHERE Email = \"{0}\";", Email));
 #if DEBUG

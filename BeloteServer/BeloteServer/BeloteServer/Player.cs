@@ -41,24 +41,79 @@ namespace BeloteServer
             Debug.WriteLine("ID игрока: " + IdPlayer);
 #endif
             List<List<string>> playerStatistics = Game.DataBase.Select(String.Format("SELECT * FROM Statistics WHERE PlayerId=\"{0}\";", IdPlayer), Constants.COLS_STATISTICS);
-            this.statistics.GamesTotal = Int32.Parse(playerStatistics[2][0]);
-            this.statistics.WinsCount = Int32.Parse(playerStatistics[3][0]);
-            this.statistics.LosesCount = Int32.Parse(playerStatistics[4][0]);
-            this.statistics.XP = Int32.Parse(playerStatistics[5][0]);
-            this.statistics.Level = Int32.Parse(playerStatistics[6][0]);
-            this.statistics.LastSeriesResult = Int32.Parse(playerStatistics[7][0]);
-            this.statistics.AbandonedGames = Int32.Parse(playerStatistics[8][0]);
-            this.statistics.GamesNotAllowed = Int32.Parse(playerStatistics[9][0]);
-            this.statistics.TablesCreated = Int32.Parse(playerStatistics[10][0]);
-            this.statistics.TablesCreatedNotPlayed = Int32.Parse(playerStatistics[11][0]);
-            this.statistics.DistributionsTotal = Int32.Parse(playerStatistics[12][0]);
-            this.statistics.DistributionsWithTrump = Int32.Parse(playerStatistics[13][0]);
-            this.statistics.DistributionsAnnouncedWin = Int32.Parse(playerStatistics[14][0]);
-            this.statistics.DistributionsWins = Int32.Parse(playerStatistics[15][0]);
-            this.statistics.ContraAnnounced = Int32.Parse(playerStatistics[16][0]);
-            this.statistics.ContraJustified = Int32.Parse(playerStatistics[17][0]);
-            this.statistics.CapotAnnounced = Int32.Parse(playerStatistics[18][0]);
-            this.statistics.CapotJustified = Int32.Parse(playerStatistics[19][0]);
+            int value;
+            if (Int32.TryParse(playerStatistics[2][0], out value))
+            {
+                this.statistics.GamesTotal = value;
+            }
+            if (Int32.TryParse(playerStatistics[3][0], out value))
+            {
+                this.statistics.WinsCount = value;
+            }
+            if (Int32.TryParse(playerStatistics[4][0], out value))
+            {
+                this.statistics.LosesCount = value;
+            }
+            if (Int32.TryParse(playerStatistics[5][0], out value))
+            {
+                this.statistics.XP = value;
+            }
+            if (Int32.TryParse(playerStatistics[6][0], out value))
+            {
+                this.statistics.Level = value;
+            }
+            if (Int32.TryParse(playerStatistics[7][0], out value))
+            {
+                this.statistics.LastSeriesResult = value;
+            }
+            if (Int32.TryParse(playerStatistics[8][0], out value))
+            {
+                this.statistics.AbandonedGames = value;
+            }
+            if (Int32.TryParse(playerStatistics[9][0], out value))
+            {
+                this.statistics.GamesNotAllowed = value;
+            }
+            if (Int32.TryParse(playerStatistics[10][0], out value))
+            {
+                this.statistics.TablesCreated = value;
+            }
+            if (Int32.TryParse(playerStatistics[11][0], out value))
+            {
+                this.statistics.TablesCreatedNotPlayed = value;
+            }
+            if (Int32.TryParse(playerStatistics[12][0], out value))
+            {
+                this.statistics.DistributionsTotal = value;
+            }
+            if (Int32.TryParse(playerStatistics[13][0], out value))
+            {
+                this.statistics.DistributionsWithTrump = value;
+            }
+            if (Int32.TryParse(playerStatistics[14][0], out value))
+            {
+                this.statistics.DistributionsAnnouncedWin = value;
+            }
+            if (Int32.TryParse(playerStatistics[15][0], out value))
+            {
+                this.statistics.DistributionsWins = value;
+            }
+            if (Int32.TryParse(playerStatistics[16][0], out value))
+            {
+                this.statistics.ContraAnnounced = value;
+            }
+            if (Int32.TryParse(playerStatistics[17][0], out value))
+            {
+                this.statistics.ContraJustified = value;
+            }
+            if (Int32.TryParse(playerStatistics[18][0], out value))
+            {
+                this.statistics.CapotAnnounced = value;
+            }
+            if (Int32.TryParse(playerStatistics[19][0], out value))
+            {
+                this.statistics.CapotJustified = value;
+            }
 #if DEBUG
             Debug.Unindent();
 #endif
@@ -73,7 +128,12 @@ namespace BeloteServer
             Debug.WriteLine(String.Format("Название параметра выборки: {0}, Значение параметра выборки: {1}", parameterName, parameterValue));
 #endif
             List<List<string>> playerData = Game.DataBase.Select(String.Format("SELECT * FROM Players WHERE {0}=\"{1}\";", parameterName, parameterValue), Constants.COLS_PLAYERS);
-            this.profile.Id = Int32.Parse(playerData[0][0]);
+            int value;
+            DateTime d;
+            if (Int32.TryParse(playerData[0][0], out value))
+            {
+                this.profile.Id = value;
+            }
             this.profile.Nickname = playerData[1][0];
             this.profile.Name = playerData[2][0];
             this.profile.Surname = playerData[3][0];
@@ -87,14 +147,30 @@ namespace BeloteServer
             this.profile.Address = playerData[11][0];
             this.profile.ZipCode = playerData[12][0];
             this.profile.Language = playerData[13][0];
-            this.profile.Sex = (Int32.Parse(playerData[14][0]) > 0) ? true : false;
+            if (Int32.TryParse(playerData[14][0], out value))
+            {
+                this.profile.Sex = (value > 0);
+            }
             this.profile.TimeZone = playerData[15][0];
-            this.profile.BirtDate = DateTime.Parse(playerData[16][0]);
+            if (DateTime.TryParse(playerData[16][0], out d))
+                this.profile.BirtDate = d;
             this.profile.AvatarFile = playerData[17][0];
-            this.profile.VIPExperies = DateTime.Parse(playerData[18][0]);
-            this.profile.USD = Int32.Parse(playerData[19][0]);
-            this.profile.BUSD = Int32.Parse(playerData[20][0]);
-            this.profile.Chips = Int32.Parse(playerData[21][0]);
+            if (DateTime.TryParse(playerData[18][0], out d))
+            {
+                this.profile.VIPExperies = d;
+            }
+            if (Int32.TryParse(playerData[19][0], out value))
+            {
+                this.profile.USD = value;
+            }
+            if (Int32.TryParse(playerData[20][0], out value))
+            {
+                this.profile.BUSD = value;
+            }
+            if (Int32.TryParse(playerData[21][0], out value))
+            {
+                this.profile.Chips = value;
+            }
             ReadStatisticsFromaDataBase(this.Profile.Id);
 #if DEBUG
             Debug.Unindent();
