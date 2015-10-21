@@ -42,7 +42,10 @@ namespace BeloteServer
         {
             get
             {
-                return player.Profile.Id;
+                if (player != null)
+                    return player.Profile.Id;
+                else
+                    return -1;
             }
         }
 
@@ -85,6 +88,7 @@ namespace BeloteServer
                     Debug.WriteLine(DateTime.Now.ToString() + " Получено сообщение от клиента");
                     Debug.Indent();
                     Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+                    Debug.WriteLine("Client ID: " + ID);
                     Debug.WriteLine("Сообщение: " + message);
                     Debug.Unindent();
 #endif
@@ -102,6 +106,7 @@ namespace BeloteServer
                         Debug.WriteLine(DateTime.Now.ToString() + " Отправка сообщения клиенту");
                         Debug.Indent();
                         Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+                        Debug.WriteLine("Client ID: " + ID);
                         Debug.WriteLine("Сообщение: " + result);
                         Debug.Unindent();
 #endif
@@ -122,6 +127,7 @@ namespace BeloteServer
                 Debug.WriteLine(DateTime.Now.ToString() + " Отключение клиента");
                 Debug.Indent();
                 Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+                Debug.WriteLine("Client ID: " + ID);
                 Debug.Unindent();
 #endif
                 if (stream != null)
@@ -144,6 +150,7 @@ namespace BeloteServer
             Debug.WriteLine(DateTime.Now.ToString() + " Начало обработки сообщения от клиента");
             Debug.Indent();
             Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+            Debug.WriteLine("Client ID: " + ID);
             Debug.WriteLine("Команда: " + command);
             Debug.WriteLine("Сообщение: " + msg);
             Debug.Unindent();
@@ -181,6 +188,7 @@ namespace BeloteServer
             Debug.WriteLine(DateTime.Now.ToString() + " Результат обработки сообщения от клиента");
             Debug.Indent();
             Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+            Debug.WriteLine("Client ID: " + ID);
             Debug.WriteLine("Команда: " + command);
             Debug.WriteLine("Сообщение: " + msg);
             Debug.WriteLine("Результат: " + Result);

@@ -74,7 +74,7 @@ namespace BeloteServer
 #endif
             List<Table> res = tables.FindAll(t => ((t.Bet >= BetFrom) && (t.Bet <= BetTo) && (t.PlayersVisibility == PlayersVisibility) &&
                 (t.Chat == Chat) && (t.MinimalLevel >= MinimalLevel) && (t.VIPOnly == VIPOnly) && (t.Moderation == Moderation) &&
-                (t.AI == AI) && (t.Status == TableStatus.WAITING)));
+                (t.AI == AI) && (t.Status == TableStatus.WAITING) && (t.TableVisibility == true)));
 #if DEBUG 
             Debug.WriteLine("Найдено столов: " + res.Count);
             Debug.Unindent();
