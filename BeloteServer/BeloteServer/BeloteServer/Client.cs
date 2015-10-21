@@ -437,7 +437,6 @@ namespace BeloteServer
                                     Table closingTable = this.game.Tables[Int32.Parse(tableParams["ID"])];
                                     closingTable.SendMessageToClientsWithoutCreator("TML");
                                     closingTable.CloseTable();
-                                    Result = "TML";
                                     break;
                                 }
                             // Успешное завершение игры на столе
@@ -449,7 +448,6 @@ namespace BeloteServer
                             case 'V':
                                 {
                                     this.game.Tables[Int32.Parse(tableParams["ID"])].TableVisibility = true;
-                                    Result = "TMV";
                                     break;
                                 }
                             default:

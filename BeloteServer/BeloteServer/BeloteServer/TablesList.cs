@@ -99,6 +99,10 @@ namespace BeloteServer
             this[TableID].Player2 = Player2;
             this.game.Server.SendMessageToClients(String.Format("TPAID={0},Place=2", TableID), this[TableID].Player3,
                 this[TableID].Player4, this[TableID].TableCreator);
+            if (this[TableID].TestFullfill())
+            {
+                this[TableID].SendMessageToClients("GTS");
+            }
             return true;
         }
 
@@ -108,6 +112,7 @@ namespace BeloteServer
             Debug.WriteLine(DateTime.Now.ToString() + " Удаление второго игрока со стола с идентификатором - " + TableID.ToString());
 #endif
             this[TableID].Player2 = null;
+            this.game.Server.SendMessageToClients(String.Format("TPDID={0},Place=2", TableID));
         }
 
         public bool AddPlayer3(int TableID, Client Player3)
@@ -123,6 +128,10 @@ namespace BeloteServer
             this[TableID].Player3 = Player3;
             this.game.Server.SendMessageToClients(String.Format("TPAID={0},Place=3", TableID), this[TableID].Player2,
                 this[TableID].Player4, this[TableID].TableCreator);
+            if (this[TableID].TestFullfill())
+            {
+                this[TableID].SendMessageToClients("GTS");
+            }
             return true;
         }
 
@@ -132,6 +141,7 @@ namespace BeloteServer
             Debug.WriteLine(DateTime.Now.ToString() + " Удаление третьего игрока со стола с идентификатором - " + TableID.ToString());
 #endif
             this[TableID].Player3 = null;
+            this.game.Server.SendMessageToClients(String.Format("TPDID={0},Place=3", TableID));
         }
 
         public bool AddPlayer4(int TableID, Client Player4)
@@ -147,6 +157,10 @@ namespace BeloteServer
             this[TableID].Player4 = Player4;
             this.game.Server.SendMessageToClients(String.Format("TPAID={0},Place=4", TableID), this[TableID].Player2,
                 this[TableID].Player3, this[TableID].TableCreator);
+            if (this[TableID].TestFullfill())
+            {
+                this[TableID].SendMessageToClients("GTS");
+            }
             return true;
         }
 
@@ -156,6 +170,7 @@ namespace BeloteServer
             Debug.WriteLine(DateTime.Now.ToString() + " Удаление четвертого игрока со стола с идентификатором - " + TableID.ToString());
 #endif
             this[TableID].Player4 = null;
+            this.game.Server.SendMessageToClients(String.Format("TPDID={0},Place=4", TableID));
         }
 
         public int Count

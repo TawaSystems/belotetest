@@ -105,6 +105,23 @@ namespace BeloteServer
             status = TableStatus.ENDING;
         }
 
+        // Функция тестирует, полностью ли заполнен игровой стол
+        public bool TestFullfill()
+        {
+            bool Result = ((TableCreator != null) && (Player2 != null) && (Player3 != null) && (player4 != null));
+            if (Result)
+            {
+                status = TableStatus.PLAYING;
+            }
+#if DEBUG
+            Debug.WriteLine("Тестирование на заполненность стола.");
+            Debug.Indent();
+            Debug.WriteLine("Идентификатор стола: " + ID);
+            Debug.WriteLine("Результат: " + Result.ToString());
+            Debug.Unindent();
+#endif
+            return Result;
+        }
         public int ID
         {
             get
