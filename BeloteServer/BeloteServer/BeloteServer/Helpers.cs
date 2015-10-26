@@ -121,6 +121,5 @@ namespace BeloteServer
         {
             return ((Value == "1") ? true : false);
         }
-
     }
 }

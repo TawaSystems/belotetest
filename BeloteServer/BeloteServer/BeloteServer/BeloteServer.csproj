@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Autorization.cs" />
     <Compile Include="Card.cs" />
+    <Compile Include="CardsDeck.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Database.cs" />
