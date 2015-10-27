@@ -70,4 +70,14 @@ namespace BeloteServer
         D_GAME = 2,
         D_ENDED = 3
     }
+
+    // Тип бонуса
+    public enum BonusType
+    {
+        BONUS_NONE = 0,
+        BONUS_4X = 1,
+        BONUS_TERZ = 2,
+        BONUS_50 = 3,
+        BONUS_100 = 4
+    }
 }
