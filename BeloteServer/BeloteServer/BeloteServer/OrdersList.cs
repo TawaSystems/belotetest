@@ -118,10 +118,22 @@ namespace BeloteServer
             }
         }
 
+        // Текущая ставка - размер и т.д.
         public Order Current
         {
             get;
             private set;
+        }
+
+        // Последняя оглашенная заявка
+        public Order Last
+        {
+            get
+            {
+                if (Count == 0)
+                    return 0;
+                return list[Count - 1];
+            }
         }
 
         public bool IsCoinched

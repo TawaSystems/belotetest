@@ -16,9 +16,19 @@ namespace BeloteServer
         ERROR = 5
     }
 
+    // Тип следующей возможной ставки
+    public enum BetType
+    {
+        T_BET = 1,
+        T_BETABET = 2,
+        BET_CAPOT = 3,
+        BET_SURCOINCHE = 4
+    }
+
     class Table
     {
         private int currentPlayer;
+        private int startedPlayer;
         private Game game;
         private DistributionsList distributions;
 
@@ -40,7 +50,7 @@ namespace BeloteServer
             this.Moderation = Moderation;
             this.AI = AI;
             this.ID = -1;
-            currentPlayer = 1;
+            startedPlayer = 1;
             distributions = new DistributionsList();
             CreateTableInDatabase();
         }
@@ -111,13 +121,40 @@ namespace BeloteServer
         }
 
         // Переход к следующему игроку
-        private int NextPlayer()
+        private int NextPlayer(int playerNum)
         {
-            if (currentPlayer < 4)
-                currentPlayer++;
+            if (playerNum < 4)
+                return ++playerNum;
             else
-                currentPlayer = 1;
-            return currentPlayer;
+                return 1;
+        }
+
+        // Возвращает ссылку на игрока по его номеру
+        private Client PlayerFromNumber(int Number)
+        {
+            switch (Number)
+            {
+                case 1:
+                    {
+                        return TableCreator;
+                    }
+                case 2:
+                    {
+                        return Player2;
+                    }
+                case 3:
+                    {
+                        return Player3;
+                    }
+                case 4:
+                    {
+                        return Player4;
+                    }
+                default:
+                    {
+                        return null;
+                    }
+            }
         }
 
         // Проверка на завершенность игры
@@ -137,7 +174,7 @@ namespace BeloteServer
         {
             Status = TableStatus.PLAYING;
             SendMessageToClients("GTS");
-            NextPlayer();
+            startedPlayer = NextPlayer(startedPlayer);
             NextDistribution();
         }
 
@@ -149,6 +186,7 @@ namespace BeloteServer
             {
 
             }
+            currentPlayer = startedPlayer;
             distributions.AddNew();
             CardsDeck cd = new CardsDeck();
             cd.Distribution(distributions.Current.Player1Cards, distributions.Current.Player2Cards, distributions.Current.Player3Cards, distributions.Current.Player4Cards);
@@ -187,7 +225,48 @@ namespace BeloteServer
 
         public void AddOrder(Order order)
         {
+            BeloteTeam team = (((currentPlayer == 1) || (currentPlayer == 3)) ? BeloteTeam.TEAM1_1_3 : BeloteTeam.TEAM2_2_4);
+            distributions.Current.Orders.Add(order, team);
+            SendMessageToClients(String.Format("GBSPlayer={0},Type={1},Size={2},Trump={3}", currentPlayer, (int)order.Type, order.Size, Helpers.SuitToString(order.Trump)));
+            // В случае окончания процесса торговли
+            if (distributions.Current.Orders.IsEnded())
+            {
 
+            }
+            else
+            {
+                // Тип ставки для следующего игрока
+                BetType betType;
+                currentPlayer = NextPlayer(currentPlayer);
+                // Если была оглашена контра
+                if (distributions.Current.Orders.IsCoinched)
+                {
+                    betType = BetType.BET_SURCOINCHE;
+                    // Если после контры уже был оглашен пасс, то перескакиваем еще одного игрока
+                    if (distributions.Current.Orders.Last.Type == OrderType.ORDER_PASS)
+                    {
+                        currentPlayer = NextPlayer(currentPlayer);
+                    }
+                }
+                else
+                if (distributions.Current.Orders.IsCapot)
+                {
+                    betType = BetType.BET_CAPOT;
+                }
+                if (distributions.Current.Orders.Current != null)
+                {
+                    betType = BetType.T_BETABET;
+                }
+                else
+                {
+                    betType = BetType.T_BET;
+                }
+                // Минимальный размер ставки для следующего игрока
+                int minSize = (distributions.Current.Orders.Current == null) ? 80 : distributions.Current.Orders.Current.Size + 10;
+                // Посылка сообщения GBN следующему в торговле игроку
+                Client p = PlayerFromNumber(currentPlayer);
+                p.SendMessage(String.Format("GBNType={0},MinSize={1}", (int)betType, minSize));
+            }
         }
 
         public int ID
