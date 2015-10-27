@@ -107,7 +107,7 @@ namespace BeloteServer
                 this[TableID].Player4, this[TableID].TableCreator);
             if (this[TableID].TestFullfill())
             {
-                this[TableID].SendMessageToClients("GTS");
+                this[TableID].StartGame();
             }
             return true;
         }
@@ -138,7 +138,7 @@ namespace BeloteServer
                 this[TableID].Player4, this[TableID].TableCreator);
             if (this[TableID].TestFullfill())
             {
-                this[TableID].SendMessageToClients("GTS");
+                this[TableID].StartGame();
             }
             return true;
         }
@@ -169,7 +169,7 @@ namespace BeloteServer
                 this[TableID].Player3, this[TableID].TableCreator);
             if (this[TableID].TestFullfill())
             {
-                this[TableID].SendMessageToClients("GTS");
+                this[TableID].StartGame();
             }
             return true;
         }

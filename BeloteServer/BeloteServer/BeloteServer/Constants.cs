@@ -29,5 +29,7 @@ namespace BeloteServer
 #else
 #endif
         public const int GAME_MINIMAL_BET = 10;
+
+        public const int GAME_END_COUNT = 151;
     }
 }

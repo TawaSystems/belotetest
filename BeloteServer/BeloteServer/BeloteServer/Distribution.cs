@@ -28,6 +28,7 @@ namespace BeloteServer
         private int scores2;
         private BeloteTeam orderedTeam;
         private bool coinche, surcoinche, capot;
+        private bool capotEnded;
         private DistributionStatus status;
 
         public Distribution()
@@ -43,6 +44,7 @@ namespace BeloteServer
             coinche = false;
             surcoinche = false;
             capot = false;
+            capotEnded = false;
             status = DistributionStatus.D_BAZAR;
         }
 
@@ -139,6 +141,14 @@ namespace BeloteServer
             get
             {
                 return scores2;
+            }
+        }
+
+        public bool IsCapotEnded
+        {
+            get
+            {
+                return capotEnded;
             }
         }
     }

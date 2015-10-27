@@ -22,6 +22,7 @@ namespace BeloteServer
         private Client player2;
         private Client player3;
         private Client player4;
+        private int currentPlayer;
         private int bet;
         private bool playersVisibility;
         private bool chat;
@@ -34,6 +35,7 @@ namespace BeloteServer
         private int id;
         private TableStatus status;
         private Game game;
+        private DistributionsList distributions;
 
         public Table(Game Game, Client Creator) : this(Game, Creator, Constants.GAME_MINIMAL_BET, true, true, 0, true, false, false, true)
         {
@@ -53,6 +55,8 @@ namespace BeloteServer
             moderation = Moderation;
             ai = AI;
             id = -1;
+            currentPlayer = 1;
+            distributions = new DistributionsList();
             CreateTableInDatabase();
         }
 
@@ -111,10 +115,6 @@ namespace BeloteServer
         public bool TestFullfill()
         {
             bool Result = ((TableCreator != null) && (Player2 != null) && (Player3 != null) && (player4 != null));
-            if (Result)
-            {
-                status = TableStatus.PLAYING;
-            }
 #if DEBUG
             Debug.WriteLine("Тестирование на заполненность стола.");
             Debug.Indent();
@@ -124,6 +124,78 @@ namespace BeloteServer
 #endif
             return Result;
         }
+
+        private int NextPlayer()
+        {
+            if (currentPlayer < 4)
+                currentPlayer++;
+            else
+                currentPlayer = 1;
+            return currentPlayer;
+        }
+
+        private bool IsEndedGame()
+        {
+            if (distributions.Count == 0)
+                return false;
+            if ((distributions.ScoresTeam1 >= 151) || (distributions.ScoresTeam2 >= 151))
+                if ((distributions.ScoresTeam1 != distributions.ScoresTeam2) && (distributions.Current.Status == DistributionStatus.D_ENDED))
+                    if (!distributions.Current.IsCapotEnded)
+                        return true;
+            return false;
+        }
+
+        public void StartGame()
+        {
+            status = TableStatus.PLAYING;
+            SendMessageToClients("GTS");
+            NextPlayer();
+            NextDistribution();
+        }
+
+        private void NextDistribution()
+        {
+            // Если игра на столе завершена...
+            if (IsEndedGame())
+            {
+
+            }
+            distributions.AddNew();
+            CardsDeck cd = new CardsDeck();
+            cd.Distribution(distributions.Current.Player1Cards, distributions.Current.Player2Cards, distributions.Current.Player3Cards, distributions.Current.Player4Cards);
+            tableCreator.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player1Cards.ToString(),
+                distributions.ScoresTeam1, distributions.ScoresTeam2));
+            player2.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player2Cards.ToString(),
+                distributions.ScoresTeam1, distributions.ScoresTeam2));
+            player3.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player3Cards.ToString(),
+                distributions.ScoresTeam1, distributions.ScoresTeam2));
+            player4.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player4Cards.ToString(),
+                    distributions.ScoresTeam1, distributions.ScoresTeam2));
+            switch (currentPlayer)
+            {
+                case 1:
+                    {
+                        tableCreator.SendMessage("GBNType=1,Size=80");
+                        break;
+                    }
+                case 2:
+                    {
+                        player2.SendMessage("GBNType=1,Size=80");
+                        break;
+                    }
+                case 3:
+                    {
+                        player3.SendMessage("GBNType=1,Size=80");
+                        break;
+                    }
+                case 4:
+                    {
+                        player4.SendMessage("GBNType=1,Size=80");
+                        break;
+                    }
+            }
+        }
+
         public int ID
         {
             get
