@@ -121,5 +121,63 @@ namespace BeloteServer
         {
             return ((Value == "1") ? true : false);
         }
+
+        // Методы перевода масти к строке и обратно
+
+        public static string SuitToString(CardSuit Suit)
+        {
+            switch (Suit)
+            {
+                case CardSuit.C_HEARTS:
+                    {
+                        return "H";
+                    }
+                case CardSuit.C_CLUBS:
+                    {
+                        return "C";
+                    }
+                case CardSuit.C_SPADES:
+                    {
+                        return "S";
+                    }
+                case CardSuit.С_DIAMONDS:
+                    {
+                        return "D";
+                    }
+                default:
+                    {
+                        return "N";
+                    }
+            }
+        }
+
+        public static CardSuit StringToSuit(string Suit)
+        {
+            if (Suit.Length == 0)
+                return CardSuit.C_NONE;
+            switch (Suit[0])
+            {
+                case 'H':
+                    {
+                        return CardSuit.C_HEARTS;
+                    }
+                case 'C':
+                    {
+                        return CardSuit.C_CLUBS;
+                    }
+                case 'S':
+                    {
+                        return CardSuit.C_SPADES;
+                    }
+                case 'D':
+                    {
+                        return CardSuit.С_DIAMONDS;
+                    }
+                default:
+                    {
+                        return CardSuit.C_NONE;
+                    }
+            }
+        }
     }
 }

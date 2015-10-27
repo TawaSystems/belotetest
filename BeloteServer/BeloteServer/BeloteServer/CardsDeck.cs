@@ -23,6 +23,8 @@ namespace BeloteServer
                     continue;
                 foreach (CardType t in Enum.GetValues(typeof(CardType)))
                 {
+                    if (t == CardType.C_UNDEFINED)
+                        continue;
                     list.Add(new Card(t, s));
                 }
             }

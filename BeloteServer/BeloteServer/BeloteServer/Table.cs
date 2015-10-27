@@ -142,7 +142,7 @@ namespace BeloteServer
         }
 
         // Следующая раздача
-        private void NextDistribution()
+        public void NextDistribution()
         {
             // Если игра на столе завершена...
             if (IsEndedGame())
@@ -183,6 +183,11 @@ namespace BeloteServer
                         break;
                     }
             }
+        }
+
+        public void AddOrder(Order order)
+        {
+
         }
 
         public int ID

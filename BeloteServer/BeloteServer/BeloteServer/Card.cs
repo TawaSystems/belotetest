@@ -9,6 +9,7 @@ namespace BeloteServer
     // Тип игровой карты: 7, 8...
     public enum CardType
     {
+        C_UNDEFINED = 100,
         C_A = 1,
         C_J = 2,
         C_Q = 3,
@@ -42,34 +43,18 @@ namespace BeloteServer
 
         public Card(string card)
         {
-            IsTrump = false;
-            IsGameWithTrump = false;
-            switch (card[0])
+            if (card.Length != 2)
             {
-                case 'H':
-                    {
-                        Suit = CardSuit.C_HEARTS;
-                        break;
-                    }
-                case 'C':
-                    {
-                        Suit = CardSuit.C_CLUBS;
-                        break;
-                    }
-                case 'S':
-                    {
-                        Suit = CardSuit.C_SPADES;
-                        break;
-                    }
-                case 'D':
-                    {
-                        Suit = CardSuit.С_DIAMONDS;
-                        break;
-                    }
-                default:
-                    break;
+                Suit = CardSuit.C_NONE;
+                Type = CardType.C_UNDEFINED;
             }
-            Type = (CardType)Int32.Parse(card.Substring(1, 1));
+            else
+            {
+                IsTrump = false;
+                IsGameWithTrump = false;
+                Suit = Helpers.StringToSuit(card.Substring(0, 1));
+                Type = (CardType)Int32.Parse(card.Substring(1, 1));
+            }
         }
 
         public CardType Type
@@ -175,34 +160,7 @@ namespace BeloteServer
 
         public override string ToString()
         {
-            string Res = "";
-            switch (Suit)
-            {
-                case CardSuit.C_HEARTS:
-                    {
-                        Res = "H";
-                        break;
-                    }
-                case CardSuit.C_CLUBS:
-                    {
-                        Res = "C";
-                        break;
-                    }
-                case CardSuit.C_SPADES:
-                    {
-                        Res = "S";
-                        break;
-                    }
-                case CardSuit.С_DIAMONDS:
-                    {
-                        Res = "D";
-                        break;
-                    }
-                default:
-                    break;
-            }
-            Res += Type.ToString();
-            return Res;
+            return Helpers.SuitToString(Suit);
         }
     }
 }

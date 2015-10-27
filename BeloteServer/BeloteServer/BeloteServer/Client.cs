@@ -173,6 +173,7 @@ namespace BeloteServer
                 // Обработка команд игрового процесса
                 case 'G':
                     {
+                        Result = ProcessGame(command, msg);
                         break;
                     }
                 default:
@@ -594,6 +595,46 @@ namespace BeloteServer
             return Result;
         }
 
+        // Функция обработки команд по игровому процессу
+        private string ProcessGame(string command, string message)
+        {
+            Dictionary<string, string> gameParams = Helpers.SplitCommandString(message);
+            if (gameParams == null)
+            {
+                return null;
+            }
+            switch (command[1])
+            {
+                // Базар, торговля
+                case 'B':
+                    {
+                        switch (command[2])
+                        {
+                            // Заявка игрока
+                            case 'B':
+                                {
+                                    int tableID = Int32.Parse(gameParams["ID"]);
+                                    int orderSize = Int32.Parse(gameParams["Size"]);
+                                    OrderType type = (OrderType)Int32.Parse(gameParams["Type"]);
+                                    CardSuit suit = Helpers.StringToSuit(gameParams["Trump"]);
+                                    this.game.Tables[tableID].AddOrder(new Order(type, orderSize, suit));
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+            string Result = null;
+            return Result;
+        }
 
     }
 }
