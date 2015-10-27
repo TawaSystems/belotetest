@@ -18,8 +18,6 @@ namespace BeloteServer
         private Thread worker;
         // Ссылка на игровой объект
         private Game game;
-        // Ссылка на объект игрока
-        private Player player;
 
         // Конструктор с инициализацией всех объектов
         public Client(TcpClient tcpClient, Game game)
@@ -32,7 +30,7 @@ namespace BeloteServer
 #endif
             client = tcpClient;
             this.game = game;
-            player = null;
+            Player = null;
             worker = new Thread(Process);
             worker.Start();
         }
@@ -42,8 +40,8 @@ namespace BeloteServer
         {
             get
             {
-                if (player != null)
-                    return player.Profile.Id;
+                if (Player != null)
+                    return Player.Profile.Id;
                 else
                     return -1;
             }
@@ -52,10 +50,8 @@ namespace BeloteServer
         // Профиль игрока
         public Player Player
         {
-            get
-            {
-                return player;
-            }
+            get;
+            private set;
         }
 
         // Отправка сообщения клиенту
@@ -221,12 +217,12 @@ namespace BeloteServer
                                     if (id != -1)
                                     {
                                         // Регистрация прошла успешно
-                                        player = new Player(this.game);
-                                        player.Profile.Email = regParams["Email"];
-                                        player.Profile.Nickname = regParams["Nickname"];
-                                        player.Profile.Country = regParams["Country"];
-                                        player.Profile.Sex = (regParams["Sex"] == "1");
-                                        player.Profile.Id = id;
+                                        Player = new Player(this.game);
+                                        Player.Profile.Email = regParams["Email"];
+                                        Player.Profile.Nickname = regParams["Nickname"];
+                                        Player.Profile.Country = regParams["Country"];
+                                        Player.Profile.Sex = (regParams["Sex"] == "1");
+                                        Player.Profile.Id = id;
                                         this.game.Server.Clients.Add(this);
                                         Result = "ARERegistration=1";
                                         break;
@@ -275,8 +271,8 @@ namespace BeloteServer
                                 {
                                     if (game.Autorization.EnterEmail(regParams["Email"], regParams["Password"]))
                                     {
-                                        player = new Player(this.game);
-                                        player.ReadPlayerFromDataBase("Email", regParams["Email"]);
+                                        Player = new Player(this.game);
+                                        Player.ReadPlayerFromDataBase("Email", regParams["Email"]);
                                         this.game.Server.Clients.Add(this);
                                         Result = "AAEAutorization=1";
                                         break;
@@ -411,7 +407,7 @@ namespace BeloteServer
                         {
                             this.game.Server.Clients.DeleteClient(this);
                         }
-                        player = null;
+                        Player = null;
                         break;
                     }
                 default:
