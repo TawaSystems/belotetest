@@ -39,8 +39,8 @@ namespace BeloteServer
     public enum CardSuit
     {
         C_NONE = 0,
-        C_HEARTS = 1,
-        C_CLUBS = 2,
+        C_HEARTS = 2,
+        C_CLUBS = 1,
         C_SPADES = 3,
         С_DIAMONDS = 4
     }

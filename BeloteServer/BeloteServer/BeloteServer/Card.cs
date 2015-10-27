@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BeloteServer
 {
     // Класс, представляющий собой карту
-    class Card
+    class Card:IComparable<Card>
     {
         public Card(CardType type, CardSuit suit)
         {
@@ -33,11 +33,29 @@ namespace BeloteServer
             }
         }
 
-        public static int CompareCardType(Card card1, Card card2)
+        public int CompareTo(Card other)
         {
-            return ((int)card1.Type).CompareTo((int)card2.Type);
-        } 
-
+            int thisSuit = (int)this.Suit;
+            int otherSuit = (int)other.Suit;
+            if (thisSuit < otherSuit)
+            {
+                return -1;
+            }
+            else
+            if (thisSuit > otherSuit)
+            {
+                return 1;
+            }
+            else
+            {
+                int thisType = (int)this.Type;
+                int otherType = (int)other.Type;
+                if (thisType < otherType)
+                    return 1;
+                else
+                    return -1;
+            }
+        }
 
         public CardType Type
         {
