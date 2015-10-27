@@ -8,12 +8,12 @@ namespace BeloteServer
 {
     class CardsDeck
     {
-        private List<Card> list;
+        private CardList list;
         private Random random;
 
         public CardsDeck()
         {
-            list = new List<Card>();
+            list = new CardList();
             random = new Random();
             foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
             {
@@ -26,7 +26,7 @@ namespace BeloteServer
             }
         }
 
-        public void Distribution(List<Card> p1, List<Card> p2, List<Card> p3, List<Card> p4)
+        public void Distribution(CardList p1, CardList p2, CardList p3, CardList p4)
         {
             if ((p1 == null) || (p2 == null) || (p3 == null) || (p4 == null))
             {

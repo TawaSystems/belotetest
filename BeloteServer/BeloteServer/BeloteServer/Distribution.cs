@@ -8,12 +8,11 @@ namespace BeloteServer
 {
     class Distribution
     {
-        private List<Card> p1;
-        private List<Card> p2;
-        private List<Card> p3;
-        private List<Card> p4;
+        private CardList p1, p2, p3, p4;
         private CardSuit trump;
         private int scores1;
         private int scores2;
+
+
     }
 }
