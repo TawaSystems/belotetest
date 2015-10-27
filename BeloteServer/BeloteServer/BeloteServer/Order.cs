@@ -6,15 +6,6 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
-    public enum OrderType
-    {
-        ORDER_PASS = 0,
-        ORDER_BET = 1,
-        ORDER_CAPOT = 2,
-        ORDER_COINCHE = 3,
-        ORDER_SURCOINCHE = 4
-    }
-
     class Order
     {
         public Order(OrderType Type, int Size, CardSuit Trump)

@@ -7,24 +7,6 @@ using System.Diagnostics;
 
 namespace BeloteServer
 {
-    public enum TableStatus
-    {
-        CREATING = 1,
-        WAITING = 2,
-        PLAYING = 3,
-        ENDING = 4,
-        ERROR = 5
-    }
-
-    // Тип следующей возможной ставки
-    public enum BetType
-    {
-        T_BET = 1,
-        T_BETABET = 2,
-        BET_CAPOT = 3,
-        BET_SURCOINCHE = 4
-    }
-
     class Table
     {
         private int currentPlayer;

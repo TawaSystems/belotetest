@@ -6,30 +6,6 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
-    // Тип игровой карты: 7, 8...
-    public enum CardType
-    {
-        C_UNDEFINED = 100,
-        C_A = 1,
-        C_J = 2,
-        C_Q = 3,
-        C_K = 4,
-        C_7 = 7,
-        C_8 = 8, 
-        C_9 = 9,
-        C_10 = 0
-    } 
-
-    // Масть игровой карты
-    public enum CardSuit
-    {
-        C_NONE = 0,
-        C_HEARTS = 1,
-        C_CLUBS = 2,
-        C_SPADES = 3,
-        С_DIAMONDS = 4
-    }
-
     // Класс, представляющий собой карту
     class Card
     {

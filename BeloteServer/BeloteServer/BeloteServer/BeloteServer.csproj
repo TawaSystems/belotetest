@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Autorization.cs" />
+    <Compile Include="BeloteEnums.cs" />
     <Compile Include="Bribe.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CardList.cs" />

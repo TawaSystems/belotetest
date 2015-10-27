@@ -6,22 +6,6 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
-    // Тип - игровая команда
-    public enum BeloteTeam
-    {
-        TEAM_NONE = 0,
-        TEAM1_1_3 = 1,
-        TEAM2_2_4 = 2
-    }
-
-    // Тип - статус раздачи: торговля, игра, завершена
-    public enum DistributionStatus
-    {
-        D_BAZAR = 1,
-        D_GAME = 2,
-        D_ENDED = 3
-    }
-
     // Раздача
     class Distribution
     {
