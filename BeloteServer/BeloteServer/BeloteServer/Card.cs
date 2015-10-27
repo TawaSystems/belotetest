@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
+    // Тип игровой карты: 7, 8...
     public enum CardType
     {
         C_A = 1,
@@ -18,6 +19,7 @@ namespace BeloteServer
         C_10 = 0
     } 
 
+    // Масть игровой карты
     public enum CardSuit
     {
         C_NONE = 0,
@@ -27,6 +29,7 @@ namespace BeloteServer
         С_DIAMONDS = 4
     }
 
+    // Класс, представляющий собой карту
     class Card
     {
         public Card(CardType type, CardSuit suit)

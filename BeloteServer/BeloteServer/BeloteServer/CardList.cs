@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
+    // Класс - контейнер для списка игровых карт
     class CardList
     {
         private List<Card> list;

@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
+    // Класс, содержащий в себе колоду карт
     class CardsDeck
     {
         private CardList list;
         private Random random;
 
+        // Создание колоды для игры в блот
         public CardsDeck()
         {
             list = new CardList();
@@ -26,6 +28,7 @@ namespace BeloteServer
             }
         }
 
+        // Создание раздачи на четверых игроков
         public void Distribution(CardList p1, CardList p2, CardList p3, CardList p4)
         {
             if ((p1 == null) || (p2 == null) || (p3 == null) || (p4 == null))
@@ -42,6 +45,7 @@ namespace BeloteServer
 
         }
 
+        // Взятие случайной карты из колоды
         private Card GetRandomCard()
         {
             Card c = list[random.Next(list.Count)];

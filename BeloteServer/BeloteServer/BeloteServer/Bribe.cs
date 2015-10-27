@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
+    // Класс, представляющий каждую конкретную взятку
     class Bribe
     {
         public Card c1, c2, c3, c4;

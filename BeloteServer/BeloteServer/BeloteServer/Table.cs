@@ -125,6 +125,7 @@ namespace BeloteServer
             return Result;
         }
 
+        // Переход к следующему игроку
         private int NextPlayer()
         {
             if (currentPlayer < 4)
@@ -134,6 +135,7 @@ namespace BeloteServer
             return currentPlayer;
         }
 
+        // Проверка на завершенность игры
         private bool IsEndedGame()
         {
             if (distributions.Count == 0)
@@ -145,6 +147,7 @@ namespace BeloteServer
             return false;
         }
 
+        // Запуск игры на столе
         public void StartGame()
         {
             status = TableStatus.PLAYING;
@@ -153,6 +156,7 @@ namespace BeloteServer
             NextDistribution();
         }
 
+        // Следующая раздача
         private void NextDistribution()
         {
             // Если игра на столе завершена...

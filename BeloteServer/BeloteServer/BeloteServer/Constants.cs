@@ -11,6 +11,7 @@ namespace BeloteServer
         // Количество столбцов в таблице Players
         public const int COLS_PLAYERS = 22;
 
+        // Количество столбцов в таблице Statistics
         public const int COLS_STATISTICS = 20;
 #if DEBUG
         public const int SERVER_PORT = 8888;
@@ -28,8 +29,10 @@ namespace BeloteServer
         public const int EMAIL_TIMEOUT = 500;
 #else
 #endif
+        // Размер минимальной ставки на столе
         public const int GAME_MINIMAL_BET = 10;
 
+        // Счет, до которого происходит игра на столе
         public const int GAME_END_COUNT = 151;
     }
 }

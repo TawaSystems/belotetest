@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
+    // Класс - контейнер для списка игровых раздач
     class DistributionsList
     {
         private List<Distribution> list;
@@ -20,6 +21,7 @@ namespace BeloteServer
             list.Add(new Distribution());
         }
 
+        // Ссылка на текущую раздачу
         public Distribution Current
         {
             get
@@ -38,6 +40,7 @@ namespace BeloteServer
             }
         }
 
+        // Очки первой команды
         public int ScoresTeam1
         {
             get
@@ -52,6 +55,7 @@ namespace BeloteServer
             }
         }
 
+        // Очки второй команды
         public int ScoresTeam2
         {
             get
