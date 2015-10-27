@@ -33,6 +33,12 @@ namespace BeloteServer
             }
         }
 
+        public static int CompareCardType(Card card1, Card card2)
+        {
+            return ((int)card1.Type).CompareTo((int)card2.Type);
+        } 
+
+
         public CardType Type
         {
             get;

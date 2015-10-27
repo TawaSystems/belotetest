@@ -44,7 +44,10 @@ namespace BeloteServer
                 p3.Add(GetRandomCard());
                 p4.Add(GetRandomCard());
             }
-
+            p1.Sort();
+            p2.Sort();
+            p3.Sort();
+            p4.Sort();
         }
 
         // Взятие случайной карты из колоды
