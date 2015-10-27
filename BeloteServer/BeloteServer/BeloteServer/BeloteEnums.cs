@@ -25,14 +25,14 @@ namespace BeloteServer
     public enum CardType
     {
         C_UNDEFINED = 100,
-        C_A = 1,
-        C_J = 2,
-        C_Q = 3,
-        C_K = 4,
-        C_7 = 7,
-        C_8 = 8,
-        C_9 = 9,
-        C_10 = 0
+        C_A = 7,
+        C_J = 4,
+        C_Q = 5,
+        C_K = 6,
+        C_7 = 0,
+        C_8 = 1,
+        C_9 = 2,
+        C_10 = 3
     }
 
     // Масть игровой карты
