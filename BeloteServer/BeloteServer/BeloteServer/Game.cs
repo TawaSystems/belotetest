@@ -8,55 +8,42 @@ namespace BeloteServer
 {
     class Game
     {
-        private Database db;
-        private Autorization autorization;
-        private TablesList tablesList;
-        private Server server;
-
         public Game()
         {
-            db = new Database();
-            autorization = new Autorization(this);
-            tablesList = new TablesList(this);
+            DataBase = new Database();
+            Autorization = new Autorization(this);
+            Tables = new TablesList(this);
             Start();
         }
 
         private void Start()
         {
-            server = new Server(this);
-            server.Start();
+            Server = new Server(this);
+            Server.Start();
         }
 
         public Database DataBase
         {
-            get
-            {
-                return db;
-            }
+            get;
+            private set;
         }      
 
         public Autorization Autorization
         {
-            get
-            {
-                return autorization;
-            }
+            get;
+            private set;
         }
 
         public TablesList Tables
         {
-            get
-            {
-                return tablesList;
-            }
+            get;
+            private set;
         }
 
         public Server Server
         {
-            get
-            {
-                return server;
-            }
+            get;
+            private set;
         }
     }
 }
