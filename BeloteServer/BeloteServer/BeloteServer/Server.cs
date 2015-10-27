@@ -13,13 +13,11 @@ namespace BeloteServer
     class Server
     {
         private static TcpListener listener;
-        private Game game;
-        private ClientsList autorizedList;
 
         public Server(Game game)
         {
-            this.game = game;
-            autorizedList = new ClientsList(game);
+            this.Game = game;
+            Clients = new ClientsList(game);
         }
 
         // Метод запуска сервера по приему сооединений от клиентов
@@ -77,18 +75,14 @@ namespace BeloteServer
 
         public Game Game
         {
-            get
-            {
-                return game;
-            }
+            get;
+            private set;
         }
 
         public ClientsList Clients
         {
-            get
-            {
-                return autorizedList;
-            }
+            get;
+            private set;
         }
     }
 }
