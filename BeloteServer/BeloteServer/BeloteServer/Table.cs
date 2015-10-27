@@ -18,22 +18,7 @@ namespace BeloteServer
 
     class Table
     {
-        private Client tableCreator;
-        private Client player2;
-        private Client player3;
-        private Client player4;
         private int currentPlayer;
-        private int bet;
-        private bool playersVisibility;
-        private bool chat;
-        private int minimalLevel;
-        private bool tableVisibility;
-        private bool vipOnly;
-        private bool moderation;
-        private bool ai;
-
-        private int id;
-        private TableStatus status;
         private Game game;
         private DistributionsList distributions;
 
@@ -44,17 +29,17 @@ namespace BeloteServer
         public Table(Game Game, Client Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
         {
             this.game = Game;
-            status = TableStatus.CREATING;
-            tableCreator = Creator;
-            bet = Bet;
-            playersVisibility = PlayersVisibility;
-            chat = Chat;
-            minimalLevel = MinimalLevel;
-            tableVisibility = TableVisibility;
-            vipOnly = VIPOnly;
-            moderation = Moderation;
-            ai = AI;
-            id = -1;
+            Status = TableStatus.CREATING;
+            TableCreator = Creator;
+            this.Bet = Bet;
+            this.PlayersVisibility = PlayersVisibility;
+            this.Chat = Chat;
+            this.MinimalLevel = MinimalLevel;
+            this.TableVisibility = TableVisibility;
+            this.VIPOnly = VIPOnly;
+            this.Moderation = Moderation;
+            this.AI = AI;
+            this.ID = -1;
             currentPlayer = 1;
             distributions = new DistributionsList();
             CreateTableInDatabase();
@@ -75,13 +60,13 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine("Получение ID созданного стола");
 #endif
-            id = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT MAX(ID) FROM (SELECT Id FROM Tables WHERE TableCreatorId = \"{0}\") AS A1;", TableCreator.ID)));
-            if (id != -1)
-                status = TableStatus.WAITING;
+            ID = Int32.Parse(game.DataBase.SelectScalar(String.Format("SELECT MAX(ID) FROM (SELECT Id FROM Tables WHERE TableCreatorId = \"{0}\") AS A1;", TableCreator.ID)));
+            if (ID != -1)
+                Status = TableStatus.WAITING;
             else
-                status = TableStatus.ERROR;
+                Status = TableStatus.ERROR;
 #if DEBUG 
-            Debug.WriteLine("Идентификатор созданного стола: " + id);
+            Debug.WriteLine("Идентификатор созданного стола: " + ID);
             Debug.Unindent();
 #endif
         }
@@ -108,13 +93,13 @@ namespace BeloteServer
         // Метод при завершении игры на столе
         public void CloseTable()
         {
-            status = TableStatus.ENDING;
+            Status = TableStatus.ENDING;
         }
 
         // Функция тестирует, полностью ли заполнен игровой стол
         public bool TestFullfill()
         {
-            bool Result = ((TableCreator != null) && (Player2 != null) && (Player3 != null) && (player4 != null));
+            bool Result = ((TableCreator != null) && (Player2 != null) && (Player3 != null) && (Player4 != null));
 #if DEBUG
             Debug.WriteLine("Тестирование на заполненность стола.");
             Debug.Indent();
@@ -150,7 +135,7 @@ namespace BeloteServer
         // Запуск игры на столе
         public void StartGame()
         {
-            status = TableStatus.PLAYING;
+            Status = TableStatus.PLAYING;
             SendMessageToClients("GTS");
             NextPlayer();
             NextDistribution();
@@ -167,34 +152,34 @@ namespace BeloteServer
             distributions.AddNew();
             CardsDeck cd = new CardsDeck();
             cd.Distribution(distributions.Current.Player1Cards, distributions.Current.Player2Cards, distributions.Current.Player3Cards, distributions.Current.Player4Cards);
-            tableCreator.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player1Cards.ToString(),
+            TableCreator.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player1Cards.ToString(),
                 distributions.ScoresTeam1, distributions.ScoresTeam2));
-            player2.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player2Cards.ToString(),
+            Player2.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player2Cards.ToString(),
                 distributions.ScoresTeam1, distributions.ScoresTeam2));
-            player3.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player3Cards.ToString(),
+            Player3.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player3Cards.ToString(),
                 distributions.ScoresTeam1, distributions.ScoresTeam2));
-            player4.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player4Cards.ToString(),
+            Player4.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player4Cards.ToString(),
                     distributions.ScoresTeam1, distributions.ScoresTeam2));
             switch (currentPlayer)
             {
                 case 1:
                     {
-                        tableCreator.SendMessage("GBNType=1,Size=80");
+                        TableCreator.SendMessage("GBNType=1,Size=80");
                         break;
                     }
                 case 2:
                     {
-                        player2.SendMessage("GBNType=1,Size=80");
+                        Player2.SendMessage("GBNType=1,Size=80");
                         break;
                     }
                 case 3:
                     {
-                        player3.SendMessage("GBNType=1,Size=80");
+                        Player3.SendMessage("GBNType=1,Size=80");
                         break;
                     }
                 case 4:
                     {
-                        player4.SendMessage("GBNType=1,Size=80");
+                        Player4.SendMessage("GBNType=1,Size=80");
                         break;
                     }
             }
@@ -202,130 +187,86 @@ namespace BeloteServer
 
         public int ID
         {
-            get
-            {
-                return id;
-            }
+            get;
+            private set;
         }
 
         public Client TableCreator
         {
-            get
-            {
-                return tableCreator;
-            }
+            get;
+            private set;
         }
 
         public Client Player2
         {
-            get
-            {
-                return player2;
-            }
-            set
-            {
-                player2 = value;
-            }
+            get;
+            set;
         }
 
         public Client Player3
         {
-            get
-            {
-                return player3;
-            }
-            set
-            {
-                player3 = value;
-            }
+            get;
+            set;
         }
 
         public Client Player4
         {
-            get
-            {
-                return player4;
-            }
-            set
-            {
-                player4 = value;
-            }
+            get;
+            set;
         }
 
         public int Bet
         {
-            get
-            {
-                return bet;
-            }
+            get;
+            private set;
         }
 
         public bool PlayersVisibility
         {
-            get
-            {
-                return playersVisibility;
-            }
+            get;
+            private set;
         }
 
         public bool Chat
         {
-            get
-            {
-                return chat;
-            }
+            get;
+            private set;
         }
 
         public int MinimalLevel
         {
-            get
-            {
-                return minimalLevel;
-            }
+            get;
+            private set;
         }
 
         public bool TableVisibility
         {
-            get
-            {
-                return tableVisibility;
-            }
-            set
-            {
-                tableVisibility = value;
-            }
+            get;
+            set;
         }
 
         public bool VIPOnly
         {
-            get
-            {
-                return vipOnly;
-            }
+            get;
+            private set;
         }
 
         public bool Moderation
         {
-            get
-            {
-                return moderation;
-            }
+            get;
+            private set;
         }
 
         public bool AI
         {
-            get
-            {
-                return ai;
-            }
+            get;
+            private set;
         }
 
         public TableStatus Status
         {
-            get
-            {
-                return status;
-            }
+            get;
+            private set;
         }
     }
 }
