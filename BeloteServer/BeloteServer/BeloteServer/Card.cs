@@ -20,6 +20,7 @@ namespace BeloteServer
 
     public enum CardSuit
     {
+        C_NONE = 0,
         C_HEARTS = 1,
         C_CLUBS = 2,
         C_SPADES = 3,
@@ -33,13 +34,13 @@ namespace BeloteServer
             Suit = suit;
             Type = type;
             IsTrump = false;
-            Cost = 0;
+            IsGameWithTrump = false;
         }
 
         public Card(string card)
         {
             IsTrump = false;
-            Cost = 0;
+            IsGameWithTrump = false;
             switch (card[0])
             {
                 case 'H':
@@ -86,10 +87,87 @@ namespace BeloteServer
             set;
         }
 
-        public int Cost
+        public bool IsGameWithTrump
         {
             get;
             set;
+        }
+
+        public int Cost
+        {
+            get
+            {
+                if ((Type == CardType.C_7) || (Type == CardType.C_8))
+                    return 0;
+                if (Type == CardType.C_Q)
+                    return 3;
+                if (Type == CardType.C_K)
+                    return 4;
+                if (Type == CardType.C_10)
+                    return 10;
+                if (!IsGameWithTrump)
+                {
+                    // Игра без козыря
+                    switch (Type)
+                    {
+                        case CardType.C_9:
+                            {
+                                return 0;
+                            }
+                        case CardType.C_A:
+                            {
+                                return 19;
+                            }
+                        case CardType.C_J:
+                            {
+                                return 2;
+                            }
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    // Игра с козырем
+                    if (Type == CardType.C_A)
+                        return 11;
+                    if (IsTrump)
+                    {
+                        // Рассматриваемая карта - козырная
+                        switch (Type)
+                        {
+                            case CardType.C_9:
+                                {
+                                    return 14;
+                                }
+                            case CardType.C_J:
+                                {
+                                    return 20;
+                                }
+                            default:
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        // Рассматриваемая карта не козырная
+                        switch (Type)
+                        {
+                            case CardType.C_9:
+                                {
+                                    return 0;
+                                }
+                            case CardType.C_J:
+                                {
+                                    return 2;
+                                }
+                            default:
+                                break;
+                        }
+                    }
+                }
+                return 0;
+            }
         }
 
         public override string ToString()

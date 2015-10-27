@@ -50,6 +50,7 @@
     <Compile Include="Client.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="Distribution.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Player.cs" />

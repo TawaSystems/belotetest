@@ -17,6 +17,8 @@ namespace BeloteServer
             random = new Random();
             foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
             {
+                if (s == CardSuit.C_NONE)
+                    continue;
                 foreach (CardType t in Enum.GetValues(typeof(CardType)))
                 {
                     list.Add(new Card(t, s));
