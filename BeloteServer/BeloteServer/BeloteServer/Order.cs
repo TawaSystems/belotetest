@@ -17,10 +17,11 @@ namespace BeloteServer
 
     class Order
     {
-        public Order(OrderType Type, int Size)
+        public Order(OrderType Type, int Size, CardSuit Trump)
         {
             this.Type = Type;
             this.Size = Size;
+            this.Trump = Trump;
         }
 
         public OrderType Type
@@ -30,6 +31,12 @@ namespace BeloteServer
         }
 
         public int Size
+        {
+            get;
+            private set;
+        }
+
+        public CardSuit Trump
         {
             get;
             private set;

@@ -31,13 +31,9 @@ namespace BeloteServer
             Player2Cards = new CardList();
             Player3Cards = new CardList();
             Player4Cards = new CardList();
-            Trump = CardSuit.C_NONE;
+            Orders = new OrdersList();
             ScoresTeam1 = 0;
             ScoresTeam2 = 0;
-            OrderedTeam = BeloteTeam.TEAM_NONE;
-            IsCoinche = false;
-            IsSurcoinche = false;
-            IsCapot = false;
             IsCapotEnded = false;
             Status = DistributionStatus.D_BAZAR;
         }
@@ -67,33 +63,8 @@ namespace BeloteServer
             private set;
         }
 
-        // Козырь
-        public CardSuit Trump
-        {
-            get;
-            private set;
-        }
-
-        // Команда, сделавшая заказ
-        public BeloteTeam OrderedTeam
-        {
-            get;
-            private set;
-        }
-
-        public bool IsCoinche
-        {
-            get;
-            private set;
-        }
-
-        public bool IsSurcoinche
-        {
-            get;
-            private set;
-        }
-
-        public bool IsCapot
+        // Список заказов
+        public OrdersList Orders
         {
             get;
             private set;

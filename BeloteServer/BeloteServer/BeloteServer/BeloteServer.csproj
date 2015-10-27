@@ -57,6 +57,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Order.cs" />
+    <Compile Include="OrdersList.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="ClientsList.cs" />
     <Compile Include="Profile.cs" />
