@@ -44,10 +44,10 @@ namespace BeloteServer
                 p3.Add(GetRandomCard());
                 p4.Add(GetRandomCard());
             }
-            p1.Sort();
-            p2.Sort();
-            p3.Sort();
-            p4.Sort();
+            p1.Sort(Card.CompareWithoutTrump);
+            p2.Sort(Card.CompareWithoutTrump);
+            p3.Sort(Card.CompareWithoutTrump);
+            p4.Sort(Card.CompareWithoutTrump);
         }
 
         // Взятие случайной карты из колоды
