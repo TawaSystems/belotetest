@@ -265,6 +265,64 @@ namespace BeloteServer
             }
         }
 
+        // Оглашение игроком бонуса
+        public void AnnounceBonuses(int Place, BonusList Bonuses)
+        {
+            BonusList currentPlayerList = null;
+            // Выбираем список бонусов того игрока, который сделал объявление
+            switch (Place)
+            {
+                case 1:
+                    {
+                        currentPlayerList = distributions.Current.Player1Bonuses;
+                        break;
+                    }
+                case 2:
+                    {
+                        currentPlayerList = distributions.Current.Player2Bonuses;
+                        break;
+                    }
+                case 3:
+                    {
+                        currentPlayerList = distributions.Current.Player3Bonuses;
+                        break;
+                    }
+                case 4:
+                    {
+                        currentPlayerList = distributions.Current.Player4Bonuses;
+                        break;
+                    }
+                default:
+                    {
+                        return;
+                    }
+            }
+            // Если игрок объявил хотя бы один бонус
+            if (Bonuses.Count > 0)
+            {
+                // Удаляем из списка возможных бонусов все не объявленные
+                for (var i = 0; i < currentPlayerList.Count; i++)
+                {
+                    if (!Bonuses.ExistsBonus(currentPlayerList[i]))
+                    {
+                        currentPlayerList.Delete(currentPlayerList[i]);
+                    }
+                }
+                // Формируем строку из типох оглашаемых бонусов
+                string bTypes = "Count=" + Bonuses.Count;
+                for (var i = 0; i < Bonuses.Count; i++)
+                {
+                    bTypes += String.Format(",Type{0}={1}", i, (int)Bonuses[i].Type);
+                }
+                // Отправляем типы оглашенных бонусов всем клиентам
+                SendMessageToClients(String.Format("GGCPlace={0},{1}", Place, bTypes));
+            }
+            // Если не объявлено ни одного бонуса, то очищаем список возможных бонусов игрока
+            else
+            {
+                currentPlayerList.Clear();
+            }
+        }
         public int ID
         {
             get;

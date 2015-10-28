@@ -78,9 +78,10 @@ namespace BeloteServer
         }
 
         // Создание списка бонусов из строки
-        public BonusList(string cards)
+        public BonusList(string bonusString)
         {
-            Dictionary<string, string> bonuses = Helpers.SplitCommandString(cards);
+            list = new List<Bonus>();
+            Dictionary<string, string> bonuses = Helpers.SplitCommandString(bonusString);
             if (bonuses.Count > 0)
             {
                 int c;
@@ -92,6 +93,23 @@ namespace BeloteServer
                     }
                 }
             }
+        }
+
+        // Проверка бонуса на наличие в списке
+        public bool ExistsBonus(Bonus bonus)
+        {
+            foreach (Bonus b in list)
+            {
+                if ((b.Type == bonus.Type) && (b.Suit == bonus.Suit) && (b.LowCard == bonus.LowCard))
+                    return true;
+            }
+            return false;
+        }
+
+        // Очищение списка бонусов
+        public void Clear()
+        {
+            list.Clear();
         }
 
         // Удаление бонуса из списка

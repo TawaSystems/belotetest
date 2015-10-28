@@ -587,6 +587,29 @@ namespace BeloteServer
                         }
                         break;
                     }
+                // Процесс игры
+                case 'G':
+                    {
+                        switch (command[2])
+                        {
+                            // Объявление игроком бонусов
+                            case 'A':
+                                {
+                                    int tableID = Int32.Parse(gameParams["ID"]);
+                                    int Place = Int32.Parse(gameParams["Place"]);
+                                    int bonusCount = Int32.Parse(gameParams["Count"]);
+                                    string Str = gameParams["Count"];
+                                    for (var i = 0; i < bonusCount; i++)
+                                    {
+                                        Str += String.Format(",Bonus{0}={1}", i, gameParams["Bonus" + i.ToString()]);
+                                    }
+                                    BonusList bList = new BonusList(Str);
+                                    this.game.Tables[tableID].AnnounceBonuses(Place, bList);
+                                    break;
+                                }
+                        }
+                        break;
+                    }
                 default:
                     {
                         break;
