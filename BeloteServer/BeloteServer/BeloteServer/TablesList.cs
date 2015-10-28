@@ -18,6 +18,7 @@ namespace BeloteServer
             tables = new List<Table>();
         }
 
+        // Индексатор - обращение к столам по идентификатору
         public Table this[int ID]
         {
             get

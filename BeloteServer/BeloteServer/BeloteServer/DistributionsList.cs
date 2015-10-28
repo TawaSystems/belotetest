@@ -16,6 +16,7 @@ namespace BeloteServer
             list = new List<Distribution>();
         }
 
+        // Добавляем новую раздачу в список
         public void AddNew()
         {
             list.Add(new Distribution());
@@ -32,6 +33,7 @@ namespace BeloteServer
             }
         }
 
+        // Количество раздач в списке
         public int Count
         {
             get

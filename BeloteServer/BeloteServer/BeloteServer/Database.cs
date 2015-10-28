@@ -14,10 +14,6 @@ namespace BeloteServer
     {
         // Используются для присоединения к БД - соединение, адрес сервера, название БД, идентификатор пользователя, пароль
         private MySqlConnection connection;
-        private string server;
-        private string database;
-        private string uid;
-        private string password;
         // Очередь с запросами от клиентов
         private Queue<string> requestQueue;
         // Локер на запросы SELECT
@@ -36,6 +32,7 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + " Запуск потока обработки команд к БД");
 #endif
+            // Добавление запросов происходит в отдельном потоке
             bdWorker = new Thread(DatabaseWorking);
             bdWorker.Start();
         }
@@ -116,12 +113,8 @@ namespace BeloteServer
             string connectionString;
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + " Подключение к базе данных");
-            server = "localhost";
-            database = "Belote";
-            uid = "root";
-            password = "";
-            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
-            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
+            connectionString = "SERVER=" + Constants.DATABASE_SERVER + ";" + "DATABASE=" +
+            Constants.DATABASE_NAME + ";" + "UID=" + Constants.DATABASE_USER + ";" + "PASSWORD=" + Constants.DATABASE_PASSWORD + ";";
 #else
 #endif
             connection = new MySqlConnection(connectionString);

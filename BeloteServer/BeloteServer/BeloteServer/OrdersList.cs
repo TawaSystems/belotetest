@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
+    // Объект, представляющий последовательный список заказов - это не совсем контейнер, это больше процесс торговли на столе - его история и конечный результат
     class OrdersList
     {
         private List<Order> list;
@@ -14,6 +15,7 @@ namespace BeloteServer
         {
             list = new List<Order>();
             Current = null;
+            // Изначально все флаги ложны 
             IsCapot = false;
             IsCoinched = false;
             IsSurcoinched = false;
@@ -21,20 +23,25 @@ namespace BeloteServer
             OrderedTeam = BeloteTeam.TEAM_NONE;
         }
 
+        // Добавление заказа в список
         public void Add(Order order, BeloteTeam Team)
         {
             list.Add(order);
+            // Если в заказе содержится новая ставка, то обновляем "текущий заказ" до этой ставки - это возможно в случае заказа и в случае капута
             if ((order.Type == OrderType.ORDER_BET) || (order.Type == OrderType.ORDER_CAPOT))
             {
                 Current = order;
                 OrderedTeam = Team;
             }
+            
+            // Проверяем, если это 4 пасс, то раздача завершена, можно переходить к следующей
             if (order.Type == OrderType.ORDER_PASS)
             {
                 if (Test4Pass())
                     IsPass = true;
             }
             else
+            // Далее устанавливаются флаги IsCapot и т.д.
             if (order.Type == OrderType.ORDER_CAPOT)
             {
                 IsCapot = true;
@@ -110,6 +117,7 @@ namespace BeloteServer
             return false;
         }
 
+        // Количество сделанных заявок
         public int Count
         {
             get
@@ -154,12 +162,14 @@ namespace BeloteServer
             private set;
         }
 
+        // Если истинно - то раздача завершается без игры: 4 подряд идущих пасс
         public bool IsPass
         {
             get;
             private set;
         }
 
+        // Команда, сделавшая текущий заказ
         public BeloteTeam OrderedTeam
         {
             get;

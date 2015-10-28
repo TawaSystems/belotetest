@@ -31,6 +31,7 @@ namespace BeloteServer
                 listener = new TcpListener(IPAddress.Parse(Constants.SERVER_LOCAL_IP), Constants.SERVER_PORT);
                 listener.Start();
 
+                // Принимаем клиентов и запускаем их обработчики
                 while (true)
                 {
                     TcpClient client = listener.AcceptTcpClient();
@@ -79,6 +80,7 @@ namespace BeloteServer
             private set;
         }
 
+        // Список всех подключенных клиентов
         public ClientsList Clients
         {
             get;

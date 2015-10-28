@@ -29,6 +29,14 @@ namespace BeloteServer
         public const int EMAIL_TIMEOUT = 500;
 #else
 #endif
+
+#if DEBUG
+        // Входные данные для БД
+        public const string DATABASE_SERVER = "localhost";
+        public const string DATABASE_NAME = "Belote";
+        public const string DATABASE_USER = "root";
+        public const string DATABASE_PASSWORD = "";
+#endif
         // Размер минимальной ставки на столе
         public const int GAME_MINIMAL_BET = 10;
 
