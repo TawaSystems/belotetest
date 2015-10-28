@@ -31,6 +31,7 @@ namespace BeloteServer
             client = tcpClient;
             this.game = game;
             Player = null;
+            // Обработка нового клиента происходит в отдельном потоке
             worker = new Thread(Process);
             worker.Start();
         }
@@ -71,6 +72,7 @@ namespace BeloteServer
                 byte[] data = new byte[64];
                 while (true)
                 {
+                    // Считываем данные от клиента, пока они не закончатся
                     StringBuilder builder = new StringBuilder();
                     do
                     {
@@ -88,14 +90,15 @@ namespace BeloteServer
                     Debug.WriteLine("Сообщение: " + message);
                     Debug.Unindent();
 #endif
-                    // Отключение клиента
-                    if (message == "EXT")
+                    // Обрабатываем полученное сообщение
+                    string result = ProcessCommand(message);
+
+                    // Отключение клиента и завершение обработки сообщений от него
+                    if (result == "EXT")
                     {
-                        if (this.ID != -1)
-                            this.game.Server.Clients.DeleteClient(this);
                         break;
                     }
-                    string result = ProcessCommand(message);
+                    // Если получен какой то результат обработки сообщения клиента, то отсылаем его клиенту
                     if (result != null)
                     {
 #if DEBUG
@@ -126,6 +129,7 @@ namespace BeloteServer
                 Debug.WriteLine("Client ID: " + ID);
                 Debug.Unindent();
 #endif
+                // Закрытие клиента и потока его данных
                 if (stream != null)
                     stream.Close();
                 if (client != null)
@@ -136,6 +140,7 @@ namespace BeloteServer
         // Функция обработки полученных от клиента комманд
         private string ProcessCommand(string message)
         {
+            // Получаем из строки клиента команду и сообщение
             string command = Helpers.CommandFromStr(message);
             if (command == null)
             {
@@ -154,7 +159,7 @@ namespace BeloteServer
             string Result = null;
             switch (command[0])
             {
-                // Autorization
+                // Обработка команд авторизации
                 case 'A':
                     {
                         Result = ProcessAutorization(command, msg);
@@ -174,6 +179,14 @@ namespace BeloteServer
                 case 'G':
                     {
                         Result = ProcessGame(command, msg);
+                        break;
+                    }
+                // Обработка отключения клиента
+                case 'E':
+                    {
+                        if (this.ID != -1)
+                            this.game.Server.Clients.DeleteClient(this);
+                        Result = "EXT";
                         break;
                     }
                 default:
@@ -197,6 +210,7 @@ namespace BeloteServer
         // Функция обработки авторизации пользователя - регистрация, вход, напоминание паролей, выход
         private string ProcessAutorization(string command, string message)
         {
+            // Получаем все параметры от клиента. Если не получено никаких параметров - заканчиваем обработку
             Dictionary<string, string> regParams = Helpers.SplitCommandString(message);
             if (regParams == null)
             {
@@ -617,6 +631,7 @@ namespace BeloteServer
                                     int orderSize = Int32.Parse(gameParams["Size"]);
                                     OrderType type = (OrderType)Int32.Parse(gameParams["Type"]);
                                     CardSuit suit = Helpers.StringToSuit(gameParams["Trump"]);
+                                    // Добавление заявки в список заявок текущего стола
                                     this.game.Tables[tableID].AddOrder(new Order(type, orderSize, suit));
                                     break;
                                 }

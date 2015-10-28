@@ -131,7 +131,7 @@ namespace BeloteServer
             get
             {
                 if (Count == 0)
-                    return 0;
+                    return null;
                 return list[Count - 1];
             }
         }

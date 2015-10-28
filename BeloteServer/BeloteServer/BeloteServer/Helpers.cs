@@ -20,9 +20,16 @@ namespace BeloteServer
             try
             {
                 Dictionary<string, string> result = new Dictionary<string, string>();
+                // Если в строке нет ни одного параметра, то это может быть не ошибкой, а всего лишь отсутствием параметров
+                if (command.IndexOf('=') < 0)
+                {
+                    return result;
+                }
+                // Разделяем всю полученную струку наподстроки формата параметр=значение
                 string[] pairs = command.Split(',');
                 foreach (string s in pairs)
                 {
+                    // Делим полученные строки на две части и добавляем их в словарь
                     string[] keyvalue = s.Split('=');
                     try
                     {
@@ -44,27 +51,17 @@ namespace BeloteServer
         // Данная функция вытаскивает из строки, полученной от клиента, команду в формате XXX
         public static string CommandFromStr(string Str)
         {
-            try
-            {
-                return Str.Substring(0, 3);
-            }
-            catch (Exception)
-            {
+            if (Str.Length < 3)
                 return null;
-            }
+            return Str.Substring(0, 3);
         }
 
         // Данная функция вытаскивает из строки, полученной от клиента, сообщение
         public static string MessageFromStr(string Str)
         {
-            try
-            {
-                return Str.Substring(3, Str.Length - 3);
-            }
-            catch (Exception)
-            {
+            if (Str.Length <= 3)
                 return null;
-            }
+            return Str.Substring(3, Str.Length - 3);
         }
 
         // Функция отправки сообщения электронной почты, необходимо настроить
