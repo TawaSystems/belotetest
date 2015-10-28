@@ -35,7 +35,7 @@ namespace BeloteServer
                 while (true)
                 {
                     TcpClient client = listener.AcceptTcpClient();
-                    Client clientObject = new Client(client, Game);
+                    Clients.Add(new Client(client, Game));
                 }
             }
             catch (Exception ex)

@@ -92,20 +92,53 @@ namespace BeloteServer
             this[ID].TableVisibility = true;
         }
 
-        // Метод добавления игрока на место №2
-        public bool AddPlayer2(int TableID, Client Player2)
+        // Метод добавления игрока на стол
+        public bool AddPlayer(int TableID, Client Player, int Place)
         {
-            if (this[TableID].Player2 != null)
-            {
-                return false;
-            }
 #if DEBUG
-            Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление второго игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}", 
-                TableID, Player2.ID));
+            Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}, место - {2}",
+                TableID, Player.ID, Place));
 #endif
-            this[TableID].Player2 = Player2;
-            this.game.Server.SendMessageToClients(String.Format("TPAID={0},Place=2", TableID), this[TableID].Player3,
-                this[TableID].Player4, this[TableID].TableCreator);
+            switch (Place)
+            {
+                case 2:
+                    {
+                        if (this[TableID].Player2 != null)
+                        {
+                            return false;
+                        }
+                        this[TableID].Player2 = Player;
+                        this.game.Server.SendMessageToClients(String.Format("TPAID={0},Player={1},Place=2", TableID, Player.ID), this[TableID].Player3,
+                            this[TableID].Player4, this[TableID].TableCreator);
+                        break;
+                    }
+                case 3:
+                    {
+                        if (this[TableID].Player3 != null)
+                        {
+                            return false;
+                        }
+                        this[TableID].Player3 = Player;
+                        this.game.Server.SendMessageToClients(String.Format("TPAID={0},Player={1},Place=3", TableID, Player.ID), this[TableID].Player2,
+                            this[TableID].Player4, this[TableID].TableCreator);
+                        break;
+                    }
+                case 4:
+                    {
+                        if (this[TableID].Player4 != null)
+                        {
+                            return false;
+                        }
+                        this[TableID].Player4 = Player;
+                        this.game.Server.SendMessageToClients(String.Format("TPAID={0},Player={1},Place=4", TableID, Player.ID), this[TableID].Player3,
+                            this[TableID].Player2, this[TableID].TableCreator);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
             if (this[TableID].TestFullfill())
             {
                 this[TableID].StartGame();
@@ -113,78 +146,38 @@ namespace BeloteServer
             return true;
         }
 
-        // Метод удаления игрока с места №2
-        public void RemovePlayer2(int TableID)
+        // Метод удаления игрока со стола
+        public void RemovePlayer(int TableID, int Place)
         {
 #if DEBUG
-            Debug.WriteLine(DateTime.Now.ToString() + " Удаление второго игрока со стола с идентификатором - " + TableID.ToString());
+            Debug.WriteLine(String.Format("{0} Удаление игрока со стола. Идентификатор стола: {1}, место игрока: {2}", DateTime.Now.ToString(), TableID, Place));
 #endif
-            this[TableID].Player2 = null;
-            this.game.Server.SendMessageToClients(String.Format("TPDID={0},Place=2", TableID));
-        }
-
-        // Метод добавления игрока на место №3
-        public bool AddPlayer3(int TableID, Client Player3)
-        {
-            if (this[TableID].Player3 != null)
+            switch (Place)
             {
-                return false;
+                case 2:
+                    {
+                        this[TableID].Player2 = null;
+                        break;
+                    }
+                case 3:
+                    {
+                        this[TableID].Player3 = null;
+                        break;
+                    }
+                case 4:
+                    {
+                        this[TableID].Player4 = null;
+                        break;
+                    }
+                default:
+                    {
+                        return;
+                    }
             }
-#if DEBUG
-            Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление третьего игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}",
-                TableID, Player3.ID));
-#endif
-            this[TableID].Player3 = Player3;
-            this.game.Server.SendMessageToClients(String.Format("TPAID={0},Place=3", TableID), this[TableID].Player2,
-                this[TableID].Player4, this[TableID].TableCreator);
-            if (this[TableID].TestFullfill())
-            {
-                this[TableID].StartGame();
-            }
-            return true;
+            this.game.Server.SendMessageToClients(String.Format("TPDID={0},Place={1}", TableID, Place));
         }
 
-        // Метод удаления игрока с места №3
-        public void RemovePlayer3(int TableID)
-        {
-#if DEBUG
-            Debug.WriteLine(DateTime.Now.ToString() + " Удаление третьего игрока со стола с идентификатором - " + TableID.ToString());
-#endif
-            this[TableID].Player3 = null;
-            this.game.Server.SendMessageToClients(String.Format("TPDID={0},Place=3", TableID));
-        }
-
-        // Метод добавления игрока на место №4
-        public bool AddPlayer4(int TableID, Client Player4)
-        {
-            if (this[TableID].Player4 != null)
-            {
-                return false;
-            }
-#if DEBUG
-            Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление четвертого игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}",
-                TableID, Player4.ID));
-#endif
-            this[TableID].Player4 = Player4;
-            this.game.Server.SendMessageToClients(String.Format("TPAID={0},Place=4", TableID), this[TableID].Player2,
-                this[TableID].Player3, this[TableID].TableCreator);
-            if (this[TableID].TestFullfill())
-            {
-                this[TableID].StartGame();
-            }
-            return true;
-        }
-
-        // Метод удаления игрока с места №4
-        public void RemovePlayer4(int TableID)
-        {
-#if DEBUG
-            Debug.WriteLine(DateTime.Now.ToString() + " Удаление четвертого игрока со стола с идентификатором - " + TableID.ToString());
-#endif
-            this[TableID].Player4 = null;
-            this.game.Server.SendMessageToClients(String.Format("TPDID={0},Place=4", TableID));
-        }
-
+        // Количество столов в списке
         public int Count
         {
             get

@@ -184,8 +184,7 @@ namespace BeloteServer
                 // Обработка отключения клиента
                 case 'E':
                     {
-                        if (this.ID != -1)
-                            this.game.Server.Clients.DeleteClient(this);
+                        this.game.Server.Clients.DeleteClient(this);
                         Result = "EXT";
                         break;
                     }
@@ -238,7 +237,6 @@ namespace BeloteServer
                                         Player.Profile.Country = regParams["Country"];
                                         Player.Profile.Sex = (regParams["Sex"] == "1");
                                         Player.Profile.Id = id;
-                                        this.game.Server.Clients.Add(this);
                                         Result = "ARERegistration=1";
                                         break;
                                     }
@@ -288,7 +286,6 @@ namespace BeloteServer
                                     {
                                         Player = new Player(this.game);
                                         Player.ReadPlayerFromDataBase("Email", regParams["Email"]);
-                                        this.game.Server.Clients.Add(this);
                                         Result = "AAEAutorization=1";
                                         break;
                                     }
@@ -415,13 +412,9 @@ namespace BeloteServer
                         }
                         break;
                     }
-                // Выход
+                // Выход пользователя
                 case 'E':
                     {
-                        if (this.ID != -1)
-                        {
-                            this.game.Server.Clients.DeleteClient(this);
-                        }
                         Player = null;
                         break;
                     }
@@ -522,41 +515,14 @@ namespace BeloteServer
                             case 'A':
                                 {
                                     int tableID = Int32.Parse(tableParams["ID"]);
-                                    Client c = this.game.Server.Clients[Int32.Parse(tableParams["Player"])];
+                                    // Добавляем того клиента от кого и пришло сообщение
+                                    Client c = this;
                                     int place = Int32.Parse(tableParams["Place"]);
                                     Result = "TPAResult=";
-                                    switch (place)
-                                    {
-                                        case 2:
-                                            {
-                                                if (this.game.Tables.AddPlayer2(tableID, c))
-                                                    Result += "1";
-                                                else
-                                                    Result += "0";
-                                                break;
-                                            }
-                                        case 3:
-                                            {
-                                                if (this.game.Tables.AddPlayer3(tableID, c))
-                                                    Result += "1";
-                                                else
-                                                    Result += "0";
-                                                break;
-                                            }
-                                        case 4:
-                                            {
-                                                if (this.game.Tables.AddPlayer4(tableID, c))
-                                                    Result += "1";
-                                                else
-                                                    Result += "0";
-                                                break;
-                                            }
-                                        default:
-                                            {
-                                                Result += "0";
-                                                break;
-                                            }
-                                    }
+                                    if (this.game.Tables.AddPlayer(tableID, c, place))
+                                        Result += "1";
+                                    else
+                                        Result += "0";
                                     break;
                                 }
                             // Удаление игрока со стола в режиме ожидания
@@ -564,28 +530,7 @@ namespace BeloteServer
                                 {
                                     int tableID = Int32.Parse(tableParams["ID"]);
                                     int place = Int32.Parse(tableParams["Place"]);
-                                    switch (place)
-                                    {
-                                        case 2:
-                                            {
-                                                this.game.Tables.RemovePlayer2(tableID);
-                                                break;
-                                            }
-                                        case 3:
-                                            {
-                                                this.game.Tables.RemovePlayer3(tableID);
-                                                break;
-                                            }
-                                        case 4:
-                                            {
-                                                this.game.Tables.RemovePlayer4(tableID);
-                                                break;
-                                            }
-                                        default:
-                                            {
-                                                break;
-                                            }
-                                    }
+                                    this.game.Tables.RemovePlayer(tableID, place);
                                     break;
                                 }
                             // Выход игрока со стола в режиме игры
