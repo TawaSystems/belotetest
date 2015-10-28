@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BeloteServer
 {
     // Класс, представляющий собой карту
-    class Card
+    class Card : IComparable<Card>
     {
         public Card(CardType type, CardSuit suit)
         {
@@ -33,10 +33,10 @@ namespace BeloteServer
             }
         }
 
-        public static int CompareWithoutTrump(Card card1, Card card2)
+        public int CompareTo(Card other)
         {
-            int thisSuit = (int)card1.Suit;
-            int otherSuit = (int)card2.Suit;
+            int thisSuit = (int)this.Suit;
+            int otherSuit = (int)other.Suit;
             if (thisSuit < otherSuit)
             {
                 return -1;
@@ -48,18 +48,32 @@ namespace BeloteServer
             }
             else
             {
-                int thisType = (int)card1.Type;
-                int otherType = (int)card2.Type;
-                if (thisType < otherType)
-                    return 1;
+                int thisType = (int)this.Type;
+                int otherType = (int)other.Type;
+                if (this.IsTrump)
+                {
+                    int[] weight = new int[8];
+                    weight[(int)CardType.C_7] = 0;
+                    weight[(int)CardType.C_8] = 1;
+                    weight[(int)CardType.C_Q] = 2;
+                    weight[(int)CardType.C_K] = 3;
+                    weight[(int)CardType.C_10] = 4;
+                    weight[(int)CardType.C_A] = 5;
+                    weight[(int)CardType.C_9] = 6;
+                    weight[(int)CardType.C_J] = 7;
+                    if (weight[thisType] < weight[otherType])
+                        return 1;
+                    else
+                        return -1;
+                }
                 else
-                    return -1;
+                {
+                    if (thisType < otherType)
+                        return 1;
+                    else
+                        return -1;
+                }
             }
-        }
-
-        public static int CompareWithTrump(Card card1, Card card2)
-        {
-            return -1;
         }
 
         public CardType Type

@@ -30,9 +30,9 @@ namespace BeloteServer
             list.Add(card);
         }
 
-        public void Sort(Comparison<Card> comparison)
+        public void Sort()
         {
-            list.Sort(comparison);
+            list.Sort();
         }
 
         public void Remove(Card card)
