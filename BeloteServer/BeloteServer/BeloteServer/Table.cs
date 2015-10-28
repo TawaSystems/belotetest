@@ -9,7 +9,9 @@ namespace BeloteServer
 {
     class Table
     {
+        // Текущий ходящий игрок
         private int currentPlayer;
+        // Игрок, начинающий ход в раздаче
         private int startedPlayer;
         private Game game;
         private DistributionsList distributions;
@@ -31,6 +33,7 @@ namespace BeloteServer
             this.VIPOnly = VIPOnly;
             this.Moderation = Moderation;
             this.AI = AI;
+            // ID стол получает только после записи в БД
             this.ID = -1;
             startedPlayer = 1;
             distributions = new DistributionsList();
@@ -111,7 +114,7 @@ namespace BeloteServer
                 return 1;
         }
 
-        // Возвращает ссылку на игрока по его номеру
+        // Возвращает ссылку на игрока(клиента) по его номеру
         private Client PlayerFromNumber(int Number)
         {
             switch (Number)
@@ -142,10 +145,14 @@ namespace BeloteServer
         // Проверка на завершенность игры
         private bool IsEndedGame()
         {
+            // Если раздач - 0, то игра еще даже не началась
             if (distributions.Count == 0)
                 return false;
-            if ((distributions.ScoresTeam1 >= 151) || (distributions.ScoresTeam2 >= 151))
+            // Проверяем, превысилали ли какая-то команда конечный счет игры
+            if ((distributions.ScoresTeam1 >= Constants.GAME_END_COUNT) || (distributions.ScoresTeam2 >= Constants.GAME_END_COUNT))
+                // Проверяем неравенство очков команд и завершенность последней раздачи
                 if ((distributions.ScoresTeam1 != distributions.ScoresTeam2) && (distributions.Current.Status == DistributionStatus.D_ENDED))
+                    // Проверяем, не закончилась ли последняя раздача капутом
                     if (!distributions.Current.IsCapotEnded)
                         return true;
             return false;
@@ -155,8 +162,11 @@ namespace BeloteServer
         public void StartGame()
         {
             Status = TableStatus.PLAYING;
+            // Посылаем всем игрокам сообщение о старте игры
             SendMessageToClients("GTS");
+            // Переходим от раздающего игрока к следующему
             startedPlayer = NextPlayer(startedPlayer);
+            // Создаем новую раздачу и запускаем процесс торговли
             NextDistribution();
         }
 
@@ -168,10 +178,15 @@ namespace BeloteServer
             {
 
             }
+            // Добавление новой раздачи
             currentPlayer = startedPlayer;
             distributions.AddNew();
+            // Раздача игровых карт между игроками, сортировка их в порядке "без козыря"
             CardsDeck cd = new CardsDeck();
             cd.Distribution(distributions.Current.Player1Cards, distributions.Current.Player2Cards, distributions.Current.Player3Cards, distributions.Current.Player4Cards);
+            // Заполнение списка возможных бонусов
+            distributions.Current.FillBonuses();
+            // Посылка всем игрокам списка их игровых карт
             TableCreator.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player1Cards.ToString(),
                 distributions.ScoresTeam1, distributions.ScoresTeam2));
             Player2.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player2Cards.ToString(),
@@ -180,35 +195,19 @@ namespace BeloteServer
                 distributions.ScoresTeam1, distributions.ScoresTeam2));
             Player4.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player4Cards.ToString(),
                     distributions.ScoresTeam1, distributions.ScoresTeam2));
-            switch (currentPlayer)
-            {
-                case 1:
-                    {
-                        TableCreator.SendMessage("GBNType=1,Size=80");
-                        break;
-                    }
-                case 2:
-                    {
-                        Player2.SendMessage("GBNType=1,Size=80");
-                        break;
-                    }
-                case 3:
-                    {
-                        Player3.SendMessage("GBNType=1,Size=80");
-                        break;
-                    }
-                case 4:
-                    {
-                        Player4.SendMessage("GBNType=1,Size=80");
-                        break;
-                    }
-            }
+            // Посылка ходящему игроку тип ставки и ее минимальный размер
+            Client p = PlayerFromNumber(currentPlayer);
+            p.SendMessage("GBNType=1,Size=80");
         }
 
+        // Метод, добавляющий новый заказ игрока в список заказов
         public void AddOrder(Order order)
         {
+            // Выбираем, какая из команд сделала заказ
             BeloteTeam team = (((currentPlayer == 1) || (currentPlayer == 3)) ? BeloteTeam.TEAM1_1_3 : BeloteTeam.TEAM2_2_4);
+            // Добавляем заказ в список заказов текущей раздачи
             distributions.Current.Orders.Add(order, team);
+            // Посылаем всем клиентам уведомление о том, какой заказ был сделан
             SendMessageToClients(String.Format("GBSPlayer={0},Type={1},Size={2},Trump={3}", currentPlayer, (int)order.Type, order.Size, Helpers.SuitToString(order.Trump)));
             // В случае окончания процесса торговли
             if (distributions.Current.Orders.IsEnded())
@@ -231,14 +230,17 @@ namespace BeloteServer
                     }
                 }
                 else
+                // Если последним был объявлен капут, то ответить на него можно только капутом или контрой
                 if (distributions.Current.Orders.IsCapot)
                 {
                     betType = BetType.BET_CAPOT;
                 }
+                // Если уже был сделан хотя бы один заказ, то можно ответить заказом или контрой
                 if (distributions.Current.Orders.Current != null)
                 {
                     betType = BetType.T_BETABET;
                 }
+                // Если еще ни одного заказа не сделано, то можно ответить только заказом
                 else
                 {
                     betType = BetType.T_BET;

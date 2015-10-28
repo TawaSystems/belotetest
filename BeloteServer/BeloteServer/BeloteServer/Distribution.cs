@@ -22,6 +22,14 @@ namespace BeloteServer
             Status = DistributionStatus.D_BAZAR;
         }
 
+        public void FillBonuses()
+        {
+            Player1Bonuses = new BonusList(Player1Cards);
+            Player2Bonuses = new BonusList(Player2Cards);
+            Player3Bonuses = new BonusList(Player3Cards);
+            Player4Bonuses = new BonusList(Player4Cards);
+        }
+
         // Карты каждого из четырех игроков
         public CardList Player1Cards
         {
@@ -42,6 +50,31 @@ namespace BeloteServer
         }
 
         public CardList Player4Cards
+        {
+            get;
+            private set;
+        }
+
+        // Списки бонусов
+        public BonusList Player1Bonuses
+        {
+            get;
+            private set;
+        }
+
+        public BonusList Player2Bonuses
+        {
+            get;
+            private set;
+        }
+
+        public BonusList Player3Bonuses
+        {
+            get;
+            private set;
+        }
+
+        public BonusList Player4Bonuses
         {
             get;
             private set;

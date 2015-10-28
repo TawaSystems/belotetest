@@ -41,6 +41,7 @@ namespace BeloteServer
             set;
         }
 
+        // Тестирует, завершена ли взятка (все ли 4 игрока походили)
         public bool IsEnded
         {
             get

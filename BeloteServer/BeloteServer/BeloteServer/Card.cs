@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
-    // Класс, представляющий собой карту
+    // Класс, представляющий собой карту. Реализует интерфейс IComaparable для сортировки карт
     class Card : IComparable<Card>
     {
+        // Создаем карту по ее типу и масти
         public Card(CardType type, CardSuit suit)
         {
             Suit = suit;
@@ -17,8 +18,10 @@ namespace BeloteServer
             IsGameWithTrump = false;
         }
 
+        // Создаем карту из строки
         public Card(string card)
         {
+            // Если длина строки, то карту нельзя идентифицировать
             if (card.Length != 2)
             {
                 Suit = CardSuit.C_NONE;
@@ -33,10 +36,12 @@ namespace BeloteServer
             }
         }
 
+        // Метод сравнения карты с другой картой
         public int CompareTo(Card other)
         {
             int thisSuit = (int)this.Suit;
             int otherSuit = (int)other.Suit;
+            // Сравнение по масти
             if (thisSuit < otherSuit)
             {
                 return -1;
@@ -46,28 +51,33 @@ namespace BeloteServer
             {
                 return 1;
             }
+            // Если масть одна и та же
             else
             {
                 int thisType = (int)this.Type;
                 int otherType = (int)other.Type;
+                // Если карты козырные
                 if (this.IsTrump)
                 {
-                    int[] weight = new int[8];
-                    weight[(int)CardType.C_7] = 0;
-                    weight[(int)CardType.C_8] = 1;
-                    weight[(int)CardType.C_Q] = 2;
-                    weight[(int)CardType.C_K] = 3;
-                    weight[(int)CardType.C_10] = 4;
-                    weight[(int)CardType.C_A] = 5;
-                    weight[(int)CardType.C_9] = 6;
-                    weight[(int)CardType.C_J] = 7;
-                    if (weight[thisType] < weight[otherType])
+                    // Сначала сравниваем карты по их стоимости
+                    if (this.Cost < other.Cost)
                         return 1;
                     else
+                    if (this.Cost > other.Cost)
                         return -1;
+                    // Если стоимость равна (для 7 и 8 например), то сравниваем их в порядке следования
+                    else
+                    {
+                        if (thisType < otherType)
+                            return 1;
+                        else
+                            return -1;
+                    }
                 }
+                // Если карты не козырные 
                 else
                 {
+                    // Сравниваем их в порядке следования
                     if (thisType < otherType)
                         return 1;
                     else
@@ -76,30 +86,44 @@ namespace BeloteServer
             }
         }
 
+        // Тип карты - туз, валет и т.д.
         public CardType Type
         {
             get;
             private set;
         }
 
+        // Масть карты
         public CardSuit Suit
         {
             get;
             private set;
         }
 
+        // Является ли карта козырной
         public bool IsTrump
         {
             get;
             set;
         }
 
+        // Происходит ли игра с козырем или нет. Если устанавливается игра без козыря, то и карта становится некозырной
         public bool IsGameWithTrump
         {
-            get;
-            set;
+            get
+            {
+                return IsGameWithTrump;
+            }
+            set
+            {
+                if (value == false)
+                {
+                    IsTrump = false;
+                }
+            }
         }
 
+        // Рассчет стоимости карты
         public int Cost
         {
             get
@@ -177,9 +201,10 @@ namespace BeloteServer
             }
         }
 
+        // Метод преобразования карты в строку в формате: масть + тип
         public override string ToString()
         {
-            return Helpers.SuitToString(Suit);
+            return Helpers.SuitToString(Suit) + ((int)Type).ToString();
         }
     }
 }

@@ -16,30 +16,67 @@ namespace BeloteServer
             list = new List<Card>();
         }
 
+        // Создаем список карт из строки
         public CardList(string cards)
         {
             list = new List<Card>();
-            for (var i = 0; i < cards.Length; i +=2)
+            // Идем с шагом в 2, вынимая каждую карту из строки
+            for (var i = 0; i < cards.Length; i += 2)
             {
                 list.Add(new Card(cards.Substring(i, 2)));
             }
         }
 
+        // Добавление карты в список
         public void Add(Card card)
         {
             list.Add(card);
         }
 
+        // Сортировка списка
         public void Sort()
         {
             list.Sort();
         }
 
+        // Удаление карты из списка
         public void Remove(Card card)
         {
             list.Remove(card);
         }
 
+        // Установка игры с козырем или без для всех карт списка
+        private void PlayWithTrump(bool GameWithTrump)
+        {
+            foreach (Card c in list)
+            {
+                c.IsGameWithTrump = GameWithTrump;
+            }
+        }
+
+        // Установка козыря для списка карт
+        public void SetTrump(CardSuit Trump)
+        {
+            // Если игра без козыря, то сбрасываем козырь для всех карт списка
+            if (Trump == CardSuit.C_NONE)
+            {
+                PlayWithTrump(false);
+            }
+            // Если игра с козырем, то устанавливаем козырем все карты соответствующей масти
+            else
+            {
+                PlayWithTrump(true);
+                foreach (Card c in list)
+                {
+                    if (c.Suit == Trump)
+                    {
+                        c.IsTrump = true;
+                    }
+                }
+            }
+        }
+
+        // Индесатор для обращения к конкретной карте
         public Card this[int Index]
         {
             get
@@ -48,6 +85,7 @@ namespace BeloteServer
             }
         }
 
+        // Преобразование списка к строке - последовательности карт
         public override string ToString()
         {
             string Res = "";
@@ -58,6 +96,7 @@ namespace BeloteServer
             return Res;
         }
 
+        // Количество карт в списке
         public int Count
         {
             get
