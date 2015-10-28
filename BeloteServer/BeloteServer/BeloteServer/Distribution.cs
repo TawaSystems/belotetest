@@ -31,6 +31,16 @@ namespace BeloteServer
             Player4Bonuses = new BonusList(Player4Cards);
         }
 
+        // Завершение процесса торговли
+        public void EndBazar()
+        {
+            // Установка козыря для всех игроков
+            Player1Cards.SetTrump(Orders.Current.Trump);
+            Player2Cards.SetTrump(Orders.Current.Trump);
+            Player3Cards.SetTrump(Orders.Current.Trump);
+            Player4Cards.SetTrump(Orders.Current.Trump);
+        }
+
         // Карты каждого из четырех игроков
         public CardList Player1Cards
         {

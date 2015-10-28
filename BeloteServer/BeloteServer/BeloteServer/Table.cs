@@ -212,7 +212,19 @@ namespace BeloteServer
             // В случае окончания процесса торговли
             if (distributions.Current.Orders.IsEnded())
             {
-
+                // Завершаем торговлю, назначая козырь
+                distributions.Current.EndBazar();
+                // Отсылаем все возможные бонус клиентам
+                TableCreator.SendMessage("GGB" + distributions.Current.Player1Bonuses.ToString());
+                Player2.SendMessage("GGB" + distributions.Current.Player2Bonuses.ToString());
+                Player3.SendMessage("GGB" + distributions.Current.Player3Bonuses.ToString());
+                Player4.SendMessage("GGB" + distributions.Current.Player4Bonuses.ToString());
+                // Ход переходит к первому ходящему на раздаче
+                currentPlayer = startedPlayer;
+                // Отсылаем всем клиентам сообщение о конце торговли
+                SendMessageToClients(String.Format("GBETeam={0},Type={1},Size={2},Trump={3},Player={4}", (int)distributions.Current.Orders.OrderedTeam,
+                    (int)distributions.Current.Orders.Current.Type, distributions.Current.Orders.Current.Size, (int)distributions.Current.Orders.Current.Trump, 
+                    PlayerFromNumber(currentPlayer).ID));
             }
             else
             {

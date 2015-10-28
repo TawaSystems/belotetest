@@ -78,8 +78,20 @@ namespace BeloteServer
         }
 
         // Создание списка бонусов из строки
-        public BonusList(string cards) : this(new CardList(cards))
+        public BonusList(string cards)
         {
+            Dictionary<string, string> bonuses = Helpers.SplitCommandString(cards);
+            if (bonuses.Count > 0)
+            {
+                int c;
+                if (Int32.TryParse(bonuses["Count"], out c))
+                {
+                    for (var i = 0; i < c; i++)
+                    {
+                        list.Add(new Bonus(bonuses["Bonus" + i.ToString()]));
+                    }
+                }
+            }
         }
 
         // Удаление бонуса из списка
@@ -104,6 +116,17 @@ namespace BeloteServer
             {
                 return list.Count;
             }
+        }
+
+        // Создает строку, состоящую из бонусов
+        public override string ToString()
+        {
+            string Result = "Count=" + Count.ToString();
+            for (var i = 0; i < Count; i++)
+            {
+                Result += String.Format(",Bonus{0}={1}", i.ToString(), list[i].ToString());
+            }
+            return Result;
         }
     }
 }
