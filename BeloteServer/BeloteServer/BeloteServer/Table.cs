@@ -142,6 +142,7 @@ namespace BeloteServer
             }
         }
 
+        // Дает ссылку на текущий список карт по номеру игрока
         private CardList CardsFromNumber(int Number)
         {
             switch (Number)
@@ -161,6 +162,34 @@ namespace BeloteServer
                 case 4:
                     {
                         return distributions.Current.Player4Cards;
+                    }
+                default:
+                    {
+                        return null;
+                    }
+            }
+        }
+
+        // Дает ссылку на текущий список бонусов по номеру игрока
+        private BonusList BonusesFromNumber(int Number)
+        {
+            switch (Number)
+            {
+                case 1:
+                    {
+                        return distributions.Current.Player1Bonuses;
+                    }
+                case 2:
+                    {
+                        return distributions.Current.Player2Bonuses;
+                    }
+                case 3:
+                    {
+                        return distributions.Current.Player3Bonuses;
+                    }
+                case 4:
+                    {
+                        return distributions.Current.Player4Bonuses;
                     }
                 default:
                     {
@@ -297,35 +326,9 @@ namespace BeloteServer
         // Оглашение игроком бонуса
         public void AnnounceBonuses(int Place, BonusList Bonuses)
         {
-            BonusList currentPlayerList = null;
             // Выбираем список бонусов того игрока, который сделал объявление
-            switch (Place)
-            {
-                case 1:
-                    {
-                        currentPlayerList = distributions.Current.Player1Bonuses;
-                        break;
-                    }
-                case 2:
-                    {
-                        currentPlayerList = distributions.Current.Player2Bonuses;
-                        break;
-                    }
-                case 3:
-                    {
-                        currentPlayerList = distributions.Current.Player3Bonuses;
-                        break;
-                    }
-                case 4:
-                    {
-                        currentPlayerList = distributions.Current.Player4Bonuses;
-                        break;
-                    }
-                default:
-                    {
-                        return;
-                    }
-            }
+            BonusList currentPlayerList = BonusesFromNumber(Place);
+            
             // Если игрок объявил хотя бы один бонус
             if (Bonuses.Count > 0)
             {
