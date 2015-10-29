@@ -14,12 +14,14 @@ namespace BeloteServer
         public CardList()
         {
             list = new List<Card>();
+            IsBelote = false;
         }
 
         // Создаем список карт из строки
         public CardList(string cards)
         {
             list = new List<Card>();
+            IsBelote = false;
             // Идем с шагом в 2, вынимая каждую карту из строки
             for (var i = 0; i < cards.Length; i += 2)
             {
@@ -54,6 +56,16 @@ namespace BeloteServer
             }
         }
 
+        // Метод поиска комбинации Belote в списке карт
+        private bool FindBelote()
+        {
+            Card king = list.Find(c => (c.Type == CardType.C_K) && (c.IsTrump));
+            Card queen = list.Find(c => (c.Type == CardType.C_Q) && (c.IsTrump));
+            if ((king != null) && (queen != null))
+                return true;
+            return false;
+        }
+
         // Установка козыря для списка карт
         public void SetTrump(CardSuit Trump)
         {
@@ -83,6 +95,13 @@ namespace BeloteServer
             {
                 return list[Index];
             }
+        }
+
+        // Отвечает за комбинацию карт "Блот" в наборе карт
+        public bool IsBelote
+        {
+            get;
+            private set;
         }
 
         // Преобразование списка к строке - последовательности карт
