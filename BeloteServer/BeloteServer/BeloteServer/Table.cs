@@ -222,9 +222,38 @@ namespace BeloteServer
                 // Ход переходит к первому ходящему на раздаче
                 currentPlayer = startedPlayer;
                 // Отсылаем всем клиентам сообщение о конце торговли
-                SendMessageToClients(String.Format("GBETeam={0},Type={1},Size={2},Trump={3},Player={4}", (int)distributions.Current.Orders.OrderedTeam,
-                    (int)distributions.Current.Orders.Current.Type, distributions.Current.Orders.Current.Size, (int)distributions.Current.Orders.Current.Trump, 
-                    PlayerFromNumber(currentPlayer).ID));
+                SendMessageToClients(String.Format("GBETeam={0},Type={1},Size={2},Trump={3}", (int)distributions.Current.Orders.OrderedTeam,
+                    (int)distributions.Current.Orders.Current.Type, distributions.Current.Orders.Current.Size, (int)distributions.Current.Orders.Current.Trump));
+                CardList possibleCards = null;
+                switch (currentPlayer)
+                {
+                    case 1:
+                        {
+                            possibleCards = distributions.Current.Player1Cards;
+                            break;
+                        }
+                    case 2:
+                        {
+                            possibleCards = distributions.Current.Player2Cards;
+                            break;
+                        }
+                    case 3:
+                        {
+                            possibleCards = distributions.Current.Player3Cards;
+                            break;
+                        }
+                    case 4:
+                        {
+                            possibleCards = distributions.Current.Player4Cards;
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+                // Передаем следующий ход со всеми возможными картами
+                NextMove(possibleCards);
             }
             else
             {
@@ -323,6 +352,14 @@ namespace BeloteServer
                 currentPlayerList.Clear();
             }
         }
+
+        // Переход к следующему ходу
+        private void NextMove(CardList PossibleCards)
+        {
+            // Посылается сообщение GGP со списком возможных к ходу карт
+            (PlayerFromNumber(currentPlayer)).SendMessage("GGP" + PossibleCards.ToString());
+        }
+
         public int ID
         {
             get;
