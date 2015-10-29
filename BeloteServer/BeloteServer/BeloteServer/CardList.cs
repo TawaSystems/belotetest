@@ -88,6 +88,14 @@ namespace BeloteServer
             }
         }
 
+        // Функция возвращает список возможных к ходу карт, полученный из текущего списка карт, по взятке и месту хода
+        public CardList PossibleCardsToMove(Bribe bribe, int Place)
+        {
+            CardList possibleCards = new CardList();
+
+            return possibleCards;
+        }
+
         // Индесатор для обращения к конкретной карте
         public Card this[int Index]
         {

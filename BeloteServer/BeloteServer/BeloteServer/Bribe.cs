@@ -15,6 +15,7 @@ namespace BeloteServer
             Player2 = null;
             Player3 = null;
             Player4 = null;
+            BrideSuit = CardSuit.C_NONE;
         }
 
         // Ищет выигрывшего раздачу игрока
@@ -51,6 +52,10 @@ namespace BeloteServer
         // Метод помещает карту на указанное место
         public void PutCard(int place, Card card)
         {
+            if (IsEmpty)
+            {
+                BrideSuit = card.Suit;
+            }
             switch (place)
             {
                 case 1:
@@ -107,6 +112,21 @@ namespace BeloteServer
             {
                 return ((Player1 != null) && (Player2 != null) && (Player3 != null) && (Player4 != null));
             }
+        }
+
+        // Является ли взятка не начатой
+        public bool IsEmpty
+        {
+            get
+            {
+                return ((Player1 == null) && (Player2 == null) && (Player3 == null) && (Player4 == null));
+            }
+        }
+
+        public CardSuit BrideSuit
+        {
+            get;
+            private set;
         }
 
         // Выигрывшая раздачу команда

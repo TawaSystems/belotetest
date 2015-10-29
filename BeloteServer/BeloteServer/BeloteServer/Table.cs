@@ -367,9 +367,9 @@ namespace BeloteServer
             SendMessageToClients(String.Format("GGRPlace={0},Card={1}", place, card));
             // Переходим к следующему ходящему игроку
             currentPlayer = NextPlayer(currentPlayer);
-
+            
             // Выбираем возможные карты для следующего игрока
-            CardList possibleCards = null;
+            CardList possibleCards = CardsFromNumber(currentPlayer).PossibleCardsToMove(distributions.Current.CurrentBribe, currentPlayer);
             // Делаем следующий ход
             NextMove(possibleCards);
         }
