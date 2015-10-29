@@ -17,6 +17,37 @@ namespace BeloteServer
             Player4 = null;
         }
 
+        // Ищет выигрывшего раздачу игрока
+        private int FindWinningPlayer()
+        {
+            List<Card> list = new List<Card>();
+            list.Add(Player1);
+            list.Add(Player2);
+            list.Add(Player3);
+            list.Add(Player4);
+            list.Sort();
+            if (list[0] == Player1)
+                return 1;
+            else
+            if (list[0] == Player2)
+                return 2;
+            else
+            if (list[0] == Player3)
+                return 3;
+            else
+                return 4;
+        }
+
+        // Ищет выигрывшую раздачу команду
+        private BeloteTeam FindWinningTeam()
+        {
+            int p = FindWinningPlayer();
+            if ((p == 1) || (p == 3))
+                return BeloteTeam.TEAM1_1_3;
+            else
+                return BeloteTeam.TEAM2_2_4;
+        }
+
         public Card Player1
         {
             get;
@@ -47,6 +78,28 @@ namespace BeloteServer
             get
             {
                 return ((Player1 != null) && (Player2 != null) && (Player3 != null) && (Player4 != null));
+            }
+        }
+
+        // Выигрывшая раздачу команда
+        public BeloteTeam WinningTeam
+        {
+            get
+            {
+                if (!IsEnded)
+                    return BeloteTeam.TEAM_NONE;
+                return FindWinningTeam();
+            }
+        }
+
+        // Выигрывший раздачу игрок (номер)
+        public int WinnerNumber
+        {
+            get
+            {
+                if (!IsEnded)
+                    return -1;
+                return FindWinningPlayer();
             }
         }
     }

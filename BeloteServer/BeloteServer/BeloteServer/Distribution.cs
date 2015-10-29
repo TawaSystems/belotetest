@@ -9,6 +9,8 @@ namespace BeloteServer
     // Раздача
     class Distribution
     {
+        private List<Bribe> bribes;
+
         public Distribution()
         {
             Player1Cards = new CardList();
@@ -16,6 +18,7 @@ namespace BeloteServer
             Player3Cards = new CardList();
             Player4Cards = new CardList();
             Orders = new OrdersList();
+            bribes = new List<Bribe>();
             ScoresTeam1 = 0;
             ScoresTeam2 = 0;
             IsCapotEnded = false;
@@ -91,6 +94,25 @@ namespace BeloteServer
             private set;
         }
 
+        // Текущая взятка
+        public Bribe CurrentBribe
+        {
+            get
+            {
+                if (BribesCount == 0)
+                    return null;
+                return bribes[BribesCount - 1];
+            }
+        }
+
+        // Количество разыгранных взяток
+        public int BribesCount
+        {
+            get
+            {
+                return bribes.Count;
+            }
+        }
         // Список заказов
         public OrdersList Orders
         {
