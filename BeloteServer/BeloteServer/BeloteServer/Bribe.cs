@@ -15,7 +15,10 @@ namespace BeloteServer
             Player2 = null;
             Player3 = null;
             Player4 = null;
-            BrideSuit = CardSuit.C_NONE;
+            BribeSuit = CardSuit.C_NONE;
+            IsTrumpBribe = false;
+            BribeTrumped = false;
+            SeniorTrump = null;
         }
 
         // Ищет выигрывшего раздачу игрока
@@ -52,9 +55,32 @@ namespace BeloteServer
         // Метод помещает карту на указанное место
         public void PutCard(int place, Card card)
         {
+            // Если во взятку помещается первая карта, то задаем масть взятки, а также является ли она козырной
             if (IsEmpty)
             {
-                BrideSuit = card.Suit;
+                BribeSuit = card.Suit;
+                IsTrumpBribe = card.IsTrump;
+            }
+            else
+            // Если ход во взятке не первый, то проверяем, не сделан ли на некозырную взятку ход козырной картой
+            if (!IsTrumpBribe)
+            {
+                if (card.IsTrump)
+                    BribeTrumped = true;
+            }
+
+            // Выбор старшего козыря на взятке
+            if (card.IsTrump)
+            {
+                if (SeniorTrump == null)
+                {
+                    SeniorTrump = card;
+                }
+                else
+                {
+                    if (card.Cost > SeniorTrump.Cost)
+                        SeniorTrump = card;
+                }
             }
             switch (place)
             {
@@ -76,6 +102,10 @@ namespace BeloteServer
                 case 4:
                     {
                         Player4 = card;
+                        break;
+                    }
+                default:
+                    {
                         break;
                     }
             }
@@ -123,7 +153,29 @@ namespace BeloteServer
             }
         }
 
-        public CardSuit BrideSuit
+        // Заказанная на взятке масть
+        public CardSuit BribeSuit
+        {
+            get;
+            private set;
+        }
+
+        // Сделан ли первый ход в данной взятки с козырной масти
+        public bool IsTrumpBribe
+        {
+            get;
+            private set;
+        }
+
+        // Правдиво, если на взятки с запрашиваемой некозырной мастью ход сделан был козырем
+        public bool BribeTrumped
+        {
+            get;
+            private set;
+        }
+
+        // Старший козырь на взятке
+        public Card SeniorTrump
         {
             get;
             private set;

@@ -66,6 +66,26 @@ namespace BeloteServer
             return false;
         }
 
+        // Проверяет, присутствует ли в списке карта карта заданной колоды
+        private bool SuitExists(CardSuit Suit)
+        {
+            Card card = list.Find(c => c.Suit == Suit);
+            if (card != null)
+                return true;
+            else
+                return false;
+        }
+
+        // Проверяет, присутствует ли в списке карт козырная карта
+        private bool TrumpExists()
+        {
+            Card card = list.Find(c => c.IsTrump);
+            if (card != null)
+                return true;
+            else
+                return false;
+        }
+
         // Установка козыря для списка карт
         public void SetTrump(CardSuit Trump)
         {
@@ -91,8 +111,112 @@ namespace BeloteServer
         // Функция возвращает список возможных к ходу карт, полученный из текущего списка карт, по взятке и месту хода
         public CardList PossibleCardsToMove(Bribe bribe, int Place)
         {
+            // В случае если взятка завершена, то игрок будет делать ход на следующей - соответственно он может использовать любую карту
+            if (bribe.IsEnded)
+                return this;
             CardList possibleCards = new CardList();
+            // Если первый игрок пошел не с козырной масти... Случаи 1, 2, 3, 6
+            if (!bribe.IsTrumpBribe)
+            {
+                // В случае если на взятке с запрашиваемой некозырной мастью не было сделано хода с козырной мастью... Случаи 1, 2, 3
+                if (!bribe.BribeTrumped)
+                {
+                    // Если у игрока есть карты этой масти, то можно пойти ими... Случай 1
+                    if (SuitExists(bribe.BribeSuit))
+                    {
+                        foreach (Card c in list)
+                        {
+                            if (c.Suit == bribe.BribeSuit)
+                            {
+                                possibleCards.Add(c);
+                            }
+                        }
+                    }
+                    else
+                    // Если у игрока нет карт запрашиваемой масти, но есть козыри, то нужно пойти одним из них... Случай 2
+                    if (TrumpExists())
+                    {
+                        foreach (Card c in list)
+                        {
+                            if (c.IsTrump)
+                            {
+                                possibleCards.Add(c);
+                            }
+                        }
+                    }
+                    // Если у игрока нет ни карт запрашиваемой масти, ни козырей, то он может пойти любой картой... Случай 3
+                    else
+                    {
+                        return this;
+                    }
+                }
+                // Если на вязтке с запрашиваемой некозырной мастью был совершен ход козырной мастью... Случай 6
+                else
+                {
+                    // Если имеются карты запрашиваемой масти, то надо ходить ими
+                    if (SuitExists(bribe.BribeSuit))
+                    {
+                        foreach (Card c in list)
+                        {
+                            if (c.Suit == bribe.BribeSuit)
+                            {
+                                possibleCards.Add(c);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Card card = list.Find(c => (c.IsTrump) && (c.Cost > bribe.SeniorTrump.Cost));
+                        // В случае, если у игрока имеются козыри, старше чем использовались на раздаче, нужно использовать их
+                        if (card != null)
+                        {
+                            foreach (Card c in list)
+                            {
+                                if ((c.IsTrump) && (c.Cost > bribe.SeniorTrump.Cost))
+                                    possibleCards.Add(c);
+                            }
+                        }
+                        // Если и таких карт нет, то можно использовать любую карту из имеющихся
+                        else
+                        {
+                            return this;
+                        }
+                    }
+                }
 
+            }
+            // В случае если заказанная масть на взятке - козырная... Случаи 4, 5
+            else
+            {
+                // Если у ходящего игрока имеются козыри... Случай 4
+                if (TrumpExists())
+                {
+                    Card card = list.Find(c => (c.IsTrump) && (c.Cost > bribe.SeniorTrump.Cost));
+                    // Если найдены козыри старше, чем использованы на взятке, то необходимо использовать их
+                    if (card != null)
+                    {
+                        foreach (Card c in list)
+                        {
+                            if ((c.IsTrump) && (c.Cost > bribe.SeniorTrump.Cost))
+                                possibleCards.Add(c);
+                        }
+                    }
+                    // Если козырей старше нет, то можно использовать любой
+                    else
+                    {
+                        foreach (Card c in list)
+                        {
+                            if (c.IsTrump)
+                                possibleCards.Add(c);
+                        }
+                    }
+                }
+                // Если козырей нет, то он может пойти любой картой... Случай 5
+                else
+                {
+                    return this;
+                }
+            }
             return possibleCards;
         }
 
