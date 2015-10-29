@@ -142,6 +142,33 @@ namespace BeloteServer
             }
         }
 
+        private CardList CardsFromNumber(int Number)
+        {
+            switch (Number)
+            {
+                case 1:
+                    {
+                        return distributions.Current.Player1Cards;
+                    }
+                case 2:
+                    {
+                        return distributions.Current.Player2Cards;
+                    }
+                case 3:
+                    {
+                        return distributions.Current.Player3Cards;
+                    }
+                case 4:
+                    {
+                        return distributions.Current.Player4Cards;
+                    }
+                default:
+                    {
+                        return null;
+                    }
+            }
+        }
+
         // Проверка на завершенность игры
         private bool IsEndedGame()
         {
@@ -224,34 +251,7 @@ namespace BeloteServer
                 // Отсылаем всем клиентам сообщение о конце торговли
                 SendMessageToClients(String.Format("GBETeam={0},Type={1},Size={2},Trump={3}", (int)distributions.Current.Orders.OrderedTeam,
                     (int)distributions.Current.Orders.Current.Type, distributions.Current.Orders.Current.Size, (int)distributions.Current.Orders.Current.Trump));
-                CardList possibleCards = null;
-                switch (currentPlayer)
-                {
-                    case 1:
-                        {
-                            possibleCards = distributions.Current.Player1Cards;
-                            break;
-                        }
-                    case 2:
-                        {
-                            possibleCards = distributions.Current.Player2Cards;
-                            break;
-                        }
-                    case 3:
-                        {
-                            possibleCards = distributions.Current.Player3Cards;
-                            break;
-                        }
-                    case 4:
-                        {
-                            possibleCards = distributions.Current.Player4Cards;
-                            break;
-                        }
-                    default:
-                        {
-                            break;
-                        }
-                }
+                CardList possibleCards = CardsFromNumber(currentPlayer);
                 // Передаем следующий ход со всеми возможными картами
                 NextMove(possibleCards);
             }
@@ -353,9 +353,53 @@ namespace BeloteServer
             }
         }
 
+        // Ход игрока
+        public void PlayerMove(int place, Card card)
+        {
+            // Обращаемся к списку карт походившего игрока
+            CardList playerCards = CardsFromNumber(place);
+            // Делаем ход выбранной картой
+            Card movedCard = playerCards[card.Type, card.Suit];
+            distributions.Current.CurrentBribe.PutCard(place, movedCard);
+            // Удаляем карту из списка оставшихся у игрока карт
+            playerCards.Remove(movedCard);
+            // Отсылаем сообщение всем игрокам о сделанном ходе
+            SendMessageToClients(String.Format("GGRPlace={0},Card={1}", place, card));
+            // Переходим к следующему ходящему игроку
+            currentPlayer = NextPlayer(currentPlayer);
+
+            // Выбираем возможные карты для следующего игрока
+            CardList possibleCards = null;
+            // Делаем следующий ход
+            NextMove(possibleCards);
+        }
+
         // Переход к следующему ходу
         private void NextMove(CardList PossibleCards)
         {
+            // Если это первая взятка за раздачу, то создаем новую взятку
+            if (distributions.Current.CurrentBribe == null)
+            {
+                distributions.Current.AddNewBribe();
+            }
+            else
+            // Если текущая взятка завершена
+            if (distributions.Current.CurrentBribe.IsEnded)
+            {
+                // Если завершена раздача, то подсчитываем очки и переходим к следующей раздаче
+                if (distributions.Current.Player1Cards.Count == 0)
+                {
+
+
+                    NextDistribution();
+                    return;
+                }
+                // Если раздача не завершена, то создаем новую взятку
+                else
+                {
+                    distributions.Current.AddNewBribe();
+                }
+            }
             // Посылается сообщение GGP со списком возможных к ходу карт
             (PlayerFromNumber(currentPlayer)).SendMessage("GGP" + PossibleCards.ToString());
         }

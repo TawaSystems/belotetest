@@ -44,6 +44,12 @@ namespace BeloteServer
             Player4Cards.SetTrump(Orders.Current.Trump);
         }
 
+        // Добавление в список новой взятки
+        public void AddNewBribe()
+        {
+            bribes.Add(new Bribe());
+        }
+
         // Карты каждого из четырех игроков
         public CardList Player1Cards
         {

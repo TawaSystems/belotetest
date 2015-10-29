@@ -97,6 +97,15 @@ namespace BeloteServer
             }
         }
 
+        // Обращение к карте по ее типу и масти
+        public Card this[CardType type, CardSuit suit]
+        {
+            get
+            {
+                return list.Find(c => (c.Type == type) && (c.Suit == suit));
+            }
+        }
+
         // Отвечает за комбинацию карт "Блот" в наборе карт
         public bool IsBelote
         {

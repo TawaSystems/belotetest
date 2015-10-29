@@ -562,6 +562,7 @@ namespace BeloteServer
             {
                 return null;
             }
+            string Result = null;
             switch (command[1])
             {
                 // Базар, торговля
@@ -607,6 +608,19 @@ namespace BeloteServer
                                     this.game.Tables[tableID].AnnounceBonuses(Place, bList);
                                     break;
                                 }
+                            // Обработка хода игрока
+                            case 'H':
+                                {
+                                    int tableID = Int32.Parse(gameParams["ID"]);
+                                    int place = Int32.Parse(gameParams["Place"]);
+                                    Card card = new Card(gameParams["Card"]);
+                                    this.game.Tables[tableID].PlayerMove(place, card);
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
                         }
                         break;
                     }
@@ -615,7 +629,6 @@ namespace BeloteServer
                         break;
                     }
             }
-            string Result = null;
             return Result;
         }
 

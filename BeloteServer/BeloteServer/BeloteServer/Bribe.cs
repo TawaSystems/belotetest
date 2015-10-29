@@ -48,28 +48,56 @@ namespace BeloteServer
                 return BeloteTeam.TEAM2_2_4;
         }
 
+        // Метод помещает карту на указанное место
+        public void PutCard(int place, Card card)
+        {
+            switch (place)
+            {
+                case 1:
+                    {
+                        Player1 = card;
+                        break;
+                    }
+                case 2:
+                    {
+                        Player2 = card;
+                        break;
+                    }
+                case 3:
+                    {
+                        Player3 = card;
+                        break;
+                    }
+                case 4:
+                    {
+                        Player4 = card;
+                        break;
+                    }
+            }
+        }
+
         public Card Player1
         {
             get;
-            set;
+            private set;
         }
 
         public Card Player2
         {
             get;
-            set;
+            private set;
         }
 
         public Card Player3
         {
             get;
-            set;
+            private set;
         }
 
         public Card Player4
         {
             get;
-            set;
+            private set;
         }
 
         // Тестирует, завершена ли взятка (все ли 4 игрока походили)
