@@ -56,16 +56,6 @@ namespace BeloteServer
             }
         }
 
-        // Метод поиска комбинации Belote в списке карт
-        private bool FindBelote()
-        {
-            Card king = list.Find(c => (c.Type == CardType.C_K) && (c.IsTrump));
-            Card queen = list.Find(c => (c.Type == CardType.C_Q) && (c.IsTrump));
-            if ((king != null) && (queen != null))
-                return true;
-            return false;
-        }
-
         // Проверяет, присутствует ли в списке карта карта заданной колоды
         private bool SuitExists(CardSuit Suit)
         {
@@ -218,6 +208,16 @@ namespace BeloteServer
                 }
             }
             return possibleCards;
+        }
+
+        // Метод поиска комбинации Belote в списке карт
+        public void FindBelote()
+        {
+            Card king = list.Find(c => (c.Type == CardType.C_K) && (c.IsTrump));
+            Card queen = list.Find(c => (c.Type == CardType.C_Q) && (c.IsTrump));
+            if ((king != null) && (queen != null))
+                IsBelote = true;
+            IsBelote = false;
         }
 
         // Индесатор для обращения к конкретной карте

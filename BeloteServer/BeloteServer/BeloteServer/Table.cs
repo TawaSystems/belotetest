@@ -392,7 +392,8 @@ namespace BeloteServer
                 // Если завершена раздача, то подсчитываем очки и переходим к следующей раздаче
                 if (distributions.Current.Player1Cards.Count == 0)
                 {
-
+                    // Расчет очков после раздачи
+                    distributions.Current.CalculateScores();
 
                     NextDistribution();
                     return;

@@ -42,6 +42,17 @@ namespace BeloteServer
             Player2Cards.SetTrump(Orders.Current.Trump);
             Player3Cards.SetTrump(Orders.Current.Trump);
             Player4Cards.SetTrump(Orders.Current.Trump);
+            // Проверка карт на наличие бонуса Belote
+            Player1Cards.FindBelote();
+            Player2Cards.FindBelote();
+            Player3Cards.FindBelote();
+            Player4Cards.FindBelote();
+        }
+
+        // Рассчет очков, после завершения раздачи
+        public void CalculateScores()
+        {
+
         }
 
         // Добавление в список новой взятки
