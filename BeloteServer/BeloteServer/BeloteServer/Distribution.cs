@@ -164,6 +164,89 @@ namespace BeloteServer
             Player4Bonuses = new BonusList(Player4Cards);
         }
 
+        // Рассчитывает очки для двух команд
+        private void Calculate(int OrderedSumm, int OtherSumm, int OrderedBonus, int OtherBonus, out int Score1, out int Score2)
+        {
+            Score1 = 0;
+            Score2 = 0;
+            // Если заказ выполнен (по количеству очков)
+            if ((OrderedSumm + OrderedBonus) >= Orders.Current.Size)
+            {
+                // Рассмотрим случай контры
+                if (Orders.IsCoinched)
+                {
+                    // Множитель
+                    int m;
+                    // Рассмотрим случай реконтры
+                    if (Orders.IsSurcoinched)
+                        m = 4;
+                    else
+                        m = 2;
+                    // Если еще и капут
+                    if (Orders.IsCapot)
+                    {
+                        // Если игрок взял не все взятки
+                        if (!IsCapotEnded)
+                        {
+                            Score1 = 0;
+                            Score2 = (Orders.Current.Size * m) + OrderedBonus + OtherBonus;
+                            return;
+                        }
+                        // Если капут все же случился
+                        else
+                        {
+                            Score1 = (Orders.Current.Size * m) + 250 + OrderedBonus + OtherBonus;
+                            Score2 = 0;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        // Если это просто выполненный заказ при контре или реконтре
+                        Score1 = (Orders.Current.Size * m) + 162 + OrderedBonus + OtherBonus;
+                        Score2 = 0;
+                        return;
+                    }
+                }
+                // Если это выполненный заказ при капуте
+                if (Orders.IsCapot)
+                {
+                    if (IsCapotEnded)
+                    {
+                        Score1 = Orders.Current.Size + 250 + OrderedBonus;
+                        Score2 = OtherBonus;
+                        return;
+                    }
+                    else
+                    {
+                        Score1 = 0;
+                        Score2 = Orders.Current.Size + 250 + OrderedBonus + OtherBonus;
+                        return;
+                    }
+                }
+                // Если это просто выполненный заказ
+                Score1 = Orders.Current.Size + OrderedSumm + OrderedBonus;
+                Score2 = OtherSumm + OtherBonus;
+                return;
+            }
+            else
+            // Если команда не выполнила свой заказ
+            {
+                int m = 1;
+                int s = 162;
+                if (Orders.IsCoinched)
+                {
+                    if (Orders.IsSurcoinched)
+                        m = 4;
+                    else
+                        m = 2;
+                    s = 0;
+                }
+                Score1 = 0;
+                Score2 = (Orders.Current.Size * m) + s + OrderedBonus + OtherBonus;
+            }
+        }
+
         // Рассчет очков, после завершения раздачи
         public void CalculateScores()
         {
@@ -173,9 +256,18 @@ namespace BeloteServer
             // Суммы очков команд
             int s1 = 0;
             int s2 = 0;
-            // Суммы бонусов команд
+            // Количество бонусов, в том числе и блот
             int b1 = 0;
             int b2 = 0;
+            if (BonusesWinner == BeloteTeam.TEAM1_1_3)
+                b1 = BonusSummTeam(BonusesWinner);
+            else
+            if (BonusesWinner == BeloteTeam.TEAM2_2_4)
+                b2 = BonusSummTeam(BonusesWinner);
+            if ((Player1Cards.IsBelote) || (Player3Cards.IsBelote))
+                b1 += 20;
+            if ((Player2Cards.IsBelote) || (Player4Cards.IsBelote))
+                b2 += 20;
             // Количества взятых командами взяток
             int c1 = 0;
             int c2 = 0;
@@ -193,54 +285,38 @@ namespace BeloteServer
                     c2++;
                 }
             }
+            // Если одна из команд не взяла ни одной взятки, то раздача закончилась капутом
+            if ((c1 == 0) || (c2 == 0))
+                IsCapotEnded = true;
             // Прибавляем 10 бонусных очков за последнюю раздачу
             if (bribes[bribes.Count - 1].WinningTeam == BeloteTeam.TEAM1_1_3)
                 s1 += 10;
             else
                 s2 += 10;
-            // Определяем команду победителя по бонусам
-
-            // Подсчитыаем бонусы каждой из команд, в том числе и Блот
-
-            // Определяем команду, делавшую заказ
-
-            // Если команда выполнила свой заказ
+            
+            // Окончательные очки
+            int Score1 = 0;
+            int Score2 = 0;
+            // Производим расчет очков
+            switch (Orders.OrderedTeam)
             {
-                // Рассмотрим случай контры
-                {
-                    // Рассмотрим случай реконтры
+                case BeloteTeam.TEAM1_1_3:
                     {
-
+                        Calculate(s1, s2, b1, b2, out Score1, out Score2);
+                        break;
                     }
-                }
-                // Рассмотрим случай объявленного Капута
-                {
-
-                }
-                // Рассмотрим случай обычного выигрыша
-                {
-
-                }
-
+                case BeloteTeam.TEAM2_2_4:
+                    {
+                        Calculate(s2, s1, b2, b1, out Score2, out Score1);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
             }
-            // Если команда не выполнила свой заказ
-            {
-                // Рассмотрим случай Контры
-                {
-                    // Рассмотрим случай реконты
-                    {
-
-                    }
-                }
-                // Рассмотрим случай обычного поражения
-                {
-                    // Рассмотрим случай, когда вторая команда набрала Капут
-                    {
-
-                    }
-                }
-            }
-            // Присвоение Score1 , Score2
+            ScoresTeam1 = (int)Math.Round((Score1 / 10.0));
+            ScoresTeam2 = (int)Math.Round((Score2 / 10.0));
 
             Status = DistributionStatus.D_ENDED;
         }
