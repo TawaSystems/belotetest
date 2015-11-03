@@ -14,6 +14,7 @@ namespace BeloteServer
         public BonusList(CardList cards)
         {
             list = new List<Bonus>();
+            SeniorBonus = null;
             // Если это не полная раздача карт на одного игрока - то что-то не так, отсюда нельзя создать список бонусов
             if (cards.Count != 8)
                 return;
@@ -59,7 +60,7 @@ namespace BeloteServer
                 if (c == 4)
                 {
                     // Добавляем бонус. В качестве козыря берем игру с козырем или без (для расчета стоимость 4XA
-                    list.Add(new Bonus(BonusType.BONUS_4X, cards[i].Type, cards[i].IsGameWithTrump));
+                    AddBonusToList(new Bonus(BonusType.BONUS_4X, cards[i].Type, cards[i].IsGameWithTrump));
                 }
             }
         }
@@ -79,7 +80,25 @@ namespace BeloteServer
                 // Даже если последовательность из 6-7-8 карт, учитываем только старшие 5
                 Streak = 5;
             }
-            list.Add(new Bonus(bonusType, cards[Position - Streak].Type, cards[Position - Streak].IsTrump, cards[Position - Streak].Suit));
+            AddBonusToList(new Bonus(bonusType, cards[Position - Streak].Type, cards[Position - Streak].IsTrump, cards[Position - Streak].Suit));
+        }
+
+        // Добавляет бонус в список, проверяя на старшенство
+        private void AddBonusToList(Bonus bonus)
+        {
+            // Добавляем бонус в список
+            list.Add(bonus);
+            // Если это первый бонус в списке, то он и становится старшим
+            if (SeniorBonus == null)
+            {
+                SeniorBonus = bonus;
+            }
+            else
+            {
+                // Если это не первый бонус, то сравниваем его со страшим, и заменяем, если он старше
+                if (SeniorBonus.CompareTo(bonus) < 0)
+                    SeniorBonus = bonus;
+            }
         }
 
         // Создание списка бонусов из строки

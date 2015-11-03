@@ -148,6 +148,7 @@ namespace BeloteServer
             }
         }
 
+        // Переводит строку в масть
         public static CardSuit StringToSuit(string Suit)
         {
             if (Suit.Length == 0)

@@ -26,10 +26,59 @@ namespace BeloteServer
             Status = DistributionStatus.D_BAZAR;
         }
 
+        // Сравнивает два бонуса
+        private Bonus CompareBonuses(Bonus Bonus1, Bonus Bonus2)
+        {
+            if ((Bonus1 == null) && (Bonus2 == null))
+                return null;
+            if (Bonus1 == null)
+                return Bonus2;
+            if (Bonus2 == null)
+                return Bonus1;
+            if (Bonus1.CompareTo(Bonus2) > 0)
+            {
+                return Bonus1;
+            }
+            else
+            if (Bonus1.CompareTo(Bonus2) < 0)
+            {
+                return Bonus2;
+            }
+            else
+                return null;
+        }
+
         // Определяем команду, бонусы которой оказались старше
         public BeloteTeam FindBonusesWinner()
         {
-            return BeloteTeam.TEAM_NONE;
+            Bonus SeniorBonusTeam1 = null;
+            Bonus SeniorBonusTeam2 = null;
+            if ((Player1Bonuses.Count != 0) || (Player3Bonuses.Count != 0))
+            {
+                SeniorBonusTeam1 = CompareBonuses(Player1Bonuses.SeniorBonus, Player3Bonuses.SeniorBonus);
+                if (SeniorBonusTeam1 == null)
+                    SeniorBonusTeam1 = Player1Bonuses.SeniorBonus;
+            }
+            if ((Player2Bonuses.Count != 0) || (Player4Bonuses.Count != 0))
+            {
+                SeniorBonusTeam2 = CompareBonuses(Player2Bonuses.SeniorBonus, Player4Bonuses.SeniorBonus);
+                if (SeniorBonusTeam2 == null)
+                    SeniorBonusTeam2 = Player2Bonuses.SeniorBonus;
+            }
+            Bonus Winner = CompareBonuses(SeniorBonusTeam1, SeniorBonusTeam2);
+            if (Winner == null)
+            {
+                BonusesWinner = BeloteTeam.TEAM_NONE;
+            }
+            if (Winner == SeniorBonusTeam1)
+            {
+                BonusesWinner = BeloteTeam.TEAM1_1_3;
+            }
+            else
+            {
+                BonusesWinner = BeloteTeam.TEAM2_2_4;
+            }
+            return BonusesWinner;
         }
 
         // Подсчитывает количество бонусных очков каждой команды
