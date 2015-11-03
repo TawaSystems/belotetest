@@ -74,7 +74,11 @@ namespace BeloteServer
             if (Streak == 4)
                 bonusType = BonusType.BONUS_50;
             else
+            {
                 bonusType = BonusType.BONUS_100;
+                // Даже если последовательность из 6-7-8 карт, учитываем только старшие 5
+                Streak = 5;
+            }
             list.Add(new Bonus(bonusType, cards[Position - Streak].Type, cards[Position - Streak].IsTrump, cards[Position - Streak].Suit));
         }
 
@@ -155,16 +159,20 @@ namespace BeloteServer
             {
                 if (Count == 0)
                     return 0;
-                else
+                int s = 0;
+                foreach (Bonus b in list)
                 {
-                    int s = 0;
-                    foreach (Bonus b in list)
-                    {
-                        s += b.Cost;
-                    }
-                    return s;
+                    s += b.Cost;
                 }
+                return s;
             }
+        }
+
+        // Старший бонус в раздаче
+        public Bonus SeniorBonus
+        {
+            get;
+            private set;
         }
 
     }

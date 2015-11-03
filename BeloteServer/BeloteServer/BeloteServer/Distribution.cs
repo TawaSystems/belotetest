@@ -22,6 +22,7 @@ namespace BeloteServer
             ScoresTeam1 = 0;
             ScoresTeam2 = 0;
             IsCapotEnded = false;
+            BonusesWinner = BeloteTeam.TEAM_NONE;
             Status = DistributionStatus.D_BAZAR;
         }
 

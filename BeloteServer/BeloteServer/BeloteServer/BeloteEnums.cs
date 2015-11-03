@@ -86,9 +86,9 @@ namespace BeloteServer
     public enum BonusType
     {
         BONUS_NONE = 0,
-        BONUS_4X = 1,
-        BONUS_TERZ = 2,
-        BONUS_50 = 3,
-        BONUS_100 = 4
+        BONUS_4X = 4,
+        BONUS_TERZ = 1,
+        BONUS_50 = 2,
+        BONUS_100 = 3
     }
 }

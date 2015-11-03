@@ -99,6 +99,81 @@ namespace BeloteServer
             }
         }
 
+        public int CompareTo(Bonus Other)
+        {
+            // Если текущий бонус старше
+            if (((int)this.Type) > ((int)Other.Type))
+            {
+                return 1;
+            }
+            else
+            // Если текущий бонус младше
+            if (((int)this.Type) < ((int)Other.Type))
+            {
+                return -1;
+            }
+            // Если тип бонусов равен
+            else
+            {
+                // Если это бонус типа "Последовательность", то определяем старшенство по младшей карте карте
+                if ((this.Type == BonusType.BONUS_TERZ) || (this.Type == BonusType.BONUS_50) || (this.Type == BonusType.BONUS_100))
+                {
+                    // Последовательность старше
+                    if (this.LowCard > Other.LowCard)
+                    {
+                        return 1;
+                    }
+                    else
+                    // Последовательность младше
+                    if (this.LowCard < Other.LowCard)
+                    {
+                        return -1;
+                    }
+                    // Если старшинство карт в последовательностях одинаково
+                    else
+                    {
+                        // Если текущая последовательность козырная - она старше
+                        if (this.IsTrump)
+                        {
+                            return 1;
+                        }
+                        else
+                        // Если другая последовательность козырная - то старше она
+                        if (Other.IsTrump)
+                        {
+                            return -1;
+                        }
+                        // Последовательности равны
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+                }
+                // Если это последовательность 4X
+                else
+                {
+                    int[] weights = new int[8];
+                    weights[(int)CardType.C_Q] = 0;
+                    weights[(int)CardType.C_K] = 1;
+                    weights[(int)CardType.C_10] = 2;
+                    weights[(int)CardType.C_A] = 3;
+                    weights[(int)CardType.C_9] = 4;
+                    weights[(int)CardType.C_J] = 5;
+                    // Если карта старше по весу, то и бонус старше. Равны быть не могут
+                    if (weights[(int)this.LowCard] > (weights[(int)Other.LowCard]))
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+                }
+
+            }
+        }
+
         public BonusType Type
         {
             get;
