@@ -232,7 +232,8 @@ namespace BeloteServer
             // Если игра на столе завершена...
             if (IsEndedGame())
             {
-
+                SendMessageToClients(String.Format("GEGScores1={0},Scores2={1}"));
+                return;
             }
             // Добавление новой раздачи
             currentPlayer = startedPlayer;
@@ -393,7 +394,7 @@ namespace BeloteServer
                 {
                     // Расчет очков после раздачи
                     distributions.Current.CalculateScores();
-
+                    // Переход к следующей раздаче
                     NextDistribution();
                     return;
                 }
