@@ -401,6 +401,9 @@ namespace BeloteServer
                 // Если раздача не завершена, то создаем новую взятку
                 else
                 {
+                    // Ход переходит к игроку забравшему последнюю взятку
+                    currentPlayer = distributions.Current.CurrentBribe.WinnerNumber;
+                    // Добавляем новую взятку в список
                     distributions.Current.AddNewBribe();
                 }
             }
