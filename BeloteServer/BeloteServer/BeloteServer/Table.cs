@@ -400,6 +400,17 @@ namespace BeloteServer
                 // Если раздача не завершена, то создаем новую взятку
                 else
                 {
+                    // Если прошла только одна взятка (где объявляются бонусы)
+                    if (distributions.Current.Player1Cards.Count == 7)
+                    {
+                        // Выбираем команду-побидетеля в бонусах, и если она существует, то отсылаем всем клиентам информацию о победившей команде и сумме ее бонусов
+                        BeloteTeam BonusWinner = distributions.Current.FindBonusesWinner();
+                        int Scores = distributions.Current.BonusSummTeam(BonusWinner);
+                        if (BonusWinner != BeloteTeam.TEAM_NONE)
+                        {
+                            SendMessageToClients(String.Format("GGWWinner={0},Scores={1}", (int)BonusWinner, Scores));
+                        }
+                    }
                     // Ход переходит к игроку забравшему последнюю взятку
                     currentPlayer = distributions.Current.CurrentBribe.WinnerNumber;
                     // Добавляем новую взятку в список

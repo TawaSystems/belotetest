@@ -78,11 +78,29 @@ namespace BeloteServer
             {
                 BonusesWinner = BeloteTeam.TEAM2_2_4;
             }
+
+            switch (BonusesWinner)
+            {
+                case BeloteTeam.TEAM1_1_3:
+                    {
+                        ClearTeamBonuses(BeloteTeam.TEAM2_2_4);
+                        break;
+                    }
+                case BeloteTeam.TEAM2_2_4:
+                    {
+                        ClearTeamBonuses(BeloteTeam.TEAM1_1_3);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
             return BonusesWinner;
         }
 
         // Подсчитывает количество бонусных очков каждой команды
-        public int BonusSumm(BeloteTeam Team)
+        public int BonusSummTeam(BeloteTeam Team)
         {
             switch (Team)
             {
@@ -102,7 +120,7 @@ namespace BeloteServer
         }
 
         // Очищает бонусы выбранной команды
-        public void ClearTeamBonuses(BeloteTeam Team)
+        private void ClearTeamBonuses(BeloteTeam Team)
         {
             switch (Team)
             {
