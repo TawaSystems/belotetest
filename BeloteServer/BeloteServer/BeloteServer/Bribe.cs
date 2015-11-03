@@ -202,5 +202,17 @@ namespace BeloteServer
                 return FindWinningPlayer();
             }
         }
+
+        // Стоимость взятки (суммируеся из стоимости карт)
+        public int BribeCost
+        {
+            get
+            {
+                if (!IsEnded)
+                    return 0;
+                else
+                    return Player1.Cost + Player2.Cost + Player3.Cost + Player4.Cost;
+            }
+        }
     }
 }
