@@ -42,5 +42,16 @@ namespace BeloteServer
 
         // Счет, до которого происходит игра на столе
         public const int GAME_END_COUNT = 151;
+
+        // Стоимость бонусов
+        public const int BONUS_BELOT = 20;
+        public const int BONUS_TERZ = 20;
+        public const int BONUS_50 = 50;
+        public const int BONUS_100 = 100;
+        public const int BONUS_4X_10_Q_K = 100;
+        public const int BONUS_4X_9 = 150;
+        public const int BONUS_4X_J = 200;
+        public const int BONUS_4X_A_TRUMP = 110;
+        public const int BONUS_4X_A = 190;
     }
 }

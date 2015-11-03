@@ -240,8 +240,6 @@ namespace BeloteServer
             // Раздача игровых карт между игроками, сортировка их в порядке "без козыря"
             CardsDeck cd = new CardsDeck();
             cd.Distribution(distributions.Current.Player1Cards, distributions.Current.Player2Cards, distributions.Current.Player3Cards, distributions.Current.Player4Cards);
-            // Заполнение списка возможных бонусов
-            distributions.Current.FillBonuses();
             // Посылка всем игрокам списка их игровых карт
             TableCreator.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player1Cards.ToString(),
                 distributions.ScoresTeam1, distributions.ScoresTeam2));
@@ -284,6 +282,7 @@ namespace BeloteServer
                 // Передаем следующий ход со всеми возможными картами
                 NextMove(possibleCards);
             }
+            // Иначе продолжаем торговлю
             else
             {
                 // Тип ставки для следующего игрока

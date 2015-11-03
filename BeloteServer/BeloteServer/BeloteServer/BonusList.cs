@@ -58,7 +58,8 @@ namespace BeloteServer
                 }
                 if (c == 4)
                 {
-                    list.Add(new Bonus(BonusType.BONUS_4X, cards[i].Type));
+                    // Добавляем бонус. В качестве козыря берем игру с козырем или без (для расчета стоимость 4XA
+                    list.Add(new Bonus(BonusType.BONUS_4X, cards[i].Type, cards[i].IsGameWithTrump));
                 }
             }
         }
@@ -74,7 +75,7 @@ namespace BeloteServer
                 bonusType = BonusType.BONUS_50;
             else
                 bonusType = BonusType.BONUS_100;
-            list.Add(new Bonus(bonusType, cards[Position - Streak].Type, cards[Position - Streak].Suit));
+            list.Add(new Bonus(bonusType, cards[Position - Streak].Type, cards[Position - Streak].IsTrump, cards[Position - Streak].Suit));
         }
 
         // Создание списка бонусов из строки
@@ -146,5 +147,25 @@ namespace BeloteServer
             }
             return Result;
         }
+
+        // Сумма бонусов в списке
+        public int Cost
+        {
+            get
+            {
+                if (Count == 0)
+                    return 0;
+                else
+                {
+                    int s = 0;
+                    foreach (Bonus b in list)
+                    {
+                        s += b.Cost;
+                    }
+                    return s;
+                }
+            }
+        }
+
     }
 }

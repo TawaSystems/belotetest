@@ -25,13 +25,54 @@ namespace BeloteServer
             Status = DistributionStatus.D_BAZAR;
         }
 
-        // Заполняем бонусы из имеющихся карт
-        public void FillBonuses()
+        // Определяем команду, бонусы которой оказались старше
+        public BeloteTeam FindBonusesWinner()
         {
-            Player1Bonuses = new BonusList(Player1Cards);
-            Player2Bonuses = new BonusList(Player2Cards);
-            Player3Bonuses = new BonusList(Player3Cards);
-            Player4Bonuses = new BonusList(Player4Cards);
+            return BeloteTeam.TEAM_NONE;
+        }
+
+        // Подсчитывает количество бонусных очков каждой команды
+        public int BonusSumm(BeloteTeam Team)
+        {
+            switch (Team)
+            {
+                case BeloteTeam.TEAM1_1_3:
+                    {
+                        return Player1Bonuses.Cost + Player3Bonuses.Cost;
+                    }
+                case BeloteTeam.TEAM2_2_4:
+                    {
+                        return Player2Bonuses.Cost + Player4Bonuses.Cost;
+                    }
+                default:
+                    {
+                        return 0;
+                    }
+            }
+        }
+
+        // Очищает бонусы выбранной команды
+        public void ClearTeamBonuses(BeloteTeam Team)
+        {
+            switch (Team)
+            {
+                case BeloteTeam.TEAM1_1_3:
+                    {
+                        Player1Bonuses.Clear();
+                        Player3Bonuses.Clear();
+                        break;
+                    }
+                case BeloteTeam.TEAM2_2_4:
+                    {
+                        Player2Bonuses.Clear();
+                        Player4Bonuses.Clear();
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
         }
 
         // Завершение процесса торговли
@@ -47,6 +88,12 @@ namespace BeloteServer
             Player2Cards.FindBelote();
             Player3Cards.FindBelote();
             Player4Cards.FindBelote();
+            Status = DistributionStatus.D_GAME;
+            // Заполняем список бонусов
+            Player1Bonuses = new BonusList(Player1Cards);
+            Player2Bonuses = new BonusList(Player2Cards);
+            Player3Bonuses = new BonusList(Player3Cards);
+            Player4Bonuses = new BonusList(Player4Cards);
         }
 
         // Рассчет очков, после завершения раздачи
@@ -126,6 +173,8 @@ namespace BeloteServer
                 }
             }
             // Присвоение Score1 , Score2
+
+            Status = DistributionStatus.D_ENDED;
         }
 
         // Добавление в список новой взятки
@@ -232,6 +281,13 @@ namespace BeloteServer
 
         // Раздача завершена капутом
         public bool IsCapotEnded
+        {
+            get;
+            private set;
+        }
+
+        // Команда, выигравшая бонусы
+        public BeloteTeam BonusesWinner
         {
             get;
             private set;
