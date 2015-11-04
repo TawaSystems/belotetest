@@ -450,7 +450,6 @@ namespace BeloteServer
                         else
                             Result += "0";
                         break;
-                        break;
                     }
                 // Удаление игрока со стола в режиме ожидания
                 case Messages.MESSAGE_TABLE_PLAYERS_DELETE:
@@ -498,65 +497,96 @@ namespace BeloteServer
                 return null;
             }
             string Result = null;
-            switch (command[1])
+            switch (command)
             {
-                // Базар, торговля
-                case 'B':
+                // Обработка ставки игрока
+                case Messages.MESSAGE_GAME_BAZAR_BET:
                     {
-                        switch (command[2])
-                        {
-                            // Заявка игрока
-                            case 'B':
-                                {
-                                    int tableID = Int32.Parse(gameParams["ID"]);
-                                    int orderSize = Int32.Parse(gameParams["Size"]);
-                                    OrderType type = (OrderType)Int32.Parse(gameParams["Type"]);
-                                    CardSuit suit = Helpers.StringToSuit(gameParams["Trump"]);
-                                    // Добавление заявки в список заявок текущего стола
-                                    this.game.Tables[tableID].AddOrder(new Order(type, orderSize, suit));
-                                    break;
-                                }
-                            default:
-                                {
-                                    break;
-                                }
-                        }
+                        int tableID = Int32.Parse(gameParams["ID"]);
+                        int orderSize = Int32.Parse(gameParams["Size"]);
+                        OrderType type = (OrderType)Int32.Parse(gameParams["Type"]);
+                        CardSuit suit = Helpers.StringToSuit(gameParams["Trump"]);
+                        // Добавление заявки в список заявок текущего стола
+                        this.game.Tables[tableID].AddOrder(new Order(type, orderSize, suit));
                         break;
                     }
-                // Процесс игры
-                case 'G':
+                // Завершение процесса торговли
+                case Messages.MESSAGE_GAME_BAZAR_END:
                     {
-                        switch (command[2])
+                        break;
+                    }
+                // Переход хода к следующему игроку
+                case Messages.MESSAGE_GAME_BAZAR_NEXTBETPLAYER:
+                    {
+                        break;
+                    }
+                // Объявление сделанной игроком ставки для остальных игроков
+                case Messages.MESSAGE_GAME_BAZAR_SAYBET:
+                    {
+                        break;
+                    }
+                // Список всех возможных бонусов игрока
+                case Messages.MESSAGE_GAME_BONUSES_ALL:
+                    {
+                        break;
+                    }
+                // Анонсирование бонусов игроком
+                case Messages.MESSAGE_GAME_BONUSES_ANNOUNCE:
+                    {
+                        int tableID = Int32.Parse(gameParams["ID"]);
+                        int Place = Int32.Parse(gameParams["Place"]);
+                        int bonusCount = Int32.Parse(gameParams["Count"]);
+                        string Str = gameParams["Count"];
+                        for (var i = 0; i < bonusCount; i++)
                         {
-                            // Объявление игроком бонусов
-                            case 'A':
-                                {
-                                    int tableID = Int32.Parse(gameParams["ID"]);
-                                    int Place = Int32.Parse(gameParams["Place"]);
-                                    int bonusCount = Int32.Parse(gameParams["Count"]);
-                                    string Str = gameParams["Count"];
-                                    for (var i = 0; i < bonusCount; i++)
-                                    {
-                                        Str += String.Format(",Bonus{0}={1}", i, gameParams["Bonus" + i.ToString()]);
-                                    }
-                                    BonusList bList = new BonusList(Str);
-                                    this.game.Tables[tableID].AnnounceBonuses(Place, bList);
-                                    break;
-                                }
-                            // Обработка хода игрока
-                            case 'H':
-                                {
-                                    int tableID = Int32.Parse(gameParams["ID"]);
-                                    int place = Int32.Parse(gameParams["Place"]);
-                                    Card card = new Card(gameParams["Card"]);
-                                    this.game.Tables[tableID].PlayerMove(place, card);
-                                    break;
-                                }
-                            default:
-                                {
-                                    break;
-                                }
+                            Str += String.Format(",Bonus{0}={1}", i, gameParams["Bonus" + i.ToString()]);
                         }
+                        BonusList bList = new BonusList(Str);
+                        this.game.Tables[tableID].AnnounceBonuses(Place, bList);
+                        break;
+                    }
+                // Уведомление о типах анонсированных бонусов для других игроков
+                case Messages.MESSAGE_GAME_BONUSES_TYPES:
+                    {
+                        break;
+                    }
+                // Команда-победитель в бонусах
+                case Messages.MESSAGE_GAME_BONUSES_WINNER:
+                    {
+                        break;
+                    }
+                // Раздача карт
+                case Messages.MESSAGE_GAME_DISTRIBUTIONCARDS:
+                    {
+                        break;
+                    }
+                // Завершение игры на столе
+                case Messages.MESSAGE_GAME_END:
+                    {
+                        break;
+                    }
+                // Уведомление следующего игрока о ходе
+                case Messages.MESSAGE_GAME_GAMING_NEXTPLAYER:
+                    {
+                        break;
+                    }
+                // Ход игрока
+                case Messages.MESSAGE_GAME_GAMING_PLAYERMOVE:
+                    {
+                        int tableID = Int32.Parse(gameParams["ID"]);
+                        int place = Int32.Parse(gameParams["Place"]);
+                        Card card = new Card(gameParams["Card"]);
+                        this.game.Tables[tableID].PlayerMove(place, card);
+                        break;
+                    }
+                // Уведомление других игроков о карте которой походил игрок
+                case Messages.MESSAGE_GAME_GAMING_REMINDCARD:
+                    {
+                        break;
+                    }
+                // Начало игры
+                case Messages.MESSAGE_GAME_START:
+                    {
                         break;
                     }
                 default:

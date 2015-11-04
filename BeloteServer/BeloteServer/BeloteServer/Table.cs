@@ -233,6 +233,7 @@ namespace BeloteServer
             if (IsEndedGame())
             {
                 SendMessageToClients(String.Format("GEGScores1={0},Scores2={1}"));
+                CloseTable();
                 return;
             }
             // Добавление новой раздачи
