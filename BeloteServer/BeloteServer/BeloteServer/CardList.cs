@@ -131,7 +131,6 @@ namespace BeloteServer
         public CardList PossibleCardsToMove(Bribe bribe, int Place)
         {
 #if DEBUG
-#if DEBUG
             Debug.WriteLine("{0} Поиск повзможных карт для хода по текущей взятке ({1}) и номеру игрока - {2}", DateTime.Now, bribe, Place);
 #endif
             // В случае если взятка завершена, то игрок будет делать ход на следующей - соответственно он может использовать любую карту

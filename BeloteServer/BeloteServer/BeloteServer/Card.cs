@@ -39,7 +39,7 @@ namespace BeloteServer
                 Type = (CardType)Int32.Parse(card.Substring(1, 1));
             }
 #if DEBUG
-            Debug.WriteLine("{0} Создание новой карты. Тип - {1}, масть - {2}", DateTime.Now, type, suit);
+            Debug.WriteLine("{0} Создание новой карты из строки: ", DateTime.Now, card);
 #endif
         }
 
