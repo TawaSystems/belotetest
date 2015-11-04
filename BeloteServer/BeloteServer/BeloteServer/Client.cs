@@ -94,7 +94,7 @@ namespace BeloteServer
                     string result = ProcessCommand(message);
 
                     // Отключение клиента и завершение обработки сообщений от него
-                    if (result == "EXT")
+                    if (result == Messages.MESSAGE_CLIENT_DISCONNECT)
                     {
                         break;
                     }
@@ -157,35 +157,69 @@ namespace BeloteServer
             Debug.Unindent();
 #endif
             string Result = null;
-            switch (command[0])
+
+            switch (command)
             {
                 // Обработка команд авторизации
-                case 'A':
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL:
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_FB:
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_OK:
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_PHONE:
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_VK:
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL:
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_FB:
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_OK:
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_PHONE:
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_VK:
+                case Messages.MESSAGE_AUTORIZATION_REMINDPASSWORD_EMAIL:
+                case Messages.MESSAGE_AUTORIZATION_REMINDPASSWORD_PHONE:
+                case Messages.MESSAGE_AUTORIZATION_TEST_EMAIL:
+                case Messages.MESSAGE_AUTORIZATION_TEST_FB:
+                case Messages.MESSAGE_AUTORIZATION_TEST_NICKNAME:
+                case Messages.MESSAGE_AUTORIZATION_TEST_OK:
+                case Messages.MESSAGE_AUTORIZATION_TEST_PHONE:
+                case Messages.MESSAGE_AUTORIZATION_TEST_VK:
+                case Messages.MESSAGE_AUTORIZATION_USER_EXIT:
                     {
                         Result = ProcessAutorization(command, msg);
                         break;
                     }
-                case 'B':
+                // Обработка отключения клиента
+                case Messages.MESSAGE_CLIENT_DISCONNECT:
                     {
+                        this.game.Server.Clients.DeleteClient(this);
+                        Result = "EXT";
                         break;
                     }
-                // Обработка команд работы с игровыми столами
-                case 'T':
+                // Обработка модификации стола
+                case Messages.MESSAGE_TABLE_MODIFY_CREATE:
+                case Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE:
+                case Messages.MESSAGE_TABLE_MODIFY_VISIBILITY:
+                case Messages.MESSAGE_TABLE_PLAYERS_ADD:
+                case Messages.MESSAGE_TABLE_PLAYERS_DELETE:
+                case Messages.MESSAGE_TABLE_PLAYERS_QUIT:
+                case Messages.MESSAGE_TABLE_SELECT_TABLES:
                     {
                         Result = ProcessTables(command, msg);
                         break;
                     }
-                // Обработка команд игрового процесса
-                case 'G':
+                // Обработка процесса игры
+                case Messages.MESSAGE_GAME_BAZAR_BET:
+                case Messages.MESSAGE_GAME_BAZAR_END:
+                case Messages.MESSAGE_GAME_BAZAR_NEXTBETPLAYER:
+                case Messages.MESSAGE_GAME_BAZAR_SAYBET:
+                case Messages.MESSAGE_GAME_BONUSES_ALL:
+                case Messages.MESSAGE_GAME_BONUSES_ANNOUNCE:
+                case Messages.MESSAGE_GAME_BONUSES_TYPES:
+                case Messages.MESSAGE_GAME_BONUSES_WINNER:
+                case Messages.MESSAGE_GAME_DISTRIBUTIONCARDS:
+                case Messages.MESSAGE_GAME_END:
+                case Messages.MESSAGE_GAME_GAMING_NEXTPLAYER:
+                case Messages.MESSAGE_GAME_GAMING_PLAYERMOVE:
+                case Messages.MESSAGE_GAME_GAMING_REMINDCARD:
+                case Messages.MESSAGE_GAME_START:
                     {
                         Result = ProcessGame(command, msg);
-                        break;
-                    }
-                // Обработка отключения клиента
-                case 'E':
-                    {
-                        this.game.Server.Clients.DeleteClient(this);
-                        Result = "EXT";
                         break;
                     }
                 default:
@@ -216,6 +250,7 @@ namespace BeloteServer
                 return null;
             }
             String Result = null;
+            
             switch (command[1])
             {
                 // Регистрация

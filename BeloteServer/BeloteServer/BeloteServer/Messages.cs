@@ -49,7 +49,7 @@ namespace BeloteServer
         public const string MESSAGE_AUTORIZATION_TEST_NICKNAME = "ATN";
 
         // Сообщение выхода пользователя
-        public const string MESSAGE_USER_EXIT = "AEO";
+        public const string MESSAGE_AUTORIZATION_USER_EXIT = "AEO";
 
         // Сообщение отключения клиента
         public const string MESSAGE_CLIENT_DISCONNECT = "EXT";
