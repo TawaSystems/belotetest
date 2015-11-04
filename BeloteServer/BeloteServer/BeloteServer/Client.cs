@@ -411,113 +411,73 @@ namespace BeloteServer
                 return null;
             }
             string Result = null;
-            switch (command[1])
+            switch (command)
             {
-                // Модификация - создание, изменение свойств, удаление
-                case 'M':
+                // Создание игрового стола
+                case Messages.MESSAGE_TABLE_MODIFY_CREATE:
                     {
-                        switch (command[2])
-                        {
-                            // Создание игрового стола
-                            case 'C':
-                                {
-                                    int tableID = this.game.Tables.CreateTable(this, Int32.Parse(tableParams["Bet"]),
+                        int tableID = this.game.Tables.CreateTable(this, Int32.Parse(tableParams["Bet"]),
                                         Helpers.StringToBool(tableParams["PlayersVisibility"]), Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]),
                                         Helpers.StringToBool(tableParams["TableVisibility"]), Helpers.StringToBool(tableParams["VIPOnly"]), Helpers.StringToBool(tableParams["Moderation"]),
                                         Helpers.StringToBool(tableParams["AI"]));
-                                    Result = "ID=" + tableID.ToString();
-                                    break;
-                                }
-                            // Покидание игрового стола создателем
-                            case 'L':
-                                {
-                                    Table closingTable = this.game.Tables[Int32.Parse(tableParams["ID"])];
-                                    closingTable.SendMessageToClientsWithoutCreator("TML");
-                                    closingTable.CloseTable();
-                                    break;
-                                }
-                            // Успешное завершение игры на столе
-                            case 'E':
-                                {
-                                    break;
-                                }
-                            // Открытие стола для всех игроков (TableVisibility = true)
-                            case 'V':
-                                {
-                                    this.game.Tables[Int32.Parse(tableParams["ID"])].TableVisibility = true;
-                                    break;
-                                }
-                            default:
-                                {
-                                    break;
-                                }
-                        }
+                        Result = "ID=" + tableID.ToString();
                         break;
                     }
-                // Выборка
-                case 'S':
+                // Покидание игрового стола создателем
+                case Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE:
                     {
-                        switch (command[2])
-                        {
-                            // Выборка списка игровых столов по выбранным параметрам
-                            case 'T':
-                                {
-                                    List<Table> list = this.game.Tables.FindTables(Int32.Parse(tableParams["BetFrom"]), Int32.Parse(tableParams["BetTo"]), Helpers.StringToBool(tableParams["PlayersVisibility"]),
+                        Table closingTable = this.game.Tables[Int32.Parse(tableParams["ID"])];
+                        closingTable.SendMessageToClientsWithoutCreator("TML");
+                        closingTable.CloseTable();
+                        break;
+                    }
+                // Открытие стола для всех игроков (TableVisibility = true)
+                case Messages.MESSAGE_TABLE_MODIFY_VISIBILITY:
+                    {
+                        this.game.Tables[Int32.Parse(tableParams["ID"])].TableVisibility = true;
+                        break;
+                    }
+                // Добавление игрока на стол в режиме ожидания
+                case Messages.MESSAGE_TABLE_PLAYERS_ADD:
+                    {
+                        int tableID = Int32.Parse(tableParams["ID"]);
+                        // Добавляем того клиента от кого и пришло сообщение
+                        Client c = this;
+                        int place = Int32.Parse(tableParams["Place"]);
+                        Result = "TPAResult=";
+                        if (this.game.Tables.AddPlayer(tableID, c, place))
+                            Result += "1";
+                        else
+                            Result += "0";
+                        break;
+                        break;
+                    }
+                // Удаление игрока со стола в режиме ожидания
+                case Messages.MESSAGE_TABLE_PLAYERS_DELETE:
+                    {
+                        int tableID = Int32.Parse(tableParams["ID"]);
+                        int place = Int32.Parse(tableParams["Place"]);
+                        this.game.Tables.RemovePlayer(tableID, place);
+                        break;
+                    }
+                // Выход игрока со стола в режиме игры
+                case Messages.MESSAGE_TABLE_PLAYERS_QUIT:
+                    {
+                        break;
+                    }
+                // Выборка списка игровых столов по выбранным параметрам
+                case Messages.MESSAGE_TABLE_SELECT_TABLES:
+                    {
+                        List<Table> list = this.game.Tables.FindTables(Int32.Parse(tableParams["BetFrom"]), Int32.Parse(tableParams["BetTo"]), Helpers.StringToBool(tableParams["PlayersVisibility"]),
                                         Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]), Helpers.StringToBool(tableParams["VIPOnly"]),
                                         Helpers.StringToBool(tableParams["Moderation"]), Helpers.StringToBool(tableParams["AI"]));
-                                    foreach (Table t in list)
-                                    {
-                                        string m = String.Format("TSTID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
-                                            t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
-                                            Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
-                                            (t.Player4 != null) ? t.Player4.ID : -1);
-                                        this.SendMessage(m);
-                                    }
-                                    break;
-                                }
-                            default:
-                                {
-                                    break;
-                                }
-                        }
-                        break;
-                    }
-                // Работа с игроками
-                case 'P':
-                    {
-                        switch (command[2])
+                        foreach (Table t in list)
                         {
-                            // Добавление игрока на стол в режиме ожидания
-                            case 'A':
-                                {
-                                    int tableID = Int32.Parse(tableParams["ID"]);
-                                    // Добавляем того клиента от кого и пришло сообщение
-                                    Client c = this;
-                                    int place = Int32.Parse(tableParams["Place"]);
-                                    Result = "TPAResult=";
-                                    if (this.game.Tables.AddPlayer(tableID, c, place))
-                                        Result += "1";
-                                    else
-                                        Result += "0";
-                                    break;
-                                }
-                            // Удаление игрока со стола в режиме ожидания
-                            case 'D':
-                                {
-                                    int tableID = Int32.Parse(tableParams["ID"]);
-                                    int place = Int32.Parse(tableParams["Place"]);
-                                    this.game.Tables.RemovePlayer(tableID, place);
-                                    break;
-                                }
-                            // Выход игрока со стола в режиме игры
-                            case 'Q':
-                                {
-                                    break;
-                                }
-                            default:
-                                {
-                                    break;
-                                }
+                            string m = String.Format("TSTID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
+                                t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
+                                Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
+                                (t.Player4 != null) ? t.Player4.ID : -1);
+                            this.SendMessage(m);
                         }
                         break;
                     }
@@ -525,7 +485,6 @@ namespace BeloteServer
                     {
                         break;
                     }
-
             }
             return Result;
         }
