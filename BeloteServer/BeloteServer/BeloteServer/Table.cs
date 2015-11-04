@@ -89,6 +89,8 @@ namespace BeloteServer
         public void CloseTable()
         {
             Status = TableStatus.ENDING;
+            // Удаляем стол из списка 
+            this.game.Tables.DeleteTable(this);       
         }
 
         // Функция тестирует, полностью ли заполнен игровой стол
@@ -219,7 +221,7 @@ namespace BeloteServer
         {
             Status = TableStatus.PLAYING;
             // Посылаем всем игрокам сообщение о старте игры
-            SendMessageToClients("GTS");
+            SendMessageToClients(Messages.MESSAGE_GAME_START);
             // Переходим от раздающего игрока к следующему
             startedPlayer = NextPlayer(startedPlayer);
             // Создаем новую раздачу и запускаем процесс торговли
@@ -232,7 +234,7 @@ namespace BeloteServer
             // Если игра на столе завершена...
             if (IsEndedGame())
             {
-                SendMessageToClients(String.Format("GEGScores1={0},Scores2={1}"));
+                SendMessageToClients(String.Format("{0}Scores1={1},Scores2={2}", Messages.MESSAGE_GAME_END, distributions.ScoresTeam1, distributions.ScoresTeam2));
                 CloseTable();
                 return;
             }
@@ -243,17 +245,17 @@ namespace BeloteServer
             CardsDeck cd = new CardsDeck();
             cd.Distribution(distributions.Current.Player1Cards, distributions.Current.Player2Cards, distributions.Current.Player3Cards, distributions.Current.Player4Cards);
             // Посылка всем игрокам списка их игровых карт
-            TableCreator.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player1Cards.ToString(),
-                distributions.ScoresTeam1, distributions.ScoresTeam2));
-            Player2.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player2Cards.ToString(),
-                distributions.ScoresTeam1, distributions.ScoresTeam2));
-            Player3.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player3Cards.ToString(),
-                distributions.ScoresTeam1, distributions.ScoresTeam2));
-            Player4.SendMessage(String.Format("GDCCards={0},Scores1={1},Scores2={2}", distributions.Current.Player4Cards.ToString(),
-                    distributions.ScoresTeam1, distributions.ScoresTeam2));
+            TableCreator.SendMessage(String.Format("{3}Cards={0},Scores1={1},Scores2={2}", distributions.Current.Player1Cards.ToString(),
+                distributions.ScoresTeam1, distributions.ScoresTeam2, Messages.MESSAGE_GAME_DISTRIBUTIONCARDS));
+            Player2.SendMessage(String.Format("{3}Cards={0},Scores1={1},Scores2={2}", distributions.Current.Player2Cards.ToString(),
+                distributions.ScoresTeam1, distributions.ScoresTeam2, Messages.MESSAGE_GAME_DISTRIBUTIONCARDS));
+            Player3.SendMessage(String.Format("{3}Cards={0},Scores1={1},Scores2={2}", distributions.Current.Player3Cards.ToString(),
+                distributions.ScoresTeam1, distributions.ScoresTeam2, Messages.MESSAGE_GAME_DISTRIBUTIONCARDS));
+            Player4.SendMessage(String.Format("{3}Cards={0},Scores1={1},Scores2={2}", distributions.Current.Player4Cards.ToString(),
+                    distributions.ScoresTeam1, distributions.ScoresTeam2, Messages.MESSAGE_GAME_DISTRIBUTIONCARDS));
             // Посылка ходящему игроку тип ставки и ее минимальный размер
             Client p = PlayerFromNumber(currentPlayer);
-            p.SendMessage("GBNType=1,Size=80");
+            p.SendMessage(Messages.MESSAGE_GAME_BAZAR_NEXTBETPLAYER + "Type=1,Size=80");
         }
 
         // Метод, добавляющий новый заказ игрока в список заказов
@@ -264,22 +266,24 @@ namespace BeloteServer
             // Добавляем заказ в список заказов текущей раздачи
             distributions.Current.Orders.Add(order, team);
             // Посылаем всем клиентам уведомление о том, какой заказ был сделан
-            SendMessageToClients(String.Format("GBSPlayer={0},Type={1},Size={2},Trump={3}", currentPlayer, (int)order.Type, order.Size, Helpers.SuitToString(order.Trump)));
+            SendMessageToClients(String.Format("{4}Player={0},Type={1},Size={2},Trump={3}", currentPlayer, (int)order.Type,
+                order.Size, Helpers.SuitToString(order.Trump), Messages.MESSAGE_GAME_BAZAR_SAYBET));
             // В случае окончания процесса торговли
             if (distributions.Current.Orders.IsEnded())
             {
                 // Завершаем торговлю, назначая козырь
                 distributions.Current.EndBazar();
                 // Отсылаем все возможные бонус клиентам
-                TableCreator.SendMessage("GGB" + distributions.Current.Player1Bonuses.ToString());
-                Player2.SendMessage("GGB" + distributions.Current.Player2Bonuses.ToString());
-                Player3.SendMessage("GGB" + distributions.Current.Player3Bonuses.ToString());
-                Player4.SendMessage("GGB" + distributions.Current.Player4Bonuses.ToString());
+                TableCreator.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player1Bonuses.ToString());
+                Player2.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player2Bonuses.ToString());
+                Player3.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player3Bonuses.ToString());
+                Player4.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player4Bonuses.ToString());
                 // Ход переходит к первому ходящему на раздаче
                 currentPlayer = startedPlayer;
                 // Отсылаем всем клиентам сообщение о конце торговли
-                SendMessageToClients(String.Format("GBETeam={0},Type={1},Size={2},Trump={3}", (int)distributions.Current.Orders.OrderedTeam,
-                    (int)distributions.Current.Orders.Current.Type, distributions.Current.Orders.Current.Size, (int)distributions.Current.Orders.Current.Trump));
+                SendMessageToClients(String.Format("{4}Team={0},Type={1},Size={2},Trump={3}", (int)distributions.Current.Orders.OrderedTeam,
+                    (int)distributions.Current.Orders.Current.Type, distributions.Current.Orders.Current.Size,
+                    (int)distributions.Current.Orders.Current.Trump, Messages.MESSAGE_GAME_BAZAR_END));
                 CardList possibleCards = CardsFromNumber(currentPlayer);
                 // Передаем следующий ход со всеми возможными картами
                 NextMove(possibleCards);
@@ -320,7 +324,7 @@ namespace BeloteServer
                 int minSize = (distributions.Current.Orders.Current == null) ? 80 : distributions.Current.Orders.Current.Size + 10;
                 // Посылка сообщения GBN следующему в торговле игроку
                 Client p = PlayerFromNumber(currentPlayer);
-                p.SendMessage(String.Format("GBNType={0},MinSize={1}", (int)betType, minSize));
+                p.SendMessage(String.Format("{2}Type={0},MinSize={1}", (int)betType, minSize, Messages.MESSAGE_GAME_BAZAR_NEXTBETPLAYER));
             }
         }
 
@@ -348,7 +352,7 @@ namespace BeloteServer
                     bTypes += String.Format(",Type{0}={1}", i, (int)Bonuses[i].Type);
                 }
                 // Отправляем типы оглашенных бонусов всем клиентам
-                SendMessageToClients(String.Format("GGCPlace={0},{1}", Place, bTypes));
+                SendMessageToClients(String.Format("{2}Place={0},{1}", Place, bTypes, Messages.MESSAGE_GAME_BONUSES_TYPES));
             }
             // Если не объявлено ни одного бонуса, то очищаем список возможных бонусов игрока
             else
@@ -368,7 +372,7 @@ namespace BeloteServer
             // Удаляем карту из списка оставшихся у игрока карт
             playerCards.Remove(movedCard);
             // Отсылаем сообщение всем игрокам о сделанном ходе
-            SendMessageToClients(String.Format("GGRPlace={0},Card={1}", place, card));
+            SendMessageToClients(String.Format("{2}Place={0},Card={1}", place, card, Messages.MESSAGE_GAME_GAMING_REMINDCARD));
             // Переходим к следующему ходящему игроку
             currentPlayer = NextPlayer(currentPlayer);
             
@@ -410,7 +414,7 @@ namespace BeloteServer
                         int Scores = distributions.Current.BonusSummTeam(BonusWinner);
                         if (BonusWinner != BeloteTeam.TEAM_NONE)
                         {
-                            SendMessageToClients(String.Format("GGWWinner={0},Scores={1}", (int)BonusWinner, Scores));
+                            SendMessageToClients(String.Format("{2}Winner={0},Scores={1}", (int)BonusWinner, Scores, Messages.MESSAGE_GAME_BONUSES_WINNER));
                         }
                     }
                     // Ход переходит к игроку забравшему последнюю взятку
@@ -420,7 +424,7 @@ namespace BeloteServer
                 }
             }
             // Посылается сообщение GGP со списком возможных к ходу карт
-            (PlayerFromNumber(currentPlayer)).SendMessage("GGP" + PossibleCards.ToString());
+            (PlayerFromNumber(currentPlayer)).SendMessage(Messages.MESSAGE_GAME_GAMING_NEXTPLAYER + PossibleCards.ToString());
         }
 
         public int ID
