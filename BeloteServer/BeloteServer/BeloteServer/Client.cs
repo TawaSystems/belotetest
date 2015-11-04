@@ -250,205 +250,146 @@ namespace BeloteServer
                 return null;
             }
             String Result = null;
-            
-            switch (command[1])
+            switch (command)
             {
-                // Регистрация
-                case 'R':
+                // Авторизация с помощью элктронной почты
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL:
                     {
-                        switch (command[2])
+                        if (game.Autorization.EnterEmail(regParams["Email"], regParams["Password"]))
                         {
-                            // Регистрация с помощью электронной почты
-                            case 'E':
-                                {
-                                    int id = game.Autorization.RegistrationEmail(regParams["Nickname"], regParams["Email"], regParams["Password"],
+                            Player = new Player(this.game);
+                            Player.ReadPlayerFromDataBase("Email", regParams["Email"]);
+                            Result = "AAEAutorization=1";
+                        }
+                        else
+                        {
+                            Result = "AAEAutorization=0";
+                        }
+                        break;
+                    }
+                // Авторизация с помощью Facebook
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_FB:
+                    {
+                        break;
+                    }
+                // Авторизация с помощью Одноклассники
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_OK:
+                    {
+                        break;
+                    }
+                // Авторизация с помощью мобильного телефона
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_PHONE:
+                    {
+                        break;
+                    }
+                // Авторизация с помощью Вконтакте
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_VK:
+                    {
+                        break;
+                    }
+                // Регистрация с помощью адреса электронной почты
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL:
+                    {
+                        int id = game.Autorization.RegistrationEmail(regParams["Nickname"], regParams["Email"], regParams["Password"],
                                         regParams["Country"], (regParams["Sex"] == "1"));
-                                    if (id != -1)
-                                    {
-                                        // Регистрация прошла успешно
-                                        Player = new Player(this.game);
-                                        Player.Profile.Email = regParams["Email"];
-                                        Player.Profile.Nickname = regParams["Nickname"];
-                                        Player.Profile.Country = regParams["Country"];
-                                        Player.Profile.Sex = (regParams["Sex"] == "1");
-                                        Player.Profile.Id = id;
-                                        Result = "ARERegistration=1";
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        // Ошибка в регистрации
-                                        Result = "ARERegistration=0";
-                                        break;
-                                    }
-                                }
-                            // Регистрация с помощью телефона
-                            case 'P':
-                                {
-                                    break;
-                                }
-                            // Регистрация с помощью ВКонтакте
-                            case 'V':
-                                {
-                                    break;
-                                }
-                            // Регистрация с помощью Facebook
-                            case 'F':
-                                {
-                                    break;
-                                }
-                            // Регистрация с помощью Одноклассников
-                            case 'O':
-                                {
-                                    break;
-                                }
-                            default:
-                                {
-                                    break;
-                                }
-                        }
-                        break;
-                    }
-                // Авторизация
-                case 'A':
-                    {
-                        switch (command[2])
+                        if (id != -1)
                         {
-                            // Авторизация с помощью электронной почты
-                            case 'E':
-                                {
-                                    if (game.Autorization.EnterEmail(regParams["Email"], regParams["Password"]))
-                                    {
-                                        Player = new Player(this.game);
-                                        Player.ReadPlayerFromDataBase("Email", regParams["Email"]);
-                                        Result = "AAEAutorization=1";
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Result = "AAEAutorization=0";
-                                        break;
-                                    }
-                                }
-                            // Авторизация с помощью телефона
-                            case 'P':
-                                {
-                                    break;
-                                }
-                            // Авторизация с помощью ВКонтакте
-                            case 'V':
-                                {
-                                    break;
-                                }
-                            // Регистрация с помощью Facebook
-                            case 'F':
-                                {
-                                    break;
-                                }
-                            // Регистрация с помощью Одноклассников
-                            case 'O':
-                                {
-                                    break;
-                                }
-                            default:
-                                {
-                                    break;
-                                }
+                            // Регистрация прошла успешно
+                            Player = new Player(this.game);
+                            Player.Profile.Email = regParams["Email"];
+                            Player.Profile.Nickname = regParams["Nickname"];
+                            Player.Profile.Country = regParams["Country"];
+                            Player.Profile.Sex = (regParams["Sex"] == "1");
+                            Player.Profile.Id = id;
+                            Result = "ARERegistration=1";
                         }
-                        break;
-                    }
-                // Напоминание пароля
-                case 'M':
-                    {
-                        switch (command[2])
+                        else
                         {
-                            // Напоминание на почту
-                            case 'E':
-                                {
-                                    bool resRemind = game.Autorization.RemindPasswordEmail(regParams["Email"]);
-                                    if (resRemind)
-                                    {
-                                        Result = "AMERemind=1";
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Result = "AMERemind=0";
-                                        break;
-                                    }
-                                }
-                            // Напоминание на телефон
-                            case 'P':
-                                {
-                                    break;
-                                }
-                            default:
-                                {
-                                    break;
-                                }
+                            // Ошибка в регистрации
+                            Result = "ARERegistration=0";
                         }
                         break;
                     }
-                // Тест на наличие эл.почты/ника и т.д.
-                case 'T':
+                // Регистрация с помощью аккаунта Facebook
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_FB:
                     {
-                        switch (command[2])
+                        break;
+                    }
+                // Регистрация с помощью Одноклассники
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_OK:
+                    {
+                        break;
+                    }
+                // Регистрация с помощью мобильного телефона
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_PHONE:
+                    {
+                        break;
+                    }
+                // Регистрация с помощью ВКонтакте
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_VK:
+                    {
+                        break;
+                    }
+                // Напоминание пароля на почту
+                case Messages.MESSAGE_AUTORIZATION_REMINDPASSWORD_EMAIL:
+                    {
+                        bool resRemind = game.Autorization.RemindPasswordEmail(regParams["Email"]);
+                        Result = (resRemind) ? "AMERemind=1" : "AMERemind=0";
+                        break;
+                    }
+                // Напоминание пароля на мобильный телефон
+                case Messages.MESSAGE_AUTORIZATION_REMINDPASSWORD_PHONE:
+                    {
+                        break;
+                    }
+                // Тестирование на наличие почты
+                case Messages.MESSAGE_AUTORIZATION_TEST_EMAIL:
+                    {
+                        if (game.Autorization.EmailExists(regParams["Email"]))
                         {
-                            // Адрес электронной почты
-                            case 'E':
-                                {
-                                    if (game.Autorization.EmailExists(regParams["Email"]))
-                                    {
-                                        Result = "ATEExists=1";
-                                    }
-                                    else
-                                    {
-                                        Result = "ATEExists=0";
-                                    }
-                                    break;
-                                }
-                            // Ник
-                            case 'N':
-                                {
-                                    if (game.Autorization.NicknameExists(regParams["Nickname"]))
-                                    {
-                                        Result = "ATNExists=1";
-                                    }
-                                    else
-                                    {
-                                        Result = "ATNExists=0";
-                                    }
-                                    break;
-                                }
-                            // Телефон
-                            case 'P':
-                                {
-                                    break;
-                                }
-                            // Вконтакте
-                            case 'V':
-                                {
-                                    break;
-                                }
-                            // Facebook
-                            case 'F':
-                                {
-                                    break;
-                                }
-                            // Одноклассники
-                            case 'O':
-                                {
-                                    break;
-                                }
-                            default:
-                                {
-                                    break;
-                                }
+                            Result = "ATEExists=1";
+                        }
+                        else
+                        {
+                            Result = "ATEExists=0";
                         }
                         break;
                     }
-                // Выход пользователя
-                case 'E':
+                // Тестирование на наличие аккаунта Facebook
+                case Messages.MESSAGE_AUTORIZATION_TEST_FB:
+                    {
+                        break;
+                    }
+                // Тестирование на наличие имени пользователя
+                case Messages.MESSAGE_AUTORIZATION_TEST_NICKNAME:
+                    {
+                        if (game.Autorization.NicknameExists(regParams["Nickname"]))
+                        {
+                            Result = "ATNExists=1";
+                        }
+                        else
+                        {
+                            Result = "ATNExists=0";
+                        }
+                        break;
+                    }
+                // Тестирование на наличие аккаунта Одноклассники
+                case Messages.MESSAGE_AUTORIZATION_TEST_OK:
+                    {
+                        break;
+                    }
+                // Тестирование на наличие мобильного телефона
+                case Messages.MESSAGE_AUTORIZATION_TEST_PHONE:
+                    {
+                        break;
+                    }
+                // Тестирование на наличие аккаунта ВКонтакте
+                case Messages.MESSAGE_AUTORIZATION_TEST_VK:
+                    {
+                        break;
+                    }
+                // Выход пользователя из аккаунта
+                case Messages.MESSAGE_AUTORIZATION_USER_EXIT:
                     {
                         Player = null;
                         break;
