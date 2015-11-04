@@ -259,11 +259,11 @@ namespace BeloteServer
                         {
                             Player = new Player(this.game);
                             Player.ReadPlayerFromDataBase("Email", regParams["Email"]);
-                            Result = "AAEAutorization=1";
+                            Result = Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL + "Autorization=1";
                         }
                         else
                         {
-                            Result = "AAEAutorization=0";
+                            Result = Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL + "Autorization=0";
                         }
                         break;
                     }
@@ -301,12 +301,12 @@ namespace BeloteServer
                             Player.Profile.Country = regParams["Country"];
                             Player.Profile.Sex = (regParams["Sex"] == "1");
                             Player.Profile.Id = id;
-                            Result = "ARERegistration=1";
+                            Result = Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL + "Registration=1";
                         }
                         else
                         {
                             // Ошибка в регистрации
-                            Result = "ARERegistration=0";
+                            Result = Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL + "Registration=0";
                         }
                         break;
                     }
@@ -334,7 +334,7 @@ namespace BeloteServer
                 case Messages.MESSAGE_AUTORIZATION_REMINDPASSWORD_EMAIL:
                     {
                         bool resRemind = game.Autorization.RemindPasswordEmail(regParams["Email"]);
-                        Result = (resRemind) ? "AMERemind=1" : "AMERemind=0";
+                        Result = Messages.MESSAGE_AUTORIZATION_REMINDPASSWORD_EMAIL + ((resRemind) ? "Remind=1" : "Remind=0");
                         break;
                     }
                 // Напоминание пароля на мобильный телефон
@@ -347,11 +347,11 @@ namespace BeloteServer
                     {
                         if (game.Autorization.EmailExists(regParams["Email"]))
                         {
-                            Result = "ATEExists=1";
+                            Result = Messages.MESSAGE_AUTORIZATION_TEST_EMAIL + "Exists=1";
                         }
                         else
                         {
-                            Result = "ATEExists=0";
+                            Result = Messages.MESSAGE_AUTORIZATION_TEST_EMAIL + "Exists=0";
                         }
                         break;
                     }
@@ -365,11 +365,11 @@ namespace BeloteServer
                     {
                         if (game.Autorization.NicknameExists(regParams["Nickname"]))
                         {
-                            Result = "ATNExists=1";
+                            Result = Messages.MESSAGE_AUTORIZATION_TEST_NICKNAME + "Exists=1";
                         }
                         else
                         {
-                            Result = "ATNExists=0";
+                            Result = Messages.MESSAGE_AUTORIZATION_TEST_NICKNAME + "Exists=0";
                         }
                         break;
                     }
@@ -420,14 +420,14 @@ namespace BeloteServer
                                         Helpers.StringToBool(tableParams["PlayersVisibility"]), Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]),
                                         Helpers.StringToBool(tableParams["TableVisibility"]), Helpers.StringToBool(tableParams["VIPOnly"]), Helpers.StringToBool(tableParams["Moderation"]),
                                         Helpers.StringToBool(tableParams["AI"]));
-                        Result = "ID=" + tableID.ToString();
+                        Result = Messages.MESSAGE_TABLE_MODIFY_CREATE + "ID=" + tableID.ToString();
                         break;
                     }
                 // Покидание игрового стола создателем
                 case Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE:
                     {
                         Table closingTable = this.game.Tables[Int32.Parse(tableParams["ID"])];
-                        closingTable.SendMessageToClientsWithoutCreator("TML");
+                        closingTable.SendMessageToClientsWithoutCreator(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE);
                         closingTable.CloseTable();
                         break;
                     }
@@ -444,7 +444,7 @@ namespace BeloteServer
                         // Добавляем того клиента от кого и пришло сообщение
                         Client c = this;
                         int place = Int32.Parse(tableParams["Place"]);
-                        Result = "TPAResult=";
+                        Result = Messages.MESSAGE_TABLE_PLAYERS_ADD + "Result=";
                         if (this.game.Tables.AddPlayer(tableID, c, place))
                             Result += "1";
                         else
@@ -472,10 +472,10 @@ namespace BeloteServer
                                         Helpers.StringToBool(tableParams["Moderation"]), Helpers.StringToBool(tableParams["AI"]));
                         foreach (Table t in list)
                         {
-                            string m = String.Format("TSTID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
+                            string m = String.Format("{12}ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
                                 t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
                                 Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
-                                (t.Player4 != null) ? t.Player4.ID : -1);
+                                (t.Player4 != null) ? t.Player4.ID : -1, Messages.MESSAGE_TABLE_SELECT_TABLES);
                             this.SendMessage(m);
                         }
                         break;
