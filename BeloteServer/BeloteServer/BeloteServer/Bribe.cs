@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace BeloteServer
 {
@@ -11,6 +12,9 @@ namespace BeloteServer
     {
         public Bribe()
         {
+#if DEBUG
+            Debug.WriteLine("{0} Создание новой взятки", DateTime.Now);
+#endif
             Player1 = null;
             Player2 = null;
             Player3 = null;
@@ -55,6 +59,9 @@ namespace BeloteServer
         // Метод помещает карту на указанное место
         public void PutCard(int place, Card card)
         {
+#if DEBUG 
+            Debug.WriteLine("{0} Ход картой. Игрок № - {1}, карта - {2}", DateTime.Now, place, card.ToString());
+#endif
             // Если во взятку помещается первая карта, то задаем масть взятки, а также является ли она козырной
             if (IsEmpty)
             {

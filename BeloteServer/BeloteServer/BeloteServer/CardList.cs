@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace BeloteServer
 {
@@ -13,6 +14,9 @@ namespace BeloteServer
 
         public CardList()
         {
+#if DEBUG
+            Debug.WriteLine("{0} Создание списка карт", DateTime.Now);
+#endif
             list = new List<Card>();
             IsBelote = false;
         }
@@ -20,6 +24,10 @@ namespace BeloteServer
         // Создаем список карт из строки
         public CardList(string cards)
         {
+#if DEBUG 
+            Debug.WriteLine("{0} Создание списка карт из строки карт - {1}", DateTime.Now, cards);
+#endif
+
             list = new List<Card>();
             IsBelote = false;
             // Идем с шагом в 2, вынимая каждую карту из строки
@@ -32,24 +40,36 @@ namespace BeloteServer
         // Добавление карты в список
         public void Add(Card card)
         {
+#if DEBUG
+            Debug.WriteLine("{0} Добавление карты в список. Карта - {1}", DateTime.Now, card.ToString());
+#endif
             list.Add(card);
         }
 
         // Сортировка списка
         public void Sort()
         {
+#if DEBUG
+            Debug.WriteLine("{0} Сортировка списка карт", DateTime.Now);
+#endif
             list.Sort();
         }
 
         // Удаление карты из списка
         public void Remove(Card card)
         {
+#if DEBUG 
+            Debug.WriteLine("{0} Удаление карты из списка - {1}", DateTime.Now, card.ToString());
+#endif
             list.Remove(card);
         }
 
         // Установка игры с козырем или без для всех карт списка
         private void PlayWithTrump(bool GameWithTrump)
         {
+#if DEBUG 
+            Debug.WriteLine("{0} Назначение игры с козырем или без. Значение - {1}", DateTime.Now, GameWithTrump);
+#endif
             foreach (Card c in list)
             {
                 c.IsGameWithTrump = GameWithTrump;
@@ -79,6 +99,9 @@ namespace BeloteServer
         // Установка козыря для списка карт
         public void SetTrump(CardSuit Trump)
         {
+#if DEBUG
+            Debug.WriteLine("{0} Установка козыря - {1}", DateTime.Now, Trump);
+#endif
             // Если игра без козыря, то сбрасываем козырь для всех карт списка
             if (Trump == CardSuit.C_NONE)
             {

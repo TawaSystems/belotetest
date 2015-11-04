@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace BeloteServer
 {
@@ -16,6 +17,10 @@ namespace BeloteServer
             this.Suit = Suit;
             this.IsTrump = IsTrump;
             Cost = CalculateCost();
+#if DEBUG 
+            Debug.WriteLine("{0} Создан бонус: Тип - {1}, Младшая карта - {2}, Масть - {3}, Козырь - {4}, Стоимость - {5}",
+                DateTime.Now.ToString(), Type, LowCard, Suit, IsTrump, Cost);
+#endif 
         }
 
         // Рассчитывает стоимость бонусов
@@ -88,6 +93,7 @@ namespace BeloteServer
                 LowCard = CardType.C_UNDEFINED;
                 Suit = CardSuit.C_NONE;
                 IsTrump = false;
+                Cost = 0;
             }    
             else
             {
@@ -96,7 +102,12 @@ namespace BeloteServer
                 LowCard = (CardType)Int32.Parse(BonusString.Substring(1, 1));
                 Suit = Helpers.StringToSuit(BonusString.Substring(2, 1));
                 IsTrump = Helpers.StringToBool(BonusString.Substring(3, 1));
+                Cost = CalculateCost();
             }
+#if DEBUG
+            Debug.WriteLine("{0} Создан бонус: Тип - {1}, Младшая карта - {2}, Масть - {3}, Козырь - {4}, Стоимость - {5}",
+                DateTime.Now.ToString(), Type, LowCard, Suit, IsTrump, Cost);
+#endif
         }
 
         public int CompareTo(Bonus Other)

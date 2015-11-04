@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace BeloteServer
 {
@@ -12,6 +13,9 @@ namespace BeloteServer
         // Создаем карту по ее типу и масти
         public Card(CardType type, CardSuit suit)
         {
+#if DEBUG
+            Debug.WriteLine("{0} Создание новой карты. Тип - {1}, масть - {2}", DateTime.Now, type, suit);
+#endif
             Suit = suit;
             Type = type;
             IsTrump = false;
@@ -34,6 +38,9 @@ namespace BeloteServer
                 Suit = Helpers.StringToSuit(card.Substring(0, 1));
                 Type = (CardType)Int32.Parse(card.Substring(1, 1));
             }
+#if DEBUG
+            Debug.WriteLine("{0} Создание новой карты. Тип - {1}, масть - {2}", DateTime.Now, type, suit);
+#endif
         }
 
         // Метод сравнения карты с другой картой

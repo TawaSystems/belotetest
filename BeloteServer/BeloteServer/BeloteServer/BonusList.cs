@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace BeloteServer
 {
@@ -13,6 +14,9 @@ namespace BeloteServer
         // Создание списка бонусов из списка карт
         public BonusList(CardList cards)
         {
+#if DEBUG 
+            Debug.WriteLine("{0} Создание списка бонусов из списка карт: {1}", DateTime.Now, cards.ToString());
+#endif
             list = new List<Bonus>();
             SeniorBonus = null;
             // Если это не полная раздача карт на одного игрока - то что-то не так, отсюда нельзя создать список бонусов
@@ -104,6 +108,9 @@ namespace BeloteServer
         // Создание списка бонусов из строки
         public BonusList(string bonusString)
         {
+#if DEBUG
+            Debug.WriteLine("{0} Создание списка бонусов из бонусной строки: {1}", DateTime.Now, bonusString);
+#endif
             list = new List<Bonus>();
             Dictionary<string, string> bonuses = Helpers.SplitCommandString(bonusString);
             if (bonuses.Count > 0)
@@ -139,6 +146,9 @@ namespace BeloteServer
         // Удаление бонуса из списка
         public void Delete(Bonus bonus)
         {
+#if DEBUG 
+            Debug.WriteLine("{0} Удаление бонуса из списка - {1}", DateTime.Now, bonus.ToString());
+#endif
             list.Remove(bonus);
         }
 
