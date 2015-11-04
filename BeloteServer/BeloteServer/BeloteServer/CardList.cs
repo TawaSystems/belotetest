@@ -79,6 +79,9 @@ namespace BeloteServer
         // Проверяет, присутствует ли в списке карта карта заданной колоды
         private bool SuitExists(CardSuit Suit)
         {
+#if DEBUG
+            Debug.WriteLine("{0} Проверка на наличие масти в списке - {1}", DateTime.Now, Suit);
+#endif
             Card card = list.Find(c => c.Suit == Suit);
             if (card != null)
                 return true;
@@ -89,6 +92,9 @@ namespace BeloteServer
         // Проверяет, присутствует ли в списке карт козырная карта
         private bool TrumpExists()
         {
+#if DEBUG
+            Debug.WriteLine("{0} Проверка на наличие масти в списке - {1}", DateTime.Now);
+#endif
             Card card = list.Find(c => c.IsTrump);
             if (card != null)
                 return true;
@@ -124,6 +130,10 @@ namespace BeloteServer
         // Функция возвращает список возможных к ходу карт, полученный из текущего списка карт, по взятке и месту хода
         public CardList PossibleCardsToMove(Bribe bribe, int Place)
         {
+#if DEBUG
+#if DEBUG
+            Debug.WriteLine("{0} Поиск повзможных карт для хода по текущей взятке ({1}) и номеру игрока - {2}", DateTime.Now, bribe, Place);
+#endif
             // В случае если взятка завершена, то игрок будет делать ход на следующей - соответственно он может использовать любую карту
             if (bribe.IsEnded)
                 return this;
@@ -241,6 +251,9 @@ namespace BeloteServer
             if ((king != null) && (queen != null))
                 IsBelote = true;
             IsBelote = false;
+#if DEBUG
+            Debug.WriteLine("{0} Проверка на наличие бонуса БЛОТ в списке карт. Результат - {1}", DateTime.Now, IsBelote);
+#endif
         }
 
         // Индесатор для обращения к конкретной карте
