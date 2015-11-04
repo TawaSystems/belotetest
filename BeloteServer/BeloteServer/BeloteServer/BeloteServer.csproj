@@ -59,6 +59,7 @@
     <Compile Include="DistributionsList.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrdersList.cs" />
     <Compile Include="Player.cs" />
