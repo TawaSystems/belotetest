@@ -8,7 +8,7 @@ namespace BeloteClient
 {
     static class Program
     {
-        public static Client Client;
+        public static GameClient Game;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -17,8 +17,8 @@ namespace BeloteClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Client = new Client();
-            Application.Run(new MainGuestForm());
+            Game = new GameClient();
+            Application.Run();
         }
     }
 }

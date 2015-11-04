@@ -46,19 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="GameClient.cs" />
+    <Compile Include="Messages.cs" />
+    <Compile Include="PlayerClient.cs" />
+    <Compile Include="ProfileClient.cs" />
+    <Compile Include="ServerConnection.cs" />
     <Compile Include="EmailAutorizationForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EmailAutorizationForm.Designer.cs">
       <DependentUpon>EmailAutorizationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers.cs" />
     <Compile Include="MainUserForm.cs">
@@ -75,11 +79,12 @@
     <Compile Include="RegistrationEmail.Designer.cs">
       <DependentUpon>RegistrationEmail.cs</DependentUpon>
     </Compile>
+    <Compile Include="StatisticsClient.cs" />
     <EmbeddedResource Include="EmailAutorizationForm.resx">
       <DependentUpon>EmailAutorizationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainUserForm.resx">
       <DependentUpon>MainUserForm.cs</DependentUpon>
@@ -108,6 +113,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
