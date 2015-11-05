@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeloteClient
 {
-    public class Statistics
+    class Statistics
     {
         public int GamesTotal
         {

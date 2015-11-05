@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeloteClient
 {
-    public class Profile
+    class Profile
     {
         public int Id
         {

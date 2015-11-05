@@ -9,14 +9,14 @@ using System.Net.Sockets;
 
 namespace BeloteClient
 {
-    public class ServerConnection
+    class ServerConnection
     {
         private TcpClient client;
         private Thread worker;
         private NetworkStream stream;
-        private GameClient game;
+        private Game game;
 
-        public ServerConnection(GameClient Game)
+        public ServerConnection(Game Game)
         {
             if (!Connect())
             {

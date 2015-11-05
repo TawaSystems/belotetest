@@ -7,13 +7,14 @@ using System.Windows.Forms;
 
 namespace BeloteClient
 {
-    public class GameClient
+    class Game
     {
-        public GameClient()
+        public Game()
         {
             try
             {
                 ServerConnection = new ServerConnection(this);
+                Player = null;
             }
             catch (Exception ex)
             {
@@ -29,6 +30,10 @@ namespace BeloteClient
             private set;
         }
 
-
+        public Player Player
+        {
+            get;
+            private set;
+        }
     }
 }
