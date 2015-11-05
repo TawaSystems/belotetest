@@ -222,6 +222,12 @@ namespace BeloteServer
                         Result = ProcessGame(command, msg);
                         break;
                     }
+                case Messages.MESSAGE_PLAYER_GET_INFORMATION:
+                case Messages.MESSAGE_PLAYER_GET_STATISTICS:
+                    {
+                        Result = ProcessPlayer(command, msg);
+                        break;
+                    }
                 default:
                     {
                         break;
@@ -259,11 +265,11 @@ namespace BeloteServer
                         {
                             Player = new Player(this.game);
                             Player.ReadPlayerFromDataBase("Email", regParams["Email"]);
-                            Result = Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL + "Autorization=1";
+                            Result = String.Format("{0}PlayerID={1}", Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL, Player.Profile.Id);
                         }
                         else
                         {
-                            Result = Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL + "Autorization=0";
+                            Result = String.Format("{0}PlayerID={1}", Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL, -1);
                         }
                         break;
                     }
@@ -295,12 +301,6 @@ namespace BeloteServer
                         if (id != -1)
                         {
                             // Регистрация прошла успешно
-                            Player = new Player(this.game);
-                            Player.Profile.Email = regParams["Email"];
-                            Player.Profile.Nickname = regParams["Nickname"];
-                            Player.Profile.Country = regParams["Country"];
-                            Player.Profile.Sex = (regParams["Sex"] == "1");
-                            Player.Profile.Id = id;
                             Result = Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL + "Registration=1";
                         }
                         else
@@ -586,6 +586,33 @@ namespace BeloteServer
                     }
                 // Начало игры
                 case Messages.MESSAGE_GAME_START:
+                    {
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+            return Result;
+        }
+
+        // Обработка действий, связанных с профилем пользователя
+        public string ProcessPlayer(string command, string message)
+        {
+            Dictionary<string, string> playerParams = Helpers.SplitCommandString(message);
+            if (playerParams == null)
+            {
+                return null;
+            }
+            string Result = null;
+            switch (command)
+            {
+                case Messages.MESSAGE_PLAYER_GET_INFORMATION:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_PLAYER_GET_STATISTICS:
                     {
                         break;
                     }
