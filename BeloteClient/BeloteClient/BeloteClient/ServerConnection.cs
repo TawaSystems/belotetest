@@ -59,7 +59,7 @@ namespace BeloteClient
             {
                 case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL:
                     {
-                        this.game.AutorizationResult(Int32.Parse(aParams["PlayerID"]));
+                        this.game.Dispatcher.BeginInvoke(new Action(() => this.game.AutorizationResult(Int32.Parse(aParams["PlayerID"]))));
                         break;
                     }
                 case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_FB:
@@ -80,7 +80,7 @@ namespace BeloteClient
                     }
                 case Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL:
                     {
-                        this.game.RegistrationResult(aParams["Registration"] == "1");
+                        this.game.Dispatcher.BeginInvoke(new Action(() => this.game.RegistrationResult(aParams["Registration"] == "1")));
                         break;
                     }
                 case Messages.MESSAGE_AUTORIZATION_REGISTRATION_FB:
@@ -166,7 +166,7 @@ namespace BeloteClient
                 case Messages.MESSAGE_AUTORIZATION_TEST_VK:
                 case Messages.MESSAGE_AUTORIZATION_USER_EXIT:
                     {
-                        this.game.Dispatcher.BeginInvoke(new Action( () => ProcessAutorization(command, msg)));
+                        ProcessAutorization(command, msg);
                         break;
                     }
                 // Обработка отключения клиента

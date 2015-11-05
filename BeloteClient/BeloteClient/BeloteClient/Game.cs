@@ -67,11 +67,10 @@ namespace BeloteClient
             {
                 MessageBox.Show("Вход успешен!");
                 Player = new Player(this, ID);
-                guestForm.CloseForm();
+                guestForm.Close();
                 guestForm = null;
                 userForm = new MainUserForm(this);
                 userForm.Show();
-
             }
             else
             {
