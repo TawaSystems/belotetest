@@ -12,9 +12,22 @@ namespace BeloteClient
 {
     public partial class EmailAutorizationForm : Form
     {
-        public EmailAutorizationForm()
+        private Game game;
+        public EmailAutorizationForm(Game Game)
         {
+            game = Game;
             InitializeComponent();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.game.AutorizationEmail(textBox1.Text, textBox2.Text);
+            Close();
         }
     }
 }

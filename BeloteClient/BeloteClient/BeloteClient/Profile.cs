@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BeloteClient
 {
-    class Profile
+    public class Profile
     {
         public int Id
         {
@@ -27,12 +27,6 @@ namespace BeloteClient
         }
 
         public string Surname
-        {
-            get;
-            set;
-        }
-
-        public string Password
         {
             get;
             set;
@@ -105,12 +99,6 @@ namespace BeloteClient
         }
 
         public DateTime BirtDate
-        {
-            get;
-            set;
-        }
-
-        public string AvatarFile
         {
             get;
             set;

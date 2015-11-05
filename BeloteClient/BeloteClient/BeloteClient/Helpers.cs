@@ -10,7 +10,7 @@ using System.Diagnostics;
 namespace BeloteClient
 {
     // класс с вспомогательными функциями
-    static class Helpers
+    public static class Helpers
     {
         // Функция разделяющая входную от клиента строку с командами на список ключ-значение
         public static Dictionary<string, string> SplitCommandString(string command)

@@ -12,8 +12,10 @@ namespace BeloteClient
 {
     public partial class RegistrationEmail : Form
     {
-        public RegistrationEmail()
+        private Game game;
+        public RegistrationEmail(Game Game)
         {
+            this.game = Game;
             InitializeComponent();
         }
 
@@ -27,8 +29,10 @@ namespace BeloteClient
             if ((PasswordTextBox.Text == "") || (NicknameTextBox.Text == "") || (EmailTextBox.Text == "") || (CountryComboBox.Text == ""))
             {
                 MessageBox.Show("Введены не все данные!");
+                return;
             }
-            string Sex = (MaleRadio.Checked ? "1" : "0");
+            string Sex = Helpers.BoolToString(MaleRadio.Checked);
+            game.RegistrationEmail(EmailTextBox.Text, PasswordTextBox.Text, NicknameTextBox.Text, Sex, CountryComboBox.Text);
         }
     }
 }

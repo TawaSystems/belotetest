@@ -55,5 +55,14 @@ namespace BeloteServer
         {
             DeleteClient(this[ID]);
         }
+
+        // Количество подключенных клиентов
+        public int Count
+        {
+            get
+            {
+                return clients.Count;
+            }
+        }
     }
 }

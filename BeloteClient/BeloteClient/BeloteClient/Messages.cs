@@ -104,5 +104,13 @@ namespace BeloteClient
         // Сообщение завершения игры на столе
         public const string MESSAGE_GAME_END = "GEG";
 
+        // Сообщения для получения информации о профиле игрока
+        public const string MESSAGE_PLAYER_GET_INFORMATION = "PGI";
+
+        public const string MESSAGE_PLAYER_GET_STATISTICS = "PGS";
+
+        public const string MESSAGE_PLAYER_GET_AVATAR = "PGA";
+
+        public const string MESSAGE_PLAYER_GET_ACCOUNTS = "PGM";
     }
 }

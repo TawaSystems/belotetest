@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
 using System.Net.Sockets;
+using System.Windows.Forms;
 
 namespace BeloteClient
 {
-    class ServerConnection
+    public class ServerConnection
     {
         private TcpClient client;
         private Thread worker;
@@ -24,7 +25,7 @@ namespace BeloteClient
             }
             game = Game;
             stream = client.GetStream();
-            worker = new Thread(ProcessClient);
+            worker = new Thread(ProcessServer);
             worker.Start();
         }
 
@@ -49,18 +50,88 @@ namespace BeloteClient
 
         private void ProcessAutorization(string command, string message)
         {
-            Dictionary<string, string> regParams = Helpers.SplitCommandString(message);
-            switch (command[1])
+            Dictionary<string, string> aParams = Helpers.SplitCommandString(message);
+            if (aParams == null)
             {
-                case 'R':
+                return;
+            }
+            switch (command)
+            {
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL:
                     {
-                        //if (regParams["Registration"] == "1")
-                            //MessageBox.Show("Регистрация прошла успешно");
-                        //else
-                           // MessageBox.Show("В регистрации отказано");
+                        this.game.AutorizationResult(Int32.Parse(aParams["PlayerID"]));
                         break;
                     }
-                default:
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_FB:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_OK:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_PHONE:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_AUTORIZATION_VK:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL:
+                    {
+                        this.game.RegistrationResult(aParams["Registration"] == "1");
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_FB:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_OK:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_PHONE:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_REGISTRATION_VK:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_REMINDPASSWORD_EMAIL:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_REMINDPASSWORD_PHONE:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_TEST_EMAIL:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_TEST_FB:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_TEST_NICKNAME:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_TEST_OK:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_TEST_PHONE:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_TEST_VK:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_AUTORIZATION_USER_EXIT:
                     {
                         break;
                     }
@@ -132,6 +203,14 @@ namespace BeloteClient
                     {
                         break;
                     }
+                // Обработка сообщений по работе с профилем пользователя
+                case Messages.MESSAGE_PLAYER_GET_INFORMATION:
+                case Messages.MESSAGE_PLAYER_GET_STATISTICS:
+                case Messages.MESSAGE_PLAYER_GET_AVATAR:
+                case Messages.MESSAGE_PLAYER_GET_ACCOUNTS:
+                    {
+                        break;
+                    }
                 default:
                     {
                         break;
@@ -139,7 +218,8 @@ namespace BeloteClient
             }
         }
 
-        private void ProcessClient()
+        // Обработка сообщений от сервера
+        private void ProcessServer()
         {
             while (true)
             {

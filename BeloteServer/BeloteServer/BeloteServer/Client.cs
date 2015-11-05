@@ -119,6 +119,7 @@ namespace BeloteServer
 #if DEBUG
                 Debug.WriteLine(ex.Message);
 #endif
+                this.game.Server.Clients.DeleteClient(this);
             }
             finally
             {
@@ -127,6 +128,7 @@ namespace BeloteServer
                 Debug.Indent();
                 Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
                 Debug.WriteLine("Client ID: " + ID);
+                Debug.WriteLine("Количество подключенных клиентов в списке: " + this.game.Server.Clients.Count);
                 Debug.Unindent();
 #endif
                 // Закрытие клиента и потока его данных

@@ -109,6 +109,7 @@
             this.войтиСПомощьюEmailToolStripMenuItem.Name = "войтиСПомощьюEmailToolStripMenuItem";
             this.войтиСПомощьюEmailToolStripMenuItem.Size = new System.Drawing.Size(266, 22);
             this.войтиСПомощьюEmailToolStripMenuItem.Text = "Войти с помощью E-mail";
+            this.войтиСПомощьюEmailToolStripMenuItem.Click += new System.EventHandler(this.войтиСПомощьюEmailToolStripMenuItem_Click);
             // 
             // войтиСПомощьюТелефонаToolStripMenuItem
             // 

@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace BeloteClient
 {
-    class Player
+    public class Player
     {
         public Player(Game game) : this (game, -1)
         {
