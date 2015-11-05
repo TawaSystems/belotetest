@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace BeloteClient
 {
@@ -16,9 +18,10 @@ namespace BeloteClient
         {
             try
             {
-                ServerConnection = new ServerConnection(this);
+                Dispatcher = Dispatcher.CurrentDispatcher;
                 Player = null;
-                StartWithGuest();
+                ServerConnection = new ServerConnection(this);
+                StartWithGuest();    
             }
             catch (Exception ex)
             {
@@ -64,10 +67,11 @@ namespace BeloteClient
             {
                 MessageBox.Show("Вход успешен!");
                 Player = new Player(this, ID);
+                guestForm.CloseForm();
+                guestForm = null;
                 userForm = new MainUserForm(this);
                 userForm.Show();
-                //guestForm.CloseForm();
-                //guestForm = null;
+
             }
             else
             {
@@ -82,6 +86,12 @@ namespace BeloteClient
         }
 
         public Player Player
+        {
+            get;
+            private set;
+        }
+
+        public Dispatcher Dispatcher
         {
             get;
             private set;

@@ -166,7 +166,7 @@ namespace BeloteClient
                 case Messages.MESSAGE_AUTORIZATION_TEST_VK:
                 case Messages.MESSAGE_AUTORIZATION_USER_EXIT:
                     {
-                        ProcessAutorization(command, msg);
+                        this.game.Dispatcher.BeginInvoke(new Action( () => ProcessAutorization(command, msg)));
                         break;
                     }
                 // Обработка отключения клиента
