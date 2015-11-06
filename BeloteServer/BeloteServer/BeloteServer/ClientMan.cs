@@ -37,7 +37,7 @@ namespace BeloteServer
         }
    
         // Идентификатор клиента
-        public int ID
+        public override int ID
         {
             get
             {
@@ -56,7 +56,7 @@ namespace BeloteServer
         }
 
         // Отправка сообщения клиенту
-        public void SendMessage(string message)
+        public override void SendMessage(string message)
         {
             var data = Encoding.Unicode.GetBytes(message);
             client.GetStream().Write(data, 0, data.Length);

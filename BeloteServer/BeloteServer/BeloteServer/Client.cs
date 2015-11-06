@@ -9,5 +9,22 @@ namespace BeloteServer
     // Базовый класс для наследования человеческого клента и AI
     class Client
     {
+        public Client()
+        {
+        }
+
+        public virtual void SendMessage(string message)
+        {
+            return;
+        }
+
+        public virtual int ID
+        {
+            get
+            {
+                return -1;
+            }
+        }
+
     }
 }

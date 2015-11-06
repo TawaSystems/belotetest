@@ -9,5 +9,22 @@ namespace BeloteServer
     // Класс клиента, отвечающий за AI
     class ClientBot : Client
     {
+        public ClientBot()
+        {
+
+        }
+
+        public override void SendMessage(string message)
+        {
+            return;
+        }
+
+        public override int ID
+        {
+            get
+            {
+                return -1;
+            }
+        }
     }
 }

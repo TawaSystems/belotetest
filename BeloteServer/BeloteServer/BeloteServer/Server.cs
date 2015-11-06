@@ -52,14 +52,14 @@ namespace BeloteServer
         }
 
         // Отправляет указанное сообщение неограниченному количеству клиентов
-        public void SendMessageToClients(String Message, params ClientMan[] clients)
+        public void SendMessageToClients(String Message, params Client[] clients)
         {
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + " Отправка сообщения нескольким клиентам.");
             Debug.Indent();
             Debug.WriteLine("Сообщение: " + Message);
 #endif
-            foreach (ClientMan c in clients)
+            foreach (Client c in clients)
             {
                 if (c != null)
                 {

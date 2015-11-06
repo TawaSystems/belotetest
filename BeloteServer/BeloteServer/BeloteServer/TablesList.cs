@@ -93,7 +93,7 @@ namespace BeloteServer
         }
 
         // Метод добавления игрока на стол
-        public bool AddPlayer(int TableID, ClientMan Player, int Place)
+        public bool AddPlayer(int TableID, Client Player, int Place)
         {
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}, место - {2}",

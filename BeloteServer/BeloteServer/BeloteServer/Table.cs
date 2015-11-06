@@ -71,6 +71,8 @@ namespace BeloteServer
         {
             if (TableCreator != null)
                 TableCreator.SendMessage(Message);
+            else
+                return;
             SendMessageToClientsWithoutCreator(Message);
         }
 
@@ -78,11 +80,14 @@ namespace BeloteServer
         public void SendMessageToClientsWithoutCreator(string Message)
         {
             if (Player2 != null)
-                Player2.SendMessage(Message);
+                if (Player2 is ClientMan)
+                    (Player2 as ClientMan).SendMessage(Message);
             if (Player3 != null)
-                Player3.SendMessage(Message);
+                if (Player3 is ClientMan)
+                    (Player3 as ClientMan).SendMessage(Message);
             if (Player4 != null)
-                Player4.SendMessage(Message);
+                if (Player4 is ClientMan)
+                    (Player4 as ClientMan).SendMessage(Message);
         }
 
         // Метод при завершении игры на столе
@@ -117,7 +122,7 @@ namespace BeloteServer
         }
 
         // Возвращает ссылку на игрока(клиента) по его номеру
-        private ClientMan PlayerFromNumber(int Number)
+        private Client PlayerFromNumber(int Number)
         {
             switch (Number)
             {
@@ -254,7 +259,7 @@ namespace BeloteServer
             Player4.SendMessage(String.Format("{3}Cards={0},Scores1={1},Scores2={2}", distributions.Current.Player4Cards.ToString(),
                     distributions.ScoresTeam1, distributions.ScoresTeam2, Messages.MESSAGE_GAME_DISTRIBUTIONCARDS));
             // Посылка ходящему игроку тип ставки и ее минимальный размер
-            ClientMan p = PlayerFromNumber(currentPlayer);
+            Client p = PlayerFromNumber(currentPlayer);
             p.SendMessage(Messages.MESSAGE_GAME_BAZAR_NEXTBETPLAYER + "Type=1,Size=80");
         }
 
@@ -323,7 +328,7 @@ namespace BeloteServer
                 // Минимальный размер ставки для следующего игрока
                 int minSize = (distributions.Current.Orders.Current == null) ? 80 : distributions.Current.Orders.Current.Size + 10;
                 // Посылка сообщения GBN следующему в торговле игроку
-                ClientMan p = PlayerFromNumber(currentPlayer);
+                Client p = PlayerFromNumber(currentPlayer);
                 p.SendMessage(String.Format("{2}Type={0},MinSize={1}", (int)betType, minSize, Messages.MESSAGE_GAME_BAZAR_NEXTBETPLAYER));
             }
         }
@@ -439,19 +444,19 @@ namespace BeloteServer
             private set;
         }
 
-        public ClientMan Player2
+        public Client Player2
         {
             get;
             set;
         }
 
-        public ClientMan Player3
+        public Client Player3
         {
             get;
             set;
         }
 
-        public ClientMan Player4
+        public Client Player4
         {
             get;
             set;
