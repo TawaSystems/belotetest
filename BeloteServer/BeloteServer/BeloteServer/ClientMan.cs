@@ -651,10 +651,10 @@ namespace BeloteServer
                             {
                                 p = new Player(this.game, playerID);
                             }
-                            Result = String.Format("PlayerID={0},Nickname={1},Name={2},Surname={3},Email={4},Phone={5},VK={6},FB={7},OK={8},Country={9},Address={10},ZipCode={11},Language={12},Sex={13},TimeZone={14},BirthDate={15},VIPExperies={16}",
+                            Result = String.Format("{17}PlayerID={0},Nickname={1},Name={2},Surname={3},Email={4},Phone={5},VK={6},FB={7},OK={8},Country={9},Address={10},ZipCode={11},Language={12},Sex={13},TimeZone={14},BirthDate={15},VIPExperies={16}",
                                 p.Profile.Id, p.Profile.Nickname, p.Profile.Name, p.Profile.Surname, p.Profile.Email, p.Profile.Phone, p.Profile.VK, p.Profile.FB,
                                 p.Profile.OK, p.Profile.Country, p.Profile.Address, p.Profile.ZipCode, p.Profile.Language, Helpers.BoolToString(p.Profile.Sex),
-                                p.Profile.TimeZone, p.Profile.BirtDate, p.Profile.VIPExperies);
+                                p.Profile.TimeZone, p.Profile.BirtDate, p.Profile.VIPExperies, Messages.MESSAGE_PLAYER_GET_INFORMATION);
                         }
                         break;
                     }
@@ -676,7 +676,8 @@ namespace BeloteServer
                         {
                             if (this.ID == playerID)
                             {
-                                Result = String.Format("PlayerID={0},USD={1},BUSD={2},Chips={3}", this.ID, this.Player.Profile.USD, this.Player.Profile.BUSD, this.Player.Profile.Chips);
+                                Result = String.Format("{4}PlayerID={0},USD={1},BUSD={2},Chips={3}", this.ID, this.Player.Profile.USD, this.Player.Profile.BUSD, this.Player.Profile.Chips,
+                                    Messages.MESSAGE_PLAYER_GET_ACCOUNTS);
                             }
                         }
                         break;

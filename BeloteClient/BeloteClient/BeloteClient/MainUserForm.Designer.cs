@@ -36,52 +36,52 @@
             this.контактыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProfilePanel = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.ChipsLabel = new System.Windows.Forms.Label();
-            this.USDLabel = new System.Windows.Forms.Label();
-            this.BUSDLabel = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.LevelLabel = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.LevelLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.BUSDLabel = new System.Windows.Forms.Label();
+            this.USDLabel = new System.Windows.Forms.Label();
+            this.ChipsLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.Bet1TextBox = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.Bet2TextBox = new System.Windows.Forms.TextBox();
-            this.ChatCheckBox = new System.Windows.Forms.CheckBox();
-            this.PlayersVisCheckBox = new System.Windows.Forms.CheckBox();
-            this.AICheckBox = new System.Windows.Forms.CheckBox();
-            this.VIPCheckBox = new System.Windows.Forms.CheckBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.VIPCheckBox = new System.Windows.Forms.CheckBox();
+            this.AICheckBox = new System.Windows.Forms.CheckBox();
+            this.PlayersVisCheckBox = new System.Windows.Forms.CheckBox();
+            this.ChatCheckBox = new System.Windows.Forms.CheckBox();
+            this.Bet2TextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.Bet1TextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.BetSizeComboBox = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.LevelComboBox = new System.Windows.Forms.ComboBox();
             this.button6 = new System.Windows.Forms.Button();
+            this.LevelComboBox = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.BetSizeComboBox = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.TablesListBox = new System.Windows.Forms.ListBox();
             this.label8 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.Player1Label = new System.Windows.Forms.LinkLabel();
-            this.Player3Label = new System.Windows.Forms.LinkLabel();
-            this.Player2Label = new System.Windows.Forms.LinkLabel();
-            this.Player4Label = new System.Windows.Forms.LinkLabel();
-            this.label13 = new System.Windows.Forms.Label();
-            this.TableBetSizeLabel = new System.Windows.Forms.Label();
-            this.TableMinLevelLabel = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.TableChatCheckBox = new System.Windows.Forms.CheckBox();
-            this.TableVIPCheckBox = new System.Windows.Forms.CheckBox();
-            this.TableModerationCheckBox = new System.Windows.Forms.CheckBox();
             this.TableAICheckBox = new System.Windows.Forms.CheckBox();
+            this.TableModerationCheckBox = new System.Windows.Forms.CheckBox();
+            this.TableVIPCheckBox = new System.Windows.Forms.CheckBox();
+            this.TableChatCheckBox = new System.Windows.Forms.CheckBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.TableMinLevelLabel = new System.Windows.Forms.Label();
+            this.TableBetSizeLabel = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.Player4Label = new System.Windows.Forms.LinkLabel();
+            this.Player2Label = new System.Windows.Forms.LinkLabel();
+            this.Player3Label = new System.Windows.Forms.LinkLabel();
+            this.Player1Label = new System.Windows.Forms.LinkLabel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.ProfilePanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -142,6 +142,7 @@
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
             this.выходToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
             // ProfilePanel
             // 
@@ -160,68 +161,14 @@
             this.ProfilePanel.Size = new System.Drawing.Size(653, 100);
             this.ProfilePanel.TabIndex = 1;
             // 
-            // label1
+            // button3
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Баланс:";
-            // 
-            // ChipsLabel
-            // 
-            this.ChipsLabel.AutoSize = true;
-            this.ChipsLabel.Location = new System.Drawing.Point(12, 34);
-            this.ChipsLabel.Name = "ChipsLabel";
-            this.ChipsLabel.Size = new System.Drawing.Size(50, 13);
-            this.ChipsLabel.TabIndex = 1;
-            this.ChipsLabel.Text = "0 фишек";
-            // 
-            // USDLabel
-            // 
-            this.USDLabel.AutoSize = true;
-            this.USDLabel.Location = new System.Drawing.Point(12, 56);
-            this.USDLabel.Name = "USDLabel";
-            this.USDLabel.Size = new System.Drawing.Size(39, 13);
-            this.USDLabel.TabIndex = 2;
-            this.USDLabel.Text = "0 USD";
-            // 
-            // BUSDLabel
-            // 
-            this.BUSDLabel.AutoSize = true;
-            this.BUSDLabel.Location = new System.Drawing.Point(12, 78);
-            this.BUSDLabel.Name = "BUSDLabel";
-            this.BUSDLabel.Size = new System.Drawing.Size(46, 13);
-            this.BUSDLabel.TabIndex = 3;
-            this.BUSDLabel.Text = "0 BUSD";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(117, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Уровень опыта:";
-            // 
-            // LevelLabel
-            // 
-            this.LevelLabel.AutoSize = true;
-            this.LevelLabel.Location = new System.Drawing.Point(117, 34);
-            this.LevelLabel.Name = "LevelLabel";
-            this.LevelLabel.Size = new System.Drawing.Size(57, 13);
-            this.LevelLabel.TabIndex = 5;
-            this.LevelLabel.Text = "0 уровень";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(251, 9);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(179, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Перейти к профилю";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button3.Location = new System.Drawing.Point(251, 67);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(179, 23);
+            this.button3.TabIndex = 8;
+            this.button3.Text = "Перейти в магазин";
+            this.button3.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -232,14 +179,68 @@
             this.button2.Text = "Перейти к личным сообщениям";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // button1
             // 
-            this.button3.Location = new System.Drawing.Point(251, 67);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(179, 23);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "Перейти в магазин";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(251, 9);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(179, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Перейти к профилю";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // LevelLabel
+            // 
+            this.LevelLabel.AutoSize = true;
+            this.LevelLabel.Location = new System.Drawing.Point(117, 34);
+            this.LevelLabel.Name = "LevelLabel";
+            this.LevelLabel.Size = new System.Drawing.Size(57, 13);
+            this.LevelLabel.TabIndex = 5;
+            this.LevelLabel.Text = "0 уровень";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(117, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Уровень опыта:";
+            // 
+            // BUSDLabel
+            // 
+            this.BUSDLabel.AutoSize = true;
+            this.BUSDLabel.Location = new System.Drawing.Point(12, 78);
+            this.BUSDLabel.Name = "BUSDLabel";
+            this.BUSDLabel.Size = new System.Drawing.Size(46, 13);
+            this.BUSDLabel.TabIndex = 3;
+            this.BUSDLabel.Text = "0 BUSD";
+            // 
+            // USDLabel
+            // 
+            this.USDLabel.AutoSize = true;
+            this.USDLabel.Location = new System.Drawing.Point(12, 56);
+            this.USDLabel.Name = "USDLabel";
+            this.USDLabel.Size = new System.Drawing.Size(39, 13);
+            this.USDLabel.TabIndex = 2;
+            this.USDLabel.Text = "0 USD";
+            // 
+            // ChipsLabel
+            // 
+            this.ChipsLabel.AutoSize = true;
+            this.ChipsLabel.Location = new System.Drawing.Point(12, 34);
+            this.ChipsLabel.Name = "ChipsLabel";
+            this.ChipsLabel.Size = new System.Drawing.Size(50, 13);
+            this.ChipsLabel.TabIndex = 1;
+            this.ChipsLabel.Text = "0 фишек";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Баланс:";
             // 
             // panel1
             // 
@@ -260,56 +261,43 @@
             this.panel1.Size = new System.Drawing.Size(653, 100);
             this.panel1.TabIndex = 2;
             // 
-            // label3
+            // button5
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 12);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(87, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Размер ставки:";
+            this.button5.Location = new System.Drawing.Point(444, 41);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(145, 23);
+            this.button5.TabIndex = 10;
+            this.button5.Text = "Сбросить";
+            this.button5.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // button4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 34);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(20, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "От";
+            this.button4.Location = new System.Drawing.Point(444, 12);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(145, 23);
+            this.button4.TabIndex = 9;
+            this.button4.Text = "Применить";
+            this.button4.UseVisualStyleBackColor = true;
             // 
-            // Bet1TextBox
+            // VIPCheckBox
             // 
-            this.Bet1TextBox.Location = new System.Drawing.Point(42, 34);
-            this.Bet1TextBox.Name = "Bet1TextBox";
-            this.Bet1TextBox.Size = new System.Drawing.Size(49, 20);
-            this.Bet1TextBox.TabIndex = 2;
+            this.VIPCheckBox.AutoSize = true;
+            this.VIPCheckBox.Location = new System.Drawing.Point(211, 57);
+            this.VIPCheckBox.Name = "VIPCheckBox";
+            this.VIPCheckBox.Size = new System.Drawing.Size(129, 17);
+            this.VIPCheckBox.TabIndex = 8;
+            this.VIPCheckBox.Text = "Стол только для VIP";
+            this.VIPCheckBox.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // AICheckBox
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(97, 34);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(19, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "до";
-            // 
-            // Bet2TextBox
-            // 
-            this.Bet2TextBox.Location = new System.Drawing.Point(122, 34);
-            this.Bet2TextBox.Name = "Bet2TextBox";
-            this.Bet2TextBox.Size = new System.Drawing.Size(49, 20);
-            this.Bet2TextBox.TabIndex = 4;
-            // 
-            // ChatCheckBox
-            // 
-            this.ChatCheckBox.AutoSize = true;
-            this.ChatCheckBox.Location = new System.Drawing.Point(15, 69);
-            this.ChatCheckBox.Name = "ChatCheckBox";
-            this.ChatCheckBox.Size = new System.Drawing.Size(143, 17);
-            this.ChatCheckBox.TabIndex = 5;
-            this.ChatCheckBox.Text = "Наличие игрового чата";
-            this.ChatCheckBox.UseVisualStyleBackColor = true;
+            this.AICheckBox.AutoSize = true;
+            this.AICheckBox.Location = new System.Drawing.Point(211, 34);
+            this.AICheckBox.Name = "AICheckBox";
+            this.AICheckBox.Size = new System.Drawing.Size(196, 17);
+            this.AICheckBox.TabIndex = 7;
+            this.AICheckBox.Text = "Возможность замены игроков AI";
+            this.AICheckBox.UseVisualStyleBackColor = true;
             // 
             // PlayersVisCheckBox
             // 
@@ -322,43 +310,56 @@
             this.PlayersVisCheckBox.Text = "Видимость игроков";
             this.PlayersVisCheckBox.UseVisualStyleBackColor = true;
             // 
-            // AICheckBox
+            // ChatCheckBox
             // 
-            this.AICheckBox.AutoSize = true;
-            this.AICheckBox.Location = new System.Drawing.Point(211, 34);
-            this.AICheckBox.Name = "AICheckBox";
-            this.AICheckBox.Size = new System.Drawing.Size(196, 17);
-            this.AICheckBox.TabIndex = 7;
-            this.AICheckBox.Text = "Возможность замены игроков AI";
-            this.AICheckBox.UseVisualStyleBackColor = true;
+            this.ChatCheckBox.AutoSize = true;
+            this.ChatCheckBox.Location = new System.Drawing.Point(15, 69);
+            this.ChatCheckBox.Name = "ChatCheckBox";
+            this.ChatCheckBox.Size = new System.Drawing.Size(143, 17);
+            this.ChatCheckBox.TabIndex = 5;
+            this.ChatCheckBox.Text = "Наличие игрового чата";
+            this.ChatCheckBox.UseVisualStyleBackColor = true;
             // 
-            // VIPCheckBox
+            // Bet2TextBox
             // 
-            this.VIPCheckBox.AutoSize = true;
-            this.VIPCheckBox.Location = new System.Drawing.Point(211, 57);
-            this.VIPCheckBox.Name = "VIPCheckBox";
-            this.VIPCheckBox.Size = new System.Drawing.Size(129, 17);
-            this.VIPCheckBox.TabIndex = 8;
-            this.VIPCheckBox.Text = "Стол только для VIP";
-            this.VIPCheckBox.UseVisualStyleBackColor = true;
+            this.Bet2TextBox.Location = new System.Drawing.Point(122, 34);
+            this.Bet2TextBox.Name = "Bet2TextBox";
+            this.Bet2TextBox.Size = new System.Drawing.Size(49, 20);
+            this.Bet2TextBox.TabIndex = 4;
             // 
-            // button4
+            // label5
             // 
-            this.button4.Location = new System.Drawing.Point(444, 12);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(145, 23);
-            this.button4.TabIndex = 9;
-            this.button4.Text = "Применить";
-            this.button4.UseVisualStyleBackColor = true;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(97, 34);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(19, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "до";
             // 
-            // button5
+            // Bet1TextBox
             // 
-            this.button5.Location = new System.Drawing.Point(444, 41);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(145, 23);
-            this.button5.TabIndex = 10;
-            this.button5.Text = "Сбросить";
-            this.button5.UseVisualStyleBackColor = true;
+            this.Bet1TextBox.Location = new System.Drawing.Point(42, 34);
+            this.Bet1TextBox.Name = "Bet1TextBox";
+            this.Bet1TextBox.Size = new System.Drawing.Size(49, 20);
+            this.Bet1TextBox.TabIndex = 2;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(16, 34);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(20, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "От";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(87, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Размер ставки:";
             // 
             // panel2
             // 
@@ -373,35 +374,14 @@
             this.panel2.Size = new System.Drawing.Size(653, 61);
             this.panel2.TabIndex = 3;
             // 
-            // label6
+            // button6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 3);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(169, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Сортировка по размеру ставки:";
-            // 
-            // BetSizeComboBox
-            // 
-            this.BetSizeComboBox.FormattingEnabled = true;
-            this.BetSizeComboBox.Items.AddRange(new object[] {
-            "По возрастанию",
-            "По убыванию"});
-            this.BetSizeComboBox.Location = new System.Drawing.Point(19, 19);
-            this.BetSizeComboBox.Name = "BetSizeComboBox";
-            this.BetSizeComboBox.Size = new System.Drawing.Size(166, 21);
-            this.BetSizeComboBox.TabIndex = 1;
-            this.BetSizeComboBox.Text = "По возрастанию";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(208, 3);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(205, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Сортировка по минимальному уровню:";
+            this.button6.Location = new System.Drawing.Point(444, 6);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(145, 23);
+            this.button6.TabIndex = 4;
+            this.button6.Text = "Создать стол";
+            this.button6.UseVisualStyleBackColor = true;
             // 
             // LevelComboBox
             // 
@@ -415,14 +395,35 @@
             this.LevelComboBox.TabIndex = 3;
             this.LevelComboBox.Text = "По возрастанию";
             // 
-            // button6
+            // label7
             // 
-            this.button6.Location = new System.Drawing.Point(444, 6);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(145, 23);
-            this.button6.TabIndex = 4;
-            this.button6.Text = "Создать стол";
-            this.button6.UseVisualStyleBackColor = true;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(208, 3);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(205, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Сортировка по минимальному уровню:";
+            // 
+            // BetSizeComboBox
+            // 
+            this.BetSizeComboBox.FormattingEnabled = true;
+            this.BetSizeComboBox.Items.AddRange(new object[] {
+            "По возрастанию",
+            "По убыванию"});
+            this.BetSizeComboBox.Location = new System.Drawing.Point(19, 19);
+            this.BetSizeComboBox.Name = "BetSizeComboBox";
+            this.BetSizeComboBox.Size = new System.Drawing.Size(166, 21);
+            this.BetSizeComboBox.TabIndex = 1;
+            this.BetSizeComboBox.Text = "По возрастанию";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(16, 3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(169, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Сортировка по размеру ставки:";
             // 
             // TablesListBox
             // 
@@ -465,139 +466,16 @@
             this.panel3.Size = new System.Drawing.Size(308, 253);
             this.panel3.TabIndex = 6;
             // 
-            // label9
+            // TableAICheckBox
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(27, 16);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(61, 13);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "Игрок №1:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(27, 32);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(61, 13);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "Игрок №3:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(27, 58);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(61, 13);
-            this.label11.TabIndex = 2;
-            this.label11.Text = "Игрок №2:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(27, 75);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(61, 13);
-            this.label12.TabIndex = 3;
-            this.label12.Text = "Игрок №4:";
-            // 
-            // Player1Label
-            // 
-            this.Player1Label.AutoSize = true;
-            this.Player1Label.Location = new System.Drawing.Point(96, 16);
-            this.Player1Label.Name = "Player1Label";
-            this.Player1Label.Size = new System.Drawing.Size(76, 13);
-            this.Player1Label.TabIndex = 4;
-            this.Player1Label.TabStop = true;
-            this.Player1Label.Text = "Пусто (Сесть)";
-            // 
-            // Player3Label
-            // 
-            this.Player3Label.AutoSize = true;
-            this.Player3Label.Location = new System.Drawing.Point(96, 32);
-            this.Player3Label.Name = "Player3Label";
-            this.Player3Label.Size = new System.Drawing.Size(76, 13);
-            this.Player3Label.TabIndex = 5;
-            this.Player3Label.TabStop = true;
-            this.Player3Label.Text = "Пусто (Сесть)";
-            // 
-            // Player2Label
-            // 
-            this.Player2Label.AutoSize = true;
-            this.Player2Label.Location = new System.Drawing.Point(96, 58);
-            this.Player2Label.Name = "Player2Label";
-            this.Player2Label.Size = new System.Drawing.Size(76, 13);
-            this.Player2Label.TabIndex = 6;
-            this.Player2Label.TabStop = true;
-            this.Player2Label.Text = "Пусто (Сесть)";
-            // 
-            // Player4Label
-            // 
-            this.Player4Label.AutoSize = true;
-            this.Player4Label.Location = new System.Drawing.Point(96, 75);
-            this.Player4Label.Name = "Player4Label";
-            this.Player4Label.Size = new System.Drawing.Size(76, 13);
-            this.Player4Label.TabIndex = 7;
-            this.Player4Label.TabStop = true;
-            this.Player4Label.Text = "Пусто (Сесть)";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(27, 108);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(87, 13);
-            this.label13.TabIndex = 8;
-            this.label13.Text = "Размер ставки:";
-            // 
-            // TableBetSizeLabel
-            // 
-            this.TableBetSizeLabel.AutoSize = true;
-            this.TableBetSizeLabel.Location = new System.Drawing.Point(120, 108);
-            this.TableBetSizeLabel.Name = "TableBetSizeLabel";
-            this.TableBetSizeLabel.Size = new System.Drawing.Size(13, 13);
-            this.TableBetSizeLabel.TabIndex = 9;
-            this.TableBetSizeLabel.Text = "0";
-            // 
-            // TableMinLevelLabel
-            // 
-            this.TableMinLevelLabel.AutoSize = true;
-            this.TableMinLevelLabel.Location = new System.Drawing.Point(120, 121);
-            this.TableMinLevelLabel.Name = "TableMinLevelLabel";
-            this.TableMinLevelLabel.Size = new System.Drawing.Size(13, 13);
-            this.TableMinLevelLabel.TabIndex = 10;
-            this.TableMinLevelLabel.Text = "0";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(27, 121);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(78, 13);
-            this.label14.TabIndex = 11;
-            this.label14.Text = "Мин. уровень:";
-            // 
-            // TableChatCheckBox
-            // 
-            this.TableChatCheckBox.AutoSize = true;
-            this.TableChatCheckBox.Enabled = false;
-            this.TableChatCheckBox.Location = new System.Drawing.Point(30, 146);
-            this.TableChatCheckBox.Name = "TableChatCheckBox";
-            this.TableChatCheckBox.Size = new System.Drawing.Size(141, 17);
-            this.TableChatCheckBox.TabIndex = 12;
-            this.TableChatCheckBox.Text = "Наличие чата на столе";
-            this.TableChatCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TableVIPCheckBox
-            // 
-            this.TableVIPCheckBox.AutoSize = true;
-            this.TableVIPCheckBox.Enabled = false;
-            this.TableVIPCheckBox.Location = new System.Drawing.Point(30, 169);
-            this.TableVIPCheckBox.Name = "TableVIPCheckBox";
-            this.TableVIPCheckBox.Size = new System.Drawing.Size(129, 17);
-            this.TableVIPCheckBox.TabIndex = 13;
-            this.TableVIPCheckBox.Text = "Стол только для VIP";
-            this.TableVIPCheckBox.UseVisualStyleBackColor = true;
+            this.TableAICheckBox.AutoSize = true;
+            this.TableAICheckBox.Enabled = false;
+            this.TableAICheckBox.Location = new System.Drawing.Point(30, 215);
+            this.TableAICheckBox.Name = "TableAICheckBox";
+            this.TableAICheckBox.Size = new System.Drawing.Size(211, 17);
+            this.TableAICheckBox.TabIndex = 15;
+            this.TableAICheckBox.Text = "Возможность замены игроков на AI";
+            this.TableAICheckBox.UseVisualStyleBackColor = true;
             // 
             // TableModerationCheckBox
             // 
@@ -610,16 +488,139 @@
             this.TableModerationCheckBox.Text = "Наличие премодерации";
             this.TableModerationCheckBox.UseVisualStyleBackColor = true;
             // 
-            // TableAICheckBox
+            // TableVIPCheckBox
             // 
-            this.TableAICheckBox.AutoSize = true;
-            this.TableAICheckBox.Enabled = false;
-            this.TableAICheckBox.Location = new System.Drawing.Point(30, 215);
-            this.TableAICheckBox.Name = "TableAICheckBox";
-            this.TableAICheckBox.Size = new System.Drawing.Size(211, 17);
-            this.TableAICheckBox.TabIndex = 15;
-            this.TableAICheckBox.Text = "Возможность замены игроков на AI";
-            this.TableAICheckBox.UseVisualStyleBackColor = true;
+            this.TableVIPCheckBox.AutoSize = true;
+            this.TableVIPCheckBox.Enabled = false;
+            this.TableVIPCheckBox.Location = new System.Drawing.Point(30, 169);
+            this.TableVIPCheckBox.Name = "TableVIPCheckBox";
+            this.TableVIPCheckBox.Size = new System.Drawing.Size(129, 17);
+            this.TableVIPCheckBox.TabIndex = 13;
+            this.TableVIPCheckBox.Text = "Стол только для VIP";
+            this.TableVIPCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TableChatCheckBox
+            // 
+            this.TableChatCheckBox.AutoSize = true;
+            this.TableChatCheckBox.Enabled = false;
+            this.TableChatCheckBox.Location = new System.Drawing.Point(30, 146);
+            this.TableChatCheckBox.Name = "TableChatCheckBox";
+            this.TableChatCheckBox.Size = new System.Drawing.Size(141, 17);
+            this.TableChatCheckBox.TabIndex = 12;
+            this.TableChatCheckBox.Text = "Наличие чата на столе";
+            this.TableChatCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(27, 121);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(78, 13);
+            this.label14.TabIndex = 11;
+            this.label14.Text = "Мин. уровень:";
+            // 
+            // TableMinLevelLabel
+            // 
+            this.TableMinLevelLabel.AutoSize = true;
+            this.TableMinLevelLabel.Location = new System.Drawing.Point(120, 121);
+            this.TableMinLevelLabel.Name = "TableMinLevelLabel";
+            this.TableMinLevelLabel.Size = new System.Drawing.Size(13, 13);
+            this.TableMinLevelLabel.TabIndex = 10;
+            this.TableMinLevelLabel.Text = "0";
+            // 
+            // TableBetSizeLabel
+            // 
+            this.TableBetSizeLabel.AutoSize = true;
+            this.TableBetSizeLabel.Location = new System.Drawing.Point(120, 108);
+            this.TableBetSizeLabel.Name = "TableBetSizeLabel";
+            this.TableBetSizeLabel.Size = new System.Drawing.Size(13, 13);
+            this.TableBetSizeLabel.TabIndex = 9;
+            this.TableBetSizeLabel.Text = "0";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(27, 108);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(87, 13);
+            this.label13.TabIndex = 8;
+            this.label13.Text = "Размер ставки:";
+            // 
+            // Player4Label
+            // 
+            this.Player4Label.AutoSize = true;
+            this.Player4Label.Location = new System.Drawing.Point(96, 75);
+            this.Player4Label.Name = "Player4Label";
+            this.Player4Label.Size = new System.Drawing.Size(76, 13);
+            this.Player4Label.TabIndex = 7;
+            this.Player4Label.TabStop = true;
+            this.Player4Label.Text = "Пусто (Сесть)";
+            // 
+            // Player2Label
+            // 
+            this.Player2Label.AutoSize = true;
+            this.Player2Label.Location = new System.Drawing.Point(96, 58);
+            this.Player2Label.Name = "Player2Label";
+            this.Player2Label.Size = new System.Drawing.Size(76, 13);
+            this.Player2Label.TabIndex = 6;
+            this.Player2Label.TabStop = true;
+            this.Player2Label.Text = "Пусто (Сесть)";
+            // 
+            // Player3Label
+            // 
+            this.Player3Label.AutoSize = true;
+            this.Player3Label.Location = new System.Drawing.Point(96, 32);
+            this.Player3Label.Name = "Player3Label";
+            this.Player3Label.Size = new System.Drawing.Size(76, 13);
+            this.Player3Label.TabIndex = 5;
+            this.Player3Label.TabStop = true;
+            this.Player3Label.Text = "Пусто (Сесть)";
+            // 
+            // Player1Label
+            // 
+            this.Player1Label.AutoSize = true;
+            this.Player1Label.Location = new System.Drawing.Point(96, 16);
+            this.Player1Label.Name = "Player1Label";
+            this.Player1Label.Size = new System.Drawing.Size(76, 13);
+            this.Player1Label.TabIndex = 4;
+            this.Player1Label.TabStop = true;
+            this.Player1Label.Text = "Пусто (Сесть)";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(27, 75);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(61, 13);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "Игрок №4:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(27, 58);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(61, 13);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "Игрок №2:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(27, 32);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(61, 13);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Игрок №3:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(27, 16);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(61, 13);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Игрок №1:";
             // 
             // MainUserForm
             // 

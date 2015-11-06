@@ -42,10 +42,70 @@ namespace BeloteClient
             }
         }
 
+        public void Disconnect()
+        {
+            SendDataToServer("EXT");
+            worker.Abort();
+            client.Close();
+        }
+
         public void SendDataToServer(string message)
         {
             byte[] data = Encoding.Unicode.GetBytes(message);
             stream.Write(data, 0, data.Length);
+        }
+
+        private void ProcessPlayer(string command, string message)
+        {
+            Dictionary<string, string> pParams = Helpers.SplitCommandString(message);
+            if (pParams == null)
+            {
+                return;
+            }
+            switch (command)
+            {
+                case Messages.MESSAGE_PLAYER_GET_INFORMATION:
+                    {
+                        Player p = new Player(this.game, Int32.Parse(pParams["PlayerID"]));
+                        DateTime d;
+                        p.Profile.Nickname = pParams["Nickname"];
+                        p.Profile.Name = pParams["Name"];
+                        p.Profile.Surname = pParams["Surname"];
+                        p.Profile.Email = pParams["Email"];
+                        p.Profile.Phone = pParams["Phone"];
+                        p.Profile.VK = pParams["VK"];
+                        p.Profile.FB = pParams["FB"];
+                        p.Profile.OK = pParams["OK"];
+                        p.Profile.Country = pParams["Country"];
+                        p.Profile.Address = pParams["Address"];
+                        p.Profile.ZipCode = pParams["ZipCode"];
+                        p.Profile.Language = pParams["Language"];
+                        p.Profile.Sex = Helpers.StringToBool(pParams["Sex"]);
+                        p.Profile.TimeZone = pParams["TimeZone"];
+                        if (DateTime.TryParse(pParams["BirthDate"], out d))
+                            p.Profile.BirtDate = d;
+                        if (DateTime.TryParse(pParams["VIPExperies"], out d))
+                            p.Profile.VIPExperies = d;
+                        this.game.Dispatcher.BeginInvoke(new Action(() => this.game.GetPlayerInformation(p)));
+                        break;
+                    }
+                case Messages.MESSAGE_PLAYER_GET_STATISTICS:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_PLAYER_GET_AVATAR:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_PLAYER_GET_ACCOUNTS:
+                    {
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
         }
 
         private void ProcessAutorization(string command, string message)
@@ -209,6 +269,7 @@ namespace BeloteClient
                 case Messages.MESSAGE_PLAYER_GET_AVATAR:
                 case Messages.MESSAGE_PLAYER_GET_ACCOUNTS:
                     {
+                        ProcessPlayer(command, msg);
                         break;
                     }
                 default:

@@ -26,7 +26,7 @@ namespace BeloteClient
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
+            Environment.Exit(0);
         }
 
         private void сПомощьюEmailToolStripMenuItem_Click(object sender, EventArgs e)
@@ -39,6 +39,11 @@ namespace BeloteClient
         {
             EmailAutorizationForm form = new EmailAutorizationForm(game);
             form.ShowDialog();
+        }
+
+        private void MainGuestForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
         }
     }
 }

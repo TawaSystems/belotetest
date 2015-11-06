@@ -205,6 +205,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainGuestForm";
             this.Text = "BLOT-ONLINE";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainGuestForm_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

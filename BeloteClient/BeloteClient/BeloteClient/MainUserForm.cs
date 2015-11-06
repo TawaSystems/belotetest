@@ -23,5 +23,10 @@ namespace BeloteClient
         {
             
         }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }
