@@ -80,14 +80,11 @@ namespace BeloteServer
         public void SendMessageToClientsWithoutCreator(string Message)
         {
             if (Player2 != null)
-                if (Player2 is ClientMan)
-                    (Player2 as ClientMan).SendMessage(Message);
+                Player2.SendMessage(Message);
             if (Player3 != null)
-                if (Player3 is ClientMan)
-                    (Player3 as ClientMan).SendMessage(Message);
+                Player3.SendMessage(Message);
             if (Player4 != null)
-                if (Player4 is ClientMan)
-                    (Player4 as ClientMan).SendMessage(Message);
+                Player4.SendMessage(Message);
         }
 
         // Метод при завершении игры на столе
