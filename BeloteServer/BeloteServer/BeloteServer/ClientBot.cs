@@ -9,9 +9,12 @@ namespace BeloteServer
     // Класс клиента, отвечающий за AI
     class ClientBot : Client
     {
-        public ClientBot()
-        {
+        private int tableID;
 
+        public ClientBot(int Place, int TableID)
+        {
+            this.Place = Place;
+            this.tableID = TableID;
         }
 
         public override void SendMessage(string message)
@@ -23,8 +26,14 @@ namespace BeloteServer
         {
             get
             {
-                return -1;
+                return -Place;
             }
+        }
+
+        public int Place
+        {
+            get;
+            private set;
         }
     }
 }

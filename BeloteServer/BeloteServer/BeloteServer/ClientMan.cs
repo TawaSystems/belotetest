@@ -201,6 +201,7 @@ namespace BeloteServer
                 case Messages.MESSAGE_TABLE_PLAYERS_DELETE:
                 case Messages.MESSAGE_TABLE_PLAYERS_QUIT:
                 case Messages.MESSAGE_TABLE_SELECT_TABLES:
+                case Messages.MESSAGE_TABLE_PLAYERS_ADDBOT:
                     {
                         Result = ProcessTables(command, msg);
                         break;
@@ -461,6 +462,14 @@ namespace BeloteServer
                         int tableID = Int32.Parse(tableParams["ID"]);
                         int place = Int32.Parse(tableParams["Place"]);
                         this.game.Tables.RemovePlayer(tableID, place);
+                        break;
+                    }
+                // Добавление бота на стол
+                case Messages.MESSAGE_TABLE_PLAYERS_ADDBOT:
+                    {
+                        int tableID = Int32.Parse(tableParams["ID"]);
+                        int place = Int32.Parse(tableParams["Place"]);
+                        ClientBot b = new ClientBot(place, tableID);
                         break;
                     }
                 // Выход игрока со стола в режиме игры
