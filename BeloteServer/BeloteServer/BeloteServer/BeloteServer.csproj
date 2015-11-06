@@ -53,6 +53,8 @@
     <Compile Include="CardList.cs" />
     <Compile Include="CardsDeck.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="ClientBot.cs" />
+    <Compile Include="ClientMan.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Distribution.cs" />

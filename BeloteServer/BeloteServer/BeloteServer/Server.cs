@@ -35,7 +35,7 @@ namespace BeloteServer
                 while (true)
                 {
                     TcpClient client = listener.AcceptTcpClient();
-                    Clients.Add(new Client(client, Game));
+                    Clients.Add(new ClientMan(client, Game));
                 }
             }
             catch (Exception ex)
@@ -52,14 +52,14 @@ namespace BeloteServer
         }
 
         // Отправляет указанное сообщение неограниченному количеству клиентов
-        public void SendMessageToClients(String Message, params Client[] clients)
+        public void SendMessageToClients(String Message, params ClientMan[] clients)
         {
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + " Отправка сообщения нескольким клиентам.");
             Debug.Indent();
             Debug.WriteLine("Сообщение: " + Message);
 #endif
-            foreach (Client c in clients)
+            foreach (ClientMan c in clients)
             {
                 if (c != null)
                 {

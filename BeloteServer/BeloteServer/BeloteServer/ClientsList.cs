@@ -11,16 +11,16 @@ namespace BeloteServer
     {
         private Game game;
 
-        private List<Client> clients;
+        private List<ClientMan> clients;
 
         public ClientsList(Game Game)
         {
             this.game = Game;
-            clients = new List<Client>();
+            clients = new List<ClientMan>();
         }
 
         // Добавление клиента в список
-        public int Add(Client client)
+        public int Add(ClientMan client)
         {
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + " Добавление клиента в список. ID = " + client.ID);
@@ -30,7 +30,7 @@ namespace BeloteServer
         }
 
         // Обращение-индексатор к списку клиентов. Обращение происходит по идентификатору пользователя
-        public Client this[int ID]
+        public ClientMan this[int ID]
         {
             get
             {
@@ -39,7 +39,7 @@ namespace BeloteServer
         }
 
         // Удаление клиента из списка по ссылке на клиента
-        public void DeleteClient(Client client)
+        public void DeleteClient(ClientMan client)
         {
             if (client != null)
             {

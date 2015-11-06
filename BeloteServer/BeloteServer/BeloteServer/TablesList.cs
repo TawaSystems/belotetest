@@ -28,7 +28,7 @@ namespace BeloteServer
         }
 
         // Метод создания игрового стола с заданными параметрами и добавление его в список столов
-        public int CreateTable(Client Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel,
+        public int CreateTable(ClientMan Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel,
             bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
         {
 #if DEBUG
@@ -93,7 +93,7 @@ namespace BeloteServer
         }
 
         // Метод добавления игрока на стол
-        public bool AddPlayer(int TableID, Client Player, int Place)
+        public bool AddPlayer(int TableID, ClientMan Player, int Place)
         {
 #if DEBUG
             Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}, место - {2}",

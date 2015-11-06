@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BeloteServer
 {
-    // Базовый класс для наследования человеческого клента и AI
-    class Client
+    // Класс клиента, отвечающий за AI
+    class ClientBot : Client
     {
     }
 }
