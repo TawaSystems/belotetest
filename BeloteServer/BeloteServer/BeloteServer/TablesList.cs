@@ -64,6 +64,21 @@ namespace BeloteServer
             }
         }
 
+        // Метод выборки всех доступных столов
+        public List<Table> AllAvailableTables()
+        {
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + " Выборка всех доступных столов");
+            Debug.Indent();
+#endif
+            List<Table> res = tables.FindAll(t => ((t.Status == TableStatus.WAITING) && (t.TableVisibility == true)));
+#if DEBUG
+            Debug.WriteLine("Найдено столов: " + res.Count);
+            Debug.Unindent();
+#endif
+            return res;
+        }
+
         // Метод выборки списка игровых столов по заданным параметрам
         public List<Table> FindTables(int BetFrom, int BetTo, bool PlayersVisibility, bool Chat, int MinimalLevel, bool VIPOnly, bool Moderation, bool AI)
         {

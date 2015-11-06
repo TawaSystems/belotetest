@@ -201,6 +201,7 @@ namespace BeloteServer
                 case Messages.MESSAGE_TABLE_PLAYERS_DELETE:
                 case Messages.MESSAGE_TABLE_PLAYERS_QUIT:
                 case Messages.MESSAGE_TABLE_SELECT_TABLES:
+                case Messages.MESSAGE_TABLE_SELECT_ALL:
                 case Messages.MESSAGE_TABLE_PLAYERS_ADDBOT:
                     {
                         Result = ProcessTables(command, msg);
@@ -483,6 +484,20 @@ namespace BeloteServer
                         List<Table> list = this.game.Tables.FindTables(Int32.Parse(tableParams["BetFrom"]), Int32.Parse(tableParams["BetTo"]), Helpers.StringToBool(tableParams["PlayersVisibility"]),
                                         Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]), Helpers.StringToBool(tableParams["VIPOnly"]),
                                         Helpers.StringToBool(tableParams["Moderation"]), Helpers.StringToBool(tableParams["AI"]));
+                        foreach (Table t in list)
+                        {
+                            string m = String.Format("{12}ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
+                                t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
+                                Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
+                                (t.Player4 != null) ? t.Player4.ID : -1, Messages.MESSAGE_TABLE_SELECT_TABLES);
+                            this.SendMessage(m);
+                        }
+                        break;
+                    }
+                // Выборка всех доступных столов
+                case Messages.MESSAGE_TABLE_SELECT_ALL:
+                    {
+                        List<Table> list = this.game.Tables.AllAvailableTables();
                         foreach (Table t in list)
                         {
                             string m = String.Format("{12}ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
