@@ -19,6 +19,7 @@ namespace BeloteClient
             this.Game = game;
             Statistics = new Statistics();
             Profile = new Profile();
+            Profile.Id = -1;
         }
 
         // Ссылка на основной игровой объект

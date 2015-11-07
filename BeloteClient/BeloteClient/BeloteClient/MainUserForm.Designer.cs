@@ -82,6 +82,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.ProfilePanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -463,7 +464,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel3.Location = new System.Drawing.Point(345, 285);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(308, 253);
+            this.panel3.Size = new System.Drawing.Size(308, 276);
             this.panel3.TabIndex = 6;
             // 
             // TableAICheckBox
@@ -622,11 +623,21 @@
             this.label9.TabIndex = 0;
             this.label9.Text = "Игрок №1:";
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(172, 535);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(145, 23);
+            this.button7.TabIndex = 10;
+            this.button7.Text = "Обновить список";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
             // MainUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(653, 538);
+            this.ClientSize = new System.Drawing.Size(653, 561);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.TablesListBox);
@@ -708,5 +719,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button button7;
     }
 }

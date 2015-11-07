@@ -243,6 +243,7 @@ namespace BeloteClient
                 case Messages.MESSAGE_TABLE_PLAYERS_QUIT:
                 case Messages.MESSAGE_TABLE_SELECT_TABLES:
                     {
+                        ProcessTables(command, msg);
                         break;
                     }
                 // Обработка процесса игры
@@ -279,6 +280,67 @@ namespace BeloteClient
             }
         }
 
+        private void ProcessTables(string command, string message)
+        {
+            Dictionary<string, string> tParams = Helpers.SplitCommandString(message);
+            if (tParams == null)
+            {
+                return;
+            }
+            switch (command)
+            {
+                case Messages.MESSAGE_TABLE_MODIFY_CREATE:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_MODIFY_VISIBILITY:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_PLAYERS_ADD:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_PLAYERS_DELETE:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_PLAYERS_QUIT:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_SELECT_TABLES:
+                    {
+                        int TableID = Int32.Parse(tParams["ID"]);
+                        int Bet = Int32.Parse(tParams["Bet"]);
+                        bool PlayersVisibility = Helpers.StringToBool(tParams["PlayersVisibility"]);
+                        bool Chat = Helpers.StringToBool(tParams["Chat"]);
+                        int MinimalLevel = Int32.Parse(tParams["MinimalLevel"]);
+                        bool VIPOnly = Helpers.StringToBool(tParams["VIPOnly"]);
+                        bool Moderation = Helpers.StringToBool(tParams["Moderation"]);
+                        bool AI = Helpers.StringToBool(tParams["AI"]);
+                        int Creator = Int32.Parse(tParams["Creator"]);
+                        int Player2, Player3, Player4;
+                        if (!Int32.TryParse(tParams["Player2"], out Player2))
+                            Player2 = -1;
+                        if (!Int32.TryParse(tParams["Player3"], out Player3))
+                            Player3 = -1;
+                        if (!Int32.TryParse(tParams["Player4"], out Player4))
+                            Player4 = -1;
+                        this.game.Dispatcher.BeginInvoke(new Action(() => this.game.AddPossibleTable(TableID, Bet, PlayersVisibility, Chat, 
+                            MinimalLevel, VIPOnly, Moderation, AI, Creator, Player2, Player3, Player4)));
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
         // Обработка сообщений от сервера
         private void ProcessServer()
         {

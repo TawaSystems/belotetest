@@ -16,11 +16,13 @@ namespace BeloteClient
 
         public Game()
         {
+            Dispatcher = Dispatcher.CurrentDispatcher;
+            AppDomain.CurrentDomain.ProcessExit += ProcessExit;
+            Player = null;
+            Tables = new TablesList(this);
+            Players = new PlayersList(this);
             try
             {
-                Dispatcher = Dispatcher.CurrentDispatcher;
-                AppDomain.CurrentDomain.ProcessExit += ProcessExit;
-                Player = null;
                 ServerConnection = new ServerConnection(this);
                 StartWithGuest();    
             }
@@ -29,9 +31,9 @@ namespace BeloteClient
                 MessageBox.Show(ex.Message);
                 Environment.Exit(0);    
             } 
-
         }
 
+        // Событие при выходе из приложения
         public void ProcessExit(Object Sender, EventArgs e)
         {
             if (ServerConnection != null)
@@ -72,6 +74,27 @@ namespace BeloteClient
             }
         }
 
+        // Добавляет возмыжный к игре стол
+        public void AddPossibleTable(int TableID, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool VIPOnly, bool Moderation,
+            bool AI, int Creator, int Player2, int Player3, int Player4)
+        {
+            Table table = new Table(this, TableID, Creator, Bet, PlayersVisibility, Chat, MinimalLevel, true, VIPOnly, Moderation, AI);
+            table.Player2 = Player2;
+            if (Player2 >= 0)
+                ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, Player2));
+            table.Player3 = Player3;
+            if (Player3 >= 0)
+                ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, Player3));
+            table.Player4 = Player4;
+            if (Player4 >= 0)
+                ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, Player4));
+            Tables.AddTable(table);
+            if (userForm != null)
+            {
+                userForm.AddTable(table.ID);
+            }
+        }
+
         // Результат авторизации
         public void AutorizationResult(int ID)
         {
@@ -84,6 +107,7 @@ namespace BeloteClient
                 guestForm = null;
                 userForm = new MainUserForm(this);
                 userForm.Show();
+                userForm.UpdateTablesList();
             }
             else
             {
@@ -98,6 +122,11 @@ namespace BeloteClient
                 return;
             if (Player.Profile.Id == p.Profile.Id)
                 Player = p;
+            else
+            {
+                if (!Players.PlayerExists(p.Profile.Id))
+                    Players.Add(p);
+            }
         }
 
         public ServerConnection ServerConnection
@@ -113,6 +142,18 @@ namespace BeloteClient
         }
 
         public Dispatcher Dispatcher
+        {
+            get;
+            private set;
+        }
+
+        public TablesList Tables
+        {
+            get;
+            private set;
+        }
+
+        public PlayersList Players
         {
             get;
             private set;

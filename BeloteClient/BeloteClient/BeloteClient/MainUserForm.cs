@@ -28,5 +28,17 @@ namespace BeloteClient
         {
             Environment.Exit(0);
         }
+
+        public void UpdateTablesList()
+        {
+            TablesListBox.Items.Clear();
+            this.game.Tables.Clear();
+            this.game.ServerConnection.SendDataToServer("TSA");
+        }
+
+        public void AddTable(int ID)
+        {
+            TablesListBox.Items.Add(ID);
+        }
     }
 }
