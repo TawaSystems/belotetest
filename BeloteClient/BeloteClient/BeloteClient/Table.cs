@@ -28,6 +28,34 @@ namespace BeloteClient
             this.Moderation = Moderation;
             this.AI = AI;
             this.ID = ID;
+            this.Player2 = -1;
+            this.Player3 = -1;
+            this.Player4 = -1;
+        }
+
+        public Table(Game game, Dictionary<string, string> tParams)
+        {
+            this.game = game;
+            ID = Int32.Parse(tParams["ID"]);
+            Bet = Int32.Parse(tParams["Bet"]);
+            PlayersVisibility = Helpers.StringToBool(tParams["PlayersVisibility"]);
+            Chat = Helpers.StringToBool(tParams["Chat"]);
+            MinimalLevel = Int32.Parse(tParams["MinimalLevel"]);
+            VIPOnly = Helpers.StringToBool(tParams["VIPOnly"]);
+            Moderation = Helpers.StringToBool(tParams["Moderation"]);
+            AI = Helpers.StringToBool(tParams["AI"]);
+            TableCreator = Int32.Parse(tParams["Creator"]);
+            int Player2, Player3, Player4;
+            if (!Int32.TryParse(tParams["Player2"], out Player2))
+                Player2 = -1;
+            this.Player2 = Player2;
+            if (!Int32.TryParse(tParams["Player3"], out Player3))
+                Player3 = -1;
+            this.Player3 = Player3;
+            if (!Int32.TryParse(tParams["Player4"], out Player4))
+                Player4 = -1;
+            this.Player4 = Player4;
+            TableVisibility = true;
         }
 
         public void ChangeID(int NewID)

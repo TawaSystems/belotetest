@@ -65,11 +65,23 @@ namespace BeloteClient
             if (ID != -1)
             {
                 MessageBox.Show("Вход успешен!");
-                //Player = new Player(this, ID);
-                //ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, ID));
+                Message playerMessage = new Message(Messages.MESSAGE_PLAYER_GET_INFORMATION,
+                    String.Format("PlayerID={0}", ID));
+                Dictionary<string, string> player = ServerConnection.ExecuteMessage(playerMessage);
+                Player = new Player(this, player);
                 guestForm.Close();
                 guestForm = null;
                 userForm = new MainUserForm(this);
+                MessageDelegate selecttablesHandler = delegate (Message Msg) 
+                {
+                    Dictionary<string, string> tParams = Helpers.SplitCommandString(Msg.Msg);
+                    if (userForm != null)
+                    {
+                        userForm.AddTableToListBox(new Table(this, tParams));
+                    }
+                };
+                ServerConnection.AddMessageHandler(Messages.MESSAGE_TABLE_SELECT_TABLES, selecttablesHandler);
+                ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_TABLE_SELECT_ALL, ""));
                 userForm.Show();
             }
             else

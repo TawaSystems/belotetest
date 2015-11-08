@@ -672,7 +672,6 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainUserForm";
             this.Text = "MainUserForm";
-            this.Load += new System.EventHandler(this.MainUserForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ProfilePanel.ResumeLayout(false);

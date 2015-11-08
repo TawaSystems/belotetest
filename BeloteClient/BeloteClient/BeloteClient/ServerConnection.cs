@@ -190,11 +190,18 @@ namespace BeloteClient
                             break;
                         }
                     }
+                    Thread.Sleep(20);
                 }
             });
             worker.Start();
             worker.Join();
             return Helpers.SplitCommandString(result.Msg);
+        }
+
+        // Выполняет сообщение без ожидания результата
+        public void ExecuteMessageWithoutResult(Message msg)
+        {
+            SendDataToServer(msg.Command + msg.Msg);
         }
     }
 }
