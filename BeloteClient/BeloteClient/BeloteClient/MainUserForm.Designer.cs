@@ -157,6 +157,7 @@
             this.ProfilePanel.Controls.Add(this.ChipsLabel);
             this.ProfilePanel.Controls.Add(this.label1);
             this.ProfilePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ProfilePanel.Enabled = false;
             this.ProfilePanel.Location = new System.Drawing.Point(0, 24);
             this.ProfilePanel.Name = "ProfilePanel";
             this.ProfilePanel.Size = new System.Drawing.Size(653, 100);
@@ -257,6 +258,7 @@
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Enabled = false;
             this.panel1.Location = new System.Drawing.Point(0, 124);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(653, 100);
@@ -386,6 +388,7 @@
             // 
             // LevelComboBox
             // 
+            this.LevelComboBox.Enabled = false;
             this.LevelComboBox.FormattingEnabled = true;
             this.LevelComboBox.Items.AddRange(new object[] {
             "По возрастанию",
@@ -407,6 +410,7 @@
             // 
             // BetSizeComboBox
             // 
+            this.BetSizeComboBox.Enabled = false;
             this.BetSizeComboBox.FormattingEnabled = true;
             this.BetSizeComboBox.Items.AddRange(new object[] {
             "По возрастанию",
@@ -433,6 +437,7 @@
             this.TablesListBox.Name = "TablesListBox";
             this.TablesListBox.Size = new System.Drawing.Size(298, 212);
             this.TablesListBox.TabIndex = 4;
+            this.TablesListBox.SelectedIndexChanged += new System.EventHandler(this.TablesListBox_SelectedIndexChanged);
             // 
             // label8
             // 
@@ -631,6 +636,7 @@
             this.button7.TabIndex = 10;
             this.button7.Text = "Обновить список";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // MainUserForm
             // 
@@ -648,6 +654,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainUserForm";
             this.Text = "MainUserForm";
+            this.Load += new System.EventHandler(this.MainUserForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ProfilePanel.ResumeLayout(false);
