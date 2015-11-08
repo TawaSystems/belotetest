@@ -36,7 +36,7 @@ namespace BeloteClient
         {
             TablesListBox.Items.Clear();
             this.game.Tables.Clear();
-            this.game.ServerConnection.SendDataToServer("TSA");
+            this.game.ServerConnection.SendDataToServer(Messages.MESSAGE_TABLE_SELECT_ALL);
         }
 
         public void AddTable(int ID)

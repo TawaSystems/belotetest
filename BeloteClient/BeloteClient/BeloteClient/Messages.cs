@@ -71,6 +71,10 @@ namespace BeloteClient
         // Сообщение выборки столов
         public const string MESSAGE_TABLE_SELECT_TABLES = "TST";
 
+        public const string MESSAGE_TABLE_SELECT_ALL = "TSA";
+
+        public const string MESSAGE_TABLE_SELECT_CONCRETIC = "TSC";
+
         // Сообщения начала игры на столе
         public const string MESSAGE_GAME_START = "GTS";
 

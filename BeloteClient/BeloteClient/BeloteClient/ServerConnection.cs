@@ -242,6 +242,8 @@ namespace BeloteClient
                 case Messages.MESSAGE_TABLE_PLAYERS_DELETE:
                 case Messages.MESSAGE_TABLE_PLAYERS_QUIT:
                 case Messages.MESSAGE_TABLE_SELECT_TABLES:
+                case Messages.MESSAGE_TABLE_SELECT_ALL:
+                case Messages.MESSAGE_TABLE_SELECT_CONCRETIC:
                     {
                         ProcessTables(command, msg);
                         break;
@@ -346,6 +348,14 @@ namespace BeloteClient
                             Player4 = -1;
                         this.game.Dispatcher.BeginInvoke(new Action(() => this.game.AddPossibleTable(TableID, Bet, PlayersVisibility, Chat, 
                             MinimalLevel, VIPOnly, Moderation, AI, Creator, Player2, Player3, Player4)));
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_SELECT_ALL:
+                    {
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_SELECT_CONCRETIC:
+                    {
                         break;
                     }
                 default:
