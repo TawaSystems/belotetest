@@ -56,6 +56,13 @@ namespace BeloteClient
         public void ReceiveTableInformation(Table t)
         {
             CurrentTable = t;
+            ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, t.TableCreator));
+            if ((Place != 2) && (t.Player2 >= 0))
+                ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, t.Player2));
+            if ((Place != 3) && (t.Player3 >= 0))
+                ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, t.Player3));
+            if ((Place != 4) && (t.Player4 >= 0))
+                ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, t.Player4));
             userForm.Close();
             userForm = null;
             waitingForm = new WaitingForm(this);
@@ -65,6 +72,7 @@ namespace BeloteClient
         // Добавление игрока на стол в режиме ожидания игроков
         public void AddingToTable(int Player, int Place)
         {
+            ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, Player));
             switch (Place)
             {
                 case 2:
@@ -159,6 +167,7 @@ namespace BeloteClient
         {
             Table table = new Table(this, TableID, Creator, Bet, PlayersVisibility, Chat, MinimalLevel, true, VIPOnly, Moderation, AI);
             table.Player2 = Player2;
+            ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, Creator));
             if (Player2 >= 0)
                 ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, Player2));
             table.Player3 = Player3;
@@ -202,13 +211,9 @@ namespace BeloteClient
             if (Player.Profile.Id == p.Profile.Id)
             {
                 Player = p;
+            }
+            if (!Players.PlayerExists(p.Profile.Id))
                 Players.Add(p);
-            }
-            else
-            {
-                if (!Players.PlayerExists(p.Profile.Id))
-                    Players.Add(p);
-            }
         }
 
         public ServerConnection ServerConnection

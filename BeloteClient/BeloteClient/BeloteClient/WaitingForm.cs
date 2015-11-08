@@ -31,6 +31,7 @@ namespace BeloteClient
             {
                 Player1Label.Text = game.CurrentTable.TableCreator.ToString();
             }
+
             if (game.CurrentTable.Player2 != -1)
             {
                 if (game.Players[game.CurrentTable.Player2] != null)
@@ -51,6 +52,7 @@ namespace BeloteClient
             {
                 Player2Label.Text = "Пусто";
             }
+
             if (game.CurrentTable.Player3 != -1)
             {
                 if (game.Players[game.CurrentTable.Player3] != null)
@@ -71,6 +73,7 @@ namespace BeloteClient
             {
                 Player3Label.Text = "Пусто";
             }
+
             if (game.CurrentTable.Player4 != -1)
             {
                 if (game.Players[game.CurrentTable.Player4] != null)
@@ -89,7 +92,7 @@ namespace BeloteClient
             }
             else
             {
-                Player3Label.Text = "Пусто";
+                Player4Label.Text = "Пусто";
             }
         }
 
