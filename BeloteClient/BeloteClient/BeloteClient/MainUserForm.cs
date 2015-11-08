@@ -161,5 +161,18 @@ namespace BeloteClient
             CreatingTableForm creatingTable = new CreatingTableForm(this.game);
             creatingTable.ShowDialog();
         }
+
+        private void Player3Label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (CurrentTableID >= 0)
+            {
+                if (game.Tables[CurrentTableID].Player3 == -1)
+                {
+                    game.Place = 3;
+                    game.CurrentTable = game.Tables[CurrentTableID];
+                    game.ServerConnection.SendDataToServer(String.Format("{0}ID={1},Place={2}", Messages.MESSAGE_TABLE_PLAYERS_ADD, game.Place));
+                }
+            }
+        }
     }
 }

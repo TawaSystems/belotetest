@@ -584,6 +584,7 @@
             this.Player3Label.TabIndex = 5;
             this.Player3Label.TabStop = true;
             this.Player3Label.Text = "Пусто (Сесть)";
+            this.Player3Label.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Player3Label_LinkClicked);
             // 
             // Player1Label
             // 

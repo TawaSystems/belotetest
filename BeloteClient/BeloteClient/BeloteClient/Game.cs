@@ -36,6 +36,48 @@ namespace BeloteClient
             } 
         }
 
+        // Вход игрока на стол
+        public void EnterTheTable(int Result)
+        {
+            if (Result == 1)
+            {
+                // Отправка сообщения TSC
+                MessageBox.Show("Вход на стол выполнен успешно");   
+            }
+            else
+            {
+                MessageBox.Show("Не удалось войти на игровой стол");
+                CurrentTable = null;
+                Place = -1;
+            }
+        }
+
+        // Добавление игрока на стол в режиме ожидания игроков
+        public void AddingToTable(int Player, int Place)
+        {
+            switch (Place)
+            {
+                case 2:
+                    {
+                        CurrentTable.Player2 = Player;
+                        break;
+                    }
+                case 3:
+                    {
+                        CurrentTable.Player3 = Player;
+                        break;
+                    }
+                case 4:
+                    {
+                        CurrentTable.Player4 = Player;
+                        break;
+                    }
+                default:
+                    break;
+            }
+            waitingForm.UpdateLabels();
+        }
+
         // Создание игрового стола (получение результата от сервера)
         public void CreatingTable(int ID)
         {
@@ -148,7 +190,10 @@ namespace BeloteClient
             if (p == null)
                 return;
             if (Player.Profile.Id == p.Profile.Id)
+            {
                 Player = p;
+                Players.Add(p);
+            }
             else
             {
                 if (!Players.PlayerExists(p.Profile.Id))

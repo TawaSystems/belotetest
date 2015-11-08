@@ -305,6 +305,17 @@ namespace BeloteClient
                     }
                 case Messages.MESSAGE_TABLE_PLAYERS_ADD:
                     {
+                        string res;
+                        // Обработка для клиента отправившего сообщение
+                        if (tParams.TryGetValue("Result", out res))
+                        {
+                            this.game.Dispatcher.BeginInvoke(new Action(() => this.game.EnterTheTable(Int32.Parse(tParams["Result"]))));
+                        }
+                        // Обработка других клиентов
+                        else
+                        {
+                            this.game.Dispatcher.BeginInvoke(new Action(() => this.game.AddingToTable(Int32.Parse(tParams["Player"]), Int32.Parse(tParams["Place"]))));
+                        }
                         break;
                     }
                 case Messages.MESSAGE_TABLE_PLAYERS_DELETE:

@@ -21,7 +21,7 @@ namespace BeloteClient
             UpdateLabels();
         }
 
-        private void UpdateLabels()
+        public void UpdateLabels()
         {
             if (game.Players[game.CurrentTable.TableCreator] != null)
             {
