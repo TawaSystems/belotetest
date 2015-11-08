@@ -20,3 +20,4 @@ C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.Properti
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.RegistrationEmail.resources
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.csproj.GenerateResource.Cache
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.CreatingTableForm.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.WaitingForm.resources

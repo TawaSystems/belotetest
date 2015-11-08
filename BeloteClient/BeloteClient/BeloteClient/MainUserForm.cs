@@ -68,6 +68,10 @@ namespace BeloteClient
                     {
                         Player1Label.Text = game.Players[game.Tables[ID].TableCreator].Profile.Email;
                     }
+                    else
+                    {
+                        Player1Label.Text = game.Tables[ID].TableCreator.ToString();
+                    }
                     if (game.Tables[ID].Player2 != -1)
                     {
                         if (game.Players[game.Tables[ID].Player2] != null)
@@ -83,6 +87,10 @@ namespace BeloteClient
                         {
                             Player2Label.Text = game.Tables[ID].Player2.ToString();
                         }
+                    }
+                    else
+                    {
+                        Player2Label.Text = "Пусто (Сесть)";
                     }
                     if (game.Tables[ID].Player3 != -1)
                     {
@@ -100,6 +108,10 @@ namespace BeloteClient
                             Player3Label.Text = game.Tables[ID].Player3.ToString();
                         }
                     }
+                    else
+                    {
+                        Player3Label.Text = "Пусто (Сесть)";
+                    }
                     if (game.Tables[ID].Player4 != -1)
                     {
                         if (game.Players[game.Tables[ID].Player4] != null)
@@ -115,6 +127,10 @@ namespace BeloteClient
                         {
                             Player4Label.Text = game.Tables[ID].Player4.ToString();
                         }
+                    }
+                    else
+                    {
+                        Player4Label.Text = "Пусто (Сесть)";
                     }
                 }
             }

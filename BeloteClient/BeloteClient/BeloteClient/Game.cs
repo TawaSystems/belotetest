@@ -21,6 +21,7 @@ namespace BeloteClient
             AppDomain.CurrentDomain.ProcessExit += ProcessExit;
             Player = null;
             CurrentTable = null;
+            Place = -1;
             Tables = new TablesList(this);
             Players = new PlayersList(this);
             try
@@ -47,7 +48,9 @@ namespace BeloteClient
                     userForm.Close();
                     userForm = null;
                 }
-                waitingForm = new WaitingForm();
+                Tables.Clear();
+                Place = 1;
+                waitingForm = new WaitingForm(this);
                 waitingForm.Show();
             }
             else
@@ -184,6 +187,12 @@ namespace BeloteClient
         }
 
         public Table CurrentTable
+        {
+            get;
+            set;
+        }
+
+        public int Place
         {
             get;
             set;
