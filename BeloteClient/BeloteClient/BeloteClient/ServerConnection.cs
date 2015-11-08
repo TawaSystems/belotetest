@@ -19,6 +19,12 @@ namespace BeloteClient
             Command = Helpers.CommandFromStr(messageStr);
         }
 
+        public Message(string command, string msg)
+        {
+            this.Command = command;
+            this.Msg = msg;
+        }
+
         public string Msg
         {
             get;
@@ -167,7 +173,7 @@ namespace BeloteClient
         }
 
         // Выполнение команды на сервере и получение результата 
-        public string ExecuteMessage(Message msg)
+        public Dictionary<string, string> ExecuteMessage(Message msg)
         {
             SendDataToServer(msg.Command + msg.Msg);
             Message result = null;
@@ -188,7 +194,7 @@ namespace BeloteClient
             });
             worker.Start();
             worker.Join();
-            return result.Msg;
+            return Helpers.SplitCommandString(result.Msg);
         }
     }
 }

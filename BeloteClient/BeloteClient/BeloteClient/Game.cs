@@ -22,7 +22,8 @@ namespace BeloteClient
             try
             {
                 ServerConnection = new ServerConnection(this);
-                StartWithGuest();
+                guestForm = new MainGuestForm(this);
+                guestForm.Show();
             }
             catch (Exception ex)
             {
@@ -38,25 +39,43 @@ namespace BeloteClient
                 ServerConnection.Disconnect();
         }
 
-        // Запускаем приложение с окна гостя
-        public void StartWithGuest()
-        {
-            guestForm = new MainGuestForm(this);
-            guestForm.Show();
-        }
-
         // Регистрация с помощью электронной почты
         public void RegistrationEmail(string Email, string Password, string Nickname, string Sex, string Country)
         {
-           //ServerConnection.SendDataToServer(String.Format("{0}Nickname={1},Email={2},Password={3},Country={4},Sex={5}",
-                //Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL, Nickname, Email, Password, Country, Sex));
+            Message regMessage = new Message(Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL,
+                String.Format("Nickname={0},Email={1},Password={2},Country={3},Sex={4}", Nickname, Email, Password, Country, Sex));
+            Dictionary<string, string> res = ServerConnection.ExecuteMessage(regMessage);
+            if (res["Registration"] == "1")
+            {
+                MessageBox.Show("Регистрация прошла успешно!");
+            }
+            else
+            {
+                MessageBox.Show("Регистрация не удалась");
+            }
         }
 
         // Авторизация с помощью электронной почты
         public void AutorizationEmail(string Email, string Password)
         {
-            //ServerConnection.SendDataToServer(String.Format("{0}Email={1},Password={2}", Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL,
-              //  Email, Password));
+            Message autMessage = new Message(Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL,
+                String.Format("Email={0},Password={1}", Email, Password));
+            Dictionary<string, string> res = ServerConnection.ExecuteMessage(autMessage);
+            int ID = Int32.Parse(res["PlayerID"]);
+            if (ID != -1)
+            {
+                MessageBox.Show("Вход успешен!");
+                //Player = new Player(this, ID);
+                //ServerConnection.SendDataToServer(String.Format("{0}PlayerID={1}", Messages.MESSAGE_PLAYER_GET_INFORMATION, ID));
+                guestForm.Close();
+                guestForm = null;
+                userForm = new MainUserForm(this);
+                userForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Не удалось войти");
+            }
         }
         
         public ServerConnection ServerConnection
