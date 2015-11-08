@@ -203,6 +203,7 @@ namespace BeloteServer
                 case Messages.MESSAGE_TABLE_SELECT_TABLES:
                 case Messages.MESSAGE_TABLE_SELECT_ALL:
                 case Messages.MESSAGE_TABLE_PLAYERS_ADDBOT:
+                case Messages.MESSAGE_TABLE_SELECT_CONCRETIC:
                     {
                         Result = ProcessTables(command, msg);
                         break;
@@ -506,6 +507,16 @@ namespace BeloteServer
                                 (t.Player4 != null) ? t.Player4.ID : -1, Messages.MESSAGE_TABLE_SELECT_TABLES);
                             this.SendMessage(m);
                         }
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_SELECT_CONCRETIC:
+                    {
+                        int tableID = Int32.Parse(tableParams["ID"]);
+                        Table t = this.game.Tables[tableID];
+                        Result = String.Format("{12}ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
+                                t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
+                                Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
+                                (t.Player4 != null) ? t.Player4.ID : -1, Messages.MESSAGE_TABLE_SELECT_CONCRETIC);
                         break;
                     }
                 default:
