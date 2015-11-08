@@ -356,6 +356,24 @@ namespace BeloteClient
                     }
                 case Messages.MESSAGE_TABLE_SELECT_CONCRETIC:
                     {
+                        int TableID = Int32.Parse(tParams["ID"]);
+                        int Bet = Int32.Parse(tParams["Bet"]);
+                        bool PlayersVisibility = Helpers.StringToBool(tParams["PlayersVisibility"]);
+                        bool Chat = Helpers.StringToBool(tParams["Chat"]);
+                        int MinimalLevel = Int32.Parse(tParams["MinimalLevel"]);
+                        bool VIPOnly = Helpers.StringToBool(tParams["VIPOnly"]);
+                        bool Moderation = Helpers.StringToBool(tParams["Moderation"]);
+                        bool AI = Helpers.StringToBool(tParams["AI"]);
+                        int Creator = Int32.Parse(tParams["Creator"]);
+                        int Player2, Player3, Player4;
+                        if (!Int32.TryParse(tParams["Player2"], out Player2))
+                            Player2 = -1;
+                        if (!Int32.TryParse(tParams["Player3"], out Player3))
+                            Player3 = -1;
+                        if (!Int32.TryParse(tParams["Player4"], out Player4))
+                            Player4 = -1;
+                        this.game.Dispatcher.BeginInvoke(new Action(() => this.game.ReceiveTableInformation(new Table(this.game, TableID, Creator,
+                            Bet, PlayersVisibility, Chat, MinimalLevel, true, VIPOnly, Moderation, AI))));
                         break;
                     }
                 default:

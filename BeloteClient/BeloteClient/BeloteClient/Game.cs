@@ -52,6 +52,16 @@ namespace BeloteClient
             }
         }
 
+        // Получение информации об игровом столе, на который выполняется вход
+        public void ReceiveTableInformation(Table t)
+        {
+            CurrentTable = t;
+            userForm.Close();
+            userForm = null;
+            waitingForm = new WaitingForm(this);
+            waitingForm.Show();
+        }
+
         // Добавление игрока на стол в режиме ожидания игроков
         public void AddingToTable(int Player, int Place)
         {
