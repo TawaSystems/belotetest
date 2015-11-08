@@ -41,7 +41,7 @@ namespace BeloteClient
         {
             if (Result == 1)
             {
-                // Отправка сообщения TSC
+                ServerConnection.SendDataToServer(String.Format("{0}ID={1}", Messages.MESSAGE_TABLE_SELECT_CONCRETIC, CurrentTable.ID));
                 MessageBox.Show("Вход на стол выполнен успешно");   
             }
             else
