@@ -170,7 +170,36 @@ namespace BeloteClient
                 {
                     game.Place = 3;
                     game.CurrentTable = game.Tables[CurrentTableID];
-                    game.ServerConnection.SendDataToServer(String.Format("{0}ID={1},Place={2}", Messages.MESSAGE_TABLE_PLAYERS_ADD, game.Place));
+                    game.ServerConnection.SendDataToServer(String.Format("{0}ID={1},Place={2}", Messages.MESSAGE_TABLE_PLAYERS_ADD, 
+                        game.CurrentTable.ID, game.Place));
+                }
+            }
+        }
+
+        private void Player2Label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (CurrentTableID >= 0)
+            {
+                if (game.Tables[CurrentTableID].Player2 == -1)
+                {
+                    game.Place = 2;
+                    game.CurrentTable = game.Tables[CurrentTableID];
+                    game.ServerConnection.SendDataToServer(String.Format("{0}ID={1},Place={2}", Messages.MESSAGE_TABLE_PLAYERS_ADD,
+                        game.CurrentTable.ID, game.Place));
+                }
+            }
+        }
+
+        private void Player4Label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (CurrentTableID >= 0)
+            {
+                if (game.Tables[CurrentTableID].Player4 == -1)
+                {
+                    game.Place = 4;
+                    game.CurrentTable = game.Tables[CurrentTableID];
+                    game.ServerConnection.SendDataToServer(String.Format("{0}ID={1},Place={2}", Messages.MESSAGE_TABLE_PLAYERS_ADD,
+                        game.CurrentTable.ID, game.Place));
                 }
             }
         }

@@ -66,6 +66,7 @@
             this.TablesListBox = new System.Windows.Forms.ListBox();
             this.label8 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.TablePlayersVisibilityCheckBox = new System.Windows.Forms.CheckBox();
             this.TableAICheckBox = new System.Windows.Forms.CheckBox();
             this.TableModerationCheckBox = new System.Windows.Forms.CheckBox();
             this.TableVIPCheckBox = new System.Windows.Forms.CheckBox();
@@ -83,7 +84,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
-            this.TablePlayersVisibilityCheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.ProfilePanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -475,6 +475,17 @@
             this.panel3.Size = new System.Drawing.Size(308, 276);
             this.panel3.TabIndex = 6;
             // 
+            // TablePlayersVisibilityCheckBox
+            // 
+            this.TablePlayersVisibilityCheckBox.AutoSize = true;
+            this.TablePlayersVisibilityCheckBox.Enabled = false;
+            this.TablePlayersVisibilityCheckBox.Location = new System.Drawing.Point(30, 238);
+            this.TablePlayersVisibilityCheckBox.Name = "TablePlayersVisibilityCheckBox";
+            this.TablePlayersVisibilityCheckBox.Size = new System.Drawing.Size(126, 17);
+            this.TablePlayersVisibilityCheckBox.TabIndex = 16;
+            this.TablePlayersVisibilityCheckBox.Text = "Видимость игроков";
+            this.TablePlayersVisibilityCheckBox.UseVisualStyleBackColor = true;
+            // 
             // TableAICheckBox
             // 
             this.TableAICheckBox.AutoSize = true;
@@ -564,6 +575,7 @@
             this.Player4Label.TabIndex = 7;
             this.Player4Label.TabStop = true;
             this.Player4Label.Text = "Пусто (Сесть)";
+            this.Player4Label.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Player4Label_LinkClicked);
             // 
             // Player2Label
             // 
@@ -574,6 +586,7 @@
             this.Player2Label.TabIndex = 6;
             this.Player2Label.TabStop = true;
             this.Player2Label.Text = "Пусто (Сесть)";
+            this.Player2Label.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Player2Label_LinkClicked);
             // 
             // Player3Label
             // 
@@ -641,17 +654,6 @@
             this.button7.Text = "Обновить список";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // TablePlayersVisibilityCheckBox
-            // 
-            this.TablePlayersVisibilityCheckBox.AutoSize = true;
-            this.TablePlayersVisibilityCheckBox.Enabled = false;
-            this.TablePlayersVisibilityCheckBox.Location = new System.Drawing.Point(30, 238);
-            this.TablePlayersVisibilityCheckBox.Name = "TablePlayersVisibilityCheckBox";
-            this.TablePlayersVisibilityCheckBox.Size = new System.Drawing.Size(126, 17);
-            this.TablePlayersVisibilityCheckBox.TabIndex = 16;
-            this.TablePlayersVisibilityCheckBox.Text = "Видимость игроков";
-            this.TablePlayersVisibilityCheckBox.UseVisualStyleBackColor = true;
             // 
             // MainUserForm
             // 

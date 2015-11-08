@@ -372,8 +372,12 @@ namespace BeloteClient
                             Player3 = -1;
                         if (!Int32.TryParse(tParams["Player4"], out Player4))
                             Player4 = -1;
-                        this.game.Dispatcher.BeginInvoke(new Action(() => this.game.ReceiveTableInformation(new Table(this.game, TableID, Creator,
-                            Bet, PlayersVisibility, Chat, MinimalLevel, true, VIPOnly, Moderation, AI))));
+                        Table t = new Table(this.game, TableID, Creator,
+                            Bet, PlayersVisibility, Chat, MinimalLevel, true, VIPOnly, Moderation, AI);
+                        t.Player2 = Player2;
+                        t.Player3 = Player3;
+                        t.Player4 = Player4;
+                        this.game.Dispatcher.BeginInvoke(new Action(() => this.game.ReceiveTableInformation(t)));
                         break;
                     }
                 default:

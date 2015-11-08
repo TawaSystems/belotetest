@@ -258,10 +258,10 @@ namespace BeloteServer
         {
             // Получаем все параметры от клиента. Если не получено никаких параметров - заканчиваем обработку
             Dictionary<string, string> regParams = Helpers.SplitCommandString(message);
-            if (regParams == null)
+            /*if (regParams == null)
             {
                 return null;
-            }
+            }*/
             String Result = null;
             switch (command)
             {
@@ -413,10 +413,10 @@ namespace BeloteServer
         private string ProcessTables(string command, string message)
         {
             Dictionary<string, string> tableParams = Helpers.SplitCommandString(message);
-            if (tableParams == null)
+            /*if (tableParams == null)
             {
                 return null;
-            }
+            }*/
             string Result = null;
             switch (command)
             {
@@ -531,10 +531,10 @@ namespace BeloteServer
         private string ProcessGame(string command, string message)
         {
             Dictionary<string, string> gameParams = Helpers.SplitCommandString(message);
-            if (gameParams == null)
+            /*if (gameParams == null)
             {
                 return null;
-            }
+            }*/
             string Result = null;
             switch (command)
             {
@@ -640,10 +640,10 @@ namespace BeloteServer
         public string ProcessPlayer(string command, string message)
         {
             Dictionary<string, string> playerParams = Helpers.SplitCommandString(message);
-            if (playerParams == null)
+            /*if (playerParams == null)
             {
                 return null;
-            }
+            }*/
             string Result = null;
             switch (command)
             {
