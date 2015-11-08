@@ -62,6 +62,7 @@ namespace BeloteClient
                     TableVIPCheckBox.Checked = game.Tables[ID].VIPOnly;
                     TableMinLevelLabel.Text = game.Tables[ID].MinimalLevel.ToString();
                     TableBetSizeLabel.Text = game.Tables[ID].Bet.ToString();
+                    TablePlayersVisibilityCheckBox.Checked = game.Tables[ID].PlayersVisibility;
                     CurrentTableID = ID;
                     if (game.Players[game.Tables[ID].TableCreator] != null)
                     {
@@ -123,6 +124,7 @@ namespace BeloteClient
                 TableAICheckBox.Checked = false;
                 TableModerationCheckBox.Checked = false;
                 TableVIPCheckBox.Checked = false;
+                TablePlayersVisibilityCheckBox.Checked = false;
                 TableMinLevelLabel.Text = "0";
                 TableBetSizeLabel.Text = "0";
                 CurrentTableID = -1;
@@ -136,6 +138,12 @@ namespace BeloteClient
         private void MainUserForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            CreatingTableForm creatingTable = new CreatingTableForm(this.game);
+            creatingTable.ShowDialog();
         }
     }
 }

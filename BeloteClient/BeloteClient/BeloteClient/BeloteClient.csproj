@@ -49,6 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="CreatingTableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreatingTableForm.Designer.cs">
+      <DependentUpon>CreatingTableForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Game.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Player.cs" />
@@ -85,6 +91,15 @@
     <Compile Include="Statistics.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="TablesList.cs" />
+    <Compile Include="WaitingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WaitingForm.Designer.cs">
+      <DependentUpon>WaitingForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CreatingTableForm.resx">
+      <DependentUpon>CreatingTableForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EmailAutorizationForm.resx">
       <DependentUpon>EmailAutorizationForm.cs</DependentUpon>
     </EmbeddedResource>

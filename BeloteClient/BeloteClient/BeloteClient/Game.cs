@@ -13,12 +13,14 @@ namespace BeloteClient
     {
         private MainGuestForm guestForm;
         private MainUserForm userForm;
+        private WaitingForm waitingForm;
 
         public Game()
         {
             Dispatcher = Dispatcher.CurrentDispatcher;
             AppDomain.CurrentDomain.ProcessExit += ProcessExit;
             Player = null;
+            CurrentTable = null;
             Tables = new TablesList(this);
             Players = new PlayersList(this);
             try
@@ -31,6 +33,28 @@ namespace BeloteClient
                 MessageBox.Show(ex.Message);
                 Environment.Exit(0);    
             } 
+        }
+
+        // Создание игрового стола (получение результата от сервера)
+        public void CreatingTable(int ID)
+        {
+            if (ID != -1)
+            {
+                MessageBox.Show("Создание игрового стола прошло успешно!");
+                CurrentTable.ChangeID(ID);
+                if (userForm != null)
+                {
+                    userForm.Close();
+                    userForm = null;
+                }
+                waitingForm = new WaitingForm();
+                waitingForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Не удалось создать игровой стол");
+                CurrentTable = null;
+            }
         }
 
         // Событие при выходе из приложения
@@ -157,6 +181,12 @@ namespace BeloteClient
         {
             get;
             private set;
+        }
+
+        public Table CurrentTable
+        {
+            get;
+            set;
         }
     }
 }

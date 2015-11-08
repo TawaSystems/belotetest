@@ -291,6 +291,8 @@ namespace BeloteClient
             {
                 case Messages.MESSAGE_TABLE_MODIFY_CREATE:
                     {
+                        int ID = Int32.Parse(tParams["ID"]);
+                        this.game.Dispatcher.BeginInvoke(new Action(() => this.game.CreatingTable(ID)));
                         break;
                     }
                 case Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE:

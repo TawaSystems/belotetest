@@ -30,6 +30,11 @@ namespace BeloteClient
             this.ID = ID;
         }
 
+        public void ChangeID(int NewID)
+        {
+            ID = NewID;
+        }
+
         public int ID
         {
             get;

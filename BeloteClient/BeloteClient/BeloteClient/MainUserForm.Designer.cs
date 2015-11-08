@@ -83,6 +83,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
+            this.TablePlayersVisibilityCheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.ProfilePanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -385,6 +386,7 @@
             this.button6.TabIndex = 4;
             this.button6.Text = "Создать стол";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // LevelComboBox
             // 
@@ -450,6 +452,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.TablePlayersVisibilityCheckBox);
             this.panel3.Controls.Add(this.TableAICheckBox);
             this.panel3.Controls.Add(this.TableModerationCheckBox);
             this.panel3.Controls.Add(this.TableVIPCheckBox);
@@ -638,11 +641,23 @@
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
+            // TablePlayersVisibilityCheckBox
+            // 
+            this.TablePlayersVisibilityCheckBox.AutoSize = true;
+            this.TablePlayersVisibilityCheckBox.Enabled = false;
+            this.TablePlayersVisibilityCheckBox.Location = new System.Drawing.Point(30, 238);
+            this.TablePlayersVisibilityCheckBox.Name = "TablePlayersVisibilityCheckBox";
+            this.TablePlayersVisibilityCheckBox.Size = new System.Drawing.Size(126, 17);
+            this.TablePlayersVisibilityCheckBox.TabIndex = 16;
+            this.TablePlayersVisibilityCheckBox.Text = "Видимость игроков";
+            this.TablePlayersVisibilityCheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(653, 561);
+            this.ControlBox = false;
             this.Controls.Add(this.button7);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label8);
@@ -727,5 +742,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.CheckBox TablePlayersVisibilityCheckBox;
     }
 }
