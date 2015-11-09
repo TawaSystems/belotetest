@@ -193,8 +193,8 @@ namespace BeloteClient
             }
         }
 
-        // Выполнение команды на сервере и получение результата 
-        public Dictionary<string, string> ExecuteMessage(Message msg)
+        // Выполнение команды на сервере и возврат результата в виде "сообщения"
+        public Message ExecuteMessageGetMessage(Message msg)
         {
             SendDataToServer(msg.Command + msg.Msg);
             Message result = null;
@@ -216,7 +216,13 @@ namespace BeloteClient
             });
             worker.Start();
             worker.Join();
-            return Helpers.SplitCommandString(result.Msg);
+            return result;
+
+        }
+        // Выполнение команды на сервере и получение результата в виде словаря
+        public Dictionary<string, string> ExecuteMessage(Message msg)
+        {
+            return Helpers.SplitCommandString(ExecuteMessageGetMessage(msg).Msg);
         }
 
         // Выполняет сообщение без ожидания результата

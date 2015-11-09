@@ -9,15 +9,12 @@ namespace BeloteClient
 {
     public class Table
     {
-        private Game game;
-
-        public Table(Game Game, int ID, int Creator) : this(Game, ID, Creator, Constants.GAME_MINIMAL_BET, true, true, 0, true, false, false, true)
+        public Table(int ID, int Creator) : this(ID, Creator, Constants.GAME_MINIMAL_BET, true, true, 0, true, false, false, true)
         {
         }
 
-        public Table(Game Game, int ID, int Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
+        public Table(int ID, int Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility, bool VIPOnly, bool Moderation, bool AI)
         {
-            this.game = Game;
             this.Bet = Bet;
             this.TableCreator = Creator;
             this.PlayersVisibility = PlayersVisibility;
@@ -33,9 +30,8 @@ namespace BeloteClient
             this.Player4 = -1;
         }
 
-        public Table(Game game, Dictionary<string, string> tParams)
+        public Table(Dictionary<string, string> tParams)
         {
-            this.game = game;
             ID = Int32.Parse(tParams["ID"]);
             Bet = Int32.Parse(tParams["Bet"]);
             PlayersVisibility = Helpers.StringToBool(tParams["PlayersVisibility"]);

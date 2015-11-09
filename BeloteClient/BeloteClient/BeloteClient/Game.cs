@@ -21,6 +21,7 @@ namespace BeloteClient
             try
             {
                 serverActions = new ServerActions();
+                PossibleTables = null;
                 guestForm = new MainGuestForm(this);
                 guestForm.Show();
             }
@@ -62,14 +63,18 @@ namespace BeloteClient
                 guestForm.Close();
                 guestForm = null;
                 userForm = new MainUserForm(this);
-                serverActions.AddMessageHandler(Messages.MESSAGE_TABLE_SELECT_TABLES, userForm.AddTableToListBox);
-                serverActions.GetAllPossibleTables();
+                userForm.UpdateTables();
                 userForm.Show();
             }
             else
             {
                 MessageBox.Show("Не удалось войти");
             }
+        }
+
+        public void UpdatePossibleTables()
+        {
+            PossibleTables = serverActions.GetAllPossibleTables(); 
         }
 
         public ServerActions serverActions
@@ -84,10 +89,11 @@ namespace BeloteClient
             private set;
         }
 
-        public Dispatcher Dispatcher
+        public TablesList PossibleTables
         {
             get;
             private set;
         }
+
     }
 }

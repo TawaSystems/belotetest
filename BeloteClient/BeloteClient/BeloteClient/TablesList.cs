@@ -9,12 +9,10 @@ namespace BeloteClient
 {
     public class TablesList
     {
-        private Game game;
         private List<Table> tables;
 
-        public TablesList(Game Game)
+        public TablesList()
         {
-            game = Game;
             tables = new List<Table>();
         }
 
@@ -31,6 +29,11 @@ namespace BeloteClient
         public void AddTable(Table table)
         {
             tables.Add(table);
+        }
+
+        public Table GetTableAt(int Index)
+        {
+            return tables[Index];
         }
 
         // Метод удаления игрового стола по его идентификатору

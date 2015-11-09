@@ -49,9 +49,27 @@ namespace BeloteClient
         }
 
         // Выборка всех столов, для этого должны быть созданы обработчики событий
-        public void GetAllPossibleTables()
+        public TablesList GetAllPossibleTables()
         {
-            ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_TABLE_SELECT_ALL, ""));
+            string resultTables = ServerConnection.ExecuteMessageGetMessage(new Message(Messages.MESSAGE_TABLE_SELECT_ALL, "")).Msg;
+            if (resultTables == "")
+            {
+                return null;
+            }
+            TablesList tablesList = new TablesList();
+            try
+            {
+                string[] tables = resultTables.Split('|');
+                foreach (string s in tables)
+                {
+                    tablesList.AddTable(new Table(Helpers.SplitCommandString(s)));
+                }
+                return tablesList;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         // Добавление обработчика сообщения

@@ -20,11 +20,22 @@ namespace BeloteClient
             InitializeComponent();
         }
 
-        public void AddTableToListBox(Message Msg)
+        public void UpdateTables()
         {
-            Dictionary<string, string> tParams = Helpers.SplitCommandString(Msg.Msg);
-            Table t = new Table(game, tParams);
-            TablesListBox.Items.Add(t.ID.ToString());
+            TablesListBox.Items.Clear();
+            TablesListBox.SelectedIndex = -1;
+            game.UpdatePossibleTables();
+            if (game.PossibleTables == null)
+            {
+                MessageBox.Show("Нет доступных столов!");
+            }
+            else
+            {
+                for (var i = 0; i < game.PossibleTables.Count; i++)
+                {
+                    TablesListBox.Items.Add(game.PossibleTables.GetTableAt(i).ID.ToString());
+                }
+            }
         }
 
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
@@ -39,8 +50,7 @@ namespace BeloteClient
 
         private void button7_Click(object sender, EventArgs e)
         {
-            TablesListBox.Items.Clear();
-            this.game.serverActions.GetAllPossibleTables();
+            UpdateTables();
         }
 
         private void TablesListBox_SelectedIndexChanged(object sender, EventArgs e)
