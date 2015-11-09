@@ -84,7 +84,7 @@ namespace BeloteClient
                 client = new TcpClient(Constants.SERVER_LOCAL_IP, Constants.SERVER_PORT);
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
@@ -119,7 +119,7 @@ namespace BeloteClient
                         messagesList.Add(new Message(builder.ToString()));
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
                     Disconnect();
                 }

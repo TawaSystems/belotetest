@@ -22,6 +22,9 @@ namespace BeloteClient
             {
                 serverActions = new ServerActions();
                 PossibleTables = null;
+                CurrentTable = null;
+                Player = null;
+                Place = -1;
                 guestForm = new MainGuestForm(this);
                 guestForm.Show();
             }
@@ -77,6 +80,42 @@ namespace BeloteClient
             PossibleTables = serverActions.GetAllPossibleTables(); 
         }
 
+        public void CreateTable(int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility,
+            bool VIPOnly, bool Moderation, bool AI)
+        {
+            Table t = serverActions.CreateTable(this.Player.Profile.Id, Bet, PlayersVisibility, Chat, MinimalLevel, TableVisibility,
+                VIPOnly, Moderation, AI);
+            if (t != null)
+            {
+                MessageBox.Show("Создание стола прошло успешно!");
+                ChangeCurrentTable(t);
+                ChangeCurrentPlace(1);
+                if (userForm != null)
+                {
+                    userForm.Close();
+                    userForm = null;
+                }
+                waitingForm = new WaitingForm(this);
+                waitingForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Не удалось создать игровой стол");
+            }
+            
+        }
+
+        public void ChangeCurrentTable(Table newCurrentTable)
+        {
+            PossibleTables = null;
+            CurrentTable = newCurrentTable;
+        }
+
+        public void ChangeCurrentPlace(int newPlace)
+        {
+            Place = newPlace;
+        }
+
         public ServerActions serverActions
         {
             get;
@@ -90,6 +129,18 @@ namespace BeloteClient
         }
 
         public TablesList PossibleTables
+        {
+            get;
+            private set;
+        }
+
+        public Table CurrentTable
+        {
+            get;
+            private set;
+        }
+
+        public int Place
         {
             get;
             private set;

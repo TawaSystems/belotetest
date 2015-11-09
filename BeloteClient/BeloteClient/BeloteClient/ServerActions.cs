@@ -72,6 +72,32 @@ namespace BeloteClient
             }
         }
 
+        // Создание игрового стола
+        public Table CreateTable(int Creator, int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility,
+            bool VIPOnly, bool Moderation, bool AI)
+        {
+            Table result = new Table(-1, Creator, Bet, PlayersVisibility, Chat, MinimalLevel, TableVisibility,
+                VIPOnly, Moderation, AI);
+            result.Player2 = -1;
+            result.Player3 = -1;
+            result.Player4 = -1;
+            Dictionary<string, string> tParams = ServerConnection.ExecuteMessage(new Message(Messages.MESSAGE_TABLE_MODIFY_CREATE,
+                String.Format("Bet={0},PlayersVisibility={1},Chat={2},MinimalLevel={3},TableVisibility={4},VIPOnly={5},Moderation={6},AI={7}",
+                Bet, Helpers.BoolToString(PlayersVisibility), Helpers.BoolToString(Chat),
+                MinimalLevel, Helpers.BoolToString(TableVisibility), Helpers.BoolToString(VIPOnly),
+                Helpers.BoolToString(Moderation), Helpers.BoolToString(AI))));
+            int ID = Int32.Parse(tParams["ID"]);
+            if (ID != -1)
+            {
+                result.ChangeID(ID);
+                return result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         // Добавление обработчика сообщения
         public void AddMessageHandler(string Command, MessageDelegate Handler)
         {

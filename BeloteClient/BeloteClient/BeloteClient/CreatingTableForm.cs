@@ -22,6 +22,9 @@ namespace BeloteClient
 
         private void button1_Click(object sender, EventArgs e)
         {
+            game.CreateTable((int)BetUpDown.Value, TablePlayersVisibilityCheckBox.Checked,
+                TableChatCheckBox.Checked, (int)LevelUpDown.Value, TableTableVisibilityCheckBox.Checked, TableVIPCheckBox.Checked,
+                TableModerationCheckBox.Checked, TableAICheckBox.Checked);
             Close();
         }
     }

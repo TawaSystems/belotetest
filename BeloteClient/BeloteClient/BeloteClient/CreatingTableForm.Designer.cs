@@ -38,6 +38,7 @@
             this.BetUpDown = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
             this.TablePlayersVisibilityCheckBox = new System.Windows.Forms.CheckBox();
+            this.TableTableVisibilityCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.LevelUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BetUpDown)).BeginInit();
             this.SuspendLayout();
@@ -159,11 +160,22 @@
             this.TablePlayersVisibilityCheckBox.Text = "Видимость игроков";
             this.TablePlayersVisibilityCheckBox.UseVisualStyleBackColor = true;
             // 
+            // TableTableVisibilityCheckBox
+            // 
+            this.TableTableVisibilityCheckBox.AutoSize = true;
+            this.TableTableVisibilityCheckBox.Location = new System.Drawing.Point(12, 127);
+            this.TableTableVisibilityCheckBox.Name = "TableTableVisibilityCheckBox";
+            this.TableTableVisibilityCheckBox.Size = new System.Drawing.Size(114, 17);
+            this.TableTableVisibilityCheckBox.TabIndex = 27;
+            this.TableTableVisibilityCheckBox.Text = "Видимость стола";
+            this.TableTableVisibilityCheckBox.UseVisualStyleBackColor = true;
+            // 
             // CreatingTableForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(405, 161);
+            this.Controls.Add(this.TableTableVisibilityCheckBox);
             this.Controls.Add(this.TablePlayersVisibilityCheckBox);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.BetUpDown);
@@ -195,5 +207,6 @@
         private System.Windows.Forms.NumericUpDown BetUpDown;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox TablePlayersVisibilityCheckBox;
+        private System.Windows.Forms.CheckBox TableTableVisibilityCheckBox;
     }
 }
