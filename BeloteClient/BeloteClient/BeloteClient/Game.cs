@@ -17,11 +17,10 @@ namespace BeloteClient
 
         public Game()
         {
-            Dispatcher = Dispatcher.CurrentDispatcher;
             AppDomain.CurrentDomain.ProcessExit += ProcessExit;
             try
             {
-                ServerConnection = new ServerConnection(this);
+                serverActions = new ServerActions();
                 guestForm = new MainGuestForm(this);
                 guestForm.Show();
             }
@@ -35,17 +34,14 @@ namespace BeloteClient
         // Событие при выходе из приложения
         public void ProcessExit(Object Sender, EventArgs e)
         {
-            if (ServerConnection != null)
-                ServerConnection.Disconnect();
+            if (serverActions != null)
+                serverActions.Disconnect();
         }
 
         // Регистрация с помощью электронной почты
         public void RegistrationEmail(string Email, string Password, string Nickname, string Sex, string Country)
         {
-            Message regMessage = new Message(Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL,
-                String.Format("Nickname={0},Email={1},Password={2},Country={3},Sex={4}", Nickname, Email, Password, Country, Sex));
-            Dictionary<string, string> res = ServerConnection.ExecuteMessage(regMessage);
-            if (res["Registration"] == "1")
+            if (serverActions.RegistrationEmail(Email, Password, Nickname, Sex, Country))
             {
                 MessageBox.Show("Регистрация прошла успешно!");
             }
@@ -58,30 +54,16 @@ namespace BeloteClient
         // Авторизация с помощью электронной почты
         public void AutorizationEmail(string Email, string Password)
         {
-            Message autMessage = new Message(Messages.MESSAGE_AUTORIZATION_AUTORIZATION_EMAIL,
-                String.Format("Email={0},Password={1}", Email, Password));
-            Dictionary<string, string> res = ServerConnection.ExecuteMessage(autMessage);
-            int ID = Int32.Parse(res["PlayerID"]);
-            if (ID != -1)
+            int PlayerID;
+            if (serverActions.AutorizationEmail(Email, Password, out PlayerID))
             {
                 MessageBox.Show("Вход успешен!");
-                Message playerMessage = new Message(Messages.MESSAGE_PLAYER_GET_INFORMATION,
-                    String.Format("PlayerID={0}", ID));
-                Dictionary<string, string> player = ServerConnection.ExecuteMessage(playerMessage);
-                Player = new Player(this, player);
+                Player = serverActions.GetPlayer(PlayerID);
                 guestForm.Close();
                 guestForm = null;
                 userForm = new MainUserForm(this);
-                MessageDelegate selecttablesHandler = delegate (Message Msg) 
-                {
-                    Dictionary<string, string> tParams = Helpers.SplitCommandString(Msg.Msg);
-                    if (userForm != null)
-                    {
-                        userForm.AddTableToListBox(new Table(this, tParams));
-                    }
-                };
-                ServerConnection.AddMessageHandler(Messages.MESSAGE_TABLE_SELECT_TABLES, selecttablesHandler);
-                ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_TABLE_SELECT_ALL, ""));
+                serverActions.AddMessageHandler(Messages.MESSAGE_TABLE_SELECT_TABLES, userForm.AddTableToListBox);
+                serverActions.GetAllPossibleTables();
                 userForm.Show();
             }
             else
@@ -89,8 +71,8 @@ namespace BeloteClient
                 MessageBox.Show("Не удалось войти");
             }
         }
-        
-        public ServerConnection ServerConnection
+
+        public ServerActions serverActions
         {
             get;
             private set;

@@ -9,22 +9,22 @@ namespace BeloteClient
 {
     public class Player
     {
-        public Player(Game game) : this (game, -1)
+        public Player() : this (-1)
         {
         }
 
         // Конструктор - создание по ID и основному игровому объекту
-        public Player(Game game, int Id)
+        public Player(int Id)
         {
-            this.Game = game;
             Statistics = new Statistics();
             Profile = new Profile();
             Profile.Id = Id;
         }
 
-        public Player(Game game, Dictionary<string, string> pParams)
+        public Player(Dictionary<string, string> pParams)
         {
-            this.Game = game;
+            Statistics = new Statistics();
+            Profile = new Profile();
             this.Profile.Id = Int32.Parse(pParams["PlayerID"]);
             DateTime d;
             Profile.Nickname = pParams["Nickname"];
@@ -45,13 +45,6 @@ namespace BeloteClient
                 Profile.BirtDate = d;
             if (DateTime.TryParse(pParams["VIPExperies"], out d))
                 Profile.VIPExperies = d;
-        }
-
-        // Ссылка на основной игровой объект
-        public Game Game
-        {
-            get;
-            private set;
         }
 
         // Статистика игрока

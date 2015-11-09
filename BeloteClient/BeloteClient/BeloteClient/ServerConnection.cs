@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading;
 using System.Net.Sockets;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace BeloteClient
 {
@@ -51,24 +52,24 @@ namespace BeloteClient
         private Thread messagesWorker;
         // Поток данных сервера
         private NetworkStream stream;
-        // Игровой объект
-        private Game game;
         // Список с необработанными сообщениями
         private List<Message> messagesList;
         // Список с обработчиками сообщений
-        private Dictionary<string, MessageDelegate> messageHandlers;
-        
+        private Dictionary<string, List<MessageDelegate>> messageHandlers;
+        // Диспетчер для главного потока
+        private Dispatcher dispatcher;
+         
         // Конструктор - создание всех объектов
-        public ServerConnection(Game Game)
+        public ServerConnection()
         {
             if (!Connect())
             {
                 throw new Exception("Не удалось подключиться к серверу");
             }
-            game = Game;
+            dispatcher = Dispatcher.CurrentDispatcher;
             stream = client.GetStream();
             messagesList = new List<Message>();
-            messageHandlers = new Dictionary<string, MessageDelegate>();
+            messageHandlers = new Dictionary<string, List<MessageDelegate>>();
             serverWorker = new Thread(ProcessServer);
             serverWorker.Start();
             messagesWorker = new Thread(ProcessMessages);
@@ -134,15 +135,21 @@ namespace BeloteClient
                 {
                     foreach (Message msg in messagesList)
                     {
-                        MessageDelegate msgHandler;
-                        if (messageHandlers.TryGetValue(msg.Command, out msgHandler))
+                        List<MessageDelegate> msgHandlers;
+                        if (messageHandlers.TryGetValue(msg.Command, out msgHandlers))
                         {
-                            messagesList.Remove(msg);
-                            this.game.Dispatcher.BeginInvoke(new Action(() => msgHandler(msg)));
+                            if (msgHandlers.Count > 0)
+                            {
+                                messagesList.Remove(msg);
+                                foreach (MessageDelegate md in msgHandlers)
+                                {
+                                    dispatcher.BeginInvoke(new Action(() => md(msg)));
+                                }
+                            }
                         }
                     }
-                    Thread.Sleep(300);
                 }
+                Thread.Sleep(100);
             }
         }
 
@@ -163,13 +170,27 @@ namespace BeloteClient
         // Добавление обработчика сообщения
         public void AddMessageHandler(string Command, MessageDelegate Handler)
         {
-            messageHandlers.Add(Command, Handler);
+            List<MessageDelegate> msgHandlers;
+            if (!messageHandlers.TryGetValue(Command, out msgHandlers))
+            {
+                msgHandlers = new List<MessageDelegate>();
+                messageHandlers.Add(Command, msgHandlers);
+            }
+            msgHandlers.Add(Handler);
         }
 
         // Удаление обработчика сообщения
-        public void DeleteMessageHandler(string Command)
+        public void DeleteMessageHandler(string Command, MessageDelegate Handler)
         {
-            messageHandlers.Remove(Command);
+            List<MessageDelegate> msgHandlers;
+            if (messageHandlers.TryGetValue(Command, out msgHandlers))
+            {
+                msgHandlers.Remove(Handler);
+                if (msgHandlers.Count == 0)
+                {
+                    messageHandlers.Remove(Command);
+                }
+            }
         }
 
         // Выполнение команды на сервере и получение результата 

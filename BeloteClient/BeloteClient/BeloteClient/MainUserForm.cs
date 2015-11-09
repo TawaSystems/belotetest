@@ -20,8 +20,10 @@ namespace BeloteClient
             InitializeComponent();
         }
 
-        public void AddTableToListBox(Table t)
+        public void AddTableToListBox(Message Msg)
         {
+            Dictionary<string, string> tParams = Helpers.SplitCommandString(Msg.Msg);
+            Table t = new Table(game, tParams);
             TablesListBox.Items.Add(t.ID.ToString());
         }
 
@@ -35,14 +37,10 @@ namespace BeloteClient
             Environment.Exit(0);
         }
 
-        public void UpdateTablesList()
-        {
-        }
-
         private void button7_Click(object sender, EventArgs e)
         {
             TablesListBox.Items.Clear();
-            this.game.ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_TABLE_SELECT_ALL, ""));
+            this.game.serverActions.GetAllPossibleTables();
         }
 
         private void TablesListBox_SelectedIndexChanged(object sender, EventArgs e)

@@ -60,6 +60,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="PlayersList.cs" />
     <Compile Include="Profile.cs" />
+    <Compile Include="ServerActions.cs" />
     <Compile Include="ServerConnection.cs" />
     <Compile Include="EmailAutorizationForm.cs">
       <SubType>Form</SubType>
