@@ -121,7 +121,6 @@ namespace BeloteServer
 #if DEBUG
                 Debug.WriteLine(ex.Message);
 #endif
-                this.game.Server.Clients.DeleteClient(this);
             }
             finally
             {
@@ -133,6 +132,26 @@ namespace BeloteServer
                 Debug.WriteLine("Количество подключенных клиентов в списке: " + this.game.Server.Clients.Count);
                 Debug.Unindent();
 #endif
+                if (ActiveTable != null)
+                {
+                    if (ActivePlace == 1)
+                    {
+                        ProcessCommand(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE);
+                    }
+                    else
+                    {
+                        if (ActiveTable.Status == TableStatus.WAITING)
+                        {
+                            ProcessCommand(Messages.MESSAGE_TABLE_PLAYERS_DELETE);
+                        }
+                        else
+                        if (ActiveTable.Status == TableStatus.PLAYING)
+                        {
+                            ProcessCommand(Messages.MESSAGE_TABLE_PLAYERS_QUIT);
+                        }
+                    }
+                }
+                this.game.Server.Clients.DeleteClient(this);
                 // Закрытие клиента и потока его данных
                 if (stream != null)
                     stream.Close();
@@ -191,7 +210,6 @@ namespace BeloteServer
                 // Обработка отключения клиента
                 case Messages.MESSAGE_CLIENT_DISCONNECT:
                     {
-                        this.game.Server.Clients.DeleteClient(this);
                         Result = "EXT";
                         break;
                     }
@@ -484,6 +502,47 @@ namespace BeloteServer
                 // Выход игрока со стола в режиме игры
                 case Messages.MESSAGE_TABLE_PLAYERS_QUIT:
                     {
+                        this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
+                        // Если разрешена замена на AI
+                        if (ActiveTable.AI)
+                        {
+                            ClientBot b = new ClientBot(ActivePlace, ActiveTable.ID);
+                            switch (ActivePlace)
+                            {
+                                case 2:
+                                    {
+                                        ActiveTable.Player2 = b;
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        ActiveTable.Player3 = b;
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        ActiveTable.Player4 = b;
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        break;
+                                    }
+                            }
+                            string msg = String.Format("{0}Continue=1,Place={1},NewPlayer={2}", Messages.MESSAGE_TABLE_PLAYERS_QUIT, ActivePlace, b.ID);
+                            ActiveTable.SendMessageToClients(msg);
+                            ActiveTable = null;
+                            ActivePlace = -1;
+                        }
+                        // Если нет, то игра на столе завершается
+                        else
+                        {
+                            string msg = String.Format("{0}Continue=0", Messages.MESSAGE_TABLE_PLAYERS_QUIT);
+                            ActiveTable.SendMessageToClients(msg);
+                            ActiveTable.CloseTable();
+                        }
+                        ActiveTable = null;
+                        ActivePlace = -1;
                         break;
                     }
                 // Выборка списка игровых столов по выбранным параметрам
