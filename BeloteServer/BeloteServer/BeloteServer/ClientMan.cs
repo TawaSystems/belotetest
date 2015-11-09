@@ -489,7 +489,7 @@ namespace BeloteServer
                 case Messages.MESSAGE_TABLE_PLAYERS_ADDBOT:
                     {
                         int place = Int32.Parse(tableParams["Place"]);
-                        ClientBot b = new ClientBot(place, ActiveTable.ID);
+                        ClientBot b = new ClientBot(place, ActiveTable);
                         Result = Messages.MESSAGE_TABLE_PLAYERS_ADDBOT + "Result=";
                         if (this.game.Tables.AddPlayer(ActiveTable.ID, b, place))
                         {
@@ -506,7 +506,7 @@ namespace BeloteServer
                         // Если разрешена замена на AI
                         if (ActiveTable.AI)
                         {
-                            ClientBot b = new ClientBot(ActivePlace, ActiveTable.ID);
+                            ClientBot b = new ClientBot(ActivePlace, ActiveTable);
                             switch (ActivePlace)
                             {
                                 case 2:
