@@ -26,5 +26,16 @@ namespace BeloteServer
             }
         }
 
+        public Table ActiveTable
+        {
+            get;
+            protected set;
+        }
+
+        public int ActivePlace
+        {
+            get;
+            protected set;
+        }
     }
 }

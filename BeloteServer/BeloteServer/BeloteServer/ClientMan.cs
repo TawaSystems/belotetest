@@ -31,6 +31,8 @@ namespace BeloteServer
             client = tcpClient;
             this.game = game;
             Player = null;
+            ActiveTable = null;
+            ActivePlace = -1;
             // Обработка нового клиента происходит в отдельном потоке
             worker = new Thread(Process);
             worker.Start();
@@ -258,10 +260,6 @@ namespace BeloteServer
         {
             // Получаем все параметры от клиента. Если не получено никаких параметров - заканчиваем обработку
             Dictionary<string, string> regParams = Helpers.SplitCommandString(message);
-            /*if (regParams == null)
-            {
-                return null;
-            }*/
             String Result = null;
             switch (command)
             {
@@ -413,10 +411,6 @@ namespace BeloteServer
         private string ProcessTables(string command, string message)
         {
             Dictionary<string, string> tableParams = Helpers.SplitCommandString(message);
-            /*if (tableParams == null)
-            {
-                return null;
-            }*/
             string Result = null;
             switch (command)
             {
@@ -427,21 +421,24 @@ namespace BeloteServer
                                         Helpers.StringToBool(tableParams["PlayersVisibility"]), Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]),
                                         Helpers.StringToBool(tableParams["TableVisibility"]), Helpers.StringToBool(tableParams["VIPOnly"]), Helpers.StringToBool(tableParams["Moderation"]),
                                         Helpers.StringToBool(tableParams["AI"]));
+                        ActivePlace = 1;
+                        ActiveTable = this.game.Tables[tableID];
                         Result = Messages.MESSAGE_TABLE_MODIFY_CREATE + "ID=" + tableID.ToString();
                         break;
                     }
                 // Покидание игрового стола создателем
                 case Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE:
                     {
-                        Table closingTable = this.game.Tables[Int32.Parse(tableParams["ID"])];
-                        closingTable.SendMessageToClientsWithoutCreator(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE);
-                        closingTable.CloseTable();
+                        ActiveTable.SendMessageToClientsWithoutCreator(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE);
+                        ActiveTable.CloseTable();
+                        ActiveTable = null;
+                        ActivePlace = 0;
                         break;
                     }
                 // Открытие стола для всех игроков (TableVisibility = true)
                 case Messages.MESSAGE_TABLE_MODIFY_VISIBILITY:
                     {
-                        this.game.Tables[Int32.Parse(tableParams["ID"])].TableVisibility = true;
+                        ActiveTable.TableVisibility = true;
                         break;
                     }
                 // Добавление игрока на стол в режиме ожидания
@@ -453,7 +450,11 @@ namespace BeloteServer
                         int place = Int32.Parse(tableParams["Place"]);
                         Result = Messages.MESSAGE_TABLE_PLAYERS_ADD + "Result=";
                         if (this.game.Tables.AddPlayer(tableID, c, place))
+                        {
                             Result += "1";
+                            ActiveTable = this.game.Tables[tableID];
+                            ActivePlace = place;
+                        }
                         else
                             Result += "0";
                         break;
@@ -461,17 +462,23 @@ namespace BeloteServer
                 // Удаление игрока со стола в режиме ожидания
                 case Messages.MESSAGE_TABLE_PLAYERS_DELETE:
                     {
-                        int tableID = Int32.Parse(tableParams["ID"]);
-                        int place = Int32.Parse(tableParams["Place"]);
-                        this.game.Tables.RemovePlayer(tableID, place);
+                        this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
+                        ActivePlace = -1;
+                        ActiveTable = null;
                         break;
                     }
                 // Добавление бота на стол
                 case Messages.MESSAGE_TABLE_PLAYERS_ADDBOT:
                     {
-                        int tableID = Int32.Parse(tableParams["ID"]);
                         int place = Int32.Parse(tableParams["Place"]);
-                        ClientBot b = new ClientBot(place, tableID);
+                        ClientBot b = new ClientBot(place, ActiveTable.ID);
+                        Result = Messages.MESSAGE_TABLE_PLAYERS_ADDBOT + "Result=";
+                        if (this.game.Tables.AddPlayer(ActiveTable.ID, b, place))
+                        {
+                            Result += "1";
+                        }
+                        else
+                            Result += "0";
                         break;
                     }
                 // Выход игрока со стола в режиме игры
@@ -531,22 +538,17 @@ namespace BeloteServer
         private string ProcessGame(string command, string message)
         {
             Dictionary<string, string> gameParams = Helpers.SplitCommandString(message);
-            /*if (gameParams == null)
-            {
-                return null;
-            }*/
             string Result = null;
             switch (command)
             {
                 // Обработка ставки игрока
                 case Messages.MESSAGE_GAME_BAZAR_BET:
                     {
-                        int tableID = Int32.Parse(gameParams["ID"]);
                         int orderSize = Int32.Parse(gameParams["Size"]);
                         OrderType type = (OrderType)Int32.Parse(gameParams["Type"]);
                         CardSuit suit = Helpers.StringToSuit(gameParams["Trump"]);
                         // Добавление заявки в список заявок текущего стола
-                        this.game.Tables[tableID].AddOrder(new Order(type, orderSize, suit));
+                        ActiveTable.AddOrder(new Order(type, orderSize, suit));
                         break;
                     }
                 // Завершение процесса торговли
@@ -572,8 +574,6 @@ namespace BeloteServer
                 // Анонсирование бонусов игроком
                 case Messages.MESSAGE_GAME_BONUSES_ANNOUNCE:
                     {
-                        int tableID = Int32.Parse(gameParams["ID"]);
-                        int Place = Int32.Parse(gameParams["Place"]);
                         int bonusCount = Int32.Parse(gameParams["Count"]);
                         string Str = gameParams["Count"];
                         for (var i = 0; i < bonusCount; i++)
@@ -581,7 +581,7 @@ namespace BeloteServer
                             Str += String.Format(",Bonus{0}={1}", i, gameParams["Bonus" + i.ToString()]);
                         }
                         BonusList bList = new BonusList(Str);
-                        this.game.Tables[tableID].AnnounceBonuses(Place, bList);
+                        ActiveTable.AnnounceBonuses(ActivePlace, bList);
                         break;
                     }
                 // Уведомление о типах анонсированных бонусов для других игроков
@@ -612,10 +612,8 @@ namespace BeloteServer
                 // Ход игрока
                 case Messages.MESSAGE_GAME_GAMING_PLAYERMOVE:
                     {
-                        int tableID = Int32.Parse(gameParams["ID"]);
-                        int place = Int32.Parse(gameParams["Place"]);
                         Card card = new Card(gameParams["Card"]);
-                        this.game.Tables[tableID].PlayerMove(place, card);
+                        ActiveTable.PlayerMove(ActivePlace, card);
                         break;
                     }
                 // Уведомление других игроков о карте которой походил игрок
@@ -640,10 +638,6 @@ namespace BeloteServer
         public string ProcessPlayer(string command, string message)
         {
             Dictionary<string, string> playerParams = Helpers.SplitCommandString(message);
-            /*if (playerParams == null)
-            {
-                return null;
-            }*/
             string Result = null;
             switch (command)
             {
