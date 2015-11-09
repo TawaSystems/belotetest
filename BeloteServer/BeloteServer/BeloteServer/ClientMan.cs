@@ -551,13 +551,16 @@ namespace BeloteServer
                         List<Table> list = this.game.Tables.FindTables(Int32.Parse(tableParams["BetFrom"]), Int32.Parse(tableParams["BetTo"]), Helpers.StringToBool(tableParams["PlayersVisibility"]),
                                         Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]), Helpers.StringToBool(tableParams["VIPOnly"]),
                                         Helpers.StringToBool(tableParams["Moderation"]), Helpers.StringToBool(tableParams["AI"]));
+                        Result = Messages.MESSAGE_TABLE_SELECT_TABLES;
                         foreach (Table t in list)
                         {
-                            string m = String.Format("{12}ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
+                            if (Result.Length > Messages.MESSAGE_TABLE_SELECT_TABLES.Length)
+                                Result += "|";
+                            string m = String.Format("ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
                                 t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
                                 Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
-                                (t.Player4 != null) ? t.Player4.ID : -1, Messages.MESSAGE_TABLE_SELECT_TABLES);
-                            this.SendMessage(m);
+                                (t.Player4 != null) ? t.Player4.ID : -1);
+                            Result += m;
                         }
                         break;
                     }
@@ -565,24 +568,35 @@ namespace BeloteServer
                 case Messages.MESSAGE_TABLE_SELECT_ALL:
                     {
                         List<Table> list = this.game.Tables.AllAvailableTables();
+                        Result = Messages.MESSAGE_TABLE_SELECT_ALL;
                         foreach (Table t in list)
                         {
-                            string m = String.Format("{12}ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
+                            if (Result.Length > Messages.MESSAGE_TABLE_SELECT_ALL.Length)
+                                Result += "|";
+                            string m = String.Format("ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
                                 t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
                                 Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
-                                (t.Player4 != null) ? t.Player4.ID : -1, Messages.MESSAGE_TABLE_SELECT_TABLES);
-                            this.SendMessage(m);
+                                (t.Player4 != null) ? t.Player4.ID : -1);
+                            Result += m;
                         }
                         break;
                     }
+                // Выборка конкретного игрового стола
                 case Messages.MESSAGE_TABLE_SELECT_CONCRETIC:
                     {
                         int tableID = Int32.Parse(tableParams["ID"]);
-                        Table t = this.game.Tables[tableID];
-                        Result = String.Format("{12}ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
-                                t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
-                                Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
-                                (t.Player4 != null) ? t.Player4.ID : -1, Messages.MESSAGE_TABLE_SELECT_CONCRETIC);
+                        if (this.game.Tables[tableID] == null)
+                        {
+                            Result = command;
+                        }
+                        else
+                        {
+                            Table t = this.game.Tables[tableID];
+                            Result = String.Format("{12}ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
+                                    t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
+                                    Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
+                                    (t.Player4 != null) ? t.Player4.ID : -1, Messages.MESSAGE_TABLE_SELECT_CONCRETIC);
+                        }
                         break;
                     }
                 default:
