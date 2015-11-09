@@ -21,9 +21,10 @@ namespace BeloteClient
             try
             {
                 serverActions = new ServerActions();
-                PossibleTables = null;
+                Tables = null;
                 CurrentTable = null;
                 Player = null;
+                Players = new PlayersList();
                 Place = -1;
                 guestForm = new MainGuestForm(this);
                 guestForm.Show();
@@ -33,6 +34,12 @@ namespace BeloteClient
                 MessageBox.Show(ex.Message);
                 Environment.Exit(0);
             }
+        }
+
+        private void ClearPlayers()
+        {
+            Players.Clear();
+            Players.Add(Player);
         }
 
         // Событие при выходе из приложения
@@ -63,6 +70,7 @@ namespace BeloteClient
             {
                 MessageBox.Show("Вход успешен!");
                 Player = serverActions.GetPlayer(PlayerID);
+                ClearPlayers();
                 guestForm.Close();
                 guestForm = null;
                 userForm = new MainUserForm(this);
@@ -75,9 +83,43 @@ namespace BeloteClient
             }
         }
 
+        // Добавление информации о всех доступных столах и игроках с них в соответствующие списки
         public void UpdatePossibleTables()
         {
-            PossibleTables = serverActions.GetAllPossibleTables(); 
+            ClearPlayers();
+            Tables = serverActions.GetAllPossibleTables(); 
+            if (Tables != null)
+            {
+                for (var i = 0; i < Tables.Count; i++)
+                {
+                    Table t = Tables.GetTableAt(i);
+                    if (!Players.PlayerExists(t.TableCreator))
+                    {
+                        Players.Add(serverActions.GetPlayer(t.TableCreator));
+                    }
+                    if (t.Player2 >= 0)
+                    {
+                        if (!Players.PlayerExists(t.Player2))
+                        {
+                            Players.Add(serverActions.GetPlayer(t.Player2));
+                        }
+                    }
+                    if (t.Player3 >= 0)
+                    {
+                        if (!Players.PlayerExists(t.Player3))
+                        {
+                            Players.Add(serverActions.GetPlayer(t.Player3));
+                        }
+                    }
+                    if (t.Player4 >= 0)
+                    {
+                        if (!Players.PlayerExists(t.Player4))
+                        {
+                            Players.Add(serverActions.GetPlayer(t.Player4));
+                        }
+                    }
+                }
+            }
         }
 
         public void CreateTable(int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility,
@@ -107,7 +149,7 @@ namespace BeloteClient
 
         public void ChangeCurrentTable(Table newCurrentTable)
         {
-            PossibleTables = null;
+            Tables = null;
             CurrentTable = newCurrentTable;
         }
 
@@ -128,7 +170,7 @@ namespace BeloteClient
             private set;
         }
 
-        public TablesList PossibleTables
+        public TablesList Tables
         {
             get;
             private set;
@@ -146,5 +188,10 @@ namespace BeloteClient
             private set;
         }
 
+        public PlayersList Players
+        {
+            get;
+            private set;
+        }
     }
 }

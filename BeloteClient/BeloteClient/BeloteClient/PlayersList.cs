@@ -9,11 +9,9 @@ namespace BeloteClient
     public class PlayersList
     {
         private List<Player> list;
-        private Game game;
 
-        public PlayersList(Game Game)
+        public PlayersList()
         {
-            this.game = Game;
             list = new List<Player>();
         }
 
@@ -41,12 +39,18 @@ namespace BeloteClient
 
         public void Add(Player Player)
         {
-            list.Add(Player);
+            if (!PlayerExists(Player.Profile.Id))
+                list.Add(Player);
         }
 
         public void Delete(Player Player)
         {
             list.Remove(Player);
+        }
+
+        public void Clear()
+        {
+            list.Clear();
         }
     }
 }

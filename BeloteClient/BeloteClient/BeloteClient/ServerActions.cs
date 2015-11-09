@@ -42,6 +42,8 @@ namespace BeloteClient
         // Получение информации об игроке
         public Player GetPlayer(int PlayerID)
         {
+            if (PlayerID < 0)
+                return null;
             Message playerMessage = new Message(Messages.MESSAGE_PLAYER_GET_INFORMATION,
                     String.Format("PlayerID={0}", PlayerID));
             Dictionary<string, string> player = ServerConnection.ExecuteMessage(playerMessage);
