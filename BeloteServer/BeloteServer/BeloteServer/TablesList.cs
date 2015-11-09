@@ -123,7 +123,7 @@ namespace BeloteServer
                             return false;
                         }
                         this[TableID].Player2 = Player;
-                        this.game.Server.SendMessageToClients(String.Format("{3}ID={0},Player={1},Place=2", TableID, Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
+                        this.game.Server.SendMessageToClients(String.Format("{2}ID={0},Player={1},Place=2", TableID, Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
                             this[TableID].Player3, this[TableID].Player4, this[TableID].TableCreator);
                         break;
                     }
@@ -134,7 +134,7 @@ namespace BeloteServer
                             return false;
                         }
                         this[TableID].Player3 = Player;
-                        this.game.Server.SendMessageToClients(String.Format("{3}ID={0},Player={1},Place=3", TableID, Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
+                        this.game.Server.SendMessageToClients(String.Format("{2}ID={0},Player={1},Place=3", TableID, Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
                             this[TableID].Player2, this[TableID].Player4, this[TableID].TableCreator);
                         break;
                     }
@@ -145,7 +145,7 @@ namespace BeloteServer
                             return false;
                         }
                         this[TableID].Player4 = Player;
-                        this.game.Server.SendMessageToClients(String.Format("{3}ID={0},Player={1},Place=4", TableID, Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
+                        this.game.Server.SendMessageToClients(String.Format("{2}ID={0},Player={1},Place=4", TableID, Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
                             this[TableID].Player3, this[TableID].Player2, this[TableID].TableCreator);
                         break;
                     }

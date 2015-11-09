@@ -21,7 +21,7 @@ namespace BeloteClient
             try
             {
                 serverActions = new ServerActions();
-                Tables = null;
+                Tables = new TablesList();
                 CurrentTable = null;
                 Player = null;
                 Players = new PlayersList();
@@ -34,12 +34,6 @@ namespace BeloteClient
                 MessageBox.Show(ex.Message);
                 Environment.Exit(0);
             }
-        }
-
-        private void ClearPlayers()
-        {
-            Players.Clear();
-            Players.Add(Player);
         }
 
         // Событие при выходе из приложения
@@ -70,7 +64,7 @@ namespace BeloteClient
             {
                 MessageBox.Show("Вход успешен!");
                 Player = serverActions.GetPlayer(PlayerID);
-                ClearPlayers();
+                UpdatePlayers();
                 guestForm.Close();
                 guestForm = null;
                 userForm = new MainUserForm(this);
@@ -83,12 +77,11 @@ namespace BeloteClient
             }
         }
 
-        // Добавление информации о всех доступных столах и игроках с них в соответствующие списки
-        public void UpdatePossibleTables()
+        public void UpdatePlayers()
         {
-            ClearPlayers();
-            Tables = serverActions.GetAllPossibleTables(); 
-            if (Tables != null)
+            Players.Clear();
+            Players.Add(Player);
+            if (Tables.Count > 0)
             {
                 for (var i = 0; i < Tables.Count; i++)
                 {
@@ -122,6 +115,15 @@ namespace BeloteClient
             }
         }
 
+        // Добавление информации о всех доступных столах и игроках с них в соответствующие списки
+        public void UpdatePossibleTables()
+        {
+            Tables = serverActions.GetAllPossibleTables();
+            if (Tables == null)
+                Tables = new TablesList();
+            UpdatePlayers();
+        }
+
         public void CreateTable(int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility,
             bool VIPOnly, bool Moderation, bool AI)
         {
@@ -143,14 +145,39 @@ namespace BeloteClient
             else
             {
                 MessageBox.Show("Не удалось создать игровой стол");
+            } 
+        }
+
+        // Посадка на игровой стол
+        public void EnterTheTable(int PlayerPlace, int TableID)
+        {
+            if (Tables[TableID] == null)
+                return;
+            if (serverActions.AddPlayerToTable(TableID, PlayerPlace))
+            {
+                ChangeCurrentTable(serverActions.GetTable(TableID));
+                ChangeCurrentPlace(PlayerPlace);
+                if (userForm != null)
+                {
+                    userForm.Close();
+                    userForm = null;
+                }
+                waitingForm = new WaitingForm(this);
+                waitingForm.Show();
             }
-            
+            else
+            {
+                MessageBox.Show("Не удалось сесть на игровой стол");
+                userForm.UpdateTables();
+            }
         }
 
         public void ChangeCurrentTable(Table newCurrentTable)
         {
-            Tables = null;
+            Tables.Clear();
             CurrentTable = newCurrentTable;
+            Tables.AddTable(CurrentTable);
+            UpdatePlayers();
         }
 
         public void ChangeCurrentPlace(int newPlace)

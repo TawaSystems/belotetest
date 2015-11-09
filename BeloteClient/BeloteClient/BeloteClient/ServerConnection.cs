@@ -136,6 +136,8 @@ namespace BeloteClient
                     foreach (Message msg in messagesList)
                     {
                         List<MessageDelegate> msgHandlers;
+                        if (msg.Command == null)
+                            continue;
                         if (messageHandlers.TryGetValue(msg.Command, out msgHandlers))
                         {
                             if (msgHandlers.Count > 0)
@@ -217,8 +219,8 @@ namespace BeloteClient
             worker.Start();
             worker.Join();
             return result;
-
         }
+
         // Выполнение команды на сервере и получение результата в виде словаря
         public Dictionary<string, string> ExecuteMessage(Message msg)
         {

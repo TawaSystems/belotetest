@@ -13,10 +13,12 @@ namespace BeloteClient
     public partial class MainUserForm : Form
     {
         private Game game;
+        private int CurrentTableID;
 
         public MainUserForm(Game Game)
         {
             this.game = Game;
+            CurrentTableID = -1;
             InitializeComponent();
         }
 
@@ -24,6 +26,7 @@ namespace BeloteClient
         {
             TablesListBox.Items.Clear();
             TablesListBox.SelectedIndex = -1;
+            CurrentTableID = -1;
             game.UpdatePossibleTables();
             if (game.Tables == null)
             {
@@ -54,6 +57,7 @@ namespace BeloteClient
             {
                 int ID = Int32.Parse(TablesListBox.SelectedItem.ToString());
                 Table t = game.Tables[ID];
+                CurrentTableID = ID;
                 if (t != null)
                 {
                     TableChatCheckBox.Checked = t.Chat;
@@ -146,6 +150,7 @@ namespace BeloteClient
                 Player2Label.Text = "Пусто (Сесть)";
                 Player3Label.Text = "Пусто (Сесть)";
                 Player4Label.Text = "Пусто (Сесть)";
+                CurrentTableID = -1;
             }
         }
 
@@ -157,16 +162,17 @@ namespace BeloteClient
 
         private void Player3Label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            game.EnterTheTable(3, CurrentTableID);
         }
 
         private void Player2Label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-           
+            game.EnterTheTable(2, CurrentTableID);
         }
 
         private void Player4Label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-           
+            game.EnterTheTable(4, CurrentTableID);
         }
     }
 }

@@ -100,6 +100,22 @@ namespace BeloteClient
             }
         }
 
+        // Получает информацию о конкретном игровом столе
+        public Table GetTable(int TableID)
+        {
+            Dictionary<string, string> tParams = ServerConnection.ExecuteMessage(new Message(Messages.MESSAGE_TABLE_SELECT_CONCRETIC,
+                String.Format("ID={0}", TableID)));
+            return new Table(tParams);
+        }
+
+        // Добавление игрока на стол
+        public bool AddPlayerToTable(int TableID, int Place)
+        {
+            Dictionary<string, string> pParams = ServerConnection.ExecuteMessage(new Message(Messages.MESSAGE_TABLE_PLAYERS_ADD, 
+                String.Format("ID={0},Place={1}", TableID, Place)));
+            return (pParams["Result"] == "1");
+        }
+
         // Добавление обработчика сообщения
         public void AddMessageHandler(string Command, MessageDelegate Handler)
         {
