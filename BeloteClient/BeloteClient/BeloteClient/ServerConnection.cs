@@ -162,9 +162,26 @@ namespace BeloteClient
         // Добавление обработчика сообщения
         public void AddMessageHandler(string Command, MessageDelegate Handler)
         {
+            if (Handler == null)
+                return;
             List<MessageDelegate> msgHandlers;
             if (!messageHandlers.TryGetValue(Command, out msgHandlers))
             {
+                lock (messagesList)
+                {
+                    if (messagesList.Count > 0)
+                    {
+                        for (var i = messagesList.Count - 1; i >= 0; i--)
+                        {
+                            Message m = messagesList[i];
+                            if (m.Command == Command)
+                            {
+                                dispatcher.BeginInvoke(new Action(() => Handler(m)));
+                                messagesList.Remove(m);
+                            }
+                        }
+                    }
+                }
                 msgHandlers = new List<MessageDelegate>();
                 messageHandlers.Add(Command, msgHandlers);
             }
@@ -174,6 +191,8 @@ namespace BeloteClient
         // Удаление обработчика сообщения
         public void DeleteMessageHandler(string Command, MessageDelegate Handler)
         {
+            if (Handler == null)
+                return;
             List<MessageDelegate> msgHandlers;
             if (messageHandlers.TryGetValue(Command, out msgHandlers))
             {

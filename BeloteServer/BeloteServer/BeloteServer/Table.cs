@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Threading;
 
 namespace BeloteServer
 {
@@ -414,10 +415,7 @@ namespace BeloteServer
                         // Выбираем команду-побидетеля в бонусах, и если она существует, то отсылаем всем клиентам информацию о победившей команде и сумме ее бонусов
                         BeloteTeam BonusWinner = distributions.Current.FindBonusesWinner();
                         int Scores = distributions.Current.BonusSummTeam(BonusWinner);
-                        if (BonusWinner != BeloteTeam.TEAM_NONE)
-                        {
-                            SendMessageToClients(String.Format("{2}Winner={0},Scores={1}", (int)BonusWinner, Scores, Messages.MESSAGE_GAME_BONUSES_WINNER));
-                        }
+                        SendMessageToClients(String.Format("{2}Winner={0},Scores={1}", (int)BonusWinner, Scores, Messages.MESSAGE_GAME_BONUSES_WINNER));
                     }
                     // Ход переходит к игроку забравшему последнюю взятку
                     currentPlayer = distributions.Current.CurrentBribe.WinnerNumber;

@@ -14,6 +14,7 @@ namespace BeloteClient
         private MainGuestForm guestForm;
         private MainUserForm userForm;
         private WaitingForm waitingForm;
+        private GameForm gameForm;
 
         public Game()
         {
@@ -186,7 +187,7 @@ namespace BeloteClient
                     userForm = null;
                 }
                 waitingForm = new WaitingForm(this);
-                SetGameHandlers(true);
+                SetPreGameHandlers(true);
                 waitingForm.UpdateLabels();
                 waitingForm.Show();
             }
@@ -212,7 +213,7 @@ namespace BeloteClient
                 }
                 waitingForm = new WaitingForm(this);
                 waitingForm.UpdateLabels();
-                SetGameHandlers(true);
+                SetPreGameHandlers(true);
                 waitingForm.Show();
             }
             else
@@ -227,7 +228,7 @@ namespace BeloteClient
         {
             if (IsSelf)
                 serverActions.ExitPlayerFromTable(Place);
-            SetGameHandlers(false);
+            SetPreGameHandlers(false);
             ChangeCurrentTable(null);
             ChangeCurrentPlace(-1);
             waitingForm.Close();
@@ -278,27 +279,23 @@ namespace BeloteClient
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// 
-        ///                             Методы, связанные с обработкой событий: их установка, снятие и сами обработчики
+        ///                             Методы, связанные с обработкой событий до игры: их установка, снятие и сами обработчики
         /// 
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
         // Устанавливает все необходимые обработчики событий для игры
-        public void SetGameHandlers(bool IsSet)
+        public void SetPreGameHandlers(bool IsSet)
         {
             // Установка
             if (IsSet)
             {
-                serverActions.AddMessageHandler(Messages.MESSAGE_TABLE_PLAYERS_ADD, PlayerAddHandler);
-                serverActions.AddMessageHandler(Messages.MESSAGE_TABLE_PLAYERS_DELETE, PlayerDeleteHandler);
-                serverActions.AddMessageHandler(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE, CreatorLeaveHandler);
+                serverActions.SetPreGameHandlers(PlayerAddHandler, PlayerDeleteHandler, CreatorLeaveHandler, StartGameHandler);
             }
             // Снятие
             else
             {
-                serverActions.DeleteMessageHandler(Messages.MESSAGE_TABLE_PLAYERS_ADD, PlayerAddHandler);
-                serverActions.DeleteMessageHandler(Messages.MESSAGE_TABLE_PLAYERS_DELETE, PlayerDeleteHandler);
-                serverActions.DeleteMessageHandler(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE, CreatorLeaveHandler);
+                serverActions.UnsetPreGameHandlers(PlayerAddHandler, PlayerDeleteHandler, CreatorLeaveHandler, StartGameHandler);
             }
         }
 
@@ -372,7 +369,101 @@ namespace BeloteClient
             ExitFromTable(false);
         }
 
+        // Обработка начала игры
+        public void StartGameHandler(Message Msg)
+        {
+            SetPreGameHandlers(false);
+            waitingForm.Close();
+            waitingForm = null;
+            gameForm = new GameForm();
+            gameForm.Show();
+            SetGameHandlers(true);
+        }
+
+
         /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// 
+        ///                             Методы, связанные с обработкой событий во время игры
+        /// 
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Установка обработчиков сообщений во время игры
+        public void SetGameHandlers(bool IsSet)
+        {
+            if (IsSet)
+            {
+                serverActions.SetGameHandlers(GetCardsHandler, BazarNextPlayerHandler, BazarPlayerSayHandler, BazarEndHandler,
+                    NextPlayerHandler, RemindCardHandler, BonusesShowTypesHandler, BonusesShowWinnerHandler, PlayerQuitHandler, GameEndHandler);
+            }
+            else
+            {
+                serverActions.UnsetGameHandlers(GetCardsHandler, BazarNextPlayerHandler, BazarPlayerSayHandler, BazarEndHandler,
+                    NextPlayerHandler, RemindCardHandler, BonusesShowTypesHandler, BonusesShowWinnerHandler, PlayerQuitHandler, GameEndHandler);
+            }
+        }
+
+        // Обработчик получения списка карт
+        public void GetCardsHandler(Message Msg)
+        {
+
+        }
+
+        // Переход хода к игроку во время торговли
+        public void BazarNextPlayerHandler(Message Msg)
+        {
+
+        }
+
+        // Произношение заявки сделанной одним из игроков
+        public void BazarPlayerSayHandler(Message Msg)
+        {
+
+        } 
+
+        // Завершение процесса торговли
+        public void BazarEndHandler(Message Msg)
+        {
+
+        }
+
+        // Переход хода к игроку
+        public void NextPlayerHandler(Message Msg)
+        {
+
+        }
+
+        // Объявление о типах объявленных бонусов одного из игроков
+        public void BonusesShowTypesHandler(Message Msg)
+        {
+
+        }
+
+        // Объявление победителя по бонусам
+        public void BonusesShowWinnerHandler(Message Msg)
+        {
+
+        }
+
+        // Ход другого игрока
+        public void RemindCardHandler(Message Msg)
+        {
+
+        }
+
+        // Завершение игры
+        public void GameEndHandler(Message Msg)
+        {
+
+        }
+
+        // Выход игрока со стола во время игры
+        public void PlayerQuitHandler(Message Msg)
+        {
+            
+        }
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// 
