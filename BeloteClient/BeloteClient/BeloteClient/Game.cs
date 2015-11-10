@@ -59,12 +59,16 @@ namespace BeloteClient
                     if (!Players.PlayerExists(t.TableCreator))
                     {
                         p = serverActions.GetPlayer(t.TableCreator);
+                        if (p != null)
+                            Players.Add(p);
                     }
                     if (t.Player2 >= 0)
                     {
                         if (!Players.PlayerExists(t.Player2))
                         {
                             p = serverActions.GetPlayer(t.Player2);
+                            if (p != null)
+                                Players.Add(p);
                         }
                     }
                     if (t.Player3 >= 0)
@@ -72,6 +76,8 @@ namespace BeloteClient
                         if (!Players.PlayerExists(t.Player3))
                         {
                             p = serverActions.GetPlayer(t.Player3);
+                            if (p != null)
+                                Players.Add(p);
                         }
                     }
                     if (t.Player4 >= 0)
@@ -79,10 +85,10 @@ namespace BeloteClient
                         if (!Players.PlayerExists(t.Player4))
                         {
                             p = serverActions.GetPlayer(t.Player4);
+                            if (p != null)
+                                Players.Add(p);
                         }
                     }
-                    if (p != null)
-                        Players.Add(p);
                 }
             }
         }
@@ -408,13 +414,13 @@ namespace BeloteClient
         // Обработчик получения списка карт
         public void GetCardsHandler(Message Msg)
         {
-
+            MessageBox.Show("Игрок №" + Place + ", карты получены: " + Msg.Msg);
         }
 
         // Переход хода к игроку во время торговли
         public void BazarNextPlayerHandler(Message Msg)
         {
-
+            MessageBox.Show("Игрок №" + Place + " начинает торговлю");
         }
 
         // Произношение заявки сделанной одним из игроков
