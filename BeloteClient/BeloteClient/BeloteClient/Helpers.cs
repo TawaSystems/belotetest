@@ -119,7 +119,7 @@ namespace BeloteClient
             return ((Value == "1") ? true : false);
         }
 
-        /*
+        
         // Методы перевода масти к строке и обратно
         public static string SuitToString(CardSuit Suit)
         {
@@ -177,6 +177,6 @@ namespace BeloteClient
                     }
             }
         }
-        */
+      
     }
 }

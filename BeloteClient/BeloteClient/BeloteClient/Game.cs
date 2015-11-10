@@ -27,6 +27,7 @@ namespace BeloteClient
                 Player = null;
                 Players = new PlayersList();
                 Place = -1;
+                Status = TableStatus.NONE;
                 guestForm = new MainGuestForm(this);
                 guestForm.Show();
             }
@@ -385,6 +386,8 @@ namespace BeloteClient
         // Обработка начала игры
         public void StartGameHandler(Message Msg)
         {
+            AllCards = new CardList();
+            PossibleCards = new CardList();
             SetPreGameHandlers(false);
             waitingForm.Close();
             waitingForm = null;
@@ -421,7 +424,16 @@ namespace BeloteClient
         // Обработчик получения списка карт
         public void GetCardsHandler(Message Msg)
         {
-            MessageBox.Show("Игрок №" + Place + ", карты получены: " + Msg.Msg);
+            Dictionary<string, string> cParams = Helpers.SplitCommandString(Msg.Msg);
+            string cardsStr = cParams["Cards"];
+            TotalScore1 = Int32.Parse(cParams["Scores1"]);
+            TotalScore2 = Int32.Parse(cParams["Scores2"]);
+            LocalScore1 = 0;
+            LocalScore2 = 0;
+            AllCards = new CardList(cardsStr);
+            PossibleCards = AllCards;
+            Status = TableStatus.BAZAR;
+            gameForm.UpdateGraphics();
         }
 
         // Переход хода к игроку во время торговли
@@ -559,6 +571,52 @@ namespace BeloteClient
         }
 
         public PlayersList Players
+        {
+            get;
+            private set;
+        }
+
+        // Все карты в наличии
+        public CardList AllCards
+        {
+            get;
+            private set;
+        }
+
+        // Возможные к ходу карты
+        public CardList PossibleCards
+        {
+            get;
+            private set;
+        }
+
+        public TableStatus Status
+        {
+            get;
+            private set;
+        }
+
+        // Счет каждой из команд за всю игру на столе
+        public int TotalScore1
+        {
+            get;
+            private set;
+        }
+
+        public int TotalScore2
+        {
+            get;
+            private set;
+        }
+
+        // Локальный счет каждой из команд во время раздачи
+        public int LocalScore1
+        {
+            get;
+            private set;
+        }
+
+        public int LocalScore2
         {
             get;
             private set;

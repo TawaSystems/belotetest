@@ -48,6 +48,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BeloteEnums.cs" />
+    <Compile Include="Card.cs" />
+    <Compile Include="CardList.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CreatingTableForm.cs">
       <SubType>Form</SubType>

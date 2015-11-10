@@ -19,6 +19,11 @@ namespace BeloteClient
             InitializeComponent();
         }
 
+        public void UpdateGraphics()
+        {
+
+        }
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             game.QuitTable();
