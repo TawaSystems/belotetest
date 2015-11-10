@@ -224,6 +224,7 @@ namespace BeloteServer
                 case Messages.MESSAGE_TABLE_SELECT_ALL:
                 case Messages.MESSAGE_TABLE_PLAYERS_ADDBOT:
                 case Messages.MESSAGE_TABLE_SELECT_CONCRETIC:
+                case Messages.MESSAGE_TABLE_PLAYERS_DELETEBOT:
                     {
                         Result = ProcessTables(command, msg);
                         break;
@@ -497,6 +498,12 @@ namespace BeloteServer
                         }
                         else
                             Result += "0";
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_PLAYERS_DELETEBOT:
+                    {
+                        int place = Int32.Parse(tableParams["Place"]);
+                        this.game.Tables.RemovePlayer(ActiveTable.ID, place);
                         break;
                     }
                 // Выход игрока со стола в режиме игры

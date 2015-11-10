@@ -234,6 +234,42 @@ namespace BeloteClient
             userForm.Show();
         }
 
+        // Добавление бота на стол
+        public void AddBot(int BotPlace)
+        {
+            if (serverActions.AddBotToTable(BotPlace))
+            {
+                MessageBox.Show("Бот успешно добавлен!");
+                switch (Place)
+                {
+                    case 2:
+                        {
+                            CurrentTable.Player2 = -BotPlace;
+                            break;
+                        }
+                    case 3:
+                        {
+                            CurrentTable.Player3 = -BotPlace;
+                            break;
+                        }
+                    case 4:
+                        {
+                            CurrentTable.Player4 = -BotPlace;
+                            break;
+                        }
+                }
+                waitingForm.UpdateLabels();
+            }
+            else
+            {
+                MessageBox.Show("Не удалось добавить бота на стол!");
+            }
+        }
+
+        public void DeleteBot(int BotPlace)
+        {
+            serverActions.DeleteBotFromTable(BotPlace);
+        }
 
         /// <summary>
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -131,6 +131,21 @@ namespace BeloteClient
             ServerConnection.ExecuteMessageWithoutResult(new Message(SendingMsg, ""));
         }
 
+        // Метод добавления бота на стол
+        public bool AddBotToTable(int Place)
+        {
+            Dictionary<string, string> bParams = ServerConnection.ExecuteMessage(new Message(Messages.MESSAGE_TABLE_PLAYERS_ADDBOT,
+                String.Format("Place={0}", Place)));
+            return (bParams["Result"] == "1");
+        }
+
+        // Удаление бота со стола
+        public void DeleteBotFromTable(int Place)
+        {
+            ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_TABLE_PLAYERS_DELETEBOT,
+                String.Format("Place={0}", Place)));
+        }
+
         // Добавление обработчика сообщения
         public void AddMessageHandler(string Command, MessageDelegate Handler)
         {

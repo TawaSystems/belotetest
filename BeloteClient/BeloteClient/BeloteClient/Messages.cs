@@ -68,6 +68,10 @@ namespace BeloteClient
 
         public const string MESSAGE_TABLE_PLAYERS_QUIT = "TPQ";
 
+        public const string MESSAGE_TABLE_PLAYERS_ADDBOT = "TPB";
+
+        public const string MESSAGE_TABLE_PLAYERS_DELETEBOT = "TPW";
+
         // Сообщение выборки столов
         public const string MESSAGE_TABLE_SELECT_TABLES = "TST";
 
