@@ -190,7 +190,7 @@ namespace BeloteServer
                     }
             }
             if (this[TableID].Status == TableStatus.WAITING)
-                this.game.Server.SendMessageToClients(String.Format("TPDID={0},Place={1}", TableID, Place));
+                this[TableID].SendMessageToClients(String.Format("{2}ID={0},Place={1}", TableID, Place, Messages.MESSAGE_TABLE_PLAYERS_DELETE));
         }
 
         // Количество столов в списке

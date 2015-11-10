@@ -152,7 +152,7 @@ namespace BeloteClient
             int PlayerID;
             if (serverActions.AutorizationEmail(Email, Password, out PlayerID))
             {
-                MessageBox.Show("Вход успешен!");
+                //MessageBox.Show("Вход успешен!");
                 Player = serverActions.GetPlayer(PlayerID);
                 UpdatePlayers();
                 guestForm.Close();
@@ -174,7 +174,7 @@ namespace BeloteClient
                 VIPOnly, Moderation, AI);
             if (t != null)
             {
-                MessageBox.Show("Создание стола прошло успешно!");
+                //MessageBox.Show("Создание стола прошло успешно!");
                 ChangeCurrentTable(t);
                 ChangeCurrentPlace(1);
                 if (userForm != null)
@@ -184,6 +184,7 @@ namespace BeloteClient
                 }
                 waitingForm = new WaitingForm(this);
                 SetGameHandlers(true);
+                waitingForm.UpdateLabels();
                 waitingForm.Show();
             }
             else
@@ -207,6 +208,7 @@ namespace BeloteClient
                     userForm = null;
                 }
                 waitingForm = new WaitingForm(this);
+                waitingForm.UpdateLabels();
                 SetGameHandlers(true);
                 waitingForm.Show();
             }

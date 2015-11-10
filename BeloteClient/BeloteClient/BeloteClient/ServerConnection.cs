@@ -48,8 +48,6 @@ namespace BeloteClient
         private TcpClient client;
         // Поток - обработчик данных от сервера
         private Thread serverWorker;
-        // Поток обработчик сообщений
-        private Thread messagesWorker;
         // Поток данных сервера
         private NetworkStream stream;
         // Список с необработанными сообщениями
@@ -72,8 +70,6 @@ namespace BeloteClient
             messageHandlers = new Dictionary<string, List<MessageDelegate>>();
             serverWorker = new Thread(ProcessServer);
             serverWorker.Start();
-            messagesWorker = new Thread(ProcessMessages);
-            messagesWorker.Start();
         }
 
         // Попытка соединения с сервером
@@ -113,10 +109,13 @@ namespace BeloteClient
                         builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                     }
                     while (stream.DataAvailable);
-
-                    lock (messagesList)
+                    Message msg = new Message(builder.ToString());
+                    if (!ProcessMessage(msg))
                     {
-                        messagesList.Add(new Message(builder.ToString()));
+                        lock (messagesList)
+                        {
+                            messagesList.Add(new Message(builder.ToString()));
+                        }
                     }
                 }
                 catch
@@ -126,33 +125,24 @@ namespace BeloteClient
             }
         }
 
-        // Обработка сообщений
-        private void ProcessMessages()
+        // Обработка сообщения
+        private bool ProcessMessage(Message Msg)
         {
-            while (true)
+            List<MessageDelegate> msgHandlers;
+            if (Msg.Command == null)
+                return true;
+            if (messageHandlers.TryGetValue(Msg.Command, out msgHandlers))
             {
-                lock (messagesList)
+                if (msgHandlers.Count > 0)
                 {
-                    foreach (Message msg in messagesList)
+                    foreach (MessageDelegate md in msgHandlers)
                     {
-                        List<MessageDelegate> msgHandlers;
-                        if (msg.Command == null)
-                            continue;
-                        if (messageHandlers.TryGetValue(msg.Command, out msgHandlers))
-                        {
-                            if (msgHandlers.Count > 0)
-                            {
-                                messagesList.Remove(msg);
-                                foreach (MessageDelegate md in msgHandlers)
-                                {
-                                    dispatcher.BeginInvoke(new Action(() => md(msg)));
-                                }
-                            }
-                        }
+                        dispatcher.BeginInvoke(new Action(() => md(Msg)));
                     }
+                    return true;
                 }
-                Thread.Sleep(100);
             }
+            return false;  
         }
 
         // Отключение от сервера
