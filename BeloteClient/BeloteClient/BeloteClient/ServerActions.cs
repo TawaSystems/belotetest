@@ -115,6 +115,21 @@ namespace BeloteClient
                 String.Format("ID={0},Place={1}", TableID, Place)));
             return (pParams["Result"] == "1");
         }
+        
+        // Выход игрока со стола
+        public void ExitPlayerFromTable(int Place)
+        {
+            string SendingMsg;
+            if (Place == 1)
+            {
+                SendingMsg = Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE;
+            }
+            else
+            {
+                SendingMsg = Messages.MESSAGE_TABLE_PLAYERS_DELETE;
+            }
+            ServerConnection.ExecuteMessageWithoutResult(new Message(SendingMsg, ""));
+        }
 
         // Добавление обработчика сообщения
         public void AddMessageHandler(string Command, MessageDelegate Handler)

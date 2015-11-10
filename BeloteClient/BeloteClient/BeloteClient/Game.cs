@@ -36,47 +36,15 @@ namespace BeloteClient
             }
         }
 
-        // Событие при выходе из приложения
-        public void ProcessExit(Object Sender, EventArgs e)
-        {
-            if (serverActions != null)
-                serverActions.Disconnect();
-        }
-
-        // Регистрация с помощью электронной почты
-        public void RegistrationEmail(string Email, string Password, string Nickname, string Sex, string Country)
-        {
-            if (serverActions.RegistrationEmail(Email, Password, Nickname, Sex, Country))
-            {
-                MessageBox.Show("Регистрация прошла успешно!");
-            }
-            else
-            {
-                MessageBox.Show("Регистрация не удалась");
-            }
-        }
-
-        // Авторизация с помощью электронной почты
-        public void AutorizationEmail(string Email, string Password)
-        {
-            int PlayerID;
-            if (serverActions.AutorizationEmail(Email, Password, out PlayerID))
-            {
-                MessageBox.Show("Вход успешен!");
-                Player = serverActions.GetPlayer(PlayerID);
-                UpdatePlayers();
-                guestForm.Close();
-                guestForm = null;
-                userForm = new MainUserForm(this);
-                userForm.UpdateTables();
-                userForm.Show();
-            }
-            else
-            {
-                MessageBox.Show("Не удалось войти");
-            }
-        }
-
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// 
+        ///                             Вспомогательные методы обновления списка игроков/столов
+        /// 
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
         public void UpdatePlayers()
         {
             Players.Clear();
@@ -124,6 +92,81 @@ namespace BeloteClient
             UpdatePlayers();
         }
 
+        public void ChangeCurrentTable(Table newCurrentTable)
+        {
+            Tables.Clear();
+            CurrentTable = newCurrentTable;
+            if (CurrentTable != null)
+            {
+                Tables.AddTable(CurrentTable);
+            }
+            UpdatePlayers();
+        }
+
+        public void ChangeCurrentPlace(int newPlace)
+        {
+            Place = newPlace;
+        }
+
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// 
+        ///                             Системные методы
+        /// 
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        // Событие при выходе из приложения
+        public void ProcessExit(Object Sender, EventArgs e)
+        {
+            if (serverActions != null)
+                serverActions.Disconnect();
+        }
+
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// 
+        ///                             Методы выполнения основных игровых событий: регистрация, авторизация, вход/создание столов, игра
+        /// 
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        // Регистрация с помощью электронной почты
+        public void RegistrationEmail(string Email, string Password, string Nickname, string Sex, string Country)
+        {
+            if (serverActions.RegistrationEmail(Email, Password, Nickname, Sex, Country))
+            {
+                MessageBox.Show("Регистрация прошла успешно!");
+            }
+            else
+            {
+                MessageBox.Show("Регистрация не удалась");
+            }
+        }
+
+        // Авторизация с помощью электронной почты
+        public void AutorizationEmail(string Email, string Password)
+        {
+            int PlayerID;
+            if (serverActions.AutorizationEmail(Email, Password, out PlayerID))
+            {
+                MessageBox.Show("Вход успешен!");
+                Player = serverActions.GetPlayer(PlayerID);
+                UpdatePlayers();
+                guestForm.Close();
+                guestForm = null;
+                userForm = new MainUserForm(this);
+                userForm.UpdateTables();
+                userForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Не удалось войти");
+            }
+        }
+
         public void CreateTable(int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility,
             bool VIPOnly, bool Moderation, bool AI)
         {
@@ -140,6 +183,7 @@ namespace BeloteClient
                     userForm = null;
                 }
                 waitingForm = new WaitingForm(this);
+                SetGameHandlers(true);
                 waitingForm.Show();
             }
             else
@@ -163,6 +207,7 @@ namespace BeloteClient
                     userForm = null;
                 }
                 waitingForm = new WaitingForm(this);
+                SetGameHandlers(true);
                 waitingForm.Show();
             }
             else
@@ -172,18 +217,129 @@ namespace BeloteClient
             }
         }
 
-        public void ChangeCurrentTable(Table newCurrentTable)
+        // Выход игрока со стола. IsSelf - сам ли игрок вышел со стола
+        public void ExitFromTable(bool IsSelf)
         {
-            Tables.Clear();
-            CurrentTable = newCurrentTable;
-            Tables.AddTable(CurrentTable);
-            UpdatePlayers();
+            if (IsSelf)
+                serverActions.ExitPlayerFromTable(Place);
+            SetGameHandlers(false);
+            ChangeCurrentTable(null);
+            ChangeCurrentPlace(-1);
+            waitingForm.Close();
+            waitingForm = null;
+            userForm = new MainUserForm(this);
+            userForm.UpdateTables();
+            userForm.Show();
         }
 
-        public void ChangeCurrentPlace(int newPlace)
+
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// 
+        ///                             Методы, связанные с обработкой событий: их установка, снятие и сами обработчики
+        /// 
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        // Устанавливает все необходимые обработчики событий для игры
+        public void SetGameHandlers(bool IsSet)
         {
-            Place = newPlace;
+            // Установка
+            if (IsSet)
+            {
+                serverActions.AddMessageHandler(Messages.MESSAGE_TABLE_PLAYERS_ADD, PlayerAddHandler);
+                serverActions.AddMessageHandler(Messages.MESSAGE_TABLE_PLAYERS_DELETE, PlayerDeleteHandler);
+                serverActions.AddMessageHandler(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE, CreatorLeaveHandler);
+            }
+            // Снятие
+            else
+            {
+                serverActions.DeleteMessageHandler(Messages.MESSAGE_TABLE_PLAYERS_ADD, PlayerAddHandler);
+                serverActions.DeleteMessageHandler(Messages.MESSAGE_TABLE_PLAYERS_DELETE, PlayerDeleteHandler);
+                serverActions.DeleteMessageHandler(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE, CreatorLeaveHandler);
+            }
         }
+
+        // Обработчик добавления другого игрока на стол
+        public void PlayerAddHandler(Message Msg)
+        {
+            Dictionary<string, string> pParams = Helpers.SplitCommandString(Msg.Msg);
+            int PlayerID = Int32.Parse(pParams["Player"]);
+            int PlayerPlace = Int32.Parse(pParams["Place"]);
+            switch (PlayerPlace)
+            {
+                case 2:
+                    {
+                        CurrentTable.Player2 = PlayerID;
+                        break;
+                    }
+                case 3:
+                    {
+                        CurrentTable.Player3 = PlayerID;
+                        break;
+                    }
+                case 4:
+                    {
+                        CurrentTable.Player4 = PlayerID;
+                        break;
+                    }
+            }
+            if (!Players.PlayerExists(PlayerID))
+            {
+                Player p = serverActions.GetPlayer(PlayerID);
+                if (p != null)
+                    Players.Add(p);
+            }
+            waitingForm.UpdateLabels();
+        }
+
+        // Обработчик удаление другого игрока со стола
+        public void PlayerDeleteHandler(Message Msg)
+        {
+            Dictionary<string, string> pParams = Helpers.SplitCommandString(Msg.Msg);
+            int PlayerPlace = Int32.Parse(pParams["Place"]);
+            int PlayerID = -1;
+            switch (PlayerPlace)
+            {
+                case 2:
+                    {
+                        PlayerID = CurrentTable.Player2;
+                        CurrentTable.Player2 = -1;
+                        break;
+                    }
+                case 3:
+                    {
+                        PlayerID = CurrentTable.Player3;
+                        CurrentTable.Player3 = -1;
+                        break;
+                    }
+                case 4:
+                    {
+                        PlayerID = CurrentTable.Player4;
+                        CurrentTable.Player4 = -1;
+                        break;
+                    }
+            }
+            Players.Delete(Players[PlayerID]);
+            waitingForm.UpdateLabels();
+        }
+
+        // Обработчик выхода со стола создателя
+        public void CreatorLeaveHandler(Message Msg)
+        {
+            ExitFromTable(false);
+        }
+
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// 
+        ///                             Свойства
+        /// 
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
 
         public ServerActions serverActions
         {
