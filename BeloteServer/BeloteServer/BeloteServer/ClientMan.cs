@@ -481,7 +481,10 @@ namespace BeloteServer
                 // Удаление игрока со стола в режиме ожидания
                 case Messages.MESSAGE_TABLE_PLAYERS_DELETE:
                     {
-                        this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
+                        if (ActiveTable != null)
+                        {
+                            this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
+                        }
                         ActivePlace = -1;
                         ActiveTable = null;
                         break;
@@ -726,7 +729,7 @@ namespace BeloteServer
                     {
                         int playerID = Int32.Parse(playerParams["PlayerID"]);
                         Player p;
-                        if (playerID != -1)
+                        if (playerID >= 0)
                         {
                             if (this.ID == playerID)
                             {
@@ -734,12 +737,24 @@ namespace BeloteServer
                             }
                             else
                             {
-                                p = new Player(this.game, playerID);
+                                ClientMan c = this.game.Server.Clients[playerID];
+                                if ((c != null) && (c.Player != null))
+                                {
+                                    p = c.Player;
+                                }
+                                else
+                                {
+                                    p = new Player(this.game, playerID);
+                                }
                             }
                             Result = String.Format("{17}PlayerID={0},Nickname={1},Name={2},Surname={3},Email={4},Phone={5},VK={6},FB={7},OK={8},Country={9},Address={10},ZipCode={11},Language={12},Sex={13},TimeZone={14},BirthDate={15},VIPExperies={16}",
                                 p.Profile.Id, p.Profile.Nickname, p.Profile.Name, p.Profile.Surname, p.Profile.Email, p.Profile.Phone, p.Profile.VK, p.Profile.FB,
                                 p.Profile.OK, p.Profile.Country, p.Profile.Address, p.Profile.ZipCode, p.Profile.Language, Helpers.BoolToString(p.Profile.Sex),
                                 p.Profile.TimeZone, p.Profile.BirtDate, p.Profile.VIPExperies, Messages.MESSAGE_PLAYER_GET_INFORMATION);
+                        }
+                        else
+                        {
+                            Result = command;
                         }
                         break;
                     }

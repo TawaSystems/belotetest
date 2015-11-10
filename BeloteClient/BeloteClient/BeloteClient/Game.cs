@@ -53,32 +53,35 @@ namespace BeloteClient
             {
                 for (var i = 0; i < Tables.Count; i++)
                 {
+                    Player p = null;
                     Table t = Tables.GetTableAt(i);
                     if (!Players.PlayerExists(t.TableCreator))
                     {
-                        Players.Add(serverActions.GetPlayer(t.TableCreator));
+                        p = serverActions.GetPlayer(t.TableCreator);
                     }
                     if (t.Player2 >= 0)
                     {
                         if (!Players.PlayerExists(t.Player2))
                         {
-                            Players.Add(serverActions.GetPlayer(t.Player2));
+                            p = serverActions.GetPlayer(t.Player2);
                         }
                     }
                     if (t.Player3 >= 0)
                     {
                         if (!Players.PlayerExists(t.Player3))
                         {
-                            Players.Add(serverActions.GetPlayer(t.Player3));
+                            p = serverActions.GetPlayer(t.Player3);
                         }
                     }
                     if (t.Player4 >= 0)
                     {
                         if (!Players.PlayerExists(t.Player4))
                         {
-                            Players.Add(serverActions.GetPlayer(t.Player4));
+                            p = serverActions.GetPlayer(t.Player4);
                         }
                     }
+                    if (p != null)
+                        Players.Add(p);
                 }
             }
         }

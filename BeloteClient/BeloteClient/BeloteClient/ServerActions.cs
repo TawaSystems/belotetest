@@ -46,8 +46,15 @@ namespace BeloteClient
                 return null;
             Message playerMessage = new Message(Messages.MESSAGE_PLAYER_GET_INFORMATION,
                     String.Format("PlayerID={0}", PlayerID));
-            Dictionary<string, string> player = ServerConnection.ExecuteMessage(playerMessage);
-            return new Player(player);
+            Dictionary<string, string> pParams = ServerConnection.ExecuteMessage(playerMessage);
+            if (pParams != null)
+            {
+                return new Player(pParams);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // Выборка всех столов, для этого должны быть созданы обработчики событий

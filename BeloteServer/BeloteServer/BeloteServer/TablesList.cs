@@ -114,6 +114,8 @@ namespace BeloteServer
             Debug.WriteLine(DateTime.Now.ToString() + String.Format(" Добавление игрока на стол. Идентификатор стола - {0}, идентификатор игрока - {1}, место - {2}",
                 TableID, Player.ID, Place));
 #endif
+            if (this[TableID] == null)
+                return false;
             switch (Place)
             {
                 case 2:
@@ -123,7 +125,7 @@ namespace BeloteServer
                             return false;
                         }
                         this[TableID].Player2 = Player;
-                        this.game.Server.SendMessageToClients(String.Format("{2}ID={0},Player={1},Place=2", TableID, Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
+                        this.game.Server.SendMessageToClients(String.Format("{1}Player={0},Place=2", Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
                             this[TableID].Player3, this[TableID].Player4, this[TableID].TableCreator);
                         break;
                     }
@@ -134,7 +136,7 @@ namespace BeloteServer
                             return false;
                         }
                         this[TableID].Player3 = Player;
-                        this.game.Server.SendMessageToClients(String.Format("{2}ID={0},Player={1},Place=3", TableID, Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
+                        this.game.Server.SendMessageToClients(String.Format("{1}Player={0},Place=3", Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
                             this[TableID].Player2, this[TableID].Player4, this[TableID].TableCreator);
                         break;
                     }
@@ -145,7 +147,7 @@ namespace BeloteServer
                             return false;
                         }
                         this[TableID].Player4 = Player;
-                        this.game.Server.SendMessageToClients(String.Format("{2}ID={0},Player={1},Place=4", TableID, Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
+                        this.game.Server.SendMessageToClients(String.Format("{1}Player={0},Place=4", Player.ID, Messages.MESSAGE_TABLE_PLAYERS_ADD),
                             this[TableID].Player3, this[TableID].Player2, this[TableID].TableCreator);
                         break;
                     }
@@ -190,7 +192,7 @@ namespace BeloteServer
                     }
             }
             if (this[TableID].Status == TableStatus.WAITING)
-                this[TableID].SendMessageToClients(String.Format("{2}ID={0},Place={1}", TableID, Place, Messages.MESSAGE_TABLE_PLAYERS_DELETE));
+                this[TableID].SendMessageToClients(String.Format("{1}Place={0}", Place, Messages.MESSAGE_TABLE_PLAYERS_DELETE));
         }
 
         // Количество столов в списке
