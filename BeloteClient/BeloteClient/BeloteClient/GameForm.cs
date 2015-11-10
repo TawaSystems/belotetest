@@ -12,9 +12,16 @@ namespace BeloteClient
 {
     public partial class GameForm : Form
     {
-        public GameForm()
+        private Game game;
+        public GameForm(Game game)
         {
+            this.game = game;
             InitializeComponent();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            game.QuitTable();
         }
     }
 }

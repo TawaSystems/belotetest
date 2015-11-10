@@ -250,7 +250,7 @@ namespace BeloteClient
             if (serverActions.AddBotToTable(BotPlace))
             {
                 MessageBox.Show("Бот успешно добавлен!");
-                switch (Place)
+                switch (BotPlace)
                 {
                     case 2:
                         {
@@ -276,9 +276,16 @@ namespace BeloteClient
             }
         }
 
+        // Удаление бота с игрового стола
         public void DeleteBot(int BotPlace)
         {
             serverActions.DeleteBotFromTable(BotPlace);
+        }
+
+        // Выход игрока со стола
+        public void QuitTable()
+        {
+            serverActions.PlayerQuitFromTable();
         }
 
         /// <summary>
@@ -381,7 +388,7 @@ namespace BeloteClient
             SetPreGameHandlers(false);
             waitingForm.Close();
             waitingForm = null;
-            gameForm = new GameForm();
+            gameForm = new GameForm(this);
             gameForm.Show();
             SetGameHandlers(true);
         }
@@ -468,7 +475,49 @@ namespace BeloteClient
         // Выход игрока со стола во время игры
         public void PlayerQuitHandler(Message Msg)
         {
-            
+            Dictionary<string, string> qParams = Helpers.SplitCommandString(Msg.Msg);
+            // Продолжаем игру
+            if (qParams["Continue"] == "1")
+            {
+                /*int BotPlace = Int32.Parse(qParams["Place"]);
+                int PlayerID = -1;
+                MessageBox.Show(String.Format("Игрок №{0} покинул стол, его заменил бот. Игра продолжается"));
+                switch (BotPlace)
+                {
+                    case 2:
+                        {
+                            PlayerID = CurrentTable.Player2;
+                            CurrentTable.Player2 = -BotPlace;
+                            break;
+                        }
+                    case 3:
+                        {
+                            PlayerID = CurrentTable.Player3;
+                            CurrentTable.Player3 = -BotPlace;
+                            break;
+                        }
+                    case 4:
+                        {
+                            PlayerID = CurrentTable.Player4;
+                            CurrentTable.Player4 = -BotPlace;
+                            break;
+                        }
+                }
+                Players.Delete(Players[PlayerID]);*/
+            }
+            // Завершаем игру
+            else
+            {
+                MessageBox.Show("Игра завершена. Кто-то вышел со стола");
+                SetGameHandlers(false);
+                ChangeCurrentTable(null);
+                ChangeCurrentPlace(-1);
+                gameForm.Close();
+                gameForm = null;
+                userForm = new MainUserForm(this);
+                userForm.UpdateTables();
+                userForm.Show();
+            }
         }
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

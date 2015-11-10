@@ -185,6 +185,12 @@ namespace BeloteClient
             DeleteMessageHandler(Messages.MESSAGE_GAME_START, StartGameHandler);
         }
 
+        // Выход игрока со стола во время игры
+        public void PlayerQuitFromTable()
+        {
+            ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_TABLE_PLAYERS_QUIT, ""));
+        }
+
         // Установка всех обработчиков события для процесса игры
         public void SetGameHandlers(MessageDelegate CardsDistributionHandler, MessageDelegate BazarNextPlayerHandler,
             MessageDelegate BazarPlayerSayHandler, MessageDelegate BazarEndHandler, MessageDelegate GameNextPlayerHandler,

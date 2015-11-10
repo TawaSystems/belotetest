@@ -512,10 +512,12 @@ namespace BeloteServer
                 // Выход игрока со стола в режиме игры
                 case Messages.MESSAGE_TABLE_PLAYERS_QUIT:
                     {
-                        this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
                         // Если разрешена замена на AI
                         if (ActiveTable.AI)
                         {
+                            /*string msg = String.Format("{0}Continue=1,Place={1}", Messages.MESSAGE_TABLE_PLAYERS_QUIT, ActivePlace);
+                            ActiveTable.SendMessageToClients(msg);
+                            this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
                             ClientBot b = new ClientBot(ActivePlace, ActiveTable);
                             switch (ActivePlace)
                             {
@@ -538,11 +540,9 @@ namespace BeloteServer
                                     {
                                         break;
                                     }
-                            }
-                            string msg = String.Format("{0}Continue=1,Place={1},NewPlayer={2}", Messages.MESSAGE_TABLE_PLAYERS_QUIT, ActivePlace, b.ID);
-                            ActiveTable.SendMessageToClients(msg);
+                            } 
                             ActiveTable = null;
-                            ActivePlace = -1;
+                            ActivePlace = -1;*/
                         }
                         // Если нет, то игра на столе завершается
                         else
