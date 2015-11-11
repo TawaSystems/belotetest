@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.CreatorPanel = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -37,9 +40,6 @@
             this.Player3Label = new System.Windows.Forms.Label();
             this.Player4Label = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.CreatorPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,6 +56,36 @@
             this.CreatorPanel.Name = "CreatorPanel";
             this.CreatorPanel.Size = new System.Drawing.Size(303, 102);
             this.CreatorPanel.TabIndex = 0;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(156, 68);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(135, 22);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Удалить бота №4";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(156, 40);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(135, 22);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "Удалить бота №3";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(156, 12);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(135, 22);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Удалить бота №2";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -90,7 +120,7 @@
             // Player1Label
             // 
             this.Player1Label.AutoSize = true;
-            this.Player1Label.Location = new System.Drawing.Point(128, 20);
+            this.Player1Label.Location = new System.Drawing.Point(128, 141);
             this.Player1Label.Name = "Player1Label";
             this.Player1Label.Size = new System.Drawing.Size(35, 13);
             this.Player1Label.TabIndex = 1;
@@ -99,7 +129,7 @@
             // Player2Label
             // 
             this.Player2Label.AutoSize = true;
-            this.Player2Label.Location = new System.Drawing.Point(189, 74);
+            this.Player2Label.Location = new System.Drawing.Point(57, 73);
             this.Player2Label.Name = "Player2Label";
             this.Player2Label.Size = new System.Drawing.Size(35, 13);
             this.Player2Label.TabIndex = 2;
@@ -108,7 +138,7 @@
             // Player3Label
             // 
             this.Player3Label.AutoSize = true;
-            this.Player3Label.Location = new System.Drawing.Point(128, 136);
+            this.Player3Label.Location = new System.Drawing.Point(128, 9);
             this.Player3Label.Name = "Player3Label";
             this.Player3Label.Size = new System.Drawing.Size(35, 13);
             this.Player3Label.TabIndex = 3;
@@ -117,7 +147,7 @@
             // Player4Label
             // 
             this.Player4Label.AutoSize = true;
-            this.Player4Label.Location = new System.Drawing.Point(63, 74);
+            this.Player4Label.Location = new System.Drawing.Point(201, 73);
             this.Player4Label.Name = "Player4Label";
             this.Player4Label.Size = new System.Drawing.Size(35, 13);
             this.Player4Label.TabIndex = 4;
@@ -132,36 +162,6 @@
             this.button7.Text = "Выйти со стола";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(156, 68);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(135, 22);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Удалить бота №4";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(156, 40);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(135, 22);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "Удалить бота №3";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(156, 12);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(135, 22);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Удалить бота №2";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // WaitingForm
             // 
