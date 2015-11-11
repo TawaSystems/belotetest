@@ -109,9 +109,12 @@ namespace BeloteServer
 
         public void TestStartGame(int TableID)
         {
-            if (this[TableID].TestFullfill())
+            if (this[TableID].Status == TableStatus.WAITING)
             {
-                this[TableID].StartGame();
+                if (this[TableID].TestFullfill())
+                {
+                    this[TableID].StartGame();
+                }
             }
         }
 

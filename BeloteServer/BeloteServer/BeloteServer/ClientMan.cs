@@ -439,9 +439,9 @@ namespace BeloteServer
                 case Messages.MESSAGE_TABLE_MODIFY_CREATE:
                     {
                         int tableID = this.game.Tables.CreateTable(this, Int32.Parse(tableParams["Bet"]),
-                                        Helpers.StringToBool(tableParams["PlayersVisibility"]), Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]),
-                                        Helpers.StringToBool(tableParams["TableVisibility"]), Helpers.StringToBool(tableParams["VIPOnly"]), Helpers.StringToBool(tableParams["Moderation"]),
-                                        Helpers.StringToBool(tableParams["AI"]));
+                                            Helpers.StringToBool(tableParams["PlayersVisibility"]), Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]),
+                                            Helpers.StringToBool(tableParams["TableVisibility"]), Helpers.StringToBool(tableParams["VIPOnly"]), Helpers.StringToBool(tableParams["Moderation"]),
+                                            Helpers.StringToBool(tableParams["AI"]));
                         ActivePlace = 1;
                         ActiveTable = this.game.Tables[tableID];
                         Result = Messages.MESSAGE_TABLE_MODIFY_CREATE + "ID=" + tableID.ToString();
@@ -450,16 +450,28 @@ namespace BeloteServer
                 // Покидание игрового стола создателем
                 case Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE:
                     {
-                        ActiveTable.SendMessageToClientsWithoutCreator(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE);
-                        ActiveTable.CloseTable();
-                        ActiveTable = null;
-                        ActivePlace = 0;
+                        if (ActiveTable != null)
+                        {
+                            lock (ActiveTable)
+                            {
+                                ActiveTable.SendMessageToClientsWithoutCreator(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE);
+                                ActiveTable.CloseTable();
+                                ActiveTable = null;
+                            }
+                            ActivePlace = 0;
+                        }
                         break;
                     }
                 // Открытие стола для всех игроков (TableVisibility = true)
                 case Messages.MESSAGE_TABLE_MODIFY_VISIBILITY:
                     {
-                        ActiveTable.TableVisibility = true;
+                        if (ActiveTable != null)
+                        {
+                            lock (ActiveTable)
+                            {
+                                ActiveTable.TableVisibility = true;
+                            }
+                        }
                         break;
                     }
                 // Добавление игрока на стол в режиме ожидания
@@ -469,15 +481,21 @@ namespace BeloteServer
                         // Добавляем того клиента от кого и пришло сообщение
                         ClientMan c = this;
                         int place = Int32.Parse(tableParams["Place"]);
-                        Result = Messages.MESSAGE_TABLE_PLAYERS_ADD + "Result=";
-                        if (this.game.Tables.AddPlayer(tableID, c, place))
+                        if (this.game.Tables[tableID] != null)
                         {
-                            Result += "1";
-                            ActiveTable = this.game.Tables[tableID];
-                            ActivePlace = place;
+                            Result = Messages.MESSAGE_TABLE_PLAYERS_ADD + "Result=";
+                            lock (this.game.Tables[tableID])
+                            {
+                                if (this.game.Tables.AddPlayer(tableID, c, place))
+                                {
+                                    Result += "1";
+                                    ActiveTable = this.game.Tables[tableID];
+                                    ActivePlace = place;
+                                }
+                                else
+                                    Result += "0";
+                            }
                         }
-                        else
-                            Result += "0";
                         break;
                     }
                 // Удаление игрока со стола в режиме ожидания
@@ -485,10 +503,13 @@ namespace BeloteServer
                     {
                         if (ActiveTable != null)
                         {
-                            this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
+                            lock (ActiveTable)
+                            {
+                                this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
+                                ActivePlace = -1;
+                                ActiveTable = null;
+                            }
                         }
-                        ActivePlace = -1;
-                        ActiveTable = null;
                         break;
                     }
                 // Добавление бота на стол
@@ -496,81 +517,103 @@ namespace BeloteServer
                     {
                         int place = Int32.Parse(tableParams["Place"]);
                         ClientBot b = new ClientBot(place, ActiveTable);
-                        Result = Messages.MESSAGE_TABLE_PLAYERS_ADDBOT + "Result=";
-                        if (this.game.Tables.AddPlayer(ActiveTable.ID, b, place))
+                        if (ActiveTable != null)
                         {
-                            Result += "1";
+                            Result = Messages.MESSAGE_TABLE_PLAYERS_ADDBOT + "Result=";
+                            lock (ActiveTable)
+                            {
+                                if (this.game.Tables.AddPlayer(ActiveTable.ID, b, place))
+                                {
+                                    Result += "1";
+                                }
+                                else
+                                    Result += "0";
+                            }
                         }
-                        else
-                            Result += "0";
                         break;
                     }
                 case Messages.MESSAGE_TABLE_PLAYERS_DELETEBOT:
                     {
                         int place = Int32.Parse(tableParams["Place"]);
-                        this.game.Tables.RemovePlayer(ActiveTable.ID, place);
+                        if (ActiveTable != null)
+                        {
+                            lock (ActiveTable)
+                            {
+                                this.game.Tables.RemovePlayer(ActiveTable.ID, place);
+                            }
+                        }
                         break;
                     }
                 case Messages.MESSAGE_TABLE_TEST_FULLFILL:
                     {
                         if (ActiveTable != null)
                         {
-                            this.game.Tables.TestStartGame(ActiveTable.ID);
+                            lock (ActiveTable)
+                            {
+                                this.game.Tables.TestStartGame(ActiveTable.ID);
+                            }
                         }
                         break;
                     }
                 // Выход игрока со стола в режиме игры
                 case Messages.MESSAGE_TABLE_PLAYERS_QUIT:
                     {
-                        // Если разрешена замена на AI
-                        if (ActiveTable.AI)
+                        if (ActiveTable != null)
                         {
-                            /*string msg = String.Format("{0}Continue=1,Place={1}", Messages.MESSAGE_TABLE_PLAYERS_QUIT, ActivePlace);
-                            ActiveTable.SendMessageToClients(msg);
-                            this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
-                            ClientBot b = new ClientBot(ActivePlace, ActiveTable);
-                            switch (ActivePlace)
+                            lock (ActiveTable)
                             {
-                                case 2:
+                                // Если разрешена замена на AI
+                                if (ActiveTable.AI)
+                                {
+                                    /*string msg = String.Format("{0}Continue=1,Place={1}", Messages.MESSAGE_TABLE_PLAYERS_QUIT, ActivePlace);
+                                    ActiveTable.SendMessageToClients(msg);
+                                    this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
+                                    ClientBot b = new ClientBot(ActivePlace, ActiveTable);
+                                    switch (ActivePlace)
                                     {
-                                        ActiveTable.Player2 = b;
-                                        break;
-                                    }
-                                case 3:
-                                    {
-                                        ActiveTable.Player3 = b;
-                                        break;
-                                    }
-                                case 4:
-                                    {
-                                        ActiveTable.Player4 = b;
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        break;
-                                    }
-                            } 
-                            ActiveTable = null;
-                            ActivePlace = -1;*/
+                                        case 2:
+                                            {
+                                                ActiveTable.Player2 = b;
+                                                break;
+                                            }
+                                        case 3:
+                                            {
+                                                ActiveTable.Player3 = b;
+                                                break;
+                                            }
+                                        case 4:
+                                            {
+                                                ActiveTable.Player4 = b;
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                break;
+                                            }
+                                    } 
+                                    ActiveTable = null;
+                                    ActivePlace = -1;*/
+                                }
+                                // Если нет, то игра на столе завершается
+                                else
+                                {
+                                    string msg = String.Format("{0}Continue=0", Messages.MESSAGE_TABLE_PLAYERS_QUIT);
+                                    ActiveTable.SendMessageToClients(msg);
+                                    ActiveTable.CloseTable();
+                                }
+                                ActiveTable = null;
+                                ActivePlace = -1;
+                            }
                         }
-                        // Если нет, то игра на столе завершается
-                        else
-                        {
-                            string msg = String.Format("{0}Continue=0", Messages.MESSAGE_TABLE_PLAYERS_QUIT);
-                            ActiveTable.SendMessageToClients(msg);
-                            ActiveTable.CloseTable();
-                        }
-                        ActiveTable = null;
-                        ActivePlace = -1;
                         break;
                     }
                 // Выборка списка игровых столов по выбранным параметрам
                 case Messages.MESSAGE_TABLE_SELECT_TABLES:
                     {
-                        List<Table> list = this.game.Tables.FindTables(Int32.Parse(tableParams["BetFrom"]), Int32.Parse(tableParams["BetTo"]), Helpers.StringToBool(tableParams["PlayersVisibility"]),
-                                        Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]), Helpers.StringToBool(tableParams["VIPOnly"]),
-                                        Helpers.StringToBool(tableParams["Moderation"]), Helpers.StringToBool(tableParams["AI"]));
+                        List<Table> list;
+                        list = this.game.Tables.FindTables(Int32.Parse(tableParams["BetFrom"]), Int32.Parse(tableParams["BetTo"]), Helpers.StringToBool(tableParams["PlayersVisibility"]),
+                                            Helpers.StringToBool(tableParams["Chat"]), Int32.Parse(tableParams["MinimalLevel"]), Helpers.StringToBool(tableParams["VIPOnly"]),
+                                            Helpers.StringToBool(tableParams["Moderation"]), Helpers.StringToBool(tableParams["AI"]));
                         Result = Messages.MESSAGE_TABLE_SELECT_TABLES;
                         foreach (Table t in list)
                         {
@@ -587,7 +630,8 @@ namespace BeloteServer
                 // Выборка всех доступных столов
                 case Messages.MESSAGE_TABLE_SELECT_ALL:
                     {
-                        List<Table> list = this.game.Tables.AllAvailableTables();
+                        List<Table> list;
+                        list = this.game.Tables.AllAvailableTables();
                         Result = Messages.MESSAGE_TABLE_SELECT_ALL;
                         foreach (Table t in list)
                         {
@@ -611,11 +655,14 @@ namespace BeloteServer
                         }
                         else
                         {
-                            Table t = this.game.Tables[tableID];
-                            Result = String.Format("{12}ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
-                                    t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
-                                    Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
-                                    (t.Player4 != null) ? t.Player4.ID : -1, Messages.MESSAGE_TABLE_SELECT_CONCRETIC);
+                            lock (this.game.Tables[tableID])
+                            {
+                                Table t = this.game.Tables[tableID];
+                                Result = String.Format("{12}ID={0},Bet={1},PlayersVisibility={2},Chat={3},MinimalLevel={4},VIPOnly={5},Moderation={6},AI={7},Creator={8},Player2={9},Player3={10},Player4={11}",
+                                        t.ID, t.Bet, Helpers.BoolToString(t.PlayersVisibility), Helpers.BoolToString(t.Chat), t.MinimalLevel, Helpers.BoolToString(t.VIPOnly),
+                                        Helpers.BoolToString(t.Moderation), Helpers.BoolToString(t.AI), t.TableCreator.ID, (t.Player2 != null) ? t.Player2.ID : -1, (t.Player3 != null) ? t.Player3.ID : -1,
+                                        (t.Player4 != null) ? t.Player4.ID : -1, Messages.MESSAGE_TABLE_SELECT_CONCRETIC);
+                            }
                         }
                         break;
                     }
@@ -641,7 +688,13 @@ namespace BeloteServer
                         OrderType type = (OrderType)Int32.Parse(gameParams["Type"]);
                         CardSuit suit = Helpers.StringToSuit(gameParams["Trump"]);
                         // Добавление заявки в список заявок текущего стола
-                        ActiveTable.AddOrder(new Order(type, orderSize, suit));
+                        if (ActiveTable != null)
+                        {
+                            lock (ActiveTable)
+                            {
+                                ActiveTable.AddOrder(new Order(type, orderSize, suit));
+                            }
+                        }
                         break;
                     }
                 // Завершение процесса торговли
@@ -674,7 +727,13 @@ namespace BeloteServer
                             Str += String.Format(",Bonus{0}={1}", i, gameParams["Bonus" + i.ToString()]);
                         }
                         BonusList bList = new BonusList(Str);
-                        ActiveTable.AnnounceBonuses(ActivePlace, bList);
+                        if (ActiveTable != null)
+                        {
+                            lock (ActiveTable)
+                            {
+                                ActiveTable.AnnounceBonuses(ActivePlace, bList);
+                            }
+                        }
                         break;
                     }
                 // Уведомление о типах анонсированных бонусов для других игроков
@@ -706,7 +765,13 @@ namespace BeloteServer
                 case Messages.MESSAGE_GAME_GAMING_PLAYERMOVE:
                     {
                         Card card = new Card(gameParams["Card"]);
-                        ActiveTable.PlayerMove(ActivePlace, card);
+                        if (ActiveTable != null)
+                        {
+                            lock (ActiveTable)
+                            {
+                                ActiveTable.PlayerMove(ActivePlace, card);
+                            }
+                        }
                         break;
                     }
                 // Уведомление других игроков о карте которой походил игрок

@@ -290,6 +290,7 @@ namespace BeloteClient
                 waitingForm.UpdateLabels();
                 SetPreGameHandlers(true);
                 waitingForm.Show();
+                serverActions.TestFullfillTable();
             }
             else
             {
@@ -413,7 +414,6 @@ namespace BeloteClient
                     Players.Add(p);
             }
             waitingForm.UpdateLabels();
-            serverActions.TestFullfillTable();
         }
 
         // Обработчик удаление другого игрока со стола
