@@ -204,7 +204,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(960, 540);
+            this.ClientSize = new System.Drawing.Size(944, 531);
             this.ControlBox = false;
             this.Controls.Add(this.PlayerCard8PB);
             this.Controls.Add(this.PlayerCard7PB);
@@ -215,9 +215,9 @@
             this.Controls.Add(this.PlayerCard2PB);
             this.Controls.Add(this.PlayerCard1PB);
             this.Controls.Add(this.CloseButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.MaximumSize = new System.Drawing.Size(960, 540);
-            this.MinimumSize = new System.Drawing.Size(960, 540);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.MaximumSize = new System.Drawing.Size(960, 570);
+            this.MinimumSize = new System.Drawing.Size(960, 570);
             this.Name = "GameForm";
             this.Text = "GameForm";
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).EndInit();
