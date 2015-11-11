@@ -258,7 +258,7 @@ namespace BeloteServer
                     distributions.ScoresTeam1, distributions.ScoresTeam2, Messages.MESSAGE_GAME_DISTRIBUTIONCARDS));
             // Посылка ходящему игроку тип ставки и ее минимальный размер
             Client p = PlayerFromNumber(currentPlayer);
-            p.SendMessage(Messages.MESSAGE_GAME_BAZAR_NEXTBETPLAYER + "Type=1,Size=80");
+            p.SendMessage(Messages.MESSAGE_GAME_BAZAR_NEXTBETPLAYER + "Type=1,MinSize=80");
         }
 
         // Метод, добавляющий новый заказ игрока в список заказов
@@ -276,6 +276,10 @@ namespace BeloteServer
             {
                 // Завершаем торговлю, назначая козырь
                 distributions.Current.EndBazar();
+                // Отсылаем всем клиентам сообщение о конце торговли
+                SendMessageToClients(String.Format("{4}Team={0},Type={1},Size={2},Trump={3}", (int)distributions.Current.Orders.OrderedTeam,
+                    (int)distributions.Current.Orders.Current.Type, distributions.Current.Orders.Current.Size,
+                    (int)distributions.Current.Orders.Current.Trump, Messages.MESSAGE_GAME_BAZAR_END));
                 // Отсылаем все возможные бонус клиентам
                 TableCreator.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player1Bonuses.ToString());
                 Player2.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player2Bonuses.ToString());
@@ -283,10 +287,6 @@ namespace BeloteServer
                 Player4.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player4Bonuses.ToString());
                 // Ход переходит к первому ходящему на раздаче
                 currentPlayer = startedPlayer;
-                // Отсылаем всем клиентам сообщение о конце торговли
-                SendMessageToClients(String.Format("{4}Team={0},Type={1},Size={2},Trump={3}", (int)distributions.Current.Orders.OrderedTeam,
-                    (int)distributions.Current.Orders.Current.Type, distributions.Current.Orders.Current.Size,
-                    (int)distributions.Current.Orders.Current.Trump, Messages.MESSAGE_GAME_BAZAR_END));
                 CardList possibleCards = CardsFromNumber(currentPlayer);
                 // Передаем следующий ход со всеми возможными картами
                 NextMove(possibleCards);

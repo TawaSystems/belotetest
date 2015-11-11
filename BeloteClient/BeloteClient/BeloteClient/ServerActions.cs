@@ -203,7 +203,7 @@ namespace BeloteClient
             if (order == null)
                 return;
             ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_GAME_BAZAR_BET,
-                String.Format("Size={0},Type={1},Trump={2}", order.Size, (int)order.Type, (int)order.Trump)));
+                String.Format("Size={0},Type={1},Trump={2}", order.Size, (int)order.Type, Helpers.SuitToString(order.Trump))));
         }
         
         // Установка всех обработчиков события для процесса игры

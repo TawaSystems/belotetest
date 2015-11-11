@@ -72,6 +72,7 @@ namespace BeloteClient
             return game.Players[PlayerID];
         }
 
+        // Рисует игровые карты и рубашки
         private void DrawPlayersCards()
         {
             if (game.AllCards.Count > 0)
@@ -118,13 +119,118 @@ namespace BeloteClient
             }
         }
 
+        // Переводит тип заказа в строку для отображения
+        private string OrderTypeToString(OrderType o)
+        {
+            switch (o)
+            {
+                case OrderType.ORDER_BET:
+                    {
+                        return "";
+                    }
+                case OrderType.ORDER_CAPOT:
+                    {
+                        return "КАПУТ!";
+                    }
+                case OrderType.ORDER_COINCHE:
+                    {
+                        return "КОНТРА!";
+                    }
+                case OrderType.ORDER_SURCOINCHE:
+                    {
+                        return "РЕКОНТРА!";
+                    }
+                case OrderType.ORDER_PASS:
+                    {
+                        return "ПАС!";
+                    }
+                default:
+                    {
+                        return "";
+                    }
+            }
+        }
+        
+        // Отрисовывает информацию о сделанной игроком ставке
+        private void UpdatePlayerAddInfoBazar(int serverNumber, Order order)
+        {
+            int graphicNumber = game.ServerPlaceToGraphicPlace(serverNumber);
+            switch (graphicNumber)
+            {
+                case 1:
+                    {
+                        Player1AddLabel.Text = (order != null) ? OrderTypeToString(order.Type) : "";
+                        if (order != null)
+                        {
+                            Player1BetLabel.Text = (order.Size != 0) ? order.Size.ToString() : "";
+                        }
+                        else
+                            Player1BetLabel.Text = "";
+                        if ((order == null) || (order.Trump == CardSuit.C_NONE))
+                            Player1BetSuit.Image = null;
+                        else
+                            Player1BetSuit.Image = suitesImageList.Images[((int)order.Trump) - 1];
+                        break;
+                    }
+                case 2:
+                    {
+                        Player2AddLabel.Text = (order != null) ? OrderTypeToString(order.Type) : "";
+                        if (order != null)
+                        {
+                            Player2BetLabel.Text = (order.Size != 0) ? order.Size.ToString() : "";
+                        }
+                        else
+                            Player2BetLabel.Text = "";
+                        if ((order == null) || (order.Trump == CardSuit.C_NONE))
+                            Player2BetSuit.Image = null;
+                        else
+                            Player2BetSuit.Image = suitesImageList.Images[((int)order.Trump) - 1];
+                        break;
+                    }
+                case 3:
+                    {
+                        Player3AddLabel.Text = (order != null) ? OrderTypeToString(order.Type) : "";
+                        if (order != null)
+                        {
+                            Player3BetLabel.Text = (order.Size != 0) ? order.Size.ToString() : "";
+                        }
+                        else
+                            Player3BetLabel.Text = "";
+                        if ((order == null) || (order.Trump == CardSuit.C_NONE))
+                            Player3BetSuit.Image = null;
+                        else
+                            Player3BetSuit.Image = suitesImageList.Images[((int)order.Trump) - 1];
+                        break;
+                    }
+                case 4:
+                    {
+                        Player4AddLabel.Text = (order != null) ? OrderTypeToString(order.Type) : "";
+                        if (order != null)
+                        {
+                            Player4BetLabel.Text = (order.Size != 0) ? order.Size.ToString() : "";
+                        }
+                        else
+                            Player4BetLabel.Text = "";
+                        if ((order == null) || (order.Trump == CardSuit.C_NONE))
+                            Player4BetSuit.Image = null;
+                        else
+                            Player4BetSuit.Image = suitesImageList.Images[((int)order.Trump) - 1];
+                        break;
+                    }
+            }
+        }
+
+        // Обновляет графику на экране
         public void UpdateGraphics()
         {
+            // Обновление игровых карт
             DrawPlayersCards();
+            // Обновление номеров игроков
             Player1Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(1).ToString();
             Player2Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(2).ToString();
             Player3Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(3).ToString();
             Player4Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(4).ToString();
+            // Обновление имен (емейлов) игроков
             Player p1 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(1));
             Player p2 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(2));
             Player p3 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(3));
@@ -133,14 +239,15 @@ namespace BeloteClient
             Player2Name.Text = (p2 != null) ? p2.Profile.Email : "Бот";
             Player3Name.Text = (p3 != null) ? p3.Profile.Email : "Бот";
             Player4Name.Text = (p4 != null) ? p4.Profile.Email : "Бот";
-            Player1AddLabel.Text = "";
-            Player2AddLabel.Text = "";
-            Player3AddLabel.Text = "";
-            Player4AddLabel.Text = "";
-            Player1BetLabel.Text = "";
-            Player2BetLabel.Text = "";
-            Player3BetLabel.Text = "";
-            Player4BetLabel.Text = "";
+            // Обновление информации по заявкам
+            if (game.Status == TableStatus.BAZAR)
+            {
+                // Обновление счета
+                UpdatePlayerAddInfoBazar(1, game.Player1Order);
+                UpdatePlayerAddInfoBazar(2, game.Player2Order);
+                UpdatePlayerAddInfoBazar(3, game.Player3Order);
+                UpdatePlayerAddInfoBazar(4, game.Player4Order);
+            }
             ScoreLocalLabel.Text = String.Format("C   {0} | {1}", game.LocalScore1, game.LocalScore2);
             ScoreSummLabel.Text = String.Format("S   {0} | {1}", game.TotalScore1, game.TotalScore2);
         }

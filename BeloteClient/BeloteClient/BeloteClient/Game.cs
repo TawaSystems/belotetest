@@ -28,6 +28,10 @@ namespace BeloteClient
                 Players = new PlayersList();
                 Place = -1;
                 Status = TableStatus.NONE;
+                Player1Order = null;
+                Player2Order = null;
+                Player3Order = null;
+                Player4Order = null;
                 guestForm = new MainGuestForm(this);
                 guestForm.Show();
             }
@@ -529,13 +533,45 @@ namespace BeloteClient
         // Произношение заявки сделанной одним из игроков
         public void BazarPlayerSayHandler(Message Msg)
         {
-
+            Dictionary<string, string> bParams = Helpers.SplitCommandString(Msg.Msg);
+            int playerNum = Int32.Parse(bParams["Player"]);
+            OrderType orderType = (OrderType)Int32.Parse(bParams["Type"]);
+            int orderSize = Int32.Parse(bParams["Size"]);
+            CardSuit orderSuit = Helpers.StringToSuit(bParams["Trump"]);
+            switch (playerNum)
+            {
+                case 1:
+                    {
+                        Player1Order = new Order(orderType, orderSize, orderSuit);
+                        break;
+                    }
+                case 2:
+                    {
+                        Player2Order = new Order(orderType, orderSize, orderSuit);
+                        break;
+                    }
+                case 3:
+                    {
+                        Player3Order = new Order(orderType, orderSize, orderSuit);
+                        break;
+                    }
+                case 4:
+                    {
+                        Player4Order = new Order(orderType, orderSize, orderSuit);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+            gameForm.UpdateGraphics();
         } 
 
         // Завершение процесса торговли
         public void BazarEndHandler(Message Msg)
         {
-
+            MessageBox.Show("Торговля завершена");
         }
 
         // Переход хода к игроку
@@ -701,6 +737,30 @@ namespace BeloteClient
         }
 
         public int LocalScore2
+        {
+            get;
+            private set;
+        }
+
+        public Order Player1Order
+        {
+            get;
+            private set;
+        }
+
+        public Order Player2Order
+        {
+            get;
+            private set;
+        }
+
+        public Order Player3Order
+        {
+            get;
+            private set;
+        }
+
+        public Order Player4Order
         {
             get;
             private set;
