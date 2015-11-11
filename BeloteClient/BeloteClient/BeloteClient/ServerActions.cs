@@ -191,6 +191,12 @@ namespace BeloteClient
             ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_TABLE_PLAYERS_QUIT, ""));
         }
 
+        // Тестирование стола на заполненность
+        public void TestFullfillTable()
+        {
+            ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_TABLE_TEST_FULLFILL, ""));
+        }
+
         // Установка всех обработчиков события для процесса игры
         public void SetGameHandlers(MessageDelegate CardsDistributionHandler, MessageDelegate BazarNextPlayerHandler,
             MessageDelegate BazarPlayerSayHandler, MessageDelegate BazarEndHandler, MessageDelegate GameNextPlayerHandler,

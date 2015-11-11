@@ -91,6 +91,7 @@ namespace BeloteClient
         {
             byte[] data = Encoding.Unicode.GetBytes(message);
             stream.Write(data, 0, data.Length);
+            stream.Flush();
         }
 
         // Обработка сообщений от сервера

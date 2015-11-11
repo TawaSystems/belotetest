@@ -72,6 +72,11 @@ namespace BeloteClient
         public void UpdateGraphics()
         {
             DrawPlayersCards();
+            Player1Name.Text = "Игрок №" + game.GraphicPlaceToServerPlace(1).ToString();
+            Player2Name.Text = "Игрок №" + game.GraphicPlaceToServerPlace(2).ToString();
+            Player3Name.Text = "Игрок №" + game.GraphicPlaceToServerPlace(3).ToString();
+            Player4Name.Text = "Игрок №" + game.GraphicPlaceToServerPlace(4).ToString();
+            Player1AddLabel.Text = game.Place.ToString();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

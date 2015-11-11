@@ -107,6 +107,14 @@ namespace BeloteServer
             this[ID].TableVisibility = true;
         }
 
+        public void TestStartGame(int TableID)
+        {
+            if (this[TableID].TestFullfill())
+            {
+                this[TableID].StartGame();
+            }
+        }
+
         // Метод добавления игрока на стол
         public bool AddPlayer(int TableID, Client Player, int Place)
         {
@@ -155,10 +163,6 @@ namespace BeloteServer
                     {
                         break;
                     }
-            }
-            if (this[TableID].TestFullfill())
-            {
-                this[TableID].StartGame();
             }
             return true;
         }

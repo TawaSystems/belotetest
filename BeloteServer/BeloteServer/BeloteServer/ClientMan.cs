@@ -62,6 +62,7 @@ namespace BeloteServer
         {
             var data = Encoding.Unicode.GetBytes(message);
             client.GetStream().Write(data, 0, data.Length);
+            client.GetStream().Flush();
         }
 
         // Функция обработки запросов клиента, выполняется в потоке worker
@@ -225,6 +226,7 @@ namespace BeloteServer
                 case Messages.MESSAGE_TABLE_PLAYERS_ADDBOT:
                 case Messages.MESSAGE_TABLE_SELECT_CONCRETIC:
                 case Messages.MESSAGE_TABLE_PLAYERS_DELETEBOT:
+                case Messages.MESSAGE_TABLE_TEST_FULLFILL:
                     {
                         Result = ProcessTables(command, msg);
                         break;
@@ -507,6 +509,14 @@ namespace BeloteServer
                     {
                         int place = Int32.Parse(tableParams["Place"]);
                         this.game.Tables.RemovePlayer(ActiveTable.ID, place);
+                        break;
+                    }
+                case Messages.MESSAGE_TABLE_TEST_FULLFILL:
+                    {
+                        if (ActiveTable != null)
+                        {
+                            this.game.Tables.TestStartGame(ActiveTable.ID);
+                        }
                         break;
                     }
                 // Выход игрока со стола в режиме игры

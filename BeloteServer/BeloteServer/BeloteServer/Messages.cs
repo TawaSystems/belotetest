@@ -79,6 +79,9 @@ namespace BeloteServer
 
         public const string MESSAGE_TABLE_SELECT_CONCRETIC = "TSC";
 
+        // Проверка стола на заполненность
+        public const string MESSAGE_TABLE_TEST_FULLFILL = "TTF";
+
         // Сообщения начала игры на столе
         public const string MESSAGE_GAME_START = "GTS";
 

@@ -119,6 +119,74 @@ namespace BeloteClient
             Place = newPlace;
         }
 
+        private int NextPlaceNumber(int curPlace)
+        {
+            if (curPlace < 4)
+                return (++curPlace);
+            else
+                return 1;
+        }
+
+        private int PredPlaceNumber(int curPlace)
+        {
+            if (curPlace > 1)
+                return (--curPlace);
+            else
+                return 4;
+        }
+
+        // Переводит координты игрока на сервере в координаты игрока на платформе
+        public int ServerPlaceToGraphicPlace(int serverPlace)
+        {
+            switch (Place)
+            {
+                case 1:
+                    {
+                        return serverPlace;
+                    }
+                case 2:
+                    {
+                        return NextPlaceNumber(serverPlace);
+                    }
+                case 3:
+                    {
+                        return NextPlaceNumber(NextPlaceNumber(serverPlace));
+                    }
+                case 4:
+                    {
+                        return NextPlaceNumber(NextPlaceNumber(NextPlaceNumber(serverPlace)));
+                    }
+                default:
+                    return serverPlace;
+            }
+        }
+
+        // Переводит координаты игрока при отрисовке в координаты игрока на сервере
+        public int GraphicPlaceToServerPlace(int graphicPlace)
+        {
+            switch (Place)
+            {
+                case 1:
+                    {
+                        return graphicPlace;
+                    }
+                case 2:
+                    {
+                        return PredPlaceNumber(graphicPlace);
+                    }
+                case 3:
+                    {
+                        return PredPlaceNumber(PredPlaceNumber(graphicPlace));
+                    }
+                case 4:
+                    {
+                        return PredPlaceNumber(PredPlaceNumber(graphicPlace));
+                    }
+                default:
+                    return graphicPlace;
+            }
+        }
+
         /// <summary>
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +318,7 @@ namespace BeloteClient
         {
             if (serverActions.AddBotToTable(BotPlace))
             {
-                MessageBox.Show("Бот успешно добавлен!");
+                //MessageBox.Show("Бот успешно добавлен!");
                 switch (BotPlace)
                 {
                     case 2:
@@ -270,6 +338,7 @@ namespace BeloteClient
                         }
                 }
                 waitingForm.UpdateLabels();
+                serverActions.TestFullfillTable();
             }
             else
             {
@@ -344,6 +413,7 @@ namespace BeloteClient
                     Players.Add(p);
             }
             waitingForm.UpdateLabels();
+            serverActions.TestFullfillTable();
         }
 
         // Обработчик удаление другого игрока со стола
@@ -424,6 +494,7 @@ namespace BeloteClient
         // Обработчик получения списка карт
         public void GetCardsHandler(Message Msg)
         {
+            // MessageBox.Show("Раздача карт игрок " + Place.ToString());
             Dictionary<string, string> cParams = Helpers.SplitCommandString(Msg.Msg);
             string cardsStr = cParams["Cards"];
             TotalScore1 = Int32.Parse(cParams["Scores1"]);
@@ -439,7 +510,7 @@ namespace BeloteClient
         // Переход хода к игроку во время торговли
         public void BazarNextPlayerHandler(Message Msg)
         {
-            MessageBox.Show("Игрок №" + Place + " начинает торговлю");
+            //MessageBox.Show("Игрок №" + Place + " начинает торговлю");
         }
 
         // Произношение заявки сделанной одним из игроков
