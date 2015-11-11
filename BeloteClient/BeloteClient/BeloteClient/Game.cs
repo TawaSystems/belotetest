@@ -354,6 +354,12 @@ namespace BeloteClient
             serverActions.PlayerQuitFromTable();
         }
 
+        // Сделать заказ
+        public void MakeOrder(Order order)
+        {
+            serverActions.PlayerMakeOrder(order);
+        }
+
         /// <summary>
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -505,7 +511,19 @@ namespace BeloteClient
         // Переход хода к игроку во время торговли
         public void BazarNextPlayerHandler(Message Msg)
         {
-            //MessageBox.Show("Игрок №" + Place + " начинает торговлю");
+            Dictionary<string, string> bParams = Helpers.SplitCommandString(Msg.Msg);
+            BetType bType = (BetType)Int32.Parse(bParams["Type"]);
+            int minSize = Int32.Parse(bParams["MinSize"]);
+            if (bType == BetType.BET_SURCOINCHE)
+            {
+                BetFormType4 betForm = new BetFormType4(this);
+                betForm.ShowDialog();
+            }
+            else
+            {
+                BetFromType123 betForm = new BetFromType123(this, minSize, bType);
+                betForm.ShowDialog();
+            }
         }
 
         // Произношение заявки сделанной одним из игроков

@@ -49,6 +49,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeloteEnums.cs" />
+    <Compile Include="BetFormType4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BetFormType4.Designer.cs">
+      <DependentUpon>BetFormType4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BetFromType123.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BetFromType123.Designer.cs">
+      <DependentUpon>BetFromType123.cs</DependentUpon>
+    </Compile>
     <Compile Include="Card.cs" />
     <Compile Include="CardList.cs" />
     <Compile Include="Constants.cs" />
@@ -66,6 +78,7 @@
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Messages.cs" />
+    <Compile Include="Order.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayersList.cs" />
     <Compile Include="Profile.cs" />
@@ -107,6 +120,12 @@
     <Compile Include="WaitingForm.Designer.cs">
       <DependentUpon>WaitingForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BetFormType4.resx">
+      <DependentUpon>BetFormType4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BetFromType123.resx">
+      <DependentUpon>BetFromType123.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreatingTableForm.resx">
       <DependentUpon>CreatingTableForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -153,6 +172,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\кнопка закрыть.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\бубны.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\пики.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\трефы.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\червы.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

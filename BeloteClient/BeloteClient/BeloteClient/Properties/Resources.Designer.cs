@@ -63,9 +63,49 @@ namespace BeloteClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap бубны {
+            get {
+                object obj = ResourceManager.GetObject("бубны", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap кнопка_закрыть {
             get {
                 object obj = ResourceManager.GetObject("кнопка закрыть", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap пики {
+            get {
+                object obj = ResourceManager.GetObject("пики", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap трефы {
+            get {
+                object obj = ResourceManager.GetObject("трефы", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap червы {
+            get {
+                object obj = ResourceManager.GetObject("червы", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

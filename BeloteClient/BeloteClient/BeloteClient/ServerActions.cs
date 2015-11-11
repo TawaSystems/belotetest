@@ -197,6 +197,15 @@ namespace BeloteClient
             ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_TABLE_TEST_FULLFILL, ""));
         }
 
+        // Игрок делает заказ
+        public void PlayerMakeOrder(Order order)
+        {
+            if (order == null)
+                return;
+            ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_GAME_BAZAR_BET,
+                String.Format("Size={0},Type={1},Trump={2}", order.Size, (int)order.Type, (int)order.Trump)));
+        }
+        
         // Установка всех обработчиков события для процесса игры
         public void SetGameHandlers(MessageDelegate CardsDistributionHandler, MessageDelegate BazarNextPlayerHandler,
             MessageDelegate BazarPlayerSayHandler, MessageDelegate BazarEndHandler, MessageDelegate GameNextPlayerHandler,

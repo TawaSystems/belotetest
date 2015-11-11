@@ -22,3 +22,5 @@ C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.csproj.G
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.CreatingTableForm.resources
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.WaitingForm.resources
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.GameForm.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.BetFromType123.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.BetFormType4.resources
