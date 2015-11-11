@@ -138,49 +138,44 @@ namespace BeloteClient
         // Переводит координты игрока на сервере в координаты игрока на платформе
         public int ServerPlaceToGraphicPlace(int serverPlace)
         {
-            switch (Place)
+            if (serverPlace == Place)
             {
-                case 1:
-                    {
-                        return serverPlace;
-                    }
-                case 2:
-                    {
-                        return NextPlaceNumber(serverPlace);
-                    }
-                case 3:
-                    {
-                        return NextPlaceNumber(NextPlaceNumber(serverPlace));
-                    }
-                case 4:
-                    {
-                        return NextPlaceNumber(NextPlaceNumber(NextPlaceNumber(serverPlace)));
-                    }
-                default:
-                    return serverPlace;
+                return 1;
             }
+            else
+            if (serverPlace == (NextPlaceNumber(Place)))
+            {
+                return 2;
+            }
+            else
+            if (serverPlace == (NextPlaceNumber(NextPlaceNumber(Place))))
+            {
+                return 3;
+            }
+            else
+                return 4;
         }
 
         // Переводит координаты игрока при отрисовке в координаты игрока на сервере
         public int GraphicPlaceToServerPlace(int graphicPlace)
         {
-            switch (Place)
+            switch (graphicPlace)
             {
                 case 1:
                     {
-                        return graphicPlace;
+                        return Place;
                     }
                 case 2:
                     {
-                        return PredPlaceNumber(graphicPlace);
+                        return NextPlaceNumber(Place);
                     }
                 case 3:
                     {
-                        return PredPlaceNumber(PredPlaceNumber(graphicPlace));
+                        return NextPlaceNumber(NextPlaceNumber(Place));
                     }
                 case 4:
                     {
-                        return PredPlaceNumber(PredPlaceNumber(graphicPlace));
+                        return PredPlaceNumber(Place);
                     }
                 default:
                     return graphicPlace;

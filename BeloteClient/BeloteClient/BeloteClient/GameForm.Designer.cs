@@ -47,7 +47,7 @@
             this.Player1Name = new System.Windows.Forms.TextBox();
             this.Player1Panel = new System.Windows.Forms.Panel();
             this.Player1AddLabel = new System.Windows.Forms.Label();
-            this.Player1BetLable = new System.Windows.Forms.Label();
+            this.Player1BetLabel = new System.Windows.Forms.Label();
             this.Player1BetSuit = new System.Windows.Forms.PictureBox();
             this.Player2Name = new System.Windows.Forms.TextBox();
             this.Player2Panel = new System.Windows.Forms.Panel();
@@ -78,6 +78,8 @@
             this.Player2MoveCard = new System.Windows.Forms.PictureBox();
             this.Player3MoveCard = new System.Windows.Forms.PictureBox();
             this.Player4MoveCard = new System.Windows.Forms.PictureBox();
+            this.ScoreTeamInfo = new System.Windows.Forms.Label();
+            this.backImageList = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard1PB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard2PB)).BeginInit();
@@ -260,7 +262,7 @@
             // 
             this.Player1Panel.BackColor = System.Drawing.Color.Transparent;
             this.Player1Panel.Controls.Add(this.Player1BetSuit);
-            this.Player1Panel.Controls.Add(this.Player1BetLable);
+            this.Player1Panel.Controls.Add(this.Player1BetLabel);
             this.Player1Panel.Controls.Add(this.Player1AddLabel);
             this.Player1Panel.Location = new System.Drawing.Point(810, 360);
             this.Player1Panel.Name = "Player1Panel";
@@ -278,16 +280,16 @@
             this.Player1AddLabel.TabIndex = 0;
             this.Player1AddLabel.Text = "111";
             // 
-            // Player1BetLable
+            // Player1BetLabel
             // 
-            this.Player1BetLable.AutoSize = true;
-            this.Player1BetLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Player1BetLable.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Player1BetLable.Location = new System.Drawing.Point(15, 46);
-            this.Player1BetLable.Name = "Player1BetLable";
-            this.Player1BetLable.Size = new System.Drawing.Size(36, 20);
-            this.Player1BetLable.TabIndex = 1;
-            this.Player1BetLable.Text = "111";
+            this.Player1BetLabel.AutoSize = true;
+            this.Player1BetLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Player1BetLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Player1BetLabel.Location = new System.Drawing.Point(15, 46);
+            this.Player1BetLabel.Name = "Player1BetLabel";
+            this.Player1BetLabel.Size = new System.Drawing.Size(36, 20);
+            this.Player1BetLabel.TabIndex = 1;
+            this.Player1BetLabel.Text = "111";
             // 
             // Player1BetSuit
             // 
@@ -537,7 +539,7 @@
             this.ScoreLocalLabel.BackColor = System.Drawing.Color.Transparent;
             this.ScoreLocalLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ScoreLocalLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ScoreLocalLabel.Location = new System.Drawing.Point(810, 30);
+            this.ScoreLocalLabel.Location = new System.Drawing.Point(810, 50);
             this.ScoreLocalLabel.Name = "ScoreLocalLabel";
             this.ScoreLocalLabel.Size = new System.Drawing.Size(81, 17);
             this.ScoreLocalLabel.TabIndex = 26;
@@ -549,7 +551,7 @@
             this.ScoreSummLabel.BackColor = System.Drawing.Color.Transparent;
             this.ScoreSummLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ScoreSummLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ScoreSummLabel.Location = new System.Drawing.Point(810, 50);
+            this.ScoreSummLabel.Location = new System.Drawing.Point(810, 70);
             this.ScoreSummLabel.Name = "ScoreSummLabel";
             this.ScoreSummLabel.Size = new System.Drawing.Size(73, 17);
             this.ScoreSummLabel.TabIndex = 27;
@@ -591,6 +593,24 @@
             this.Player4MoveCard.TabIndex = 31;
             this.Player4MoveCard.TabStop = false;
             // 
+            // ScoreTeamInfo
+            // 
+            this.ScoreTeamInfo.AutoSize = true;
+            this.ScoreTeamInfo.BackColor = System.Drawing.Color.Transparent;
+            this.ScoreTeamInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ScoreTeamInfo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.ScoreTeamInfo.Location = new System.Drawing.Point(810, 30);
+            this.ScoreTeamInfo.Name = "ScoreTeamInfo";
+            this.ScoreTeamInfo.Size = new System.Drawing.Size(95, 17);
+            this.ScoreTeamInfo.TabIndex = 32;
+            this.ScoreTeamInfo.Text = "№1,3  |  №2,4";
+            // 
+            // backImageList
+            // 
+            this.backImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("backImageList.ImageStream")));
+            this.backImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.backImageList.Images.SetKeyName(0, "рубашка.jpg");
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -598,6 +618,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(944, 531);
             this.ControlBox = false;
+            this.Controls.Add(this.ScoreTeamInfo);
             this.Controls.Add(this.Player4MoveCard);
             this.Controls.Add(this.Player3MoveCard);
             this.Controls.Add(this.Player2MoveCard);
@@ -686,7 +707,7 @@
         private System.Windows.Forms.Panel Player1Panel;
         private System.Windows.Forms.Label Player1AddLabel;
         private System.Windows.Forms.PictureBox Player1BetSuit;
-        private System.Windows.Forms.Label Player1BetLable;
+        private System.Windows.Forms.Label Player1BetLabel;
         private System.Windows.Forms.TextBox Player2Name;
         private System.Windows.Forms.Panel Player2Panel;
         private System.Windows.Forms.PictureBox Player2BetSuit;
@@ -716,5 +737,7 @@
         private System.Windows.Forms.PictureBox Player2MoveCard;
         private System.Windows.Forms.PictureBox Player3MoveCard;
         private System.Windows.Forms.PictureBox Player4MoveCard;
+        private System.Windows.Forms.Label ScoreTeamInfo;
+        private System.Windows.Forms.ImageList backImageList;
     }
 }
