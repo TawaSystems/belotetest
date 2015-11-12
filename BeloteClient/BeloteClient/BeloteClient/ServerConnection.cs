@@ -89,9 +89,17 @@ namespace BeloteClient
         // Посылка сообщения на сервер
         private void SendDataToServer(string message)
         {
-            byte[] data = Encoding.Unicode.GetBytes(message);
-            stream.Write(data, 0, data.Length);
-            stream.Flush();
+            try
+            {
+                byte[] data = Encoding.Unicode.GetBytes(message);
+                stream.Write(data, 0, data.Length);
+                stream.Flush();
+            }
+            catch
+            {
+                MessageBox.Show("Сервер отключился!");
+                Environment.Exit(0);
+            }
         }
 
         // Обработка сообщений от сервера
@@ -111,17 +119,21 @@ namespace BeloteClient
                     }
                     while (stream.DataAvailable);
                     Message msg = new Message(builder.ToString());
-                    if (!ProcessMessage(msg))
+                    lock (messageHandlers)
                     {
-                        lock (messagesList)
+                        if (!ProcessMessage(msg))
                         {
-                            messagesList.Add(new Message(builder.ToString()));
+                            lock (messagesList)
+                            {
+                                messagesList.Add(new Message(builder.ToString()));
+                            }
                         }
                     }
                 }
-                catch
+                catch (Exception Ex)
                 {
-                    Disconnect();
+                    //Disconnect();
+                    MessageBox.Show(Ex.Message);
                 }
             }
         }
@@ -166,27 +178,30 @@ namespace BeloteClient
             if (Handler == null)
                 return;
             List<MessageDelegate> msgHandlers;
-            if (!messageHandlers.TryGetValue(Command, out msgHandlers))
+            lock (messageHandlers)
             {
-                lock (messagesList)
+                if (!messageHandlers.TryGetValue(Command, out msgHandlers))
                 {
-                    if (messagesList.Count > 0)
+                    lock (messagesList)
                     {
-                        for (var i = messagesList.Count - 1; i >= 0; i--)
+                        if (messagesList.Count > 0)
                         {
-                            Message m = messagesList[i];
-                            if (m.Command == Command)
+                            for (var i = messagesList.Count - 1; i >= 0; i--)
                             {
-                                dispatcher.BeginInvoke(new Action(() => Handler(m)));
-                                messagesList.Remove(m);
+                                Message m = messagesList[i];
+                                if (m.Command == Command)
+                                {
+                                    dispatcher.BeginInvoke(new Action(() => Handler(m)));
+                                    messagesList.Remove(m);
+                                }
                             }
                         }
                     }
+                    msgHandlers = new List<MessageDelegate>();
+                    messageHandlers.Add(Command, msgHandlers);
                 }
-                msgHandlers = new List<MessageDelegate>();
-                messageHandlers.Add(Command, msgHandlers);
+                msgHandlers.Add(Handler);
             }
-            msgHandlers.Add(Handler);
         }
 
         // Удаление обработчика сообщения
@@ -195,12 +210,15 @@ namespace BeloteClient
             if (Handler == null)
                 return;
             List<MessageDelegate> msgHandlers;
-            if (messageHandlers.TryGetValue(Command, out msgHandlers))
+            lock (messageHandlers)
             {
-                msgHandlers.Remove(Handler);
-                if (msgHandlers.Count == 0)
+                if (messageHandlers.TryGetValue(Command, out msgHandlers))
                 {
-                    messageHandlers.Remove(Command);
+                    msgHandlers.Remove(Handler);
+                    if (msgHandlers.Count == 0)
+                    {
+                        messageHandlers.Remove(Command);
+                    }
                 }
             }
         }

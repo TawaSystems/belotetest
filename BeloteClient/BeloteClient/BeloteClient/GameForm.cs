@@ -223,33 +223,41 @@ namespace BeloteClient
         // Обновляет графику на экране
         public void UpdateGraphics()
         {
-            // Обновление игровых карт
-            DrawPlayersCards();
-            // Обновление номеров игроков
-            Player1Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(1).ToString();
-            Player2Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(2).ToString();
-            Player3Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(3).ToString();
-            Player4Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(4).ToString();
-            // Обновление имен (емейлов) игроков
-            Player p1 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(1));
-            Player p2 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(2));
-            Player p3 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(3));
-            Player p4 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(4));
-            Player1Name.Text = (p1 != null) ? p1.Profile.Email : "Бот";
-            Player2Name.Text = (p2 != null) ? p2.Profile.Email : "Бот";
-            Player3Name.Text = (p3 != null) ? p3.Profile.Email : "Бот";
-            Player4Name.Text = (p4 != null) ? p4.Profile.Email : "Бот";
-            // Обновление информации по заявкам
-            if (game.Status == TableStatus.BAZAR)
+            try
             {
-                // Обновление счета
-                UpdatePlayerAddInfoBazar(1, game.Player1Order);
-                UpdatePlayerAddInfoBazar(2, game.Player2Order);
-                UpdatePlayerAddInfoBazar(3, game.Player3Order);
-                UpdatePlayerAddInfoBazar(4, game.Player4Order);
+                // Обновление игровых карт
+                DrawPlayersCards();
+                // Обновление номеров игроков
+                Player1Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(1).ToString();
+                Player2Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(2).ToString();
+                Player3Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(3).ToString();
+                Player4Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(4).ToString();
+                // Обновление имен (емейлов) игроков
+                Player p1 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(1));
+                Player p2 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(2));
+                Player p3 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(3));
+                Player p4 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(4));
+                Player1Name.Text = (p1 != null) ? p1.Profile.Email : "Бот";
+                Player2Name.Text = (p2 != null) ? p2.Profile.Email : "Бот";
+                Player3Name.Text = (p3 != null) ? p3.Profile.Email : "Бот";
+                Player4Name.Text = (p4 != null) ? p4.Profile.Email : "Бот";
+                // Обновление информации по заявкам
+                if (game.Status == TableStatus.BAZAR)
+                {
+                    // Обновление счета
+                    UpdatePlayerAddInfoBazar(1, game.Player1Order);
+                    UpdatePlayerAddInfoBazar(2, game.Player2Order);
+                    UpdatePlayerAddInfoBazar(3, game.Player3Order);
+                    UpdatePlayerAddInfoBazar(4, game.Player4Order);
+                }
+                ScoreLocalLabel.Text = String.Format("C   {0} | {1}", game.LocalScore1, game.LocalScore2);
+                ScoreSummLabel.Text = String.Format("S   {0} | {1}", game.TotalScore1, game.TotalScore2);
             }
-            ScoreLocalLabel.Text = String.Format("C   {0} | {1}", game.LocalScore1, game.LocalScore2);
-            ScoreSummLabel.Text = String.Format("S   {0} | {1}", game.TotalScore1, game.TotalScore2);
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Ошибка при отрисовки: " + Ex.Message);
+            }
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

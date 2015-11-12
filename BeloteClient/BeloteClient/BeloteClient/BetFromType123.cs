@@ -19,6 +19,7 @@ namespace BeloteClient
             InitializeComponent();
             this.game = game;
             OrderSizeUpDown.Minimum = MinBetSize;
+            OrderSizeUpDown.Value = MinBetSize;
             CapotCheck.Enabled = (MinBetSize >= 250);
             bType = betType;
             switch (betType)

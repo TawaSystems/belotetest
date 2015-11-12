@@ -60,9 +60,51 @@ namespace BeloteServer
         // Отправка сообщения клиенту
         public override void SendMessage(string message)
         {
-            var data = Encoding.Unicode.GetBytes(message);
-            client.GetStream().Write(data, 0, data.Length);
-            client.GetStream().Flush();
+            try
+            {
+                if (client.Connected)
+                {
+                    var data = Encoding.Unicode.GetBytes(message);
+                    client.GetStream().Write(data, 0, data.Length);
+                    client.GetStream().Flush();
+                }
+                else
+                    RemindTableClientsAboutDisconnect();
+            }
+            catch (Exception Ex)
+            {
+#if DEBUG
+                Debug.WriteLine(Ex.Message);
+#endif
+                RemindTableClientsAboutDisconnect();
+            }
+        }
+
+        // Метод сообщает клиентам об отключении игрока
+        public void RemindTableClientsAboutDisconnect()
+        {
+#if DEBUG
+            Debug.WriteLine("КТО-ТО ОТКЛЮЧИЛСЯ!!!");
+#endif
+            if (ActiveTable != null)
+            {
+                if (ActivePlace == 1)
+                {
+                    ProcessCommand(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE);
+                }
+                else
+                {
+                    if (ActiveTable.Status == TableStatus.WAITING)
+                    {
+                        ProcessCommand(Messages.MESSAGE_TABLE_PLAYERS_DELETE);
+                    }
+                    else
+                    if (ActiveTable.Status == TableStatus.PLAYING)
+                    {
+                        ProcessCommand(Messages.MESSAGE_TABLE_PLAYERS_QUIT);
+                    }
+                }
+            }
         }
 
         // Функция обработки запросов клиента, выполняется в потоке worker
@@ -93,9 +135,18 @@ namespace BeloteServer
                     Debug.WriteLine("Сообщение: " + message);
                     Debug.Unindent();
 #endif
-                    // Обрабатываем полученное сообщение
-                    string result = ProcessCommand(message);
-
+                    string result = null;
+                    try
+                    {
+                        // Обрабатываем полученное сообщение
+                        result = ProcessCommand(message);
+                    }
+                    catch (Exception Ex)
+                    {
+#if DEBUG
+                        Debug.WriteLine(Ex.Message);
+#endif
+                    }
                     // Отключение клиента и завершение обработки сообщений от него
                     if (result == Messages.MESSAGE_CLIENT_DISCONNECT)
                     {
@@ -104,16 +155,19 @@ namespace BeloteServer
                     // Если получен какой то результат обработки сообщения клиента, то отсылаем его клиенту
                     if (result != null)
                     {
+                        if (result != "")
+                        {
 #if DEBUG
-                        Debug.WriteLine(DateTime.Now.ToString() + " Отправка сообщения клиенту");
-                        Debug.Indent();
-                        Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
-                        Debug.WriteLine("Client ID: " + ID);
-                        Debug.WriteLine("Сообщение: " + result);
-                        Debug.Unindent();
+                            Debug.WriteLine(DateTime.Now.ToString() + " Отправка сообщения клиенту");
+                            Debug.Indent();
+                            Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+                            Debug.WriteLine("Client ID: " + ID);
+                            Debug.WriteLine("Сообщение: " + result);
+                            Debug.Unindent();
 #endif
-                        data = Encoding.Unicode.GetBytes(result);
-                        stream.Write(data, 0, data.Length);
+                            data = Encoding.Unicode.GetBytes(result);
+                            stream.Write(data, 0, data.Length);
+                        }
                     }
                 }
             }
@@ -133,25 +187,7 @@ namespace BeloteServer
                 Debug.WriteLine("Количество подключенных клиентов в списке: " + this.game.Server.Clients.Count);
                 Debug.Unindent();
 #endif
-                if (ActiveTable != null)
-                {
-                    if (ActivePlace == 1)
-                    {
-                        ProcessCommand(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE);
-                    }
-                    else
-                    {
-                        if (ActiveTable.Status == TableStatus.WAITING)
-                        {
-                            ProcessCommand(Messages.MESSAGE_TABLE_PLAYERS_DELETE);
-                        }
-                        else
-                        if (ActiveTable.Status == TableStatus.PLAYING)
-                        {
-                            ProcessCommand(Messages.MESSAGE_TABLE_PLAYERS_QUIT);
-                        }
-                    }
-                }
+                RemindTableClientsAboutDisconnect();
                 this.game.Server.Clients.DeleteClient(this);
                 // Закрытие клиента и потока его данных
                 if (stream != null)
@@ -598,6 +634,7 @@ namespace BeloteServer
                                 else
                                 {
                                     string msg = String.Format("{0}Continue=0", Messages.MESSAGE_TABLE_PLAYERS_QUIT);
+                                    //this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
                                     ActiveTable.SendMessageToClients(msg);
                                     ActiveTable.CloseTable();
                                 }
@@ -692,7 +729,16 @@ namespace BeloteServer
                         {
                             lock (ActiveTable)
                             {
-                                ActiveTable.AddOrder(new Order(type, orderSize, suit));
+                                try
+                                {
+                                    ActiveTable.AddOrder(new Order(type, orderSize, suit));
+                                }
+                                catch (Exception ex)
+                                {
+#if DEBUG
+                                    Debug.WriteLine(ex.Message);
+#endif
+                                }
                             }
                         }
                         break;
@@ -731,7 +777,16 @@ namespace BeloteServer
                         {
                             lock (ActiveTable)
                             {
-                                ActiveTable.AnnounceBonuses(ActivePlace, bList);
+                                try
+                                {
+                                    ActiveTable.AnnounceBonuses(ActivePlace, bList);
+                                }
+                                catch (Exception ex)
+                                {
+#if DEBUG
+                                    Debug.WriteLine(ex.Message);
+#endif
+                                }
                             }
                         }
                         break;
@@ -769,7 +824,16 @@ namespace BeloteServer
                         {
                             lock (ActiveTable)
                             {
-                                ActiveTable.PlayerMove(ActivePlace, card);
+                                try
+                                {
+                                    ActiveTable.PlayerMove(ActivePlace, card);
+                                }
+                                catch (Exception Ex)
+                                {
+#if DEBUG
+                                    Debug.WriteLine(Ex.Message);
+#endif
+                                }
                             }
                         }
                         break;

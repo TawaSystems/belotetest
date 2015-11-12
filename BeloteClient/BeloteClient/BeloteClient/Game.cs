@@ -15,6 +15,8 @@ namespace BeloteClient
         private MainUserForm userForm;
         private WaitingForm waitingForm;
         private GameForm gameForm;
+        private BetFormType4 betForm4;
+        private BetFromType123 betForm123;
 
         public Game()
         {
@@ -355,7 +357,19 @@ namespace BeloteClient
         // Выход игрока со стола
         public void QuitTable()
         {
+            //SetGameHandlers(false);
             serverActions.PlayerQuitFromTable();
+            /*ChangeCurrentTable(null);
+            ChangeCurrentPlace(-1);
+            if (betForm123 != null)
+                betForm123.Close();
+            if (betForm4 != null)
+                betForm4.Close();
+            gameForm.Close();
+            gameForm = null;
+            userForm = new MainUserForm(this);
+            userForm.UpdateTables();
+            userForm.Show();*/
         }
 
         // Сделать заказ
@@ -466,6 +480,10 @@ namespace BeloteClient
             SetPreGameHandlers(false);
             waitingForm.Close();
             waitingForm = null;
+            Player1Order = null;
+            Player2Order = null;
+            Player3Order = null;
+            Player4Order = null;
             gameForm = new GameForm(this);
             gameForm.Show();
             SetGameHandlers(true);
@@ -515,18 +533,28 @@ namespace BeloteClient
         // Переход хода к игроку во время торговли
         public void BazarNextPlayerHandler(Message Msg)
         {
-            Dictionary<string, string> bParams = Helpers.SplitCommandString(Msg.Msg);
-            BetType bType = (BetType)Int32.Parse(bParams["Type"]);
-            int minSize = Int32.Parse(bParams["MinSize"]);
-            if (bType == BetType.BET_SURCOINCHE)
+            //MessageBox.Show(Msg.Msg);
+            try
             {
-                BetFormType4 betForm = new BetFormType4(this);
-                betForm.ShowDialog();
+                Dictionary<string, string> bParams = Helpers.SplitCommandString(Msg.Msg);
+                BetType bType = (BetType)Int32.Parse(bParams["Type"]);
+                int minSize = Int32.Parse(bParams["MinSize"]);
+                if (bType == BetType.BET_SURCOINCHE)
+                {
+                    betForm4 = new BetFormType4(this);
+                    betForm4.ShowDialog();
+                    betForm4 = null;
+                }
+                else
+                {
+                    betForm123 = new BetFromType123(this, minSize, bType);
+                    betForm123.ShowDialog();
+                    betForm123 = null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                BetFromType123 betForm = new BetFromType123(this, minSize, bType);
-                betForm.ShowDialog();
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -644,6 +672,10 @@ namespace BeloteClient
                 SetGameHandlers(false);
                 ChangeCurrentTable(null);
                 ChangeCurrentPlace(-1);
+                if (betForm123 != null)
+                    betForm123.Close();
+                if (betForm4 != null)
+                    betForm4.Close();
                 gameForm.Close();
                 gameForm = null;
                 userForm = new MainUserForm(this);
