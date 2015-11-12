@@ -28,7 +28,8 @@ namespace BeloteServer
 #endif
             try
             {
-                listener = new TcpListener(IPAddress.Parse(Constants.SERVER_LOCAL_IP), Constants.SERVER_PORT);
+                //listener = new TcpListener(IPAddress.Parse(Constants.SERVER_GLOBAL_IP), Constants.SERVER_PORT);
+                listener = new TcpListener(Constants.SERVER_PORT);
                 listener.Start();
 
                 // Принимаем клиентов и запускаем их обработчики
