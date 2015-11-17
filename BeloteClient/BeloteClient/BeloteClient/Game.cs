@@ -597,7 +597,19 @@ namespace BeloteClient
         // Завершение процесса торговли
         public void BazarEndHandler(Message Msg)
         {
-            MessageBox.Show("Торговля завершена: " + Msg.Msg);
+            Player1Order = null;
+            Player2Order = null;
+            Player3Order = null;
+            Player4Order = null;
+            Dictionary<string, string> bParams = Helpers.SplitCommandString(Msg.Msg);
+            BeloteTeam oTeam = (BeloteTeam)Int32.Parse(bParams["Team"]);
+            OrderType oType = (OrderType)Int32.Parse(bParams["Type"]);
+            CardSuit oSuit = (CardSuit)Int32.Parse(bParams["Trump"]);
+            int oSize = Int32.Parse(bParams["Size"]);
+            EndOrder = new Order(oType, oSize, oSuit);
+            EndOrder.ChangeTeam(oTeam);
+            Status = TableStatus.PLAY;
+            gameForm.UpdateGraphics();
         }
 
         // Завершение торговли без заявки козыря
@@ -797,6 +809,12 @@ namespace BeloteClient
         }
 
         public Order Player4Order
+        {
+            get;
+            private set;
+        }
+
+        public Order EndOrder
         {
             get;
             private set;

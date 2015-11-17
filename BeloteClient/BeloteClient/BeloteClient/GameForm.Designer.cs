@@ -46,9 +46,9 @@
             this.PlayerCard8PB = new System.Windows.Forms.PictureBox();
             this.Player1Name = new System.Windows.Forms.TextBox();
             this.Player1Panel = new System.Windows.Forms.Panel();
-            this.Player1AddLabel = new System.Windows.Forms.Label();
-            this.Player1BetLabel = new System.Windows.Forms.Label();
             this.Player1BetSuit = new System.Windows.Forms.PictureBox();
+            this.Player1BetLabel = new System.Windows.Forms.Label();
+            this.Player1AddLabel = new System.Windows.Forms.Label();
             this.Player2Name = new System.Windows.Forms.TextBox();
             this.Player2Panel = new System.Windows.Forms.Panel();
             this.Player2BetSuit = new System.Windows.Forms.PictureBox();
@@ -80,6 +80,11 @@
             this.Player4MoveCard = new System.Windows.Forms.PictureBox();
             this.ScoreTeamInfo = new System.Windows.Forms.Label();
             this.backImageList = new System.Windows.Forms.ImageList(this.components);
+            this.EndOrderPanel = new System.Windows.Forms.Panel();
+            this.EndOrderSizeLabel = new System.Windows.Forms.Label();
+            this.EndOrderSuit = new System.Windows.Forms.PictureBox();
+            this.EndOrderTeam = new System.Windows.Forms.Label();
+            this.EndOrderTypeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard1PB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard2PB)).BeginInit();
@@ -104,6 +109,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.Player2MoveCard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Player3MoveCard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Player4MoveCard)).BeginInit();
+            this.EndOrderPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EndOrderSuit)).BeginInit();
             this.SuspendLayout();
             // 
             // suitesImageList
@@ -269,16 +276,13 @@
             this.Player1Panel.Size = new System.Drawing.Size(120, 90);
             this.Player1Panel.TabIndex = 11;
             // 
-            // Player1AddLabel
+            // Player1BetSuit
             // 
-            this.Player1AddLabel.AutoSize = true;
-            this.Player1AddLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Player1AddLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Player1AddLabel.Location = new System.Drawing.Point(15, 15);
-            this.Player1AddLabel.Name = "Player1AddLabel";
-            this.Player1AddLabel.Size = new System.Drawing.Size(36, 20);
-            this.Player1AddLabel.TabIndex = 0;
-            this.Player1AddLabel.Text = "111";
+            this.Player1BetSuit.Location = new System.Drawing.Point(58, 48);
+            this.Player1BetSuit.Name = "Player1BetSuit";
+            this.Player1BetSuit.Size = new System.Drawing.Size(16, 16);
+            this.Player1BetSuit.TabIndex = 2;
+            this.Player1BetSuit.TabStop = false;
             // 
             // Player1BetLabel
             // 
@@ -291,13 +295,16 @@
             this.Player1BetLabel.TabIndex = 1;
             this.Player1BetLabel.Text = "111";
             // 
-            // Player1BetSuit
+            // Player1AddLabel
             // 
-            this.Player1BetSuit.Location = new System.Drawing.Point(58, 48);
-            this.Player1BetSuit.Name = "Player1BetSuit";
-            this.Player1BetSuit.Size = new System.Drawing.Size(16, 16);
-            this.Player1BetSuit.TabIndex = 2;
-            this.Player1BetSuit.TabStop = false;
+            this.Player1AddLabel.AutoSize = true;
+            this.Player1AddLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Player1AddLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Player1AddLabel.Location = new System.Drawing.Point(15, 15);
+            this.Player1AddLabel.Name = "Player1AddLabel";
+            this.Player1AddLabel.Size = new System.Drawing.Size(36, 20);
+            this.Player1AddLabel.TabIndex = 0;
+            this.Player1AddLabel.Text = "111";
             // 
             // Player2Name
             // 
@@ -611,6 +618,59 @@
             this.backImageList.TransparentColor = System.Drawing.Color.Transparent;
             this.backImageList.Images.SetKeyName(0, "рубашка.jpg");
             // 
+            // EndOrderPanel
+            // 
+            this.EndOrderPanel.BackColor = System.Drawing.Color.Transparent;
+            this.EndOrderPanel.Controls.Add(this.EndOrderTypeLabel);
+            this.EndOrderPanel.Controls.Add(this.EndOrderTeam);
+            this.EndOrderPanel.Controls.Add(this.EndOrderSuit);
+            this.EndOrderPanel.Controls.Add(this.EndOrderSizeLabel);
+            this.EndOrderPanel.Location = new System.Drawing.Point(310, 125);
+            this.EndOrderPanel.Name = "EndOrderPanel";
+            this.EndOrderPanel.Size = new System.Drawing.Size(340, 30);
+            this.EndOrderPanel.TabIndex = 33;
+            this.EndOrderPanel.Visible = false;
+            // 
+            // EndOrderSizeLabel
+            // 
+            this.EndOrderSizeLabel.AutoSize = true;
+            this.EndOrderSizeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EndOrderSizeLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.EndOrderSizeLabel.Location = new System.Drawing.Point(10, 5);
+            this.EndOrderSizeLabel.Name = "EndOrderSizeLabel";
+            this.EndOrderSizeLabel.Size = new System.Drawing.Size(64, 20);
+            this.EndOrderSizeLabel.TabIndex = 1;
+            this.EndOrderSizeLabel.Text = "Заказ:";
+            // 
+            // EndOrderSuit
+            // 
+            this.EndOrderSuit.Location = new System.Drawing.Point(130, 5);
+            this.EndOrderSuit.Name = "EndOrderSuit";
+            this.EndOrderSuit.Size = new System.Drawing.Size(16, 16);
+            this.EndOrderSuit.TabIndex = 3;
+            this.EndOrderSuit.TabStop = false;
+            // 
+            // EndOrderTeam
+            // 
+            this.EndOrderTeam.AutoSize = true;
+            this.EndOrderTeam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EndOrderTeam.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.EndOrderTeam.Location = new System.Drawing.Point(180, 5);
+            this.EndOrderTeam.Name = "EndOrderTeam";
+            this.EndOrderTeam.Size = new System.Drawing.Size(89, 20);
+            this.EndOrderTeam.TabIndex = 4;
+            this.EndOrderTeam.Text = "Команда:";
+            // 
+            // EndOrderTypeLabel
+            // 
+            this.EndOrderTypeLabel.AutoSize = true;
+            this.EndOrderTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EndOrderTypeLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.EndOrderTypeLabel.Location = new System.Drawing.Point(150, 5);
+            this.EndOrderTypeLabel.Name = "EndOrderTypeLabel";
+            this.EndOrderTypeLabel.Size = new System.Drawing.Size(0, 20);
+            this.EndOrderTypeLabel.TabIndex = 5;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -618,6 +678,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(944, 531);
             this.ControlBox = false;
+            this.Controls.Add(this.EndOrderPanel);
             this.Controls.Add(this.ScoreTeamInfo);
             this.Controls.Add(this.Player4MoveCard);
             this.Controls.Add(this.Player3MoveCard);
@@ -683,6 +744,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.Player2MoveCard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Player3MoveCard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Player4MoveCard)).EndInit();
+            this.EndOrderPanel.ResumeLayout(false);
+            this.EndOrderPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EndOrderSuit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -739,5 +803,10 @@
         private System.Windows.Forms.PictureBox Player4MoveCard;
         private System.Windows.Forms.Label ScoreTeamInfo;
         private System.Windows.Forms.ImageList backImageList;
+        private System.Windows.Forms.Panel EndOrderPanel;
+        private System.Windows.Forms.Label EndOrderTeam;
+        private System.Windows.Forms.PictureBox EndOrderSuit;
+        private System.Windows.Forms.Label EndOrderSizeLabel;
+        private System.Windows.Forms.Label EndOrderTypeLabel;
     }
 }

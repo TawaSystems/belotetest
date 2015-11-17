@@ -242,16 +242,50 @@ namespace BeloteClient
                 Player3Name.Text = (p3 != null) ? p3.Profile.Email : "Бот";
                 Player4Name.Text = (p4 != null) ? p4.Profile.Email : "Бот";
                 // Обновление информации по заявкам
-                if (game.Status == TableStatus.BAZAR)
-                {
-                    // Обновление счета
-                    UpdatePlayerAddInfoBazar(1, game.Player1Order);
-                    UpdatePlayerAddInfoBazar(2, game.Player2Order);
-                    UpdatePlayerAddInfoBazar(3, game.Player3Order);
-                    UpdatePlayerAddInfoBazar(4, game.Player4Order);
-                }
+                UpdatePlayerAddInfoBazar(1, game.Player1Order);
+                UpdatePlayerAddInfoBazar(2, game.Player2Order);
+                UpdatePlayerAddInfoBazar(3, game.Player3Order);
+                UpdatePlayerAddInfoBazar(4, game.Player4Order);
+                // Обновление счета
                 ScoreLocalLabel.Text = String.Format("C   {0} | {1}", game.LocalScore1, game.LocalScore2);
                 ScoreSummLabel.Text = String.Format("S   {0} | {1}", game.TotalScore1, game.TotalScore2);
+                // Обновление информациио конечном заказе в раздаче
+                EndOrderPanel.Visible = (game.Status == TableStatus.PLAY);
+                if (game.Status == TableStatus.PLAY)
+                {
+                    if (game.EndOrder != null)
+                    {
+                        EndOrderSizeLabel.Text = String.Format("Заказ: {0}", game.EndOrder.Size);
+                        if (game.EndOrder.Trump != CardSuit.C_NONE)
+                            EndOrderSuit.Image = suitesImageList.Images[(int)game.EndOrder.Trump - 1];
+                        else
+                            EndOrderSuit.Image = null;
+                        EndOrderTeam.Text = String.Format("Команда: {0} - {1}", (int)game.EndOrder.Team, (game.EndOrder.Team == BeloteTeam.TEAM1_1_3) ? "№1,3" : "№2,4");
+                        switch (game.EndOrder.Type)
+                        {
+                            case OrderType.ORDER_CAPOT:
+                                {
+                                    EndOrderTypeLabel.Text = "KA";
+                                    break;
+                                }
+                            case OrderType.ORDER_COINCHE:
+                                {
+                                    EndOrderTypeLabel.Text = "C";
+                                    break;
+                                }
+                            case OrderType.ORDER_SURCOINCHE:
+                                {
+                                    EndOrderTypeLabel.Text = "SC";
+                                    break;
+                                }
+                            default:
+                                {
+                                    EndOrderTypeLabel.Text = "";
+                                    break;
+                                }
+                        }
+                    }
+                }
             }
             catch (Exception Ex)
             {

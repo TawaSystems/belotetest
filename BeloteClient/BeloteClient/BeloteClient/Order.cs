@@ -14,6 +14,12 @@ namespace BeloteClient
             this.Type = Type;
             this.Size = Size;
             this.Trump = Trump;
+            this.Team = BeloteTeam.TEAM_NONE;
+        }
+
+        public void ChangeTeam(BeloteTeam NewTeam)
+        {
+            Team = NewTeam;
         }
 
         // Тип заказа
@@ -32,6 +38,13 @@ namespace BeloteClient
 
         // Козырь
         public CardSuit Trump
+        {
+            get;
+            private set;
+        }
+
+        // Команда
+        public BeloteTeam Team
         {
             get;
             private set;
