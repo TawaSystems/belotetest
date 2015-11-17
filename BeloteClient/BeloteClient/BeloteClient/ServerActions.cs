@@ -208,14 +208,15 @@ namespace BeloteClient
         
         // Установка всех обработчиков события для процесса игры
         public void SetGameHandlers(MessageDelegate CardsDistributionHandler, MessageDelegate BazarNextPlayerHandler,
-            MessageDelegate BazarPlayerSayHandler, MessageDelegate BazarEndHandler, MessageDelegate GameNextPlayerHandler,
-            MessageDelegate GameRemindCardHandler, MessageDelegate BonusesShowTypesHandler, MessageDelegate BonusesShowWinnerHandler,
-            MessageDelegate GamePlayerQuitHandler, MessageDelegate GameEndHandler)
+            MessageDelegate BazarPlayerSayHandler, MessageDelegate BazarEndHandler, MessageDelegate BazarPassHandler, 
+            MessageDelegate GameNextPlayerHandler, MessageDelegate GameRemindCardHandler, MessageDelegate BonusesShowTypesHandler,
+            MessageDelegate BonusesShowWinnerHandler, MessageDelegate GamePlayerQuitHandler, MessageDelegate GameEndHandler)
         {
             AddMessageHandler(Messages.MESSAGE_GAME_DISTRIBUTIONCARDS, CardsDistributionHandler);
             AddMessageHandler(Messages.MESSAGE_GAME_BAZAR_NEXTBETPLAYER, BazarNextPlayerHandler);
             AddMessageHandler(Messages.MESSAGE_GAME_BAZAR_SAYBET, BazarPlayerSayHandler);
             AddMessageHandler(Messages.MESSAGE_GAME_BAZAR_END, BazarEndHandler);
+            AddMessageHandler(Messages.MESSAGE_GAME_BAZAR_PASS, BazarPassHandler);
             AddMessageHandler(Messages.MESSAGE_GAME_GAMING_NEXTPLAYER, GameNextPlayerHandler);
             AddMessageHandler(Messages.MESSAGE_GAME_GAMING_REMINDCARD, GameRemindCardHandler);
             AddMessageHandler(Messages.MESSAGE_GAME_BONUSES_TYPES, BonusesShowTypesHandler);
@@ -226,14 +227,15 @@ namespace BeloteClient
 
         // Снятие всех обработчиков событий процесса игры
         public void UnsetGameHandlers(MessageDelegate CardsDistributionHandler, MessageDelegate BazarNextPlayerHandler,
-            MessageDelegate BazarPlayerSayHandler, MessageDelegate BazarEndHandler, MessageDelegate GameNextPlayerHandler,
-            MessageDelegate GameRemindCardHandler, MessageDelegate BonusesShowTypesHandler, MessageDelegate BonusesShowWinnerHandler,
-            MessageDelegate GamePlayerQuitHandler, MessageDelegate GameEndHandler)
+            MessageDelegate BazarPlayerSayHandler, MessageDelegate BazarEndHandler, MessageDelegate BazarPassHandler,
+            MessageDelegate GameNextPlayerHandler, MessageDelegate GameRemindCardHandler, MessageDelegate BonusesShowTypesHandler,
+            MessageDelegate BonusesShowWinnerHandler, MessageDelegate GamePlayerQuitHandler, MessageDelegate GameEndHandler)
         {
             DeleteMessageHandler(Messages.MESSAGE_GAME_DISTRIBUTIONCARDS, CardsDistributionHandler);
             DeleteMessageHandler(Messages.MESSAGE_GAME_BAZAR_NEXTBETPLAYER, BazarNextPlayerHandler);
             DeleteMessageHandler(Messages.MESSAGE_GAME_BAZAR_SAYBET, BazarPlayerSayHandler);
             DeleteMessageHandler(Messages.MESSAGE_GAME_BAZAR_END, BazarEndHandler);
+            DeleteMessageHandler(Messages.MESSAGE_GAME_BAZAR_PASS, BazarPassHandler);
             DeleteMessageHandler(Messages.MESSAGE_GAME_GAMING_NEXTPLAYER, GameNextPlayerHandler);
             DeleteMessageHandler(Messages.MESSAGE_GAME_GAMING_REMINDCARD, GameRemindCardHandler);
             DeleteMessageHandler(Messages.MESSAGE_GAME_BONUSES_TYPES, BonusesShowTypesHandler);

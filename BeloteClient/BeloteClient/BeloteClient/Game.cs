@@ -475,15 +475,9 @@ namespace BeloteClient
         // Обработка начала игры
         public void StartGameHandler(Message Msg)
         {
-            AllCards = new CardList();
-            PossibleCards = new CardList();
             SetPreGameHandlers(false);
             waitingForm.Close();
             waitingForm = null;
-            Player1Order = null;
-            Player2Order = null;
-            Player3Order = null;
-            Player4Order = null;
             gameForm = new GameForm(this);
             gameForm.Show();
             SetGameHandlers(true);
@@ -504,12 +498,12 @@ namespace BeloteClient
         {
             if (IsSet)
             {
-                serverActions.SetGameHandlers(GetCardsHandler, BazarNextPlayerHandler, BazarPlayerSayHandler, BazarEndHandler,
+                serverActions.SetGameHandlers(GetCardsHandler, BazarNextPlayerHandler, BazarPlayerSayHandler, BazarEndHandler, BazarPassHandler,
                     NextPlayerHandler, RemindCardHandler, BonusesShowTypesHandler, BonusesShowWinnerHandler, PlayerQuitHandler, GameEndHandler);
             }
             else
             {
-                serverActions.UnsetGameHandlers(GetCardsHandler, BazarNextPlayerHandler, BazarPlayerSayHandler, BazarEndHandler,
+                serverActions.UnsetGameHandlers(GetCardsHandler, BazarNextPlayerHandler, BazarPlayerSayHandler, BazarEndHandler, BazarPassHandler,
                     NextPlayerHandler, RemindCardHandler, BonusesShowTypesHandler, BonusesShowWinnerHandler, PlayerQuitHandler, GameEndHandler);
             }
         }
@@ -524,6 +518,10 @@ namespace BeloteClient
             TotalScore2 = Int32.Parse(cParams["Scores2"]);
             LocalScore1 = 0;
             LocalScore2 = 0;
+            Player1Order = null;
+            Player2Order = null;
+            Player3Order = null;
+            Player4Order = null;
             AllCards = new CardList(cardsStr);
             PossibleCards = AllCards;
             Status = TableStatus.BAZAR;
@@ -599,7 +597,13 @@ namespace BeloteClient
         // Завершение процесса торговли
         public void BazarEndHandler(Message Msg)
         {
-            MessageBox.Show("Торговля завершена");
+            MessageBox.Show("Торговля завершена: " + Msg.Msg);
+        }
+
+        // Завершение торговли без заявки козыря
+        public void BazarPassHandler(Message Msg)
+        {
+            MessageBox.Show("Торговля закончилась без козыря! Новая раздача");
         }
 
         // Переход хода к игроку

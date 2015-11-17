@@ -29,13 +29,13 @@ namespace BeloteServer
         public Table ActiveTable
         {
             get;
-            protected set;
+            set;
         }
 
         public int ActivePlace
         {
             get;
-            protected set;
+            set;
         }
     }
 }

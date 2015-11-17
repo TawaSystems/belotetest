@@ -94,6 +94,8 @@ namespace BeloteServer
 
         public const string MESSAGE_GAME_BAZAR_NEXTBETPLAYER = "GBN";
 
+        public const string MESSAGE_GAME_BAZAR_PASS = "GBP";
+
         public const string MESSAGE_GAME_BAZAR_END = "GBE";
 
         // Сообщения объявления бонусов на столе

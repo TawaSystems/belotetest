@@ -60,6 +60,9 @@ namespace BeloteServer
         // Отправка сообщения клиенту
         public override void SendMessage(string message)
         {
+#if DEBUG
+            Debug.WriteLine(DateTime.Now.ToString() + "Отправка сообщения клиенту. ID: {0}, Message: {1}", ID, message);
+#endif
             try
             {
                 if (client.Connected)
@@ -492,9 +495,7 @@ namespace BeloteServer
                             {
                                 ActiveTable.SendMessageToClientsWithoutCreator(Messages.MESSAGE_TABLE_MODIFY_CREATORLEAVE);
                                 ActiveTable.CloseTable();
-                                ActiveTable = null;
                             }
-                            ActivePlace = 0;
                         }
                         break;
                     }
@@ -638,8 +639,8 @@ namespace BeloteServer
                                     ActiveTable.SendMessageToClients(msg);
                                     ActiveTable.CloseTable();
                                 }
-                                ActiveTable = null;
-                                ActivePlace = -1;
+                                //ActiveTable = null;
+                                //ActivePlace = -1;
                             }
                         }
                         break;

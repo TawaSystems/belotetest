@@ -321,6 +321,12 @@ namespace BeloteServer
             Status = DistributionStatus.D_ENDED;
         }
 
+        // Езменение статуса извне
+        public void ChangeStatus(DistributionStatus NewStatus)
+        {
+            Status = NewStatus;
+        }
+
         // Добавление в список новой взятки
         public void AddNewBribe()
         {

@@ -93,6 +93,26 @@ namespace BeloteServer
         {
             Status = TableStatus.ENDING;
             // Удаляем стол из списка 
+            if (this.TableCreator != null)
+            {
+                TableCreator.ActivePlace = -1;
+                TableCreator.ActiveTable = null;
+            }
+            if (this.Player2 != null)
+            {
+                Player2.ActivePlace = -1;
+                Player2.ActiveTable = null;
+            }
+            if (this.Player3 != null)
+            {
+                Player3.ActivePlace = -1;
+                Player3.ActiveTable = null;
+            }
+            if (this.Player4 != null)
+            {
+                Player4.ActivePlace = -1;
+                Player4.ActiveTable = null;
+            }
             this.game.Tables.DeleteTable(this);       
         }
 
@@ -274,22 +294,33 @@ namespace BeloteServer
             // В случае окончания процесса торговли
             if (distributions.Current.Orders.IsEnded())
             {
-                // Завершаем торговлю, назначая козырь
-                distributions.Current.EndBazar();
-                // Отсылаем всем клиентам сообщение о конце торговли
-                SendMessageToClients(String.Format("{4}Team={0},Type={1},Size={2},Trump={3}", (int)distributions.Current.Orders.OrderedTeam,
-                    (int)distributions.Current.Orders.Current.Type, distributions.Current.Orders.Current.Size,
-                    (int)distributions.Current.Orders.Current.Trump, Messages.MESSAGE_GAME_BAZAR_END));
-                // Отсылаем все возможные бонус клиентам
-                TableCreator.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player1Bonuses.ToString());
-                Player2.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player2Bonuses.ToString());
-                Player3.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player3Bonuses.ToString());
-                Player4.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player4Bonuses.ToString());
-                // Ход переходит к первому ходящему на раздаче
-                currentPlayer = startedPlayer;
-                CardList possibleCards = CardsFromNumber(currentPlayer);
-                // Передаем следующий ход со всеми возможными картами
-                NextMove(possibleCards);
+                // Если торговля завершилась четырьмя пассами
+                if (distributions.Current.Orders.IsPass)
+                {
+                    SendMessageToClients(Messages.MESSAGE_GAME_BAZAR_PASS);
+                    distributions.Current.ChangeStatus(DistributionStatus.D_ENDED);
+                    NextDistribution();
+                }
+                // Если торговля завершилась заказом
+                else
+                {
+                    // Завершаем торговлю, назначая козырь
+                    distributions.Current.EndBazar();
+                    // Отсылаем всем клиентам сообщение о конце торговли
+                    SendMessageToClients(String.Format("{4}Team={0},Type={1},Size={2},Trump={3}", (int)distributions.Current.Orders.OrderedTeam,
+                        (int)distributions.Current.Orders.Current.Type, distributions.Current.Orders.Current.Size,
+                        (int)distributions.Current.Orders.Current.Trump, Messages.MESSAGE_GAME_BAZAR_END));
+                    // Отсылаем все возможные бонус клиентам
+                    TableCreator.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player1Bonuses.ToString());
+                    Player2.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player2Bonuses.ToString());
+                    Player3.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player3Bonuses.ToString());
+                    Player4.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player4Bonuses.ToString());
+                    // Ход переходит к первому ходящему на раздаче
+                    currentPlayer = startedPlayer;
+                    CardList possibleCards = CardsFromNumber(currentPlayer);
+                    // Передаем следующий ход со всеми возможными картами
+                    NextMove(possibleCards);
+                }
             }
             // Иначе продолжаем торговлю
             else
@@ -313,6 +344,7 @@ namespace BeloteServer
                 {
                     betType = BetType.BET_CAPOT;
                 }
+                else
                 // Если уже был сделан хотя бы один заказ, то можно ответить заказом или контрой
                 if (distributions.Current.Orders.Current != null)
                 {

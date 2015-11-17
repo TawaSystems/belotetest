@@ -91,6 +91,8 @@ namespace BeloteClient
 
         public const string MESSAGE_GAME_BAZAR_SAYBET = "GBS";
 
+        public const string MESSAGE_GAME_BAZAR_PASS = "GBP";
+
         public const string MESSAGE_GAME_BAZAR_NEXTBETPLAYER = "GBN";
 
         public const string MESSAGE_GAME_BAZAR_END = "GBE";

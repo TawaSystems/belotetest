@@ -230,6 +230,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.OrderSizeUpDown);
             this.Name = "BetFromType123";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Сделать заказ...";
             ((System.ComponentModel.ISupportInitialize)(this.OrderSizeUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
