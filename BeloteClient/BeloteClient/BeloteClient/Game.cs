@@ -633,7 +633,9 @@ namespace BeloteClient
                 if (Bonuses.Count != 0)
                 {
                     // Показываем форму
-
+                    BonusAnnounceForm form = new BonusAnnounceForm(this);
+                    form.ShowDialog();
+                    serverActions.PlayerAnnounceBonuses(Bonuses);
                     // Обнуляем бонусы
                     Bonuses = null;
                 }

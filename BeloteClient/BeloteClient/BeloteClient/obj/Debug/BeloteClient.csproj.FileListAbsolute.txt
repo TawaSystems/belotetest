@@ -24,3 +24,4 @@ C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.WaitingF
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.GameForm.resources
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.BetFromType123.resources
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.BetFormType4.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.BonusAnnounceForm.resources

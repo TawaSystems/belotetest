@@ -62,6 +62,12 @@
       <DependentUpon>BetFromType123.cs</DependentUpon>
     </Compile>
     <Compile Include="Bonus.cs" />
+    <Compile Include="BonusAnnounceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BonusAnnounceForm.Designer.cs">
+      <DependentUpon>BonusAnnounceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BonusList.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CardList.cs" />
@@ -127,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BetFromType123.resx">
       <DependentUpon>BetFromType123.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BonusAnnounceForm.resx">
+      <DependentUpon>BonusAnnounceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreatingTableForm.resx">
       <DependentUpon>CreatingTableForm.cs</DependentUpon>
