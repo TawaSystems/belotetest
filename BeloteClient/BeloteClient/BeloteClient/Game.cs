@@ -499,12 +499,12 @@ namespace BeloteClient
             if (IsSet)
             {
                 serverActions.SetGameHandlers(GetCardsHandler, BazarNextPlayerHandler, BazarPlayerSayHandler, BazarEndHandler, BazarPassHandler,
-                    NextPlayerHandler, RemindCardHandler, BonusesShowTypesHandler, BonusesShowWinnerHandler, PlayerQuitHandler, GameEndHandler);
+                    NextPlayerHandler, RemindCardHandler, BonusesGetAllHandler, BonusesShowTypesHandler, BonusesShowWinnerHandler, PlayerQuitHandler, GameEndHandler);
             }
             else
             {
                 serverActions.UnsetGameHandlers(GetCardsHandler, BazarNextPlayerHandler, BazarPlayerSayHandler, BazarEndHandler, BazarPassHandler,
-                    NextPlayerHandler, RemindCardHandler, BonusesShowTypesHandler, BonusesShowWinnerHandler, PlayerQuitHandler, GameEndHandler);
+                    NextPlayerHandler, RemindCardHandler, BonusesGetAllHandler, BonusesShowTypesHandler, BonusesShowWinnerHandler, PlayerQuitHandler, GameEndHandler);
             }
         }
 
@@ -522,6 +522,7 @@ namespace BeloteClient
             Player2Order = null;
             Player3Order = null;
             Player4Order = null;
+            Bonuses = null;
             AllCards = new CardList(cardsStr);
             PossibleCards = AllCards;
             Status = TableStatus.BAZAR;
@@ -634,6 +635,13 @@ namespace BeloteClient
         public void BonusesShowWinnerHandler(Message Msg)
         {
 
+        }
+
+        // Получение списка возможных бонусов
+        public void BonusesGetAllHandler(Message Msg)
+        {
+            MessageBox.Show("Получены бонусы: " + Msg.Msg);
+            Bonuses = new BonusList(Msg.Msg);
         }
 
         // Ход другого игрока
@@ -815,6 +823,12 @@ namespace BeloteClient
         }
 
         public Order EndOrder
+        {
+            get;
+            private set;
+        }
+
+        public BonusList Bonuses
         {
             get;
             private set;

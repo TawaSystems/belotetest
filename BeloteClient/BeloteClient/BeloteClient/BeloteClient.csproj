@@ -61,6 +61,8 @@
     <Compile Include="BetFromType123.Designer.cs">
       <DependentUpon>BetFromType123.cs</DependentUpon>
     </Compile>
+    <Compile Include="Bonus.cs" />
+    <Compile Include="BonusList.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CardList.cs" />
     <Compile Include="Constants.cs" />
