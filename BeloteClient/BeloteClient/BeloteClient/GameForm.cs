@@ -220,6 +220,35 @@ namespace BeloteClient
             }
         }
 
+        // Отображает информацию об оглашенных типах бонусов
+        private void UpdateBonusesTypes(int serverNumber, string bonusType)
+        {
+            int graphicNumber = game.ServerPlaceToGraphicPlace(serverNumber);
+            switch (graphicNumber)
+            {
+                case 1:
+                    {
+                        Player1AddLabel.Text = (bonusType == null) ? "" : bonusType;
+                        break;
+                    }
+                case 2:
+                    {
+                        Player2AddLabel.Text = (bonusType == null) ? "" : bonusType;
+                        break;
+                    }
+                case 3:
+                    {
+                        Player3AddLabel.Text = (bonusType == null) ? "" : bonusType;
+                        break;
+                    }
+                case 4:
+                    {
+                        Player4AddLabel.Text = (bonusType == null) ? "" : bonusType;
+                        break;
+                    }
+            }
+        }
+
         // Обновляет графику на экране
         public void UpdateGraphics()
         {
@@ -250,8 +279,8 @@ namespace BeloteClient
                 ScoreLocalLabel.Text = String.Format("C   {0} | {1}", game.LocalScore1, game.LocalScore2);
                 ScoreSummLabel.Text = String.Format("S   {0} | {1}", game.TotalScore1, game.TotalScore2);
                 // Обновление информациио конечном заказе в раздаче
-                EndOrderPanel.Visible = (game.Status == TableStatus.PLAY);
-                if (game.Status == TableStatus.PLAY)
+                EndOrderPanel.Visible = (game.Status != TableStatus.BAZAR);
+                if (game.Status != TableStatus.BAZAR)
                 {
                     if (game.EndOrder != null)
                     {
@@ -285,6 +314,14 @@ namespace BeloteClient
                                 }
                         }
                     }
+                }
+                // Отображение типов объявленных бонусов
+                if (game.Status == TableStatus.BONUSES)
+                {
+                    UpdateBonusesTypes(1, game.Player1BonusesTypes);
+                    UpdateBonusesTypes(2, game.Player2BonusesTypes);
+                    UpdateBonusesTypes(3, game.Player3BonusesTypes);
+                    UpdateBonusesTypes(4, game.Player4BonusesTypes);
                 }
             }
             catch (Exception Ex)

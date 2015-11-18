@@ -206,6 +206,14 @@ namespace BeloteClient
                 String.Format("Size={0},Type={1},Trump={2}", order.Size, (int)order.Type, Helpers.SuitToString(order.Trump))));
         }
         
+        // Анонсирование игроком бонусов
+        public void PlayerAnnounceBonuses(BonusList Bonuses)
+        {
+            if (Bonuses == null)
+                return;
+            ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_GAME_BONUSES_ANNOUNCE, Bonuses.ToString()));
+        }
+
         // Установка всех обработчиков события для процесса игры
         public void SetGameHandlers(MessageDelegate CardsDistributionHandler, MessageDelegate BazarNextPlayerHandler,
             MessageDelegate BazarPlayerSayHandler, MessageDelegate BazarEndHandler, MessageDelegate BazarPassHandler, 

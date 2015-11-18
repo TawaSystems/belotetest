@@ -767,13 +767,13 @@ namespace BeloteServer
                 // Анонсирование бонусов игроком
                 case Messages.MESSAGE_GAME_BONUSES_ANNOUNCE:
                     {
-                        int bonusCount = Int32.Parse(gameParams["Count"]);
+                        /*int bonusCount = Int32.Parse(gameParams["Count"]);
                         string Str = gameParams["Count"];
                         for (var i = 0; i < bonusCount; i++)
                         {
                             Str += String.Format(",Bonus{0}={1}", i, gameParams["Bonus" + i.ToString()]);
-                        }
-                        BonusList bList = new BonusList(Str);
+                        }*/
+                        BonusList bList = new BonusList(message);
                         if (ActiveTable != null)
                         {
                             lock (ActiveTable)

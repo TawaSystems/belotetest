@@ -522,6 +522,10 @@ namespace BeloteClient
             Player2Order = null;
             Player3Order = null;
             Player4Order = null;
+            Player1BonusesTypes = null;
+            Player2BonusesTypes = null;
+            Player3BonusesTypes = null;
+            Player4BonusesTypes = null;
             Bonuses = null;
             AllCards = new CardList(cardsStr);
             PossibleCards = AllCards;
@@ -609,7 +613,7 @@ namespace BeloteClient
             int oSize = Int32.Parse(bParams["Size"]);
             EndOrder = new Order(oType, oSize, oSuit);
             EndOrder.ChangeTeam(oTeam);
-            Status = TableStatus.PLAY;
+            Status = TableStatus.BONUSES;
             gameForm.UpdateGraphics();
         }
 
@@ -622,25 +626,111 @@ namespace BeloteClient
         // Переход хода к игроку
         public void NextPlayerHandler(Message Msg)
         {
+            // Если это первый ход, то нужно огласить бонусы
+            if (Bonuses != null)
+            {
+                // Если есть неоглашенные бонусы, то предлагаем их огласить
+                if (Bonuses.Count != 0)
+                {
+                    // Показываем форму
 
+                    // Обнуляем бонусы
+                    Bonuses = null;
+                }
+            }
         }
 
         // Объявление о типах объявленных бонусов одного из игроков
         public void BonusesShowTypesHandler(Message Msg)
         {
-
+            Dictionary<string, string> tParams = Helpers.SplitCommandString(Msg.Msg);
+            int count = Int32.Parse(tParams["Count"]);
+            int place = Int32.Parse(tParams["Place"]);
+            if (count == 0)
+                return;
+            string showstr = "";
+            for (var i = 0; i < count; i++)
+            {
+                BonusType nextB = (BonusType)Int32.Parse(tParams["Type" + i.ToString()]);
+                string addstr = "";
+                if (i != 0)
+                    addstr += " + ";
+                switch (nextB)
+                {
+                    case BonusType.BONUS_TERZ:
+                        {
+                            addstr += "TERZ";
+                            break;
+                        }
+                    case BonusType.BONUS_50:
+                        {
+                            addstr += "50";
+                            break;
+                        }
+                    case BonusType.BONUS_100:
+                        {
+                            addstr += "100";
+                            break;
+                        }
+                    case BonusType.BONUS_4X:
+                        {
+                            addstr += "4X";
+                            break;
+                        }
+                }
+                showstr += addstr;
+            }
+            switch (place)
+            {
+                case 1:
+                    {
+                        Player1BonusesTypes = showstr;
+                        break;
+                    }
+                case 2:
+                    {
+                        Player2BonusesTypes = showstr;
+                        break;
+                    }
+                case 3:
+                    {
+                        Player3BonusesTypes = showstr;
+                        break;
+                    }
+                case 4:
+                    {
+                        Player4BonusesTypes = showstr;
+                        break;
+                    }
+            }
+            gameForm.UpdateGraphics();
         }
 
         // Объявление победителя по бонусам
         public void BonusesShowWinnerHandler(Message Msg)
         {
-
+            Player1BonusesTypes = null;
+            Player2BonusesTypes = null;
+            Player3BonusesTypes = null;
+            Player4BonusesTypes = null;
+            gameForm.UpdateGraphics();
+            Status = TableStatus.PLAY;
+            Dictionary<string, string> wParams = Helpers.SplitCommandString(Msg.Msg);
+            BeloteTeam winner = (BeloteTeam)Int32.Parse(wParams["Winner"]);
+            int scores = Int32.Parse(wParams["Scores"]);
+            if (winner != BeloteTeam.TEAM_NONE)
+            {
+                MessageBox.Show(String.Format("Команда №{0} получает {1} очков за бонусы", (int)winner, scores));
+            }
+            else
+            {
+                MessageBox.Show("Ни одна команда не получает очки за бонусы");
+            }
         }
 
         // Получение списка возможных бонусов
         public void BonusesGetAllHandler(Message Msg)
         {
-            MessageBox.Show("Получены бонусы: " + Msg.Msg);
             Bonuses = new BonusList(Msg.Msg);
         }
 
@@ -829,6 +919,27 @@ namespace BeloteClient
         }
 
         public BonusList Bonuses
+        {
+            get;
+            private set;
+        }
+
+        public string Player1BonusesTypes
+        {
+            get;
+            private set;
+        }
+        public string Player2BonusesTypes
+        {
+            get;
+            private set;
+        }
+        public string Player3BonusesTypes
+        {
+            get;
+            private set;
+        }
+        public string Player4BonusesTypes
         {
             get;
             private set;

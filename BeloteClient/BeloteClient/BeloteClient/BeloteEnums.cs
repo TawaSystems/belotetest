@@ -7,7 +7,8 @@ namespace BeloteClient
     {
         NONE = 0,
         BAZAR = 1,
-        PLAY = 2
+        BONUSES = 2,
+        PLAY = 3
     }
 
     // Тип следующей возможной ставки
