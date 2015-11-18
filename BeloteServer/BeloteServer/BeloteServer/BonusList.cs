@@ -131,7 +131,7 @@ namespace BeloteServer
         {
             foreach (Bonus b in list)
             {
-                if ((b.Type == bonus.Type) && (b.Suit == bonus.Suit) && (b.LowCard == bonus.LowCard))
+                if ((b.Type == bonus.Type) && (b.Suit == bonus.Suit) && (b.HighCard == bonus.HighCard))
                     return true;
             }
             return false;

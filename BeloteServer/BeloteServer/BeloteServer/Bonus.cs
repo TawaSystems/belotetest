@@ -10,16 +10,16 @@ namespace BeloteServer
     class Bonus
     {
         // Метод создания бонуса - ему присваиваются тип, младшая карта, а также опционно для бонусов типа "последовательность" - масть
-        public Bonus(BonusType Type, CardType LowCard, bool IsTrump, CardSuit Suit = CardSuit.C_NONE)
+        public Bonus(BonusType Type, CardType HighCard, bool IsTrump, CardSuit Suit = CardSuit.C_NONE)
         {
             this.Type = Type;
-            this.LowCard = LowCard;
+            this.HighCard = HighCard;
             this.Suit = Suit;
             this.IsTrump = IsTrump;
             Cost = CalculateCost();
 #if DEBUG 
-            Debug.WriteLine("{0} Создан бонус: Тип - {1}, Младшая карта - {2}, Масть - {3}, Козырь - {4}, Стоимость - {5}",
-                DateTime.Now.ToString(), Type, LowCard, Suit, IsTrump, Cost);
+            Debug.WriteLine("{0} Создан бонус: Тип - {1}, Старшая карта - {2}, Масть - {3}, Козырь - {4}, Стоимость - {5}",
+                DateTime.Now.ToString(), Type, HighCard, Suit, IsTrump, Cost);
 #endif 
         }
 
@@ -42,7 +42,7 @@ namespace BeloteServer
                     }
                 case BonusType.BONUS_4X:
                     {
-                        switch (LowCard)
+                        switch (HighCard)
                         {
                             case CardType.C_7:
                             case CardType.C_8:
@@ -90,7 +90,7 @@ namespace BeloteServer
             if (BonusString.Length != 4)
             {
                 Type = BonusType.BONUS_NONE;
-                LowCard = CardType.C_UNDEFINED;
+                HighCard = CardType.C_UNDEFINED;
                 Suit = CardSuit.C_NONE;
                 IsTrump = false;
                 Cost = 0;
@@ -99,14 +99,14 @@ namespace BeloteServer
             {
                 // Считываем из строки значения всех необходимых параметров бонуса
                 Type = (BonusType)Int32.Parse(BonusString.Substring(0, 1));
-                LowCard = (CardType)Int32.Parse(BonusString.Substring(1, 1));
+                HighCard = (CardType)Int32.Parse(BonusString.Substring(1, 1));
                 Suit = Helpers.StringToSuit(BonusString.Substring(2, 1));
                 IsTrump = Helpers.StringToBool(BonusString.Substring(3, 1));
                 Cost = CalculateCost();
             }
 #if DEBUG
-            Debug.WriteLine("{0} Создан бонус: Тип - {1}, Младшая карта - {2}, Масть - {3}, Козырь - {4}, Стоимость - {5}",
-                DateTime.Now.ToString(), Type, LowCard, Suit, IsTrump, Cost);
+            Debug.WriteLine("{0} Создан бонус: Тип - {1}, Старшая карта - {2}, Масть - {3}, Козырь - {4}, Стоимость - {5}",
+                DateTime.Now.ToString(), Type, HighCard, Suit, IsTrump, Cost);
 #endif
         }
 
@@ -130,13 +130,13 @@ namespace BeloteServer
                 if ((this.Type == BonusType.BONUS_TERZ) || (this.Type == BonusType.BONUS_50) || (this.Type == BonusType.BONUS_100))
                 {
                     // Последовательность старше
-                    if (this.LowCard > Other.LowCard)
+                    if (this.HighCard > Other.HighCard)
                     {
                         return 1;
                     }
                     else
                     // Последовательность младше
-                    if (this.LowCard < Other.LowCard)
+                    if (this.HighCard < Other.HighCard)
                     {
                         return -1;
                     }
@@ -172,7 +172,7 @@ namespace BeloteServer
                     weights[(int)CardType.C_9] = 4;
                     weights[(int)CardType.C_J] = 5;
                     // Если карта старше по весу, то и бонус старше. Равны быть не могут
-                    if (weights[(int)this.LowCard] > (weights[(int)Other.LowCard]))
+                    if (weights[(int)this.HighCard] > (weights[(int)Other.HighCard]))
                     {
                         return 1;
                     }
@@ -191,7 +191,7 @@ namespace BeloteServer
             private set;
         }
 
-        public CardType LowCard
+        public CardType HighCard
         {
             get;
             private set;
@@ -206,7 +206,7 @@ namespace BeloteServer
         // Бонус преобразуется к строке следующим образом: Тип + Младшая карта + Масть + Козырь
         public override string ToString()
         {
-            return ((int)Type).ToString() + ((int)LowCard).ToString() + Helpers.SuitToString(Suit) + Helpers.BoolToString(IsTrump);
+            return ((int)Type).ToString() + ((int)HighCard).ToString() + Helpers.SuitToString(Suit) + Helpers.BoolToString(IsTrump);
         }
 
         // Стоимость бонуса
