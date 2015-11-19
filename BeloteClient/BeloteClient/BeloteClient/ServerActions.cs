@@ -214,6 +214,14 @@ namespace BeloteClient
             ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_GAME_BONUSES_ANNOUNCE, Bonuses.ToString()));
         }
 
+        // Игрок делает ход
+        public void PlayerMakeMove(Card Card)
+        {
+            if (Card == null)
+                return;
+            ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_GAME_GAMING_PLAYERMOVE, Card.ToString()));
+        }
+
         // Установка всех обработчиков события для процесса игры
         public void SetGameHandlers(MessageDelegate CardsDistributionHandler, MessageDelegate BazarNextPlayerHandler,
             MessageDelegate BazarPlayerSayHandler, MessageDelegate BazarEndHandler, MessageDelegate BazarPassHandler, 

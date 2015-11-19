@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Imaging;
 
 namespace BeloteClient
 {
@@ -70,6 +71,32 @@ namespace BeloteClient
             if (PlayerID < 0)
                 return null;
             return game.Players[PlayerID];
+        }
+
+        // Возвращает ссылку на пикчербокс нужной карты
+        private PictureBox PictureBoxFromNumber(int num)
+        {
+            switch (num)
+            {
+                case 0:
+                    return PlayerCard1PB;
+                case 1:
+                    return PlayerCard2PB;
+                case 2:
+                    return PlayerCard3PB;
+                case 3:
+                    return PlayerCard4PB;
+                case 4:
+                    return PlayerCard5PB;
+                case 5:
+                    return PlayerCard6PB;
+                case 6:
+                    return PlayerCard7PB;
+                case 7:
+                    return PlayerCard8PB;
+                default:
+                    return null;
+            }
         }
 
         // Рисует игровые карты и рубашки
@@ -249,6 +276,24 @@ namespace BeloteClient
             }
         }
 
+        // Делает изображение черно-белым
+        private Bitmap MakeImageBlackWhite(Bitmap bmp)
+        {
+            ImageAttributes ia = new ImageAttributes();
+            ColorMatrix cm = new ColorMatrix();
+            cm.Matrix00 = cm.Matrix01 = cm.Matrix02 =
+            cm.Matrix10 = cm.Matrix11 = cm.Matrix12 =
+            cm.Matrix20 = cm.Matrix21 = cm.Matrix22 = 0.34f;
+
+            ia.SetColorMatrix(cm);
+
+            Graphics g = Graphics.FromImage(bmp);
+
+            g.DrawImage(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, ia);
+
+            return bmp;
+        }
+
         // Обновляет графику на экране
         public void UpdateGraphics()
         {
@@ -323,6 +368,19 @@ namespace BeloteClient
                     UpdateBonusesTypes(3, game.Player3BonusesTypes);
                     UpdateBonusesTypes(4, game.Player4BonusesTypes);
                 }
+                // Если игроку позволяется сделать ход, то делаем неактивными карты, которыми нельзя ходить
+                if (game.IsMakingMove)
+                {
+                    for (var i = 0; i < game.AllCards.Count; i++)
+                    {
+                        if (!game.PossibleCards.Exists(game.AllCards[i]))
+                        {
+                            PictureBox pb = PictureBoxFromNumber(i);
+                            pb.Image = (Image)MakeImageBlackWhite(new Bitmap(pb.Image));
+                            pb.Invalidate();
+                        }
+                    }
+                }
             }
             catch (Exception Ex)
             {
@@ -334,6 +392,18 @@ namespace BeloteClient
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             game.QuitTable();
+        }
+
+        private void PlayerCard1PB_Click(object sender, EventArgs e)
+        {
+            if (!game.IsMakingMove)
+                return;
+            if ((sender as PictureBox).Image == null)
+                return;
+            int cardIndex = (int)(sender as PictureBox).Tag;
+            if (!game.PossibleCards.Exists(game.AllCards[cardIndex]))
+                return;
+            game.MakeMove(cardIndex);
         }
     }
 }

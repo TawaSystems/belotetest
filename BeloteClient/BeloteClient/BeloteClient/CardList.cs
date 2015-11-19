@@ -49,6 +49,12 @@ namespace BeloteClient
             }
         }
 
+        // Проверяет наличие карты в списке
+        public bool Exists(Card card)
+        {
+            return ((list.Find(c => (c.Type == card.Type) && (c.Suit == card.Suit))) != null);
+        }
+
         // Обращение к карте по ее типу и масти
         public Card this[CardType type, CardSuit suit]
         {

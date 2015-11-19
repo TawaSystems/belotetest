@@ -81,10 +81,10 @@
             this.ScoreTeamInfo = new System.Windows.Forms.Label();
             this.backImageList = new System.Windows.Forms.ImageList(this.components);
             this.EndOrderPanel = new System.Windows.Forms.Panel();
-            this.EndOrderSizeLabel = new System.Windows.Forms.Label();
-            this.EndOrderSuit = new System.Windows.Forms.PictureBox();
-            this.EndOrderTeam = new System.Windows.Forms.Label();
             this.EndOrderTypeLabel = new System.Windows.Forms.Label();
+            this.EndOrderTeam = new System.Windows.Forms.Label();
+            this.EndOrderSuit = new System.Windows.Forms.PictureBox();
+            this.EndOrderSizeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard1PB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard2PB)).BeginInit();
@@ -193,6 +193,8 @@
             this.PlayerCard1PB.Size = new System.Drawing.Size(60, 83);
             this.PlayerCard1PB.TabIndex = 2;
             this.PlayerCard1PB.TabStop = false;
+            this.PlayerCard1PB.Tag = "0";
+            this.PlayerCard1PB.Click += new System.EventHandler(this.PlayerCard1PB_Click);
             // 
             // PlayerCard2PB
             // 
@@ -202,6 +204,7 @@
             this.PlayerCard2PB.Size = new System.Drawing.Size(60, 83);
             this.PlayerCard2PB.TabIndex = 3;
             this.PlayerCard2PB.TabStop = false;
+            this.PlayerCard2PB.Tag = "1";
             // 
             // PlayerCard3PB
             // 
@@ -211,6 +214,7 @@
             this.PlayerCard3PB.Size = new System.Drawing.Size(60, 83);
             this.PlayerCard3PB.TabIndex = 4;
             this.PlayerCard3PB.TabStop = false;
+            this.PlayerCard3PB.Tag = "2";
             // 
             // PlayerCard4PB
             // 
@@ -220,6 +224,7 @@
             this.PlayerCard4PB.Size = new System.Drawing.Size(60, 83);
             this.PlayerCard4PB.TabIndex = 5;
             this.PlayerCard4PB.TabStop = false;
+            this.PlayerCard4PB.Tag = "3";
             // 
             // PlayerCard5PB
             // 
@@ -229,6 +234,7 @@
             this.PlayerCard5PB.Size = new System.Drawing.Size(60, 83);
             this.PlayerCard5PB.TabIndex = 6;
             this.PlayerCard5PB.TabStop = false;
+            this.PlayerCard5PB.Tag = "4";
             // 
             // PlayerCard6PB
             // 
@@ -238,6 +244,7 @@
             this.PlayerCard6PB.Size = new System.Drawing.Size(60, 83);
             this.PlayerCard6PB.TabIndex = 7;
             this.PlayerCard6PB.TabStop = false;
+            this.PlayerCard6PB.Tag = "5";
             // 
             // PlayerCard7PB
             // 
@@ -247,6 +254,7 @@
             this.PlayerCard7PB.Size = new System.Drawing.Size(60, 83);
             this.PlayerCard7PB.TabIndex = 8;
             this.PlayerCard7PB.TabStop = false;
+            this.PlayerCard7PB.Tag = "6";
             // 
             // PlayerCard8PB
             // 
@@ -256,6 +264,7 @@
             this.PlayerCard8PB.Size = new System.Drawing.Size(60, 83);
             this.PlayerCard8PB.TabIndex = 9;
             this.PlayerCard8PB.TabStop = false;
+            this.PlayerCard8PB.Tag = "7";
             // 
             // Player1Name
             // 
@@ -631,24 +640,15 @@
             this.EndOrderPanel.TabIndex = 33;
             this.EndOrderPanel.Visible = false;
             // 
-            // EndOrderSizeLabel
+            // EndOrderTypeLabel
             // 
-            this.EndOrderSizeLabel.AutoSize = true;
-            this.EndOrderSizeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.EndOrderSizeLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.EndOrderSizeLabel.Location = new System.Drawing.Point(10, 5);
-            this.EndOrderSizeLabel.Name = "EndOrderSizeLabel";
-            this.EndOrderSizeLabel.Size = new System.Drawing.Size(64, 20);
-            this.EndOrderSizeLabel.TabIndex = 1;
-            this.EndOrderSizeLabel.Text = "Заказ:";
-            // 
-            // EndOrderSuit
-            // 
-            this.EndOrderSuit.Location = new System.Drawing.Point(130, 5);
-            this.EndOrderSuit.Name = "EndOrderSuit";
-            this.EndOrderSuit.Size = new System.Drawing.Size(16, 16);
-            this.EndOrderSuit.TabIndex = 3;
-            this.EndOrderSuit.TabStop = false;
+            this.EndOrderTypeLabel.AutoSize = true;
+            this.EndOrderTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EndOrderTypeLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.EndOrderTypeLabel.Location = new System.Drawing.Point(150, 5);
+            this.EndOrderTypeLabel.Name = "EndOrderTypeLabel";
+            this.EndOrderTypeLabel.Size = new System.Drawing.Size(0, 20);
+            this.EndOrderTypeLabel.TabIndex = 5;
             // 
             // EndOrderTeam
             // 
@@ -661,15 +661,24 @@
             this.EndOrderTeam.TabIndex = 4;
             this.EndOrderTeam.Text = "Команда:";
             // 
-            // EndOrderTypeLabel
+            // EndOrderSuit
             // 
-            this.EndOrderTypeLabel.AutoSize = true;
-            this.EndOrderTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.EndOrderTypeLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.EndOrderTypeLabel.Location = new System.Drawing.Point(150, 5);
-            this.EndOrderTypeLabel.Name = "EndOrderTypeLabel";
-            this.EndOrderTypeLabel.Size = new System.Drawing.Size(0, 20);
-            this.EndOrderTypeLabel.TabIndex = 5;
+            this.EndOrderSuit.Location = new System.Drawing.Point(130, 5);
+            this.EndOrderSuit.Name = "EndOrderSuit";
+            this.EndOrderSuit.Size = new System.Drawing.Size(16, 16);
+            this.EndOrderSuit.TabIndex = 3;
+            this.EndOrderSuit.TabStop = false;
+            // 
+            // EndOrderSizeLabel
+            // 
+            this.EndOrderSizeLabel.AutoSize = true;
+            this.EndOrderSizeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EndOrderSizeLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.EndOrderSizeLabel.Location = new System.Drawing.Point(10, 5);
+            this.EndOrderSizeLabel.Name = "EndOrderSizeLabel";
+            this.EndOrderSizeLabel.Size = new System.Drawing.Size(64, 20);
+            this.EndOrderSizeLabel.TabIndex = 1;
+            this.EndOrderSizeLabel.Text = "Заказ:";
             // 
             // GameForm
             // 

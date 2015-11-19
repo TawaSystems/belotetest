@@ -34,6 +34,7 @@ namespace BeloteClient
                 Player2Order = null;
                 Player3Order = null;
                 Player4Order = null;
+                IsMakingMove = false;
                 guestForm = new MainGuestForm(this);
                 guestForm.Show();
             }
@@ -354,6 +355,16 @@ namespace BeloteClient
             serverActions.DeleteBotFromTable(BotPlace);
         }
 
+        // Игрок совершает ход. Параметр - индекс карты в списке всех карт
+        public void MakeMove(int CardIndex)
+        {
+            Card card = AllCards[CardIndex];
+            AllCards.Remove(card);
+            IsMakingMove = false;
+            serverActions.PlayerMakeMove(card);
+            gameForm.UpdateGraphics();
+        }
+
         // Выход игрока со стола
         public void QuitTable()
         {
@@ -522,6 +533,7 @@ namespace BeloteClient
             Player2Order = null;
             Player3Order = null;
             Player4Order = null;
+            IsMakingMove = false;
             Player1BonusesTypes = null;
             Player2BonusesTypes = null;
             Player3BonusesTypes = null;
@@ -640,6 +652,11 @@ namespace BeloteClient
                     Bonuses = null;
                 }
             }
+            // Получаем список возможных карт
+            PossibleCards = new CardList(Msg.Msg);
+            // Разрешаем игроку сделать ход
+            IsMakingMove = true;
+            gameForm.UpdateGraphics();
         }
 
         // Объявление о типах объявленных бонусов одного из игроков
@@ -739,7 +756,7 @@ namespace BeloteClient
         // Ход другого игрока
         public void RemindCardHandler(Message Msg)
         {
-
+            MessageBox.Show("Кто то сделал ход: " + Msg);
         }
 
         // Завершение игры
@@ -942,6 +959,12 @@ namespace BeloteClient
             private set;
         }
         public string Player4BonusesTypes
+        {
+            get;
+            private set;
+        }
+
+        public bool IsMakingMove
         {
             get;
             private set;
