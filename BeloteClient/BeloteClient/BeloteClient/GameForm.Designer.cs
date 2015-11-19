@@ -85,6 +85,7 @@
             this.EndOrderTeam = new System.Windows.Forms.Label();
             this.EndOrderSuit = new System.Windows.Forms.PictureBox();
             this.EndOrderSizeLabel = new System.Windows.Forms.Label();
+            this.MakingMovePanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard1PB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard2PB)).BeginInit();
@@ -205,6 +206,7 @@
             this.PlayerCard2PB.TabIndex = 3;
             this.PlayerCard2PB.TabStop = false;
             this.PlayerCard2PB.Tag = "1";
+            this.PlayerCard2PB.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // PlayerCard3PB
             // 
@@ -215,6 +217,7 @@
             this.PlayerCard3PB.TabIndex = 4;
             this.PlayerCard3PB.TabStop = false;
             this.PlayerCard3PB.Tag = "2";
+            this.PlayerCard3PB.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // PlayerCard4PB
             // 
@@ -225,6 +228,7 @@
             this.PlayerCard4PB.TabIndex = 5;
             this.PlayerCard4PB.TabStop = false;
             this.PlayerCard4PB.Tag = "3";
+            this.PlayerCard4PB.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // PlayerCard5PB
             // 
@@ -235,6 +239,7 @@
             this.PlayerCard5PB.TabIndex = 6;
             this.PlayerCard5PB.TabStop = false;
             this.PlayerCard5PB.Tag = "4";
+            this.PlayerCard5PB.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // PlayerCard6PB
             // 
@@ -245,6 +250,7 @@
             this.PlayerCard6PB.TabIndex = 7;
             this.PlayerCard6PB.TabStop = false;
             this.PlayerCard6PB.Tag = "5";
+            this.PlayerCard6PB.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // PlayerCard7PB
             // 
@@ -255,6 +261,7 @@
             this.PlayerCard7PB.TabIndex = 8;
             this.PlayerCard7PB.TabStop = false;
             this.PlayerCard7PB.Tag = "6";
+            this.PlayerCard7PB.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // PlayerCard8PB
             // 
@@ -265,6 +272,7 @@
             this.PlayerCard8PB.TabIndex = 9;
             this.PlayerCard8PB.TabStop = false;
             this.PlayerCard8PB.Tag = "7";
+            this.PlayerCard8PB.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // Player1Name
             // 
@@ -680,6 +688,14 @@
             this.EndOrderSizeLabel.TabIndex = 1;
             this.EndOrderSizeLabel.Text = "Заказ:";
             // 
+            // MakingMovePanel
+            // 
+            this.MakingMovePanel.BackColor = System.Drawing.Color.OrangeRed;
+            this.MakingMovePanel.Location = new System.Drawing.Point(770, 460);
+            this.MakingMovePanel.Name = "MakingMovePanel";
+            this.MakingMovePanel.Size = new System.Drawing.Size(30, 30);
+            this.MakingMovePanel.TabIndex = 34;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -687,6 +703,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(944, 531);
             this.ControlBox = false;
+            this.Controls.Add(this.MakingMovePanel);
             this.Controls.Add(this.EndOrderPanel);
             this.Controls.Add(this.ScoreTeamInfo);
             this.Controls.Add(this.Player4MoveCard);
@@ -817,5 +834,6 @@
         private System.Windows.Forms.PictureBox EndOrderSuit;
         private System.Windows.Forms.Label EndOrderSizeLabel;
         private System.Windows.Forms.Label EndOrderTypeLabel;
+        private System.Windows.Forms.Panel MakingMovePanel;
     }
 }

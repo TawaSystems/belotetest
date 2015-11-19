@@ -10,6 +10,7 @@ namespace BeloteServer
     // Класс, представляющий собой карту. Реализует интерфейс IComaparable для сортировки карт
     class Card : IComparable<Card>
     {
+        private bool gamewithtrump;
         // Создаем карту по ее типу и масти
         public Card(CardType type, CardSuit suit)
         {
@@ -119,10 +120,11 @@ namespace BeloteServer
         {
             get
             {
-                return IsGameWithTrump;
+                return gamewithtrump;
             }
             set
             {
+                gamewithtrump = value;
                 if (value == false)
                 {
                     IsTrump = false;

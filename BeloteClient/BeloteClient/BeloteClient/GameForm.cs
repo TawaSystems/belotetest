@@ -369,6 +369,7 @@ namespace BeloteClient
                     UpdateBonusesTypes(4, game.Player4BonusesTypes);
                 }
                 // Если игроку позволяется сделать ход, то делаем неактивными карты, которыми нельзя ходить
+                MakingMovePanel.Visible = game.IsMakingMove;
                 if (game.IsMakingMove)
                 {
                     for (var i = 0; i < game.AllCards.Count; i++)
@@ -400,7 +401,7 @@ namespace BeloteClient
                 return;
             if ((sender as PictureBox).Image == null)
                 return;
-            int cardIndex = (int)(sender as PictureBox).Tag;
+            int cardIndex = Int32.Parse((sender as PictureBox).Tag.ToString());
             if (!game.PossibleCards.Exists(game.AllCards[cardIndex]))
                 return;
             game.MakeMove(cardIndex);
