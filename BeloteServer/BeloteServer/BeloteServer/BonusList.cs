@@ -27,13 +27,10 @@ namespace BeloteServer
             for (var i = 1; i < cards.Count; i++)
             {
                 // Проверяем, что две следующие друг за другом карты последовательны и одной масти
-                if (Math.Abs(((int)cards[i].Type) - ((int)cards[i - 1].Type)) == 1)
+                if ((Math.Abs(((int)cards[i].Type) - ((int)cards[i - 1].Type)) == 1) && (cards[i].Suit == cards[i - 1].Suit))
                 {
-                    if (cards[i].Suit == cards[i - 1].Suit)
-                    {
-                        // Увеличиваем значение последовательности
-                        streak++;
-                    }
+                    // Увеличиваем значение последовательности
+                    streak++;
                 }
                 else
                 {
@@ -81,8 +78,6 @@ namespace BeloteServer
             else
             {
                 bonusType = BonusType.BONUS_100;
-                // Даже если последовательность из 6-7-8 карт, учитываем только старшие 5
-                Streak = 5;
             }
             AddBonusToList(new Bonus(bonusType, cards[Position - Streak].Type, cards[Position - Streak].IsTrump, cards[Position - Streak].Suit));
         }
