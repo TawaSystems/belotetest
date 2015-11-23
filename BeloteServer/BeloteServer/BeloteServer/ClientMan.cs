@@ -67,7 +67,7 @@ namespace BeloteServer
             {
                 if (client.Connected)
                 {
-                    var data = Encoding.Unicode.GetBytes(message);
+                    var data = Encoding.Unicode.GetBytes(message + Constants.MESSAGE_DELIMITER);
                     client.GetStream().Write(data, 0, data.Length);
                     client.GetStream().Flush();
                 }
@@ -138,39 +138,52 @@ namespace BeloteServer
                     Debug.WriteLine("Сообщение: " + message);
                     Debug.Unindent();
 #endif
+                    string[] messages = message.Split(Constants.MESSAGE_DELIMITER);
                     string result = null;
-                    try
+                    foreach (string str in messages)
                     {
-                        // Обрабатываем полученное сообщение
-                        result = ProcessCommand(message);
-                    }
-                    catch (Exception Ex)
-                    {
+                        if (str != "")
+                        {
+                            try
+                            {
+                                // Обрабатываем полученное сообщение
+                                result = ProcessCommand(str);
+                            }
+                            catch (Exception Ex)
+                            {
 #if DEBUG
-                        Debug.WriteLine(Ex.Message);
+                                Debug.WriteLine(Ex.Message);
 #endif
+                            }
+                            // Выход из цикла обработки сообщений
+                            if (result == Messages.MESSAGE_CLIENT_DISCONNECT)
+                            {
+                                break;
+                            }
+                            // Если получен какой то результат обработки сообщения клиента, то отсылаем его клиенту
+                            if (result != null)
+                            {
+                                if (result != "")
+                                {
+#if DEBUG
+                                    Debug.WriteLine(DateTime.Now.ToString() + " Отправка сообщения клиенту");
+                                    Debug.Indent();
+                                    Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
+                                    Debug.WriteLine("Client ID: " + ID);
+                                    Debug.WriteLine("Сообщение: " + result);
+                                    Debug.Unindent();
+#endif
+                                    data = Encoding.Unicode.GetBytes(result + Constants.MESSAGE_DELIMITER);
+                                    stream.Write(data, 0, data.Length);
+                                    stream.Flush();
+                                }
+                            }
+                        }
                     }
                     // Отключение клиента и завершение обработки сообщений от него
                     if (result == Messages.MESSAGE_CLIENT_DISCONNECT)
                     {
                         break;
-                    }
-                    // Если получен какой то результат обработки сообщения клиента, то отсылаем его клиенту
-                    if (result != null)
-                    {
-                        if (result != "")
-                        {
-#if DEBUG
-                            Debug.WriteLine(DateTime.Now.ToString() + " Отправка сообщения клиенту");
-                            Debug.Indent();
-                            Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
-                            Debug.WriteLine("Client ID: " + ID);
-                            Debug.WriteLine("Сообщение: " + result);
-                            Debug.Unindent();
-#endif
-                            data = Encoding.Unicode.GetBytes(result);
-                            stream.Write(data, 0, data.Length);
-                        }
                     }
                 }
             }

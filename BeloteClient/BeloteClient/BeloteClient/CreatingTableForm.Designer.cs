@@ -163,6 +163,8 @@
             // TableTableVisibilityCheckBox
             // 
             this.TableTableVisibilityCheckBox.AutoSize = true;
+            this.TableTableVisibilityCheckBox.Checked = true;
+            this.TableTableVisibilityCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.TableTableVisibilityCheckBox.Location = new System.Drawing.Point(12, 127);
             this.TableTableVisibilityCheckBox.Name = "TableTableVisibilityCheckBox";
             this.TableTableVisibilityCheckBox.Size = new System.Drawing.Size(114, 17);

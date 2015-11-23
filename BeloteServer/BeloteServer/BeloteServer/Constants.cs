@@ -8,6 +8,9 @@ namespace BeloteServer
 {
     public static class Constants
     {
+        // Разделительный символ для сообщений
+        public const char MESSAGE_DELIMITER = '#';
+
         // Количество столбцов в таблице Players
         public const int COLS_PLAYERS = 22;
 

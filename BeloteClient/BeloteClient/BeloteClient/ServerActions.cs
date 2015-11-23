@@ -219,7 +219,8 @@ namespace BeloteClient
         {
             if (Card == null)
                 return;
-            ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_GAME_GAMING_PLAYERMOVE, Card.ToString()));
+            ServerConnection.ExecuteMessageWithoutResult(new Message(Messages.MESSAGE_GAME_GAMING_PLAYERMOVE, 
+                String.Format("Card={0}", Card.ToString())));
         }
 
         // Установка всех обработчиков события для процесса игры

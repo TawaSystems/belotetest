@@ -8,6 +8,9 @@ namespace BeloteClient
 {
     public static class Constants
     {
+        // Разделитель сообщений
+        public const char MESSAGE_DELIMITER = '#';
+
         // Количество столбцов в таблице Players
         public const int COLS_PLAYERS = 22;
 

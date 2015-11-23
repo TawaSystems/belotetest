@@ -33,6 +33,7 @@ namespace BeloteClient
             }
             string Sex = Helpers.BoolToString(MaleRadio.Checked);
             game.RegistrationEmail(EmailTextBox.Text, PasswordTextBox.Text, NicknameTextBox.Text, Sex, CountryComboBox.Text);
+            Close();
         }
     }
 }

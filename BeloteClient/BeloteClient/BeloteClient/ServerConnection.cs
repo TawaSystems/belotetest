@@ -91,7 +91,7 @@ namespace BeloteClient
         {
             try
             {
-                byte[] data = Encoding.Unicode.GetBytes(message);
+                byte[] data = Encoding.Unicode.GetBytes(message + Constants.MESSAGE_DELIMITER);
                 stream.Write(data, 0, data.Length);
                 stream.Flush();
             }
@@ -118,14 +118,22 @@ namespace BeloteClient
                         builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                     }
                     while (stream.DataAvailable);
-                    Message msg = new Message(builder.ToString());
-                    lock (messageHandlers)
+                    // Разделение полученных сообщений
+                    string[] messages = builder.ToString().Split(Constants.MESSAGE_DELIMITER);
+                    foreach (string str in messages)
                     {
-                        if (!ProcessMessage(msg))
+                        if (str != "")
                         {
-                            lock (messagesList)
+                            Message msg = new Message(str);
+                            lock (messageHandlers)
                             {
-                                messagesList.Add(new Message(builder.ToString()));
+                                if (!ProcessMessage(msg))
+                                {
+                                    lock (messagesList)
+                                    {
+                                        messagesList.Add(new Message(str));
+                                    }
+                                }
                             }
                         }
                     }
