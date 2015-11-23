@@ -93,7 +93,7 @@ namespace BeloteServer
         private bool TrumpExists()
         {
 #if DEBUG
-            Debug.WriteLine("{0} Проверка на наличие масти в списке - {1}", DateTime.Now);
+            Debug.WriteLine("{0} Проверка на наличие козыря в списке", DateTime.Now);
 #endif
             Card card = list.Find(c => c.IsTrump);
             if (card != null)
