@@ -134,7 +134,7 @@ namespace BeloteServer
             Debug.WriteLine("{0} Поиск повзможных карт для хода по текущей взятке ({1}) и номеру игрока - {2}", DateTime.Now, bribe, Place);
 #endif
             // В случае если взятка завершена, то игрок будет делать ход на следующей - соответственно он может использовать любую карту
-            if (bribe.IsEnded)
+            if ((bribe.IsEnded) || (bribe.IsEmpty))
                 return this;
             CardList possibleCards = new CardList();
             // Если первый игрок пошел не с козырной масти... Случаи 1, 2, 3, 6

@@ -33,6 +33,24 @@ namespace BeloteServer
             list.Add(Player2);
             list.Add(Player3);
             list.Add(Player4);
+            // Если кто то за взятку походил козырной картой, то выбираем победителя из козырей
+            if ((Player1.IsTrump) || (Player2.IsTrump) || (Player3.IsTrump) || (Player4.IsTrump))
+            {
+                for (var i = list.Count - 1; i >= 0; i--)
+                {
+                    if (!list[i].IsTrump)
+                        list.Remove(list[i]);
+                }
+            }
+            // Иначе выбираем победителя среди карт стартовой масти
+            else
+            {
+                for (var i = list.Count - 1; i >= 0; i--)
+                {
+                    if (list[i].Suit != BribeSuit)
+                        list.Remove(list[i]);
+                }
+            }
             list.Sort();
             if (list[0] == Player1)
                 return 1;

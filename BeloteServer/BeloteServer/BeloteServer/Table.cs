@@ -245,8 +245,6 @@ namespace BeloteServer
             Status = TableStatus.PLAYING;
             // Посылаем всем игрокам сообщение о старте игры
             SendMessageToClients(Messages.MESSAGE_GAME_START);
-            // Переходим от раздающего игрока к следующему
-            startedPlayer = NextPlayer(startedPlayer);
             // Создаем новую раздачу и запускаем процесс торговли
             NextDistribution();
         }
@@ -261,6 +259,8 @@ namespace BeloteServer
                 CloseTable();
                 return;
             }
+            // Переходим от раздающего игрока к следующему
+            startedPlayer = NextPlayer(startedPlayer);
             // Добавление новой раздачи
             currentPlayer = startedPlayer;
             distributions.AddNew();
@@ -317,9 +317,8 @@ namespace BeloteServer
                     Player4.SendMessage(Messages.MESSAGE_GAME_BONUSES_ALL + distributions.Current.Player4Bonuses.ToString());
                     // Ход переходит к первому ходящему на раздаче
                     currentPlayer = startedPlayer;
-                    CardList possibleCards = CardsFromNumber(currentPlayer);
                     // Передаем следующий ход со всеми возможными картами
-                    NextMove(possibleCards);
+                    NextMove();
                 }
             }
             // Иначе продолжаем торговлю
@@ -411,14 +410,12 @@ namespace BeloteServer
             // Переходим к следующему ходящему игроку
             currentPlayer = NextPlayer(currentPlayer);
             
-            // Выбираем возможные карты для следующего игрока
-            CardList possibleCards = CardsFromNumber(currentPlayer).PossibleCardsToMove(distributions.Current.CurrentBribe, currentPlayer);
             // Делаем следующий ход
-            NextMove(possibleCards);
+            NextMove();
         }
 
         // Переход к следующему ходу
-        private void NextMove(CardList PossibleCards)
+        private void NextMove()
         {
             // Если это первая взятка за раздачу, то создаем новую взятку
             if (distributions.Current.CurrentBribe == null)
@@ -455,6 +452,8 @@ namespace BeloteServer
                     distributions.Current.AddNewBribe();
                 }
             }
+            // Выбираем возможные карты для следующего игрока
+            CardList PossibleCards = CardsFromNumber(currentPlayer).PossibleCardsToMove(distributions.Current.CurrentBribe, currentPlayer);
             // Посылается сообщение GGP со списком возможных к ходу карт
             (PlayerFromNumber(currentPlayer)).SendMessage(Messages.MESSAGE_GAME_GAMING_NEXTPLAYER + PossibleCards.ToString());
         }

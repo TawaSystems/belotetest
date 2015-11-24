@@ -32,7 +32,7 @@ namespace BeloteServer
         }
 
         // Создание раздачи на четверых игроков
-        /*public void Distribution(CardList p1, CardList p2, CardList p3, CardList p4)
+        public void Distribution(CardList p1, CardList p2, CardList p3, CardList p4)
         {
             // Если какой то из списков не предоставлен, то и колоду раздать не получится
             if ((p1 == null) || (p2 == null) || (p3 == null) || (p4 == null))
@@ -52,10 +52,10 @@ namespace BeloteServer
             p2.Sort();
             p3.Sort();
             p4.Sort();
-        }*/
+        }
 
         // Создание тестовой раздачи на четверых игроков
-        public void Distribution(CardList p1, CardList p2, CardList p3, CardList p4)
+        /*public void Distribution(CardList p1, CardList p2, CardList p3, CardList p4)
         {
             // Если какой то из списков не предоставлен, то и колоду раздать не получится
             if ((p1 == null) || (p2 == null) || (p3 == null) || (p4 == null))
@@ -104,7 +104,7 @@ namespace BeloteServer
             p2.Sort();
             p3.Sort();
             p4.Sort();
-        }
+        }*/
 
         // Взятие случайной карты из колоды
         private Card GetRandomCard()
