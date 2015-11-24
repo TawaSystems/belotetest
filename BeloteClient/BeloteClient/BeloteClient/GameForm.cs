@@ -335,6 +335,35 @@ namespace BeloteClient
             }
         }
 
+        // Отображение надписей БЛОТ и РЕБЛОТ
+        private void UpdateBeloteRebelote(int serverNumber, string beloteText)
+        {
+            int graphicNumber = game.ServerPlaceToGraphicPlace(serverNumber);
+            switch (graphicNumber)
+            {
+                case 1:
+                    {
+                        Player1AddLabel.Text = beloteText;
+                        break;
+                    }
+                case 2:
+                    {
+                        Player2AddLabel.Text = beloteText;
+                        break;
+                    }
+                case 3:
+                    {
+                        Player3AddLabel.Text = beloteText;
+                        break;
+                    }
+                case 4:
+                    {
+                        Player4AddLabel.Text = beloteText;
+                        break;
+                    }
+            }
+        }
+
         // Делает изображение черно-белым
         private Bitmap MakeImageBlackWhite(Bitmap bmp)
         {
@@ -386,6 +415,11 @@ namespace BeloteClient
                 EndOrderPanel.Visible = (game.Status != TableStatus.BAZAR);
                 if (game.Status != TableStatus.BAZAR)
                 {
+                    Player1AddLabel.Text = "";
+                    Player2AddLabel.Text = "";
+                    Player3AddLabel.Text = "";
+                    Player4AddLabel.Text = "";
+
                     if (game.EndOrder != null)
                     {
                         EndOrderSizeLabel.Text = String.Format("Заказ: {0}", game.EndOrder.Size);
@@ -424,6 +458,12 @@ namespace BeloteClient
                     DrawMovedCard(2, game.P2Card);
                     DrawMovedCard(3, game.P3Card);
                     DrawMovedCard(4, game.P4Card);
+
+                    // Обновление блот и реблот
+                    if (game.BelotePlace != 0)
+                        UpdateBeloteRebelote(game.BelotePlace, "BELOTE");
+                    if (game.RebelotePlace != 0)
+                        UpdateBeloteRebelote(game.RebelotePlace, "REBELOTE");
                 }
                 // Отображение типов объявленных бонусов
                 if (game.Status == TableStatus.BONUSES)

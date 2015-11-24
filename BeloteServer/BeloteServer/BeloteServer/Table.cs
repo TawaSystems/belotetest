@@ -405,9 +405,31 @@ namespace BeloteServer
             distributions.Current.CurrentBribe.PutCard(place, movedCard);
             // Удаляем карту из списка оставшихся у игрока карт
             playerCards.Remove(movedCard);
+            int beloteRemind = 0;
+            // Проверяем, не надо ли послать уведомление о блоте. 0 - не надо. 1 - блот, 2 - реблот
+            if (playerCards.IsBelote)
+            {
+                if (((movedCard.Type == CardType.C_K) || (movedCard.Type == CardType.C_Q)) && (movedCard.IsTrump))
+                {
+                    Card rebeloteCard = null;
+                    for (var i = 0; i < playerCards.Count; i++)
+                    {
+                        if (((playerCards[i].Type == CardType.C_K) || (playerCards[i].Type == CardType.C_Q)) && (playerCards[i].IsTrump))
+                        {
+                            rebeloteCard = playerCards[i];
+                            break;
+                        }
+                    }
+                    // Если вторая карта бонуса еще в колоде у игрока, то объявляетм БЛОТ, иначе РЕБЛОТ
+                    if (rebeloteCard != null)
+                        beloteRemind = 1;
+                    else
+                        beloteRemind = 2;
+                }
+            }
             // Отсылаем сообщение всем игрокам о сделанном ходе
-            SendMessageToClients(String.Format("{2}Place={0},Card={1},Scores1={3},Scores2={4}", place, card, Messages.MESSAGE_GAME_GAMING_REMINDCARD,
-                distributions.Current.LocalScore1, distributions.Current.LocalScore2));
+            SendMessageToClients(String.Format("{2}Place={0},Card={1},Scores1={3},Scores2={4},Belote={5}", place, card, Messages.MESSAGE_GAME_GAMING_REMINDCARD,
+                distributions.Current.LocalScore1, distributions.Current.LocalScore2, beloteRemind));
             // Переходим к следующему ходящему игроку
             currentPlayer = NextPlayer(currentPlayer);
             

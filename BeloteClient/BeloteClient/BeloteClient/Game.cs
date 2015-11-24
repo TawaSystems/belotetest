@@ -543,6 +543,8 @@ namespace BeloteClient
             P3Card = null;
             P4Card = null;
             Bonuses = null;
+            BelotePlace = 0;
+            RebelotePlace = 0;
             AllCards = new CardList(cardsStr);
             PossibleCards = AllCards;
             Status = TableStatus.BAZAR;
@@ -636,7 +638,7 @@ namespace BeloteClient
         // Завершение торговли без заявки козыря
         public void BazarPassHandler(Message Msg)
         {
-            MessageBox.Show("Торговля закончилась без козыря! Новая раздача");
+            
         }
 
         // Переход хода к игроку
@@ -766,6 +768,19 @@ namespace BeloteClient
             Card newCard = new Card(cParams["Card"]);
             LocalScore1 = Int32.Parse(cParams["Scores1"]);
             LocalScore2 = Int32.Parse(cParams["Scores2"]);
+            int beloteRemind = Int32.Parse(cParams["Belote"]);
+            if (beloteRemind == 0)
+            {
+                BelotePlace = 0;
+                RebelotePlace = 0;
+            }
+            else
+            {
+                if (beloteRemind == 1)
+                    BelotePlace = cardPlace;
+                else
+                    RebelotePlace = cardPlace;
+            }
             switch (cardPlace)
             {
                 case 1:
@@ -1060,5 +1075,16 @@ namespace BeloteClient
             private set;
         }
 
+        public int BelotePlace
+        {
+            get;
+            private set;
+        }
+
+        public int RebelotePlace
+        {
+            get;
+            private set;
+        }
     }
 }

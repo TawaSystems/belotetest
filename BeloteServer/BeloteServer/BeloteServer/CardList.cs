@@ -249,7 +249,8 @@ namespace BeloteServer
             Card queen = list.Find(c => (c.Type == CardType.C_Q) && (c.IsTrump));
             if ((king != null) && (queen != null))
                 IsBelote = true;
-            IsBelote = false;
+            else
+                IsBelote = false;
 #if DEBUG
             Debug.WriteLine("{0} Проверка на наличие бонуса БЛОТ в списке карт. Результат - {1}", DateTime.Now, IsBelote);
 #endif
