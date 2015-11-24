@@ -406,7 +406,8 @@ namespace BeloteServer
             // Удаляем карту из списка оставшихся у игрока карт
             playerCards.Remove(movedCard);
             // Отсылаем сообщение всем игрокам о сделанном ходе
-            SendMessageToClients(String.Format("{2}Place={0},Card={1}", place, card, Messages.MESSAGE_GAME_GAMING_REMINDCARD));
+            SendMessageToClients(String.Format("{2}Place={0},Card={1},Scores1={3},Scores2={4}", place, card, Messages.MESSAGE_GAME_GAMING_REMINDCARD,
+                distributions.Current.LocalScore1, distributions.Current.LocalScore2));
             // Переходим к следующему ходящему игроку
             currentPlayer = NextPlayer(currentPlayer);
             
@@ -443,7 +444,7 @@ namespace BeloteServer
                     {
                         // Выбираем команду-побидетеля в бонусах, и если она существует, то отсылаем всем клиентам информацию о победившей команде и сумме ее бонусов
                         BeloteTeam BonusWinner = distributions.Current.FindBonusesWinner();
-                        int Scores = distributions.Current.BonusSummTeam(BonusWinner);
+                        int Scores = (BonusWinner != BeloteTeam.TEAM_NONE) ? distributions.Current.BonusSummTeam(BonusWinner) : 0;
                         SendMessageToClients(String.Format("{2}Winner={0},Scores={1}", (int)BonusWinner, Scores, Messages.MESSAGE_GAME_BONUSES_WINNER));
                     }
                     // Ход переходит к игроку забравшему последнюю взятку
@@ -455,7 +456,8 @@ namespace BeloteServer
             // Выбираем возможные карты для следующего игрока
             CardList PossibleCards = CardsFromNumber(currentPlayer).PossibleCardsToMove(distributions.Current.CurrentBribe, currentPlayer);
             // Посылается сообщение GGP со списком возможных к ходу карт
-            (PlayerFromNumber(currentPlayer)).SendMessage(Messages.MESSAGE_GAME_GAMING_NEXTPLAYER + PossibleCards.ToString());
+            (PlayerFromNumber(currentPlayer)).SendMessage(String.Format("{0}Cards={1}", 
+                Messages.MESSAGE_GAME_GAMING_NEXTPLAYER, PossibleCards.ToString()));
         }
 
         public int ID

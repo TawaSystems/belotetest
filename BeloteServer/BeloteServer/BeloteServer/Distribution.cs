@@ -51,6 +51,10 @@ namespace BeloteServer
         // Определяем команду, бонусы которой оказались старше
         public BeloteTeam FindBonusesWinner()
         {
+            if ((Player1Bonuses.Cost == 0) && (Player2Bonuses.Count == 0) && (Player3Bonuses.Count == 0) && (Player4Bonuses.Count == 0))
+            {
+                return BeloteTeam.TEAM_NONE;
+            }
             Bonus SeniorBonusTeam1 = null;
             Bonus SeniorBonusTeam2 = null;
             if ((Player1Bonuses.Count != 0) || (Player3Bonuses.Count != 0))
@@ -441,6 +445,41 @@ namespace BeloteServer
         {
             get;
             private set;
+        }
+
+        // Локальные суммы очков
+        public int LocalScore1
+        {
+            get
+            {
+                int summ = 0;
+                foreach (Bribe b in bribes)
+                {
+                    if (b.IsEnded)
+                    {
+                        if (b.WinningTeam == BeloteTeam.TEAM1_1_3)
+                            summ += b.BribeCost;
+                    }
+                }
+                return summ;
+            }
+        }
+
+        public int LocalScore2
+        {
+            get
+            {
+                int summ = 0;
+                foreach (Bribe b in bribes)
+                {
+                    if (b.IsEnded)
+                    {
+                        if (b.WinningTeam == BeloteTeam.TEAM2_2_4)
+                            summ += b.BribeCost;
+                    }
+                }
+                return summ;
+            }
         }
     }
 }

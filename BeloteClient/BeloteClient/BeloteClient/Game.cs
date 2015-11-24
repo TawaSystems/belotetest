@@ -656,8 +656,9 @@ namespace BeloteClient
                     Bonuses = null;
                 }
             }
+            Dictionary<string, string> cParams = Helpers.SplitCommandString(Msg.Msg);
             // Получаем список возможных карт
-            PossibleCards = new CardList(Msg.Msg);
+            PossibleCards = new CardList(cParams["Cards"]);
             // Разрешаем игроку сделать ход
             IsMakingMove = true;
             gameForm.UpdateGraphics();
@@ -763,6 +764,8 @@ namespace BeloteClient
             Dictionary<string, string> cParams = Helpers.SplitCommandString(Msg.Msg);
             int cardPlace = Int32.Parse(cParams["Place"]);
             Card newCard = new Card(cParams["Card"]);
+            LocalScore1 = Int32.Parse(cParams["Scores1"]);
+            LocalScore2 = Int32.Parse(cParams["Scores2"]);
             switch (cardPlace)
             {
                 case 1:
