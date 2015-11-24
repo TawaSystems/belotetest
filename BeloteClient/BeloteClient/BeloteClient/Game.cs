@@ -538,6 +538,10 @@ namespace BeloteClient
             Player2BonusesTypes = null;
             Player3BonusesTypes = null;
             Player4BonusesTypes = null;
+            P1Card = null;
+            P2Card = null;
+            P3Card = null;
+            P4Card = null;
             Bonuses = null;
             AllCards = new CardList(cardsStr);
             PossibleCards = AllCards;
@@ -756,7 +760,42 @@ namespace BeloteClient
         // Ход другого игрока
         public void RemindCardHandler(Message Msg)
         {
-            MessageBox.Show("Кто то сделал ход: " + Msg);
+            Dictionary<string, string> cParams = Helpers.SplitCommandString(Msg.Msg);
+            int cardPlace = Int32.Parse(cParams["Place"]);
+            Card newCard = new Card(cParams["Card"]);
+            switch (cardPlace)
+            {
+                case 1:
+                    {
+                        P1Card = newCard;
+                        break;
+                    }
+                case 2:
+                    {
+                        P2Card = newCard;
+                        break;
+                    }
+                case 3:
+                    {
+                        P3Card = newCard;
+                        break;
+                    }
+                case 4:
+                    {
+                        P4Card = newCard;
+                        break;
+                    }
+            }
+            gameForm.UpdateGraphics();
+            if ((P1Card != null) && (P2Card != null) && (P3Card != null) && (P4Card != null))
+            {
+                P1Card = null;
+                P2Card = null;
+                P3Card = null;
+                P4Card = null;
+                Thread.Sleep(300);
+                gameForm.UpdateGraphics();
+            }
         }
 
         // Завершение игры
@@ -969,5 +1008,30 @@ namespace BeloteClient
             get;
             private set;
         }
+
+        public Card P1Card
+        {
+            get;
+            private set;
+        }
+
+        public Card P2Card
+        {
+            get;
+            private set;
+        }
+
+        public Card P3Card
+        {
+            get;
+            private set;
+        }
+
+        public Card P4Card
+        {
+            get;
+            private set;
+        }
+
     }
 }

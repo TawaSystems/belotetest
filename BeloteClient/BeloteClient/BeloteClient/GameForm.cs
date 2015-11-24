@@ -146,6 +146,65 @@ namespace BeloteClient
             }
         }
 
+        // Отображение хоженой карты
+        public void DrawMovedCard(int ServerPlace, Card Card)
+        {
+            int graphicPlace = game.ServerPlaceToGraphicPlace(ServerPlace);
+            PictureBox cardBox = null;
+            switch (graphicPlace)
+            {
+                case 1:
+                    {
+                        cardBox = Player1MoveCard;
+                        break;
+                    }
+                case 2:
+                    {
+                        cardBox = Player2MoveCard;
+                        break;
+                    }
+                case 3:
+                    {
+                        cardBox = Player3MoveCard;
+                        break;
+                    }
+                case 4:
+                    {
+                        cardBox = Player4MoveCard;
+                        break;
+                    }
+            }
+            if (Card != null)
+            {
+                switch (Card.Suit)
+                {
+                    case CardSuit.C_CLUBS:
+                        {
+                            cardBox.Image = Clubs.Images[(int)Card.Type];
+                            break;
+                        }
+                    case CardSuit.C_HEARTS:
+                        {
+                            cardBox.Image = Hearts.Images[(int)Card.Type];
+                            break;
+                        }
+                    case CardSuit.С_DIAMONDS:
+                        {
+                            cardBox.Image = Diamonds.Images[(int)Card.Type];
+                            break;
+                        }
+                    case CardSuit.C_SPADES:
+                        {
+                            cardBox.Image = Spades.Images[(int)Card.Type];
+                            break;
+                        }
+                }
+            }
+            else
+                cardBox.Image = null;
+            cardBox.Invalidate();
+        }
+
         // Переводит тип заказа в строку для отображения
         private string OrderTypeToString(OrderType o)
         {
@@ -359,6 +418,12 @@ namespace BeloteClient
                                 }
                         }
                     }
+
+                    // Обновление похоженных карт
+                    DrawMovedCard(1, game.P1Card);
+                    DrawMovedCard(2, game.P2Card);
+                    DrawMovedCard(3, game.P3Card);
+                    DrawMovedCard(4, game.P4Card);
                 }
                 // Отображение типов объявленных бонусов
                 if (game.Status == TableStatus.BONUSES)
