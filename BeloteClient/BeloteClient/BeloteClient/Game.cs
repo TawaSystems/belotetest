@@ -804,7 +804,31 @@ namespace BeloteClient
         // Завершение игры
         public void GameEndHandler(Message Msg)
         {
-
+            Dictionary<string, string> gParams = Helpers.SplitCommandString(Msg.Msg);
+            TotalScore1 = Int32.Parse(gParams["Scores1"]);
+            TotalScore2 = Int32.Parse(gParams["Scores2"]);
+            if (TotalScore1 > TotalScore2)
+            {
+                if ((Place == 1) || (Place == 3))
+                    MessageBox.Show(String.Format("Вы победили! Счет - {0} : {1}", TotalScore1, TotalScore2));
+                else
+                    MessageBox.Show(String.Format("Вы проиграли! Счет - {0} : {1}", TotalScore1, TotalScore2));
+            }
+            else
+            {
+                if ((Place == 2) || (Place == 4))
+                    MessageBox.Show(String.Format("Вы победили! Счет - {0} : {1}", TotalScore1, TotalScore2));
+                else
+                    MessageBox.Show(String.Format("Вы проиграли! Счет - {0} : {1}", TotalScore1, TotalScore2));
+            }
+            SetGameHandlers(false);
+            ChangeCurrentTable(null);
+            ChangeCurrentPlace(-1);
+            gameForm.Close();
+            gameForm = null;
+            userForm = new MainUserForm(this);
+            userForm.UpdateTables();
+            userForm.Show();
         }
 
         // Выход игрока со стола во время игры
