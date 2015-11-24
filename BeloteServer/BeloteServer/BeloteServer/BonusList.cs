@@ -61,7 +61,8 @@ namespace BeloteServer
                 if (c == 4)
                 {
                     // Добавляем бонус. В качестве козыря берем игру с козырем или без (для расчета стоимость 4XA
-                    AddBonusToList(new Bonus(BonusType.BONUS_4X, cards[i].Type, cards[i].IsGameWithTrump));
+                    if ((cards[i].Type != CardType.C_7) && (cards[i].Type != CardType.C_8))
+                        AddBonusToList(new Bonus(BonusType.BONUS_4X, cards[i].Type, cards[i].IsGameWithTrump));
                 }
             }
         }

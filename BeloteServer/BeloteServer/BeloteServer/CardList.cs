@@ -188,7 +188,7 @@ namespace BeloteServer
                     }
                     else
                     {
-                        Card card = list.Find(c => (c.IsTrump) && (c.Cost > bribe.SeniorTrump.Cost));
+                        Card card = list.Find(c => (c.IsTrump) && (c.Cost >= bribe.SeniorTrump.Cost) && (c.Type != CardType.C_7));
                         // В случае, если у игрока имеются козыри, старше чем использовались на раздаче, нужно использовать их
                         if (card != null)
                         {
@@ -213,7 +213,7 @@ namespace BeloteServer
                 // Если у ходящего игрока имеются козыри... Случай 4
                 if (TrumpExists())
                 {
-                    Card card = list.Find(c => (c.IsTrump) && (c.Cost > bribe.SeniorTrump.Cost));
+                    Card card = list.Find(c => (c.IsTrump) && (c.Cost >= bribe.SeniorTrump.Cost) && (c.Type != CardType.C_7));
                     // Если найдены козыри старше, чем использованы на взятке, то необходимо использовать их
                     if (card != null)
                     {

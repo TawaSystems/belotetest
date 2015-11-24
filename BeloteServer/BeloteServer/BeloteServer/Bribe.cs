@@ -52,6 +52,21 @@ namespace BeloteServer
                 }
             }
             list.Sort();
+            // Вариант, со старшинством 10 по отношению к J, Q, K (не козырными)
+            if (!list[0].IsTrump)
+            {
+                if ((list[0].Type == CardType.C_J) || (list[0].Type == CardType.C_Q) || (list[0].Type == CardType.C_K))
+                {
+                    for(var i = 0; i < list.Count; i++)
+                    {
+                        if (list[i].Type == CardType.C_10)
+                        {
+                            list[0] = list[i];
+                            break;
+                        }
+                    }
+                }
+            }
             if (list[0] == Player1)
                 return 1;
             else
