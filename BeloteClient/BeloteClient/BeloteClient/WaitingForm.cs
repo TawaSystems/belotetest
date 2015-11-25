@@ -22,12 +22,12 @@ namespace BeloteClient
 
         public void UpdateLabels()
         {
-            button6.Enabled = (game.CurrentTable.Player2 == -1);
+            /*button6.Enabled = (game.CurrentTable.Player2 == -1);
             button5.Enabled = (game.CurrentTable.Player3 == -1);
             button4.Enabled = (game.CurrentTable.Player4 == -1);
             button3.Enabled = (game.CurrentTable.Player2 < -1);
             button2.Enabled = (game.CurrentTable.Player3 < -1);
-            button1.Enabled = (game.CurrentTable.Player4 < -1);
+            button1.Enabled = (game.CurrentTable.Player4 < -1);*/
             if (game.Players[game.CurrentTable.TableCreator] != null)
             {
                 Player1Label.Text = game.Players[game.CurrentTable.TableCreator].Profile.Email;

@@ -750,7 +750,7 @@ namespace BeloteClient
             }
             else
             {
-                MessageBox.Show("Ни одна команда не получает очки за бонусы");
+                //MessageBox.Show("Ни одна команда не получает очки за бонусы");
             }
         }
 

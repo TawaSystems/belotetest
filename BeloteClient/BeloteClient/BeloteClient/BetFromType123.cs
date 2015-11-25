@@ -41,6 +41,8 @@ namespace BeloteClient
 
         private CardSuit GetOrderSuit()
         {
+            if (WithoutTrumpCheck.Checked)
+                return CardSuit.C_NONE;
             if (HeartsRadio.Checked)
                 return CardSuit.C_HEARTS;
             if (ClubsRadio.Checked)
