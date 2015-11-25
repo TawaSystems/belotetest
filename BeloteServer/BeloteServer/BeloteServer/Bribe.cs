@@ -10,6 +10,8 @@ namespace BeloteServer
     // Класс, представляющий каждую конкретную взятку
     class Bribe
     {
+        private List<Card> cards;
+
         public Bribe()
         {
 #if DEBUG
@@ -23,6 +25,7 @@ namespace BeloteServer
             IsTrumpBribe = false;
             BribeTrumped = false;
             SeniorTrump = null;
+            cards = new List<Card>();
         }
 
         // Ищет выигрывшего раздачу игрока
@@ -149,6 +152,7 @@ namespace BeloteServer
                         break;
                     }
             }
+            cards.Add(card);
         }
 
         public Card Player1
@@ -173,6 +177,23 @@ namespace BeloteServer
         {
             get;
             private set;
+        }
+
+        // Количество похоженных карт во взятке
+        public int FulledCount
+        {
+            get
+            {
+                return cards.Count;
+            }
+        }
+
+        public Card this[int Index]
+        {
+            get
+            {
+                return cards[Index];
+            }
         }
 
         // Тестирует, завершена ли взятка (все ли 4 игрока походили)

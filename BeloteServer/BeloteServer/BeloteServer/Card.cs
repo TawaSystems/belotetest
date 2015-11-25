@@ -94,6 +94,23 @@ namespace BeloteServer
             }
         }
 
+        // Проверяет, является ли карта больше другой в порядке следования карт без масти
+        public bool ThisIsBiggerThen(Card Other)
+        {
+            int[] weights = new int[8];
+            weights[(int)CardType.C_7] = 0;
+            weights[(int)CardType.C_8] = 1;
+            weights[(int)CardType.C_9] = 2;
+            weights[(int)CardType.C_J] = 3;
+            weights[(int)CardType.C_Q] = 4;
+            weights[(int)CardType.C_K] = 5;
+            weights[(int)CardType.C_10] = 6;
+            weights[(int)CardType.C_A] = 7;
+            if (weights[(int)this.Type] > weights[(int)Other.Type])
+                return true;
+            else
+                return false;
+        }
         // Тип карты - туз, валет и т.д.
         public CardType Type
         {
