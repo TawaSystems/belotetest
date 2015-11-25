@@ -372,7 +372,7 @@ namespace BeloteServer
             if (Bonuses.Count > 0)
             {
                 // Удаляем из списка возможных бонусов все не объявленные
-                for (var i = 0; i < currentPlayerList.Count; i++)
+                for (var i = currentPlayerList.Count - 1; i >= 0; i--)
                 {
                     if (!Bonuses.ExistsBonus(currentPlayerList[i]))
                     {
