@@ -205,6 +205,65 @@ namespace BeloteClient
             cardBox.Invalidate();
         }
 
+        // Отрисовка карт последней взятки
+        private void DrawLastBribeCard(int ServerPlace, Card Card)
+        {
+            int graphicPlace = game.ServerPlaceToGraphicPlace(ServerPlace);
+            PictureBox cardBox = null;
+            switch (graphicPlace)
+            {
+                case 1:
+                    {
+                        cardBox = LastBribePlayer1PB;
+                        break;
+                    }
+                case 2:
+                    {
+                        cardBox = LastBribePlayer2PB;
+                        break;
+                    }
+                case 3:
+                    {
+                        cardBox = LastBribePlayer3PB;
+                        break;
+                    }
+                case 4:
+                    {
+                        cardBox = LastBribePlayer4PB;
+                        break;
+                    }
+            }
+            if (Card != null)
+            {
+                switch (Card.Suit)
+                {
+                    case CardSuit.C_CLUBS:
+                        {
+                            cardBox.Image = Clubs.Images[(int)Card.Type];
+                            break;
+                        }
+                    case CardSuit.C_HEARTS:
+                        {
+                            cardBox.Image = Hearts.Images[(int)Card.Type];
+                            break;
+                        }
+                    case CardSuit.С_DIAMONDS:
+                        {
+                            cardBox.Image = Diamonds.Images[(int)Card.Type];
+                            break;
+                        }
+                    case CardSuit.C_SPADES:
+                        {
+                            cardBox.Image = Spades.Images[(int)Card.Type];
+                            break;
+                        }
+                }
+            }
+            else
+                cardBox.Image = null;
+            cardBox.Invalidate();
+        }
+
         // Переводит тип заказа в строку для отображения
         private string OrderTypeToString(OrderType o)
         {
@@ -411,6 +470,11 @@ namespace BeloteClient
                 // Обновление счета
                 ScoreLocalLabel.Text = String.Format("C   {0} | {1}", game.LocalScore1, game.LocalScore2);
                 ScoreSummLabel.Text = String.Format("S   {0} | {1}", game.TotalScore1, game.TotalScore2);
+                // Обновление похоженных карт
+                DrawMovedCard(1, game.P1Card);
+                DrawMovedCard(2, game.P2Card);
+                DrawMovedCard(3, game.P3Card);
+                DrawMovedCard(4, game.P4Card);
                 // Обновление информациио конечном заказе в раздаче
                 EndOrderPanel.Visible = (game.Status != TableStatus.BAZAR);
                 if (game.Status != TableStatus.BAZAR)
@@ -453,17 +517,29 @@ namespace BeloteClient
                         }
                     }
 
-                    // Обновление похоженных карт
-                    DrawMovedCard(1, game.P1Card);
-                    DrawMovedCard(2, game.P2Card);
-                    DrawMovedCard(3, game.P3Card);
-                    DrawMovedCard(4, game.P4Card);
-
                     // Обновление блот и реблот
                     if (game.BelotePlace != 0)
                         UpdateBeloteRebelote(game.BelotePlace, "BELOTE");
                     if (game.RebelotePlace != 0)
                         UpdateBeloteRebelote(game.RebelotePlace, "REBELOTE");
+                }
+                // Обновление картинок последней взятки
+                if (game.Status == TableStatus.BAZAR)
+                {
+                    LastBribePlayer1PB.Image = null;
+                    LastBribePlayer2PB.Image = null;
+                    LastBribePlayer3PB.Image = null;
+                    LastBribePlayer4PB.Image = null;
+                }
+                else
+                {
+                    if ((game.P1Card != null) && (game.P2Card != null) && (game.P3Card != null) && (game.P4Card != null))
+                    {
+                        DrawLastBribeCard(1, game.P1Card);
+                        DrawLastBribeCard(2, game.P2Card);
+                        DrawLastBribeCard(3, game.P3Card);
+                        DrawLastBribeCard(4, game.P4Card);
+                    }
                 }
                 // Отображение типов объявленных бонусов
                 if (game.Status == TableStatus.BONUSES)

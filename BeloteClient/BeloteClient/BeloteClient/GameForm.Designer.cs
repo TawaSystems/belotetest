@@ -86,6 +86,10 @@
             this.EndOrderSuit = new System.Windows.Forms.PictureBox();
             this.EndOrderSizeLabel = new System.Windows.Forms.Label();
             this.MakingMovePanel = new System.Windows.Forms.Panel();
+            this.LastBribePlayer3PB = new System.Windows.Forms.PictureBox();
+            this.LastBribePlayer2PB = new System.Windows.Forms.PictureBox();
+            this.LastBribePlayer4PB = new System.Windows.Forms.PictureBox();
+            this.LastBribePlayer1PB = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard1PB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard2PB)).BeginInit();
@@ -112,6 +116,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.Player4MoveCard)).BeginInit();
             this.EndOrderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EndOrderSuit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LastBribePlayer3PB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LastBribePlayer2PB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LastBribePlayer4PB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LastBribePlayer1PB)).BeginInit();
             this.SuspendLayout();
             // 
             // suitesImageList
@@ -325,7 +333,7 @@
             // 
             // Player2Name
             // 
-            this.Player2Name.Location = new System.Drawing.Point(30, 120);
+            this.Player2Name.Location = new System.Drawing.Point(30, 180);
             this.Player2Name.Name = "Player2Name";
             this.Player2Name.ReadOnly = true;
             this.Player2Name.Size = new System.Drawing.Size(120, 20);
@@ -337,7 +345,7 @@
             this.Player2Panel.Controls.Add(this.Player2BetSuit);
             this.Player2Panel.Controls.Add(this.Player2BetLabel);
             this.Player2Panel.Controls.Add(this.Player2AddLabel);
-            this.Player2Panel.Location = new System.Drawing.Point(120, 160);
+            this.Player2Panel.Location = new System.Drawing.Point(120, 220);
             this.Player2Panel.Name = "Player2Panel";
             this.Player2Panel.Size = new System.Drawing.Size(120, 90);
             this.Player2Panel.TabIndex = 13;
@@ -375,7 +383,7 @@
             // Player2Back
             // 
             this.Player2Back.BackColor = System.Drawing.Color.Transparent;
-            this.Player2Back.Location = new System.Drawing.Point(30, 160);
+            this.Player2Back.Location = new System.Drawing.Point(30, 220);
             this.Player2Back.Name = "Player2Back";
             this.Player2Back.Size = new System.Drawing.Size(60, 83);
             this.Player2Back.TabIndex = 14;
@@ -503,7 +511,7 @@
             this.Player2Label.BackColor = System.Drawing.Color.Transparent;
             this.Player2Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Player2Label.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Player2Label.Location = new System.Drawing.Point(30, 100);
+            this.Player2Label.Location = new System.Drawing.Point(30, 160);
             this.Player2Label.Name = "Player2Label";
             this.Player2Label.Size = new System.Drawing.Size(56, 17);
             this.Player2Label.TabIndex = 21;
@@ -696,6 +704,46 @@
             this.MakingMovePanel.Size = new System.Drawing.Size(30, 30);
             this.MakingMovePanel.TabIndex = 34;
             // 
+            // LastBribePlayer3PB
+            // 
+            this.LastBribePlayer3PB.BackColor = System.Drawing.Color.Transparent;
+            this.LastBribePlayer3PB.Location = new System.Drawing.Point(80, 30);
+            this.LastBribePlayer3PB.Name = "LastBribePlayer3PB";
+            this.LastBribePlayer3PB.Size = new System.Drawing.Size(30, 41);
+            this.LastBribePlayer3PB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.LastBribePlayer3PB.TabIndex = 35;
+            this.LastBribePlayer3PB.TabStop = false;
+            // 
+            // LastBribePlayer2PB
+            // 
+            this.LastBribePlayer2PB.BackColor = System.Drawing.Color.Transparent;
+            this.LastBribePlayer2PB.Location = new System.Drawing.Point(40, 55);
+            this.LastBribePlayer2PB.Name = "LastBribePlayer2PB";
+            this.LastBribePlayer2PB.Size = new System.Drawing.Size(30, 41);
+            this.LastBribePlayer2PB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.LastBribePlayer2PB.TabIndex = 36;
+            this.LastBribePlayer2PB.TabStop = false;
+            // 
+            // LastBribePlayer4PB
+            // 
+            this.LastBribePlayer4PB.BackColor = System.Drawing.Color.Transparent;
+            this.LastBribePlayer4PB.Location = new System.Drawing.Point(120, 55);
+            this.LastBribePlayer4PB.Name = "LastBribePlayer4PB";
+            this.LastBribePlayer4PB.Size = new System.Drawing.Size(30, 41);
+            this.LastBribePlayer4PB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.LastBribePlayer4PB.TabIndex = 37;
+            this.LastBribePlayer4PB.TabStop = false;
+            // 
+            // LastBribePlayer1PB
+            // 
+            this.LastBribePlayer1PB.BackColor = System.Drawing.Color.Transparent;
+            this.LastBribePlayer1PB.Location = new System.Drawing.Point(80, 80);
+            this.LastBribePlayer1PB.Name = "LastBribePlayer1PB";
+            this.LastBribePlayer1PB.Size = new System.Drawing.Size(30, 41);
+            this.LastBribePlayer1PB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.LastBribePlayer1PB.TabIndex = 38;
+            this.LastBribePlayer1PB.TabStop = false;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -703,6 +751,10 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(944, 531);
             this.ControlBox = false;
+            this.Controls.Add(this.LastBribePlayer1PB);
+            this.Controls.Add(this.LastBribePlayer4PB);
+            this.Controls.Add(this.LastBribePlayer2PB);
+            this.Controls.Add(this.LastBribePlayer3PB);
             this.Controls.Add(this.MakingMovePanel);
             this.Controls.Add(this.EndOrderPanel);
             this.Controls.Add(this.ScoreTeamInfo);
@@ -773,6 +825,10 @@
             this.EndOrderPanel.ResumeLayout(false);
             this.EndOrderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EndOrderSuit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LastBribePlayer3PB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LastBribePlayer2PB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LastBribePlayer4PB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LastBribePlayer1PB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -835,5 +891,9 @@
         private System.Windows.Forms.Label EndOrderSizeLabel;
         private System.Windows.Forms.Label EndOrderTypeLabel;
         private System.Windows.Forms.Panel MakingMovePanel;
+        private System.Windows.Forms.PictureBox LastBribePlayer3PB;
+        private System.Windows.Forms.PictureBox LastBribePlayer2PB;
+        private System.Windows.Forms.PictureBox LastBribePlayer4PB;
+        private System.Windows.Forms.PictureBox LastBribePlayer1PB;
     }
 }

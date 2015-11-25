@@ -811,8 +811,8 @@ namespace BeloteClient
                 P2Card = null;
                 P3Card = null;
                 P4Card = null;
-                Thread.Sleep(300);
-                gameForm.UpdateGraphics();
+                //Thread.Sleep(300);
+                //gameForm.UpdateGraphics();
             }
         }
 
