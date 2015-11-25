@@ -228,10 +228,19 @@ namespace BeloteServer
                         return;
                     }
                 }
+                // Если заказ обычный но выполненный на капут
+                if (OtherSumm == 0)
+                {
+                    Score1 = Orders.Current.Size + 250 + OrderedBonus;
+                    Score2 = OtherBonus;
+                    return;
+                }
                 // Если это просто выполненный заказ
-                Score1 = Orders.Current.Size + OrderedSumm + OrderedBonus;
-                Score2 = OtherSumm + OtherBonus;
-                return;
+                {
+                    Score1 = Orders.Current.Size + OrderedSumm + OrderedBonus;
+                    Score2 = OtherSumm + OtherBonus;
+                    return;
+                }
             }
             else
             // Если команда не выполнила свой заказ

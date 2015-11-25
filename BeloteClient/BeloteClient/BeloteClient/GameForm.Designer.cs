@@ -90,6 +90,7 @@
             this.LastBribePlayer2PB = new System.Windows.Forms.PictureBox();
             this.LastBribePlayer4PB = new System.Windows.Forms.PictureBox();
             this.LastBribePlayer1PB = new System.Windows.Forms.PictureBox();
+            this.ScoreLastLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard1PB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard2PB)).BeginInit();
@@ -450,7 +451,7 @@
             // 
             // Player4Name
             // 
-            this.Player4Name.Location = new System.Drawing.Point(810, 120);
+            this.Player4Name.Location = new System.Drawing.Point(810, 180);
             this.Player4Name.Name = "Player4Name";
             this.Player4Name.ReadOnly = true;
             this.Player4Name.Size = new System.Drawing.Size(120, 20);
@@ -459,7 +460,7 @@
             // Player4Back
             // 
             this.Player4Back.BackColor = System.Drawing.Color.Transparent;
-            this.Player4Back.Location = new System.Drawing.Point(870, 160);
+            this.Player4Back.Location = new System.Drawing.Point(870, 220);
             this.Player4Back.Name = "Player4Back";
             this.Player4Back.Size = new System.Drawing.Size(60, 83);
             this.Player4Back.TabIndex = 19;
@@ -471,7 +472,7 @@
             this.Player4Panel.Controls.Add(this.Player4BetSuit);
             this.Player4Panel.Controls.Add(this.Player4BetLabel);
             this.Player4Panel.Controls.Add(this.Player4AddLabel);
-            this.Player4Panel.Location = new System.Drawing.Point(720, 160);
+            this.Player4Panel.Location = new System.Drawing.Point(720, 220);
             this.Player4Panel.Name = "Player4Panel";
             this.Player4Panel.Size = new System.Drawing.Size(120, 90);
             this.Player4Panel.TabIndex = 20;
@@ -524,7 +525,7 @@
             this.Player4Label.BackColor = System.Drawing.Color.Transparent;
             this.Player4Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Player4Label.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Player4Label.Location = new System.Drawing.Point(810, 100);
+            this.Player4Label.Location = new System.Drawing.Point(810, 160);
             this.Player4Label.Name = "Player4Label";
             this.Player4Label.Size = new System.Drawing.Size(56, 17);
             this.Player4Label.TabIndex = 22;
@@ -745,6 +746,18 @@
             this.LastBribePlayer1PB.TabIndex = 38;
             this.LastBribePlayer1PB.TabStop = false;
             // 
+            // ScoreLastLabel
+            // 
+            this.ScoreLastLabel.AutoSize = true;
+            this.ScoreLastLabel.BackColor = System.Drawing.Color.Transparent;
+            this.ScoreLastLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ScoreLastLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.ScoreLastLabel.Location = new System.Drawing.Point(810, 90);
+            this.ScoreLastLabel.Name = "ScoreLastLabel";
+            this.ScoreLastLabel.Size = new System.Drawing.Size(72, 17);
+            this.ScoreLastLabel.TabIndex = 39;
+            this.ScoreLastLabel.Text = "L   35   10";
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -752,6 +765,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(944, 531);
             this.ControlBox = false;
+            this.Controls.Add(this.ScoreLastLabel);
             this.Controls.Add(this.LastBribePlayer1PB);
             this.Controls.Add(this.LastBribePlayer4PB);
             this.Controls.Add(this.LastBribePlayer2PB);
@@ -896,5 +910,6 @@
         private System.Windows.Forms.PictureBox LastBribePlayer2PB;
         private System.Windows.Forms.PictureBox LastBribePlayer4PB;
         private System.Windows.Forms.PictureBox LastBribePlayer1PB;
+        private System.Windows.Forms.Label ScoreLastLabel;
     }
 }

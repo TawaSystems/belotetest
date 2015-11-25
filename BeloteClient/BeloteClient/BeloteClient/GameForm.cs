@@ -472,6 +472,7 @@ namespace BeloteClient
                 // Обновление счета
                 ScoreLocalLabel.Text = String.Format("C   {0} | {1}", game.LocalScore1, game.LocalScore2);
                 ScoreSummLabel.Text = String.Format("S   {0} | {1}", game.TotalScore1, game.TotalScore2);
+                ScoreLastLabel.Text = String.Format("L   {0} | {1}", game.LastScore1, game.LastScore2);
                 // Обновление похоженных карт
                 DrawMovedCard(1, game.P1Card);
                 DrawMovedCard(2, game.P2Card);

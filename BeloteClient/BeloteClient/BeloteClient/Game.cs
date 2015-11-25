@@ -526,8 +526,12 @@ namespace BeloteClient
             // MessageBox.Show("Раздача карт игрок " + Place.ToString());
             Dictionary<string, string> cParams = Helpers.SplitCommandString(Msg.Msg);
             string cardsStr = cParams["Cards"];
-            TotalScore1 = Int32.Parse(cParams["Scores1"]);
-            TotalScore2 = Int32.Parse(cParams["Scores2"]);
+            int totalScore1 = Int32.Parse(cParams["Scores1"]);
+            int totalScore2 = Int32.Parse(cParams["Scores2"]);
+            LastScore1 = totalScore1 - TotalScore1;
+            LastScore2 = totalScore2 - TotalScore2;
+            TotalScore1 = totalScore1;
+            TotalScore2 = totalScore2;
             LocalScore1 = 0;
             LocalScore2 = 0;
             Player1Order = null;
@@ -1085,6 +1089,18 @@ namespace BeloteClient
         }
 
         public int RebelotePlace
+        {
+            get;
+            private set;
+        }
+
+        public int LastScore1
+        {
+            get;
+            private set;
+        }
+
+        public int LastScore2
         {
             get;
             private set;
