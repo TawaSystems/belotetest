@@ -126,10 +126,11 @@
             // 
             this.suitesImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("suitesImageList.ImageStream")));
             this.suitesImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.suitesImageList.Images.SetKeyName(0, "трефы.png");
-            this.suitesImageList.Images.SetKeyName(1, "червы.png");
-            this.suitesImageList.Images.SetKeyName(2, "пики.png");
-            this.suitesImageList.Images.SetKeyName(3, "бубны.png");
+            this.suitesImageList.Images.SetKeyName(0, "безмасти.png");
+            this.suitesImageList.Images.SetKeyName(1, "трефы.png");
+            this.suitesImageList.Images.SetKeyName(2, "червы.png");
+            this.suitesImageList.Images.SetKeyName(3, "пики.png");
+            this.suitesImageList.Images.SetKeyName(4, "бубны.png");
             // 
             // CloseButton
             // 

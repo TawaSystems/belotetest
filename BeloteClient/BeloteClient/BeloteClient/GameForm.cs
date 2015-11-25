@@ -311,10 +311,10 @@ namespace BeloteClient
                         }
                         else
                             Player1BetLabel.Text = "";
-                        if ((order == null) || (order.Trump == CardSuit.C_NONE))
-                            Player1BetSuit.Image = null;
+                        if ((order != null) && ((order.Type == OrderType.ORDER_BET) || (order.Type == OrderType.ORDER_CAPOT)))
+                            Player1BetSuit.Image = suitesImageList.Images[((int)order.Trump)];
                         else
-                            Player1BetSuit.Image = suitesImageList.Images[((int)order.Trump) - 1];
+                            Player1BetSuit.Image = null;
                         break;
                     }
                 case 2:
@@ -326,10 +326,10 @@ namespace BeloteClient
                         }
                         else
                             Player2BetLabel.Text = "";
-                        if ((order == null) || (order.Trump == CardSuit.C_NONE))
-                            Player2BetSuit.Image = null;
+                        if ((order != null) && ((order.Type == OrderType.ORDER_BET) || (order.Type == OrderType.ORDER_CAPOT)))
+                            Player2BetSuit.Image = suitesImageList.Images[((int)order.Trump)];
                         else
-                            Player2BetSuit.Image = suitesImageList.Images[((int)order.Trump) - 1];
+                            Player2BetSuit.Image = null;
                         break;
                     }
                 case 3:
@@ -341,10 +341,10 @@ namespace BeloteClient
                         }
                         else
                             Player3BetLabel.Text = "";
-                        if ((order == null) || (order.Trump == CardSuit.C_NONE))
-                            Player3BetSuit.Image = null;
+                        if ((order != null) && ((order.Type == OrderType.ORDER_BET) || (order.Type == OrderType.ORDER_CAPOT)))
+                            Player3BetSuit.Image = suitesImageList.Images[((int)order.Trump)];
                         else
-                            Player3BetSuit.Image = suitesImageList.Images[((int)order.Trump) - 1];
+                            Player3BetSuit.Image = null;
                         break;
                     }
                 case 4:
@@ -356,10 +356,10 @@ namespace BeloteClient
                         }
                         else
                             Player4BetLabel.Text = "";
-                        if ((order == null) || (order.Trump == CardSuit.C_NONE))
-                            Player4BetSuit.Image = null;
+                        if ((order != null) && ((order.Type == OrderType.ORDER_BET) || (order.Type == OrderType.ORDER_CAPOT)))
+                            Player4BetSuit.Image = suitesImageList.Images[((int)order.Trump)];
                         else
-                            Player4BetSuit.Image = suitesImageList.Images[((int)order.Trump) - 1];
+                            Player4BetSuit.Image = null;
                         break;
                     }
             }
@@ -437,6 +437,8 @@ namespace BeloteClient
             Graphics g = Graphics.FromImage(bmp);
 
             g.DrawImage(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, ia);
+            g.DrawLine(Pens.Red, new Point(0, 0), new Point(bmp.Width, bmp.Height));
+            g.DrawLine(Pens.Red, new Point(bmp.Width, 0), new Point(0, bmp.Height));
 
             return bmp;
         }
@@ -487,10 +489,7 @@ namespace BeloteClient
                     if (game.EndOrder != null)
                     {
                         EndOrderSizeLabel.Text = String.Format("Заказ: {0}", game.EndOrder.Size);
-                        if (game.EndOrder.Trump != CardSuit.C_NONE)
-                            EndOrderSuit.Image = suitesImageList.Images[(int)game.EndOrder.Trump - 1];
-                        else
-                            EndOrderSuit.Image = null;
+                        EndOrderSuit.Image = suitesImageList.Images[(int)game.EndOrder.Trump];
                         EndOrderTeam.Text = String.Format("Команда: {0} - {1}", (int)game.EndOrder.Team, (game.EndOrder.Team == BeloteTeam.TEAM1_1_3) ? "№1,3" : "№2,4");
                         switch (game.EndOrder.Type)
                         {
@@ -551,7 +550,7 @@ namespace BeloteClient
                 }
                 // Если игроку позволяется сделать ход, то делаем неактивными карты, которыми нельзя ходить
                 MakingMovePanel.Visible = game.IsMakingMove;
-                if (game.IsMakingMove)
+                if ((game.IsMakingMove) && (game.Status != TableStatus.BAZAR))
                 {
                     for (var i = 0; i < game.AllCards.Count; i++)
                     {

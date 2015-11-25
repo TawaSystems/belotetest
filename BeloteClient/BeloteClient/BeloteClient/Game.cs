@@ -387,6 +387,7 @@ namespace BeloteClient
         public void MakeOrder(Order order)
         {
             serverActions.PlayerMakeOrder(order);
+            IsMakingMove = false;
         }
 
         /// <summary>
@@ -557,6 +558,8 @@ namespace BeloteClient
             //MessageBox.Show(Msg.Msg);
             try
             {
+                IsMakingMove = true;
+                gameForm.UpdateGraphics();
                 Dictionary<string, string> bParams = Helpers.SplitCommandString(Msg.Msg);
                 BetType bType = (BetType)Int32.Parse(bParams["Type"]);
                 int minSize = Int32.Parse(bParams["MinSize"]);
