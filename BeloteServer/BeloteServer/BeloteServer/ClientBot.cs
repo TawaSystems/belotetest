@@ -10,10 +10,17 @@ namespace BeloteServer
     // Класс клиента, отвечающий за AI
     class ClientBot : Client
     {
+        // Карьы и бонусы бота на раздаче
+        private BaseCardList botCards;
+        private BaseBonusList botBonuses;
+        // Использованные за раздачу карты
+        private BaseCardList usedCards;
+
         public ClientBot(int Place, Table Table)
         {
             this.ActivePlace = Place;
             this.ActiveTable = Table;
+            usedCards = new BaseCardList();
         }
 
         // Обработка сообщений
@@ -25,7 +32,7 @@ namespace BeloteServer
                 // Обработка раздачи карт
                 case Messages.MESSAGE_GAME_DISTRIBUTIONCARDS:
                     {
-                        string cardsStr = bParams["Cards"];
+                        botCards = new BaseCardList(bParams["Cards"]);
                         //int totalScore1 = Int32.Parse(bParams["Scores1"]);
                         //int totalScore2 = Int32.Parse(bParams["Scores2"]);
                         break;
@@ -35,6 +42,7 @@ namespace BeloteServer
                     {
                         BetType bType = (BetType)Int32.Parse(bParams["Type"]);
                         int minSize = Int32.Parse(bParams["MinSize"]);
+                        // Расчет и совершение заказа
                         break;
                     }
                 // Название ставки другого игрока
@@ -59,6 +67,8 @@ namespace BeloteServer
                 case Messages.MESSAGE_GAME_GAMING_NEXTPLAYER:
                     {
                         BaseCardList PossibleCards = new BaseCardList(bParams["Cards"]);
+                        // Расчет и показ бонусов
+                        // Расчет и совершение хода
                         break;
                     }
                 // Извещение о ходе картой другим игроком
@@ -66,6 +76,8 @@ namespace BeloteServer
                     {
                         int cardPlace = Int32.Parse(bParams["Place"]);
                         Card newCard = new Card(bParams["Card"]);
+                        // Запоминание похоженной карты
+                        usedCards.Add(newCard);
                         // int LocalScore1 = Int32.Parse(bParams["Scores1"]);
                         // int LocalScore2 = Int32.Parse(bParams["Scores2"]);
                         // int beloteRemind = Int32.Parse(bParams["Belote"]);
@@ -74,7 +86,7 @@ namespace BeloteServer
                 // Получение списка возможных бонусов
                 case Messages.MESSAGE_GAME_BONUSES_ALL:
                     {
-                        BaseBonusList Bonuses = new BaseBonusList(message);
+                        botBonuses = new BaseBonusList(message);
                         break;
                     }
                 // Оглашение типов бонусов другими игроками
