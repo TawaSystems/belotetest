@@ -7,16 +7,11 @@ using System.Diagnostics;
 
 namespace BeloteServer
 {
-    class BonusList
+    class BonusList : BaseBonusList
     {
-        private List<Bonus> list;
-
         // Создание списка бонусов из списка карт
-        public BonusList(CardList cards)
+        public BonusList(CardList cards) : base(cards)
         {
-#if DEBUG 
-            Debug.WriteLine("{0} Создание списка бонусов из списка карт: {1}", DateTime.Now, cards.ToString());
-#endif
             list = new List<Bonus>();
             SeniorBonus = null;
             // Если это не полная раздача карт на одного игрока - то что-то не так, отсюда нельзя создать список бонусов
@@ -102,79 +97,8 @@ namespace BeloteServer
         }
 
         // Создание списка бонусов из строки
-        public BonusList(string bonusString)
+        public BonusList(string bonusString) : base(bonusString)
         {
-#if DEBUG
-            Debug.WriteLine("{0} Создание списка бонусов из бонусной строки: {1}", DateTime.Now, bonusString);
-#endif
-            list = new List<Bonus>();
-            Dictionary<string, string> bonuses = Helpers.SplitCommandString(bonusString);
-            if (bonuses.Count > 0)
-            {
-                int c;
-                if (Int32.TryParse(bonuses["Count"], out c))
-                {
-                    for (var i = 0; i < c; i++)
-                    {
-                        list.Add(new Bonus(bonuses["Bonus" + i.ToString()]));
-                    }
-                }
-            }
-        }
-
-        // Проверка бонуса на наличие в списке
-        public bool ExistsBonus(Bonus bonus)
-        {
-            foreach (Bonus b in list)
-            {
-                if ((b.Type == bonus.Type) && (b.Suit == bonus.Suit) && (b.HighCard == bonus.HighCard))
-                    return true;
-            }
-            return false;
-        }
-
-        // Очищение списка бонусов
-        public void Clear()
-        {
-            list.Clear();
-        }
-
-        // Удаление бонуса из списка
-        public void Delete(Bonus bonus)
-        {
-#if DEBUG 
-            Debug.WriteLine("{0} Удаление бонуса из списка - {1}", DateTime.Now, bonus.ToString());
-#endif
-            list.Remove(bonus);
-        }
-
-        // Индексатор для обращения к бонусам
-        public Bonus this[int Index]
-        {
-            get
-            {
-                return list[Index];
-            }
-        }
-
-        // Количество бонусов в списке
-        public int Count
-        {
-            get
-            {
-                return list.Count;
-            }
-        }
-
-        // Создает строку, состоящую из бонусов
-        public override string ToString()
-        {
-            string Result = "Count=" + Count.ToString();
-            for (var i = 0; i < Count; i++)
-            {
-                Result += String.Format(",Bonus{0}={1}", i.ToString(), list[i].ToString());
-            }
-            return Result;
         }
 
         // Сумма бонусов в списке
