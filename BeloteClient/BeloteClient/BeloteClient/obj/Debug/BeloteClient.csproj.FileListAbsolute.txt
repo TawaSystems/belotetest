@@ -25,3 +25,8 @@ C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.GameForm
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.BetFromType123.resources
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.BetFormType4.resources
 C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.BonusAnnounceForm.resources
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.TrustInfo.xml
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\bin\Debug\BeloteClient.exe.manifest
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\bin\Debug\BeloteClient.application
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.exe.manifest
+C:\Belote\BeloteClient\BeloteClient\BeloteClient\obj\Debug\BeloteClient.application
