@@ -64,6 +64,7 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine("{0} Установка козыря - {1}", DateTime.Now, Trump);
 #endif
+            CardListTrump = Trump;
             // Если игра без козыря, то сбрасываем козырь для всех карт списка
             if (Trump == CardSuit.C_NONE)
             {
@@ -364,6 +365,13 @@ namespace BeloteServer
 
         // Отвечает за комбинацию карт "Блот" в наборе карт
         public bool IsBelote
+        {
+            get;
+            private set;
+        }
+
+        // Козырь
+        public CardSuit CardListTrump
         {
             get;
             private set;

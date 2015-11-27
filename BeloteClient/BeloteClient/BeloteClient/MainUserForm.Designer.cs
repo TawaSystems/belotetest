@@ -124,6 +124,7 @@
             this.тренировочныйУровеньToolStripMenuItem.Name = "тренировочныйУровеньToolStripMenuItem";
             this.тренировочныйУровеньToolStripMenuItem.Size = new System.Drawing.Size(158, 20);
             this.тренировочныйУровеньToolStripMenuItem.Text = "Тренировочный уровень";
+            this.тренировочныйУровеньToolStripMenuItem.Click += new System.EventHandler(this.тренировочныйУровеньToolStripMenuItem_Click);
             // 
             // правилаИгрыToolStripMenuItem
             // 

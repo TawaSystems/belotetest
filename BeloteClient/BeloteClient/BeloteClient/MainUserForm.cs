@@ -174,5 +174,10 @@ namespace BeloteClient
         {
             game.EnterTheTable(4, CurrentTableID);
         }
+
+        private void тренировочныйУровеньToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            game.CreateTrainingTable();
+        }
     }
 }

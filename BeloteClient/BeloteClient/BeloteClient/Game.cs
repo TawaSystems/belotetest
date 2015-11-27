@@ -248,6 +248,31 @@ namespace BeloteClient
             }
         }
 
+        // Создание тренировочного стола
+        public void CreateTrainingTable()
+        {
+            Table t = serverActions.CreateTable(this.Player.Profile.Id, 0, true, false, 0, false, false, false, false);
+            if (t != null)
+            {
+                //MessageBox.Show("Создание стола прошло успешно!");
+                ChangeCurrentTable(t);
+                ChangeCurrentPlace(1);
+                if (userForm != null)
+                {
+                    userForm.Close();
+                    userForm = null;
+                }
+                SetPreGameHandlers(true);
+                AddBot(2);
+                AddBot(3);
+                AddBot(4);
+            }
+            else
+            {
+                MessageBox.Show("Не удалось создать игровой стол");
+            }
+        }
+
         public void CreateTable(int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility,
             bool VIPOnly, bool Moderation, bool AI)
         {
@@ -843,6 +868,8 @@ namespace BeloteClient
                 else
                     MessageBox.Show(String.Format("Вы проиграли! Счет - {0} : {1}", TotalScore1, TotalScore2));
             }
+            TotalScore1 = 0;
+            TotalScore2 = 0;
             SetGameHandlers(false);
             ChangeCurrentTable(null);
             ChangeCurrentPlace(-1);

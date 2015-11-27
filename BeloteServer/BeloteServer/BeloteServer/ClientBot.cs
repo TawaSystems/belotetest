@@ -12,10 +12,12 @@ namespace BeloteServer
     class ClientBot : Client
     {
         // Карьы и бонусы бота на раздаче
-        private BaseCardList botCards;
+        private CardList botCards;
         private BonusList botBonuses;
         // Использованные за раздачу карты
         private BaseCardList usedCards;
+        // Неиспользованные карты
+        private CardList dontUsedCards;
 
         // Флаг, отвечающий за то, делал ли бот заказ на данной раздаче или нет
         private bool IsMakingOrder;
@@ -25,6 +27,24 @@ namespace BeloteServer
             this.ActivePlace = Place;
             this.ActiveTable = Table;
             usedCards = new BaseCardList();
+            dontUsedCards = new CardList();
+        }
+
+        // Заново заполняет неиспользованные карты
+        private void RenewDontUsedCards()
+        {
+            dontUsedCards.Clear();
+            foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
+            {
+                if (s == CardSuit.C_NONE)
+                    continue;
+                foreach (CardType t in Enum.GetValues(typeof(CardType)))
+                {
+                    if (t == CardType.C_UNDEFINED)
+                        continue;
+                    dontUsedCards.Add(new Card(t, s));
+                }
+            }
         }
 
         // Получение максимального возможного заказа для одной масти
@@ -164,31 +184,113 @@ namespace BeloteServer
         // Выбор карты для хода
         private Card GetMovingCard(CardList PossibleCards)
         {
-            BaseCardList suitesLowerCards = new BaseCardList();
-            BaseCardList suitesHigherCards = new BaseCardList();
-            if (PossibleCards.SuitExists(CardSuit.C_CLUBS))
+            int movePlace = (usedCards.Count % 4) + 1;
+            // Если игрок ходит первым
+            if (movePlace == 1)
             {
-                suitesLowerCards.Add(PossibleCards.GetLowerCard(CardSuit.C_CLUBS));
-                suitesHigherCards.Add(PossibleCards.GetHigherCard(CardSuit.C_CLUBS));
-            }
-            if (PossibleCards.SuitExists(CardSuit.C_HEARTS))
-            {
-                suitesLowerCards.Add(PossibleCards.GetLowerCard(CardSuit.C_HEARTS));
-                suitesHigherCards.Add(PossibleCards.GetHigherCard(CardSuit.C_HEARTS));
-            }
-            if (PossibleCards.SuitExists(CardSuit.C_SPADES))
-            {
-                suitesLowerCards.Add(PossibleCards.GetLowerCard(CardSuit.C_SPADES));
-                suitesHigherCards.Add(PossibleCards.GetHigherCard(CardSuit.C_SPADES));
-            }
-            if (PossibleCards.SuitExists(CardSuit.С_DIAMONDS))
-            {
-                suitesLowerCards.Add(PossibleCards.GetLowerCard(CardSuit.С_DIAMONDS));
-                suitesHigherCards.Add(PossibleCards.GetHigherCard(CardSuit.С_DIAMONDS));
-            }
+                // Если игра с козырем
+                if (botCards.CardListTrump != CardSuit.C_NONE)
+                {
+                    Card higherTrump = PossibleCards.GetHigherCard(botCards.CardListTrump);
+                    // Если какой-то козырь найден...
+                    if (higherTrump != null)
+                    {
+                        Card higherTrumpInDeck = dontUsedCards.GetHigherCard(botCards.CardListTrump);
+                        // Если в колоде есть еще козыри...
+                        if (higherTrumpInDeck != null)
+                        {
+                            // Если у бота имеется самый старший из оставшихся козырей, то ходим им
+                            if ((higherTrump.Cost >= higherTrumpInDeck.Cost) && (higherTrump.Type != CardType.C_7))
+                            {
+                                return higherTrump;
+                            }
+                        }
+                        // Иначе это самый старший, ходим им
+                        else
+                        {
+                            return higherTrump;
+                        }
+                    }
+                }
 
+                // Если козырем пойти не удалось, то пытаемся найти такую карту, чтобы она была старше всех карт оставшихся в колоде данной масти
+                foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
+                {
+                    if ((s == CardSuit.C_NONE) || (s == botCards.CardListTrump))
+                        continue;
+                    Card possibleCard = PossibleCards.GetHigherCard(s);
+                    Card higherCardInDeck = dontUsedCards.GetHigherCard(s);
+                    if ((higherCardInDeck != null) && (possibleCard != null))
+                    {
+                        if (possibleCard.ThisIsBiggerThen(higherCardInDeck))
+                            return possibleCard;
+                    }
+                }
 
-            return null;
+                List<Card> lowCards = new List<Card>();
+                // Если не удалось найти старшую карту, то пытаемся найти самую младшую из некозырных
+                foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
+                {
+                    if ((s == CardSuit.C_NONE) || (s == botCards.CardListTrump))
+                        continue;
+                    Card lowCard = PossibleCards.GetLowerCard(s);
+                    if (lowCard != null)
+                        lowCards.Add(lowCard);
+                }
+                if (lowCards.Count > 0)
+                {
+                    if (lowCards.Count == 1)
+                        return lowCards[0];
+                    Card tempCard = lowCards[0];
+                    for (var i = 1; i < lowCards.Count - 1; i++)
+                    {
+                        if (tempCard.ThisIsBiggerThen(lowCards[i]))
+                            tempCard = lowCards[i];
+                    }
+                    return tempCard;
+                }
+
+                // Если неудалось пойти ни одной картой, значит ходим минимальной козырной
+                Card lowTrump = PossibleCards.GetLowerCard(botCards.CardListTrump);
+                if (lowTrump != null)
+                    return lowTrump;
+                else
+                    return PossibleCards[0];
+            }
+            else
+            {
+                // Если ходит бот не первым, то сначала пытается скинуть самую младшую карту из некозырных, потом самую младшую из козырных
+                /*List<Card> lowCards = new List<Card>();
+                foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
+                {
+                    if ((s == CardSuit.C_NONE) || (s == botCards.CardListTrump))
+                        continue;
+                    Card lowCard = PossibleCards.GetLowerCard(s);
+                    if (lowCard != null)
+                        lowCards.Add(lowCard);
+                }
+                if (lowCards.Count > 0)
+                {
+                    if (lowCards.Count == 1)
+                        return lowCards[0];
+                    Card tempCard = lowCards[0];
+                    for (var i = 1; i < lowCards.Count - 1; i++)
+                    {
+                        if (tempCard.ThisIsBiggerThen(lowCards[i]))
+                            tempCard = lowCards[i];
+                    }
+                    return tempCard;
+                }
+
+                // Если неудалось пойти ни одной картой, значит ходим минимальной козырной
+                Card lowTrump = PossibleCards.GetLowerCard(botCards.CardListTrump);
+                if (lowTrump != null)
+                    return lowTrump;
+                else
+                    return PossibleCards[0];*/
+                PossibleCards.Sort();
+                return PossibleCards[PossibleCards.Count - 1];
+            }
         }
 
         // Обработка сообщений
@@ -200,8 +302,10 @@ namespace BeloteServer
                 // Обработка раздачи карт
                 case Messages.MESSAGE_GAME_DISTRIBUTIONCARDS:
                     {
-                        botCards = new BaseCardList(bParams["Cards"]);
+                        botCards = new CardList(bParams["Cards"]);
                         IsMakingOrder = false;
+                        usedCards.Clear();
+                        RenewDontUsedCards();
                         //int totalScore1 = Int32.Parse(bParams["Scores1"]);
                         //int totalScore2 = Int32.Parse(bParams["Scores2"]);
                         break;
@@ -271,6 +375,7 @@ namespace BeloteServer
                         Card newCard = new Card(bParams["Card"]);
                         // Запоминание похоженной карты
                         usedCards.Add(newCard);
+                        dontUsedCards.Remove(dontUsedCards[newCard.Type, newCard.Suit]);
                         // int LocalScore1 = Int32.Parse(bParams["Scores1"]);
                         // int LocalScore2 = Int32.Parse(bParams["Scores2"]);
                         // int beloteRemind = Int32.Parse(bParams["Belote"]);

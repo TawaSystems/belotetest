@@ -85,6 +85,12 @@ namespace BeloteServer
             }
         }
 
+        // Очистка списка
+        public void Clear()
+        {
+            list.Clear();
+        }
+
         // Преобразование списка к строке - последовательности карт
         public override string ToString()
         {
