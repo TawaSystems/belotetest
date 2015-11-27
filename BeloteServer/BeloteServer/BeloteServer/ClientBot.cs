@@ -220,6 +220,14 @@ namespace BeloteServer
                         BaseCardList PossibleCards = new BaseCardList(bParams["Cards"]);
                         // Расчет и показ бонусов
                         Thread.Sleep(500);
+                        if (botBonuses.Count > 0)
+                        {
+                            for (var i = botBonuses.Count - 1; i >= 0; i--)
+                            {
+                                if (botBonuses[i] != botBonuses.SeniorBonus)
+                                    botBonuses.Delete(botBonuses[i]);
+                            }
+                        }
                         AnnounceBonuses(botBonuses);
                         Thread.Sleep(500);
                         // Расчет и совершение хода
