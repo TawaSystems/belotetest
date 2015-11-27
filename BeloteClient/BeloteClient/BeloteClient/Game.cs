@@ -365,7 +365,8 @@ namespace BeloteClient
                             break;
                         }
                 }
-                waitingForm.UpdateLabels();
+                if (waitingForm != null)
+                    waitingForm.UpdateLabels();
                 serverActions.TestFullfillTable();
             }
             else
@@ -469,7 +470,8 @@ namespace BeloteClient
                 if (p != null)
                     Players.Add(p);
             }
-            waitingForm.UpdateLabels();
+            if (waitingForm != null)
+                waitingForm.UpdateLabels();
         }
 
         // Обработчик удаление другого игрока со стола
@@ -500,7 +502,8 @@ namespace BeloteClient
                     }
             }
             Players.Delete(Players[PlayerID]);
-            waitingForm.UpdateLabels();
+            if (waitingForm != null)
+                waitingForm.UpdateLabels();
         }
 
         // Обработчик выхода со стола создателя
@@ -513,8 +516,11 @@ namespace BeloteClient
         public void StartGameHandler(Message Msg)
         {
             SetPreGameHandlers(false);
-            waitingForm.Close();
-            waitingForm = null;
+            if (waitingForm != null)
+            {
+                waitingForm.Close();
+                waitingForm = null;
+            }
             gameForm = new GameForm(this);
             gameForm.Show();
             SetGameHandlers(true);

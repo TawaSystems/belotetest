@@ -19,8 +19,8 @@ namespace BeloteClient
 #if DEBUG
         public const int SERVER_PORT = 8888;
 
-        public const string SERVER_LOCAL_IP = "127.0.0.1";
-        //public const string SERVER_LOCAL_IP = "188.227.18.8";
+        //public const string SERVER_LOCAL_IP = "127.0.0.1";
+        public const string SERVER_LOCAL_IP = "188.227.18.8";
 #else
 #endif
 
