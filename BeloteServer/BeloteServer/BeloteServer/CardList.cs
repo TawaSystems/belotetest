@@ -33,7 +33,7 @@ namespace BeloteServer
         }
 
         // Проверяет, присутствует ли в списке карта карта заданной колоды
-        private bool SuitExists(CardSuit Suit)
+        public bool SuitExists(CardSuit Suit)
         {
 #if DEBUG
             Debug.WriteLine("{0} Проверка на наличие масти в списке - {1}", DateTime.Now, Suit);
@@ -46,7 +46,7 @@ namespace BeloteServer
         }
 
         // Проверяет, присутствует ли в списке карт козырная карта
-        private bool TrumpExists()
+        public bool TrumpExists()
         {
 #if DEBUG
             Debug.WriteLine("{0} Проверка на наличие козыря в списке", DateTime.Now);
@@ -280,6 +280,86 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine("{0} Проверка на наличие бонуса БЛОТ в списке карт. Результат - {1}", DateTime.Now, IsBelote);
 #endif
+        }
+
+        // Получить саршую карту выбранной масти
+        public Card GetHigherCard(CardSuit Suit)
+        {
+            Card result = null;
+            for (var i = 0; i < list.Count; i++)
+            {
+                if (list[i].Suit == Suit)
+                {
+                    if (result != null)
+                    {
+                        // Если мы ищем козырную масть, то сравниваем сначала по стоимости, потом по типу
+                        if (result.IsTrump)
+                        {
+                            // Значит 7 и 8
+                            if (result.Cost == list[i].Cost)
+                            {
+                                if ((int)result.Type < (int)list[i].Type)
+                                    result = list[i];
+                            }
+                            else
+                            {
+                                if (result.Cost < list[i].Cost)
+                                    result = list[i];
+                            }
+                        }
+                        else
+                        {
+                            if (!result.ThisIsBiggerThen(list[i]))
+                                result = list[i];
+                        }
+                    }
+                    else
+                    {
+                        result = list[i];
+                    }
+                }
+            }
+            return result;
+        }
+
+        // Получить младшую карту выбранной масти
+        public Card GetLowerCard(CardSuit Suit)
+        {
+            Card result = null;
+            for (var i = 0; i < list.Count; i++)
+            {
+                if (list[i].Suit == Suit)
+                {
+                    if (result != null)
+                    {
+                        // Если мы ищем козырную масть, то сравниваем сначала по стоимости, потом по типу
+                        if (result.IsTrump)
+                        {
+                            // Значит 7 и 8
+                            if (result.Cost == list[i].Cost)
+                            {
+                                if ((int)result.Type > (int)list[i].Type)
+                                    result = list[i];
+                            }
+                            else
+                            {
+                                if (result.Cost > list[i].Cost)
+                                    result = list[i];
+                            }
+                        }
+                        else
+                        {
+                            if (result.ThisIsBiggerThen(list[i]))
+                                result = list[i];
+                        }
+                    }
+                    else
+                    {
+                        result = list[i];
+                    }
+                }
+            }
+            return result;
         }
 
         // Отвечает за комбинацию карт "Блот" в наборе карт

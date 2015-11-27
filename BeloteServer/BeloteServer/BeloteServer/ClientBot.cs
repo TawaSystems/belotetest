@@ -162,8 +162,32 @@ namespace BeloteServer
         }
 
         // Выбор карты для хода
-        private Card GetMovingCard()
+        private Card GetMovingCard(CardList PossibleCards)
         {
+            BaseCardList suitesLowerCards = new BaseCardList();
+            BaseCardList suitesHigherCards = new BaseCardList();
+            if (PossibleCards.SuitExists(CardSuit.C_CLUBS))
+            {
+                suitesLowerCards.Add(PossibleCards.GetLowerCard(CardSuit.C_CLUBS));
+                suitesHigherCards.Add(PossibleCards.GetHigherCard(CardSuit.C_CLUBS));
+            }
+            if (PossibleCards.SuitExists(CardSuit.C_HEARTS))
+            {
+                suitesLowerCards.Add(PossibleCards.GetLowerCard(CardSuit.C_HEARTS));
+                suitesHigherCards.Add(PossibleCards.GetHigherCard(CardSuit.C_HEARTS));
+            }
+            if (PossibleCards.SuitExists(CardSuit.C_SPADES))
+            {
+                suitesLowerCards.Add(PossibleCards.GetLowerCard(CardSuit.C_SPADES));
+                suitesHigherCards.Add(PossibleCards.GetHigherCard(CardSuit.C_SPADES));
+            }
+            if (PossibleCards.SuitExists(CardSuit.С_DIAMONDS))
+            {
+                suitesLowerCards.Add(PossibleCards.GetLowerCard(CardSuit.С_DIAMONDS));
+                suitesHigherCards.Add(PossibleCards.GetHigherCard(CardSuit.С_DIAMONDS));
+            }
+
+
             return null;
         }
 
@@ -223,7 +247,7 @@ namespace BeloteServer
                 // Переход хода к боту
                 case Messages.MESSAGE_GAME_GAMING_NEXTPLAYER:
                     {
-                        BaseCardList PossibleCards = new BaseCardList(bParams["Cards"]);
+                        CardList PossibleCards = new CardList(bParams["Cards"]);
                         // Расчет и показ бонусов
                         Thread.Sleep(500);
                         if (botBonuses.Count > 0)
@@ -237,7 +261,7 @@ namespace BeloteServer
                         AnnounceBonuses(botBonuses);
                         Thread.Sleep(500);
                         // Расчет и совершение хода
-                        MakeMove(GetMovingCard());
+                        MakeMove(GetMovingCard(PossibleCards));
                         break;
                     }
                 // Извещение о ходе картой другим игроком
