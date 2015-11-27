@@ -161,6 +161,12 @@ namespace BeloteServer
             return order;
         }
 
+        // Выбор карты для хода
+        private Card GetMovingCard()
+        {
+            return null;
+        }
+
         // Обработка сообщений
         private void ProcessMessage(string command, string message)
         {
@@ -231,7 +237,7 @@ namespace BeloteServer
                         AnnounceBonuses(botBonuses);
                         Thread.Sleep(500);
                         // Расчет и совершение хода
-                        MakeMove(PossibleCards[0]);
+                        MakeMove(GetMovingCard());
                         break;
                     }
                 // Извещение о ходе картой другим игроком

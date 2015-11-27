@@ -180,6 +180,40 @@ namespace BeloteServer
                     }
                     else
                     {
+                        // Если ходит 4 игрок, то он не обязан перебивать карту своего сокомандника (игрока №2), если она козырная, иначе необходимо перебить, если возможно
+                        if (bribe.FulledCount == 3)
+                        {
+                            if (bribe[1].IsTrump)
+                            {
+                                // Если же и третий игрок пошел козырем, то нужно проверить, больше ли он чем козырь второго игрока
+                                if ((bribe[2].IsTrump) && (bribe[2].Cost >= bribe[1].Cost) && (bribe[2].Type != CardType.C_7))
+                                {
+                                    // Необходимо попробовать перебить
+                                    Card card1 = list.Find(c => (c.IsTrump) && (c.Cost >= bribe.SeniorTrump.Cost) && (c.Type != CardType.C_7));
+                                    // В случае, если у игрока имеются козыри, старше чем использовались на раздаче, нужно использовать их
+                                    if (card1 != null)
+                                    {
+                                        foreach (Card c in list)
+                                        {
+                                            if ((c.IsTrump) && (c.Cost > bribe.SeniorTrump.Cost))
+                                                possibleCards.Add(c);
+                                        }
+                                        return possibleCards;
+                                    }
+                                    // Если и таких карт нет, то можно использовать любую карту из имеющихся
+                                    else
+                                    {
+                                        return this;
+                                    }
+                                }
+                                else
+                                {
+                                    return this;
+                                }
+                            }
+                        }
+
+                        // Если ходит 3 игрок или 4, в случае, если второй игрок не пошел козырем
                         Card card = list.Find(c => (c.IsTrump) && (c.Cost >= bribe.SeniorTrump.Cost) && (c.Type != CardType.C_7));
                         // В случае, если у игрока имеются козыри, старше чем использовались на раздаче, нужно использовать их
                         if (card != null)
