@@ -14,10 +14,14 @@ namespace BeloteClient
     {
         BetType bType;
         Game game;
-        public BetFromType123(Game game, int MinBetSize, BetType betType)
+        public BetFromType123(Game game)
         {
             InitializeComponent();
             this.game = game;
+        }
+
+        public void ShowForm(int MinBetSize, BetType betType)
+        {
             OrderSizeUpDown.Minimum = MinBetSize;
             OrderSizeUpDown.Value = MinBetSize;
             CapotCheck.Enabled = (MinBetSize >= 250);
@@ -36,9 +40,8 @@ namespace BeloteClient
                         break;
                     }
             }
-            
+            ShowDialog();
         }
-
         private CardSuit GetOrderSuit()
         {
             if (WithoutTrumpCheck.Checked)

@@ -598,6 +598,7 @@ namespace BeloteClient
             AllCards = new CardList(cardsStr);
             PossibleCards = AllCards;
             Status = TableStatus.BAZAR;
+            betForm123 = new BetFromType123(this);
             gameForm.UpdateGraphics();
         }
 
@@ -620,9 +621,7 @@ namespace BeloteClient
                 }
                 else
                 {
-                    betForm123 = new BetFromType123(this, minSize, bType);
-                    betForm123.ShowDialog();
-                    betForm123 = null;
+                    betForm123.ShowForm(minSize, bType);
                 }
             }
             catch (Exception ex)
