@@ -821,18 +821,11 @@ namespace BeloteClient
             LocalScore1 = Int32.Parse(cParams["Scores1"]);
             LocalScore2 = Int32.Parse(cParams["Scores2"]);
             int beloteRemind = Int32.Parse(cParams["Belote"]);
-            if (beloteRemind == 0)
-            {
-                BelotePlace = 0;
-                RebelotePlace = 0;
-            }
-            else
-            {
-                if (beloteRemind == 1)
-                    BelotePlace = cardPlace;
-                else
-                    RebelotePlace = cardPlace;
-            }
+            if (beloteRemind == 1)
+                BelotePlace = cardPlace;
+            if (beloteRemind == 2)
+                RebelotePlace = cardPlace;
+         
             switch (cardPlace)
             {
                 case 1:
@@ -859,6 +852,8 @@ namespace BeloteClient
             gameForm.UpdateGraphics();
             if ((P1Card != null) && (P2Card != null) && (P3Card != null) && (P4Card != null))
             {
+                BelotePlace = 0;
+                RebelotePlace = 0;
                 P1Card = null;
                 P2Card = null;
                 P3Card = null;

@@ -628,27 +628,39 @@ namespace BeloteServer
                                 {
                                     string msg = String.Format("{0}Continue=1,Place={1}", Messages.MESSAGE_TABLE_PLAYERS_QUIT, ActivePlace);
                                     ActiveTable.SendMessageToClients(msg);
+                                    Client b = null;
                                     switch (ActivePlace)
                                     {
                                         case 2:
                                             {
                                                 ActiveTable.Player2 = new ClientBot(ActivePlace, ActiveTable, ActiveTable.Distributions.Current.Player2Cards);
+                                                b = ActiveTable.Player2;
                                                 break;
                                             }
                                         case 3:
                                             {
                                                 ActiveTable.Player3 = new ClientBot(ActivePlace, ActiveTable, ActiveTable.Distributions.Current.Player3Cards);
+                                                b = ActiveTable.Player3;
                                                 break;
                                             }
                                         case 4:
                                             {
                                                 ActiveTable.Player4 = new ClientBot(ActivePlace, ActiveTable, ActiveTable.Distributions.Current.Player4Cards);
+                                                b = ActiveTable.Player4;
                                                 break;
                                             }
                                         default:
                                             {
                                                 break;
                                             }
+                                    }
+                                    // Необходимо придумать что-то, чтобы бот ходил за игрока, если это его ход
+                                    if (ActiveTable.CurrentPlayer == ActivePlace)
+                                    {
+                                        if (ActiveTable.Distributions.Current.Status == DistributionStatus.D_BAZAR)
+                                        {
+                                            
+                                        }
                                     }
                                     ActiveTable = null;
                                     ActivePlace = -1;

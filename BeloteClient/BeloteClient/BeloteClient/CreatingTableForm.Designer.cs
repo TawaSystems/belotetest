@@ -46,6 +46,7 @@
             // TableAICheckBox
             // 
             this.TableAICheckBox.AutoSize = true;
+            this.TableAICheckBox.Enabled = false;
             this.TableAICheckBox.Location = new System.Drawing.Point(12, 81);
             this.TableAICheckBox.Name = "TableAICheckBox";
             this.TableAICheckBox.Size = new System.Drawing.Size(211, 17);
@@ -56,6 +57,7 @@
             // TableModerationCheckBox
             // 
             this.TableModerationCheckBox.AutoSize = true;
+            this.TableModerationCheckBox.Enabled = false;
             this.TableModerationCheckBox.Location = new System.Drawing.Point(12, 58);
             this.TableModerationCheckBox.Name = "TableModerationCheckBox";
             this.TableModerationCheckBox.Size = new System.Drawing.Size(146, 17);
@@ -66,6 +68,7 @@
             // TableVIPCheckBox
             // 
             this.TableVIPCheckBox.AutoSize = true;
+            this.TableVIPCheckBox.Enabled = false;
             this.TableVIPCheckBox.Location = new System.Drawing.Point(12, 35);
             this.TableVIPCheckBox.Name = "TableVIPCheckBox";
             this.TableVIPCheckBox.Size = new System.Drawing.Size(129, 17);
@@ -76,6 +79,7 @@
             // TableChatCheckBox
             // 
             this.TableChatCheckBox.AutoSize = true;
+            this.TableChatCheckBox.Enabled = false;
             this.TableChatCheckBox.Location = new System.Drawing.Point(12, 12);
             this.TableChatCheckBox.Name = "TableChatCheckBox";
             this.TableChatCheckBox.Size = new System.Drawing.Size(141, 17);
@@ -153,6 +157,7 @@
             // TablePlayersVisibilityCheckBox
             // 
             this.TablePlayersVisibilityCheckBox.AutoSize = true;
+            this.TablePlayersVisibilityCheckBox.Enabled = false;
             this.TablePlayersVisibilityCheckBox.Location = new System.Drawing.Point(12, 104);
             this.TablePlayersVisibilityCheckBox.Name = "TablePlayersVisibilityCheckBox";
             this.TablePlayersVisibilityCheckBox.Size = new System.Drawing.Size(126, 17);

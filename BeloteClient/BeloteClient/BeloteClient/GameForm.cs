@@ -516,12 +516,6 @@ namespace BeloteClient
                                 }
                         }
                     }
-
-                    // Обновление блот и реблот
-                    if (game.BelotePlace != 0)
-                        UpdateBeloteRebelote(game.BelotePlace, "BELOTE");
-                    if (game.RebelotePlace != 0)
-                        UpdateBeloteRebelote(game.RebelotePlace, "REBELOTE");
                 }
                 // Обновление картинок последней взятки
                 if (game.Status == TableStatus.BAZAR)
@@ -563,6 +557,11 @@ namespace BeloteClient
                         }
                     }
                 }
+                // Обновление блот и реблот
+                if (game.BelotePlace != 0)
+                    UpdateBeloteRebelote(game.BelotePlace, "BELOTE");
+                if (game.RebelotePlace != 0)
+                    UpdateBeloteRebelote(game.RebelotePlace, "REBELOTE");
             }
             catch (Exception Ex)
             {

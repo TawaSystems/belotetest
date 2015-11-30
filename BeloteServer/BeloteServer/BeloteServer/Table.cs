@@ -573,5 +573,13 @@ namespace BeloteServer
                 return distributions;
             }
         }
+
+        public int CurrentPlayer
+        {
+            get
+            {
+                return currentPlayer;
+            }
+        }
     }
 }
