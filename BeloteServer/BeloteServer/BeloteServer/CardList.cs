@@ -221,7 +221,7 @@ namespace BeloteServer
                         {
                             foreach (Card c in list)
                             {
-                                if ((c.IsTrump) && (c.Cost > bribe.SeniorTrump.Cost))
+                                if ((c.IsTrump) && (c.Cost >= bribe.SeniorTrump.Cost))
                                     possibleCards.Add(c);
                             }
                         }
@@ -246,7 +246,7 @@ namespace BeloteServer
                     {
                         foreach (Card c in list)
                         {
-                            if ((c.IsTrump) && (c.Cost > bribe.SeniorTrump.Cost))
+                            if ((c.IsTrump) && (c.Cost >= bribe.SeniorTrump.Cost))
                                 possibleCards.Add(c);
                         }
                     }
