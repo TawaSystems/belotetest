@@ -24,6 +24,11 @@ namespace BeloteClient
             try
             {
                 serverActions = new ServerActions();
+                if (!serverActions.TestClientVersion())
+                {
+                    MessageBox.Show("У вас устаревшая версия приложения! Скачайте новую");
+                    Environment.Exit(0);
+                }
                 Tables = new TablesList();
                 CurrentTable = null;
                 Player = null;

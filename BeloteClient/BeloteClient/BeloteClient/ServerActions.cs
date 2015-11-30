@@ -20,6 +20,13 @@ namespace BeloteClient
             ServerConnection.Disconnect();
         }
 
+        // Тестирование версии клиента
+        public bool TestClientVersion()
+        {
+            Dictionary<string, string> vParams = ServerConnection.ExecuteMessage(new Message(Messages.MESSAGE_CLIENT_TEST_VERSION, ""));
+            return (vParams["Version"] == Constants.CLIENT_ACTUAL_VERSION);
+        }
+
         // Регистрация с помощью электронной почты
         public bool RegistrationEmail(string Email, string Password, string Nickname, string Sex, string Country)
         {

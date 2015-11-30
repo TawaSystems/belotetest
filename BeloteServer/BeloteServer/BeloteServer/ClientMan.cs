@@ -18,6 +18,8 @@ namespace BeloteServer
         private Thread worker;
         // Ссылка на игровой объект
         private Game game;
+        // Поток данных с клиентом 
+        private NetworkStream stream;
 
         // Конструктор с инициализацией всех объектов
         public ClientMan(TcpClient tcpClient, Game game)
@@ -67,9 +69,12 @@ namespace BeloteServer
             {
                 if (client.Connected)
                 {
-                    var data = Encoding.Unicode.GetBytes(message + Constants.MESSAGE_DELIMITER);
-                    client.GetStream().Write(data, 0, data.Length);
-                    client.GetStream().Flush();
+                    lock (stream)
+                    {
+                        var data = Encoding.Unicode.GetBytes(message + Constants.MESSAGE_DELIMITER);
+                        stream.Write(data, 0, data.Length);
+                        stream.Flush();
+                    }
                 }
                 else
                     RemindTableClientsAboutDisconnect();
@@ -113,11 +118,20 @@ namespace BeloteServer
         // Функция обработки запросов клиента, выполняется в потоке worker
         private void Process()
         {
-            NetworkStream stream = null;
+            Thread testConnectionThread = new Thread(delegate ()
+            {
+                while (true)
+                {
+                    Thread.Sleep(Constants.CLIENT_TEST_CONNECTION_TIMEOUT);
+                    SendMessage(Messages.MESSAGE_CLIENT_TEST_CONNECTION);
+                }
+            });
             try
             {
                 stream = client.GetStream();
                 byte[] data = new byte[64];
+                // Поток, который проверяет подключенность клиента, отправляя ему сообщение соответствующее
+                testConnectionThread.Start();
                 while (true)
                 {
                     // Считываем данные от клиента, пока они не закончатся
@@ -165,17 +179,7 @@ namespace BeloteServer
                             {
                                 if (result != "")
                                 {
-#if DEBUG
-                                    Debug.WriteLine(DateTime.Now.ToString() + " Отправка сообщения клиенту");
-                                    Debug.Indent();
-                                    Debug.WriteLine("Client IP: " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString());
-                                    Debug.WriteLine("Client ID: " + ID);
-                                    Debug.WriteLine("Сообщение: " + result);
-                                    Debug.Unindent();
-#endif
-                                    data = Encoding.Unicode.GetBytes(result + Constants.MESSAGE_DELIMITER);
-                                    stream.Write(data, 0, data.Length);
-                                    stream.Flush();
+                                    SendMessage(result);
                                 }
                             }
                         }
@@ -203,6 +207,7 @@ namespace BeloteServer
                 Debug.WriteLine("Количество подключенных клиентов в списке: " + this.game.Server.Clients.Count);
                 Debug.Unindent();
 #endif
+                testConnectionThread.Abort();
                 RemindTableClientsAboutDisconnect();
                 this.game.Server.Clients.DeleteClient(this);
                 // Закрытие клиента и потока его данных
@@ -264,6 +269,12 @@ namespace BeloteServer
                 case Messages.MESSAGE_CLIENT_DISCONNECT:
                     {
                         Result = "EXT";
+                        break;
+                    }
+                // Отправка актуальной версии клиента клиенту
+                case Messages.MESSAGE_CLIENT_TEST_VERSION:
+                    {
+                        Result = command + "Version=" + Constants.CLIENT_ACTUAL_VERSION;
                         break;
                     }
                 // Обработка модификации стола

@@ -16,13 +16,13 @@ namespace BeloteClient
 
         // Количество столбцов в таблице Statistics
         public const int COLS_STATISTICS = 20;
-#if DEBUG
+
         public const int SERVER_PORT = 8888;
 
-        //public const string SERVER_LOCAL_IP = "127.0.0.1";
-        public const string SERVER_LOCAL_IP = "188.227.18.8";
-#else
-#endif
+        public const string SERVER_LOCAL_IP = "127.0.0.1";
+        //public const string SERVER_LOCAL_IP = "188.227.18.8";
+
+        public const string CLIENT_ACTUAL_VERSION = "1.0.0.3";
 
 #if DEBUG
         public const string EMAIL_ADDRESS = "tawasystems@gmail.com";

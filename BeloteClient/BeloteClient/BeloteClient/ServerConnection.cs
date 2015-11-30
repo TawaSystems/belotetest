@@ -125,6 +125,9 @@ namespace BeloteClient
                         if (str != "")
                         {
                             Message msg = new Message(str);
+                            // Если это сообщение теста соединения, то игнорируем его
+                            if (msg.Command == Messages.MESSAGE_CLIENT_TEST_CONNECTION)
+                                continue;
                             lock (messageHandlers)
                             {
                                 if (!ProcessMessage(msg))
@@ -142,6 +145,7 @@ namespace BeloteClient
                 {
                     //Disconnect();
                     MessageBox.Show(Ex.Message);
+                    Environment.Exit(0);
                 }
             }
         }
@@ -169,14 +173,17 @@ namespace BeloteClient
         // Отключение от сервера
         public void Disconnect()
         {
-            try
+            if (client.Connected)
             {
-                SendDataToServer("EXT");
-            }
-            finally
-            {
-                serverWorker.Abort();
-                client.Close();
+                try
+                {
+                    SendDataToServer("EXT");
+                }
+                finally
+                {
+                    serverWorker.Abort();
+                    client.Close();
+                }
             }
         }
 

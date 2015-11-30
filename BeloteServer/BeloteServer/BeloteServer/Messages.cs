@@ -54,6 +54,12 @@ namespace BeloteServer
         // Сообщение отключения клиента
         public const string MESSAGE_CLIENT_DISCONNECT = "EXT";
 
+        // Тестирование подключения клиента
+        public const string MESSAGE_CLIENT_TEST_CONNECTION = "CTC";
+
+        // Тестирование версии клиента
+        public const string MESSAGE_CLIENT_TEST_VERSION = "CTV";
+
         // Сообщения модификации игрового стола создателем
         public const string MESSAGE_TABLE_MODIFY_CREATE = "TMC";
 
