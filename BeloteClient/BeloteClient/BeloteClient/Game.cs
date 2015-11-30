@@ -301,7 +301,7 @@ namespace BeloteClient
             else
             {
                 MessageBox.Show("Не удалось создать игровой стол");
-            } 
+            }
         }
 
         // Посадка на игровой стол
@@ -400,18 +400,27 @@ namespace BeloteClient
         public void QuitTable()
         {
             //SetGameHandlers(false);
-            serverActions.PlayerQuitFromTable();
-            /*ChangeCurrentTable(null);
-            ChangeCurrentPlace(-1);
-            if (betForm123 != null)
-                betForm123.Close();
-            if (betForm4 != null)
-                betForm4.Close();
-            gameForm.Close();
-            gameForm = null;
-            userForm = new MainUserForm(this);
-            userForm.UpdateTables();
-            userForm.Show();*/
+            if (Place != 1)
+            {
+                serverActions.PlayerQuitFromTable();
+            }
+            else
+            {// Завершаем игру иначе
+                SetGameHandlers(false);
+                serverActions.ExitPlayerFromTable(Place);
+                ChangeCurrentTable(null);
+                ChangeCurrentPlace(-1);
+                if (betForm123 != null)
+                    betForm123.Close();
+                if (betForm4 != null)
+                    betForm4.Close();
+                MessageBox.Show("Игра завершена. Кто-то вышел со стола");
+                gameForm.Close();
+                gameForm = null;
+                userForm = new MainUserForm(this);
+                userForm.UpdateTables();
+                userForm.Show();
+            }
         }
 
         // Сделать заказ
@@ -658,7 +667,7 @@ namespace BeloteClient
                     }
             }
             gameForm.UpdateGraphics();
-        } 
+        }
 
         // Завершение процесса торговли
         public void BazarEndHandler(Message Msg)
@@ -681,7 +690,7 @@ namespace BeloteClient
         // Завершение торговли без заявки козыря
         public void BazarPassHandler(Message Msg)
         {
-            
+
         }
 
         // Переход хода к игроку
@@ -898,49 +907,49 @@ namespace BeloteClient
             // Продолжаем игру
             if (qParams["Continue"] == "1")
             {
-                /*int BotPlace = Int32.Parse(qParams["Place"]);
-                int PlayerID = -1;
-                MessageBox.Show(String.Format("Игрок №{0} покинул стол, его заменил бот. Игра продолжается"));
-                switch (BotPlace)
+                int BotPlace = Int32.Parse(qParams["Place"]);
+                if (BotPlace != Place)
                 {
-                    case 2:
-                        {
-                            PlayerID = CurrentTable.Player2;
-                            CurrentTable.Player2 = -BotPlace;
-                            break;
-                        }
-                    case 3:
-                        {
-                            PlayerID = CurrentTable.Player3;
-                            CurrentTable.Player3 = -BotPlace;
-                            break;
-                        }
-                    case 4:
-                        {
-                            PlayerID = CurrentTable.Player4;
-                            CurrentTable.Player4 = -BotPlace;
-                            break;
-                        }
+                    MessageBox.Show(String.Format("Игрок №{0} покинул стол, его заменил бот. Игра продолжается", BotPlace));
+                    switch (BotPlace)
+                    {
+                        case 2:
+                            {
+                                CurrentTable.Player2 = -BotPlace;
+                                break;
+                            }
+                        case 3:
+                            {
+                                CurrentTable.Player3 = -BotPlace;
+                                break;
+                            }
+                        case 4:
+                            {
+                                CurrentTable.Player4 = -BotPlace;
+                                break;
+                            }
+                    }
+                    return;
                 }
-                Players.Delete(Players[PlayerID]);*/
             }
-            // Завершаем игру
             else
             {
                 MessageBox.Show("Игра завершена. Кто-то вышел со стола");
-                SetGameHandlers(false);
-                ChangeCurrentTable(null);
-                ChangeCurrentPlace(-1);
-                if (betForm123 != null)
-                    betForm123.Close();
-                if (betForm4 != null)
-                    betForm4.Close();
-                gameForm.Close();
-                gameForm = null;
-                userForm = new MainUserForm(this);
-                userForm.UpdateTables();
-                userForm.Show();
             }
+
+            // Завершаем игру иначе
+            SetGameHandlers(false);
+            ChangeCurrentTable(null);
+            ChangeCurrentPlace(-1);
+            if (betForm123 != null)
+                betForm123.Close();
+            if (betForm4 != null)
+                betForm4.Close();
+            gameForm.Close();
+            gameForm = null;
+            userForm = new MainUserForm(this);
+            userForm.UpdateTables();
+            userForm.Show();
         }
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

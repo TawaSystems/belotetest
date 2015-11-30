@@ -626,34 +626,32 @@ namespace BeloteServer
                                 // Если разрешена замена на AI
                                 if (ActiveTable.AI)
                                 {
-                                    /*string msg = String.Format("{0}Continue=1,Place={1}", Messages.MESSAGE_TABLE_PLAYERS_QUIT, ActivePlace);
+                                    string msg = String.Format("{0}Continue=1,Place={1}", Messages.MESSAGE_TABLE_PLAYERS_QUIT, ActivePlace);
                                     ActiveTable.SendMessageToClients(msg);
-                                    this.game.Tables.RemovePlayer(ActiveTable.ID, ActivePlace);
-                                    ClientBot b = new ClientBot(ActivePlace, ActiveTable);
                                     switch (ActivePlace)
                                     {
                                         case 2:
                                             {
-                                                ActiveTable.Player2 = b;
+                                                ActiveTable.Player2 = new ClientBot(ActivePlace, ActiveTable, ActiveTable.Distributions.Current.Player2Cards);
                                                 break;
                                             }
                                         case 3:
                                             {
-                                                ActiveTable.Player3 = b;
+                                                ActiveTable.Player3 = new ClientBot(ActivePlace, ActiveTable, ActiveTable.Distributions.Current.Player3Cards);
                                                 break;
                                             }
                                         case 4:
                                             {
-                                                ActiveTable.Player4 = b;
+                                                ActiveTable.Player4 = new ClientBot(ActivePlace, ActiveTable, ActiveTable.Distributions.Current.Player4Cards);
                                                 break;
                                             }
                                         default:
                                             {
                                                 break;
                                             }
-                                    } 
+                                    }
                                     ActiveTable = null;
-                                    ActivePlace = -1;*/
+                                    ActivePlace = -1;
                                 }
                                 // Если нет, то игра на столе завершается
                                 else

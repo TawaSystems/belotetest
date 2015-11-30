@@ -565,5 +565,13 @@ namespace BeloteServer
             get;
             private set;
         }
+
+        public DistributionsList Distributions
+        {
+            get
+            {
+                return distributions;
+            }
+        }
     }
 }

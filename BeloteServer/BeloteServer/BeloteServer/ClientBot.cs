@@ -30,6 +30,15 @@ namespace BeloteServer
             dontUsedCards = new CardList();
         }
 
+        public ClientBot(int Place, Table Table, CardList cards) : this(Place, Table)
+        {
+#if DEBUG
+            Debug.WriteLine("Создание бота. Карты: {0}, Место: {1}, Стол: {2}", cards.ToString(), Place, Table.ID);
+#endif
+            botCards = cards;
+            RenewDontUsedCards();
+        }
+
         // Заново заполняет неиспользованные карты
         private void RenewDontUsedCards()
         {
