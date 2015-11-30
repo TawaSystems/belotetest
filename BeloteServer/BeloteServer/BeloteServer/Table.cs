@@ -234,7 +234,7 @@ namespace BeloteServer
                 // Проверяем неравенство очков команд и завершенность последней раздачи
                 if ((distributions.ScoresTeam1 != distributions.ScoresTeam2) && (distributions.Current.Status == DistributionStatus.D_ENDED))
                     // Проверяем, не закончилась ли последняя раздача капутом
-                    if (!distributions.Current.IsCapotEnded)
+                    if ((!distributions.Current.IsCapotEnded) && (!distributions.Current.Orders.IsPass))
                         return true;
             return false;
         }
