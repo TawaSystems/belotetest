@@ -12,7 +12,7 @@ namespace BeloteServer
         {
 #if DEBUG
             Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
-            Debug.Listeners.Add(new TextWriterTraceListener("Log.txt"));
+            //Debug.Listeners.Add(new TextWriterTraceListener("Log.txt"));
             Debug.AutoFlush = true;
             Debug.IndentSize = 4;
             Debug.WriteLine(DateTime.Now.ToString() + " Start Server");

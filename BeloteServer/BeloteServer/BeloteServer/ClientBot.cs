@@ -50,114 +50,120 @@ namespace BeloteServer
         // Получение максимального возможного заказа для одной масти
         private Order GetOrderForSuit(CardSuit Suit)
         {
-
-            int KCount = 0;
-            int Aces = 0;
-            int AceAnd10 = 0;
-            int Ace10K = 0;
-            int Ace10KQ = 0;
-            CardList tempCardList = new CardList(botCards.ToString());
-            tempCardList.SetTrump(Suit);
-
-            // Подсчет количества козырных карт, некозырных тузов и пар некозырных туз-10, туз-10-к, туз-10-к-д
-            for (var i = 0; i < tempCardList.Count; i++)
+            Order result;
+            try
             {
-                if (tempCardList[i].IsTrump)
+                int KCount = 0;
+                int Aces = 0;
+                int AceAnd10 = 0;
+                int Ace10K = 0;
+                int Ace10KQ = 0;
+                CardList tempCardList = new CardList(botCards.ToString());
+                tempCardList.SetTrump(Suit);
+
+                // Подсчет количества козырных карт, некозырных тузов и пар некозырных туз-10, туз-10-к, туз-10-к-д
+                for (var i = 0; i < tempCardList.Count; i++)
                 {
-                    KCount++;
-                }
-                else
-                {
-                    if (tempCardList[i].Type == CardType.C_A)
+                    if (tempCardList[i].IsTrump)
                     {
-                        Aces++;
-                        if (tempCardList.Exists(new Card(CardType.C_10, tempCardList[i].Suit)))
+                        KCount++;
+                    }
+                    else
+                    {
+                        if (tempCardList[i].Type == CardType.C_A)
                         {
-                            AceAnd10++;
-                            if (tempCardList.Exists(new Card(CardType.C_K, tempCardList[i].Suit)))
+                            Aces++;
+                            if (tempCardList.Exists(new Card(CardType.C_10, tempCardList[i].Suit)))
                             {
-                                Ace10K++;
-                                if (tempCardList.Exists(new Card(CardType.C_Q, tempCardList[i].Suit)))
+                                AceAnd10++;
+                                if (tempCardList.Exists(new Card(CardType.C_K, tempCardList[i].Suit)))
                                 {
-                                    Ace10KQ++;
+                                    Ace10K++;
+                                    if (tempCardList.Exists(new Card(CardType.C_Q, tempCardList[i].Suit)))
+                                    {
+                                        Ace10KQ++;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            int orderSize = 0;
-            // Выбираем размер ставки при игре с козырем
-            if (Suit != CardSuit.C_NONE)
-            {
-                bool JackK = tempCardList.Exists(new Card(CardType.C_J, Suit));
-                bool NineK = tempCardList.Exists(new Card(CardType.C_9, Suit));
-                
-                if ((JackK) && (NineK) && ((KCount + Aces) >= 4))
-                    orderSize = 80;
-                if ((JackK) && (NineK) && ((KCount + Aces) >= 5))
-                    orderSize = 90;
-                if ((JackK) && (NineK) && ((KCount + Aces) >= 5) && (AceAnd10 > 0))
-                    orderSize = 100;
-                if ((JackK) && (NineK) && (KCount >= 4) && (Aces >= 2))
-                    orderSize = 110;
-                if ((JackK) && (NineK) && (KCount >= 5) && (Aces >= 1))
-                    orderSize = 120;
-                if ((JackK) && (NineK) && (KCount >= 5) && (Aces >= 2))
-                    orderSize = 130;
-                if ((JackK) && (NineK) && (KCount >= 5) && (Aces >= 2) && (AceAnd10 > 0))
-                    orderSize = 140;
-                if ((JackK) && (KCount >= 6) && (Aces >= 1))
-                    orderSize = 150;
-                if ((JackK) && (KCount >= 7))
-                    orderSize = 160;
-                if (KCount == 8)
-                    orderSize = 250;
-                if ((tempCardList.IsBelote) && (orderSize != 0))
-                    orderSize += 20;
-            }
-            // Выбираем размер ставки при игре без козыря
-            else
-            {
-                if (Aces >= 3)
-                    orderSize = 80;
-                if ((Aces >= 3) && (AceAnd10 >= 1))
-                    orderSize = 90;
-                if ((Aces >= 3) && (AceAnd10 >= 2))
-                    orderSize = 100;
-                if ((Aces >= 3) && (AceAnd10 >= 3))
-                    orderSize = 110;
-                if ((Aces >= 3) && (AceAnd10 >= 2) && (Ace10K > 0))
-                    orderSize = 120;
-                if ((Aces >= 3) && (AceAnd10 >= 2) && (Ace10KQ > 0))
-                    orderSize = 130;
-                if ((Aces >= 4) && (AceAnd10 >= 1))
-                    orderSize = 140;
-                if ((Aces >= 4) && (AceAnd10 >= 2))
-                    orderSize = 150;
-                if ((Aces >= 4) && (AceAnd10 >= 3))
-                    orderSize = 160;
-                if ((Aces >= 4) && (AceAnd10 >= 4))
-                    orderSize = 250;
-            }
-            Order result;
-            if (orderSize == 0)
-            {
-                result = new Order(OrderType.ORDER_PASS, orderSize, CardSuit.C_NONE);
-            }
-            else
-            {
-                if (orderSize >= 250)
+                int orderSize = 0;
+                // Выбираем размер ставки при игре с козырем
+                if (Suit != CardSuit.C_NONE)
                 {
-                    result = new Order(OrderType.ORDER_CAPOT, orderSize, Suit);
+                    bool JackK = tempCardList.Exists(new Card(CardType.C_J, Suit));
+                    bool NineK = tempCardList.Exists(new Card(CardType.C_9, Suit));
+
+                    if ((JackK) && (NineK) && ((KCount + Aces) >= 4))
+                        orderSize = 80;
+                    if ((JackK) && (NineK) && ((KCount + Aces) >= 5))
+                        orderSize = 90;
+                    if ((JackK) && (NineK) && ((KCount + Aces) >= 5) && (AceAnd10 > 0))
+                        orderSize = 100;
+                    if ((JackK) && (NineK) && (KCount >= 4) && (Aces >= 2))
+                        orderSize = 110;
+                    if ((JackK) && (NineK) && (KCount >= 5) && (Aces >= 1))
+                        orderSize = 120;
+                    if ((JackK) && (NineK) && (KCount >= 5) && (Aces >= 2))
+                        orderSize = 130;
+                    if ((JackK) && (NineK) && (KCount >= 5) && (Aces >= 2) && (AceAnd10 > 0))
+                        orderSize = 140;
+                    if ((JackK) && (KCount >= 6) && (Aces >= 1))
+                        orderSize = 150;
+                    if ((JackK) && (KCount >= 7))
+                        orderSize = 160;
+                    if (KCount == 8)
+                        orderSize = 250;
+                    if ((tempCardList.IsBelote) && (orderSize != 0))
+                        orderSize += 20;
+                }
+                // Выбираем размер ставки при игре без козыря
+                else
+                {
+                    if (Aces >= 3)
+                        orderSize = 80;
+                    if ((Aces >= 3) && (AceAnd10 >= 1))
+                        orderSize = 90;
+                    if ((Aces >= 3) && (AceAnd10 >= 2))
+                        orderSize = 100;
+                    if ((Aces >= 3) && (AceAnd10 >= 3))
+                        orderSize = 110;
+                    if ((Aces >= 3) && (AceAnd10 >= 2) && (Ace10K > 0))
+                        orderSize = 120;
+                    if ((Aces >= 3) && (AceAnd10 >= 2) && (Ace10KQ > 0))
+                        orderSize = 130;
+                    if ((Aces >= 4) && (AceAnd10 >= 1))
+                        orderSize = 140;
+                    if ((Aces >= 4) && (AceAnd10 >= 2))
+                        orderSize = 150;
+                    if ((Aces >= 4) && (AceAnd10 >= 3))
+                        orderSize = 160;
+                    if ((Aces >= 4) && (AceAnd10 >= 4))
+                        orderSize = 250;
+                }
+                if (orderSize == 0)
+                {
+                    result = new Order(OrderType.ORDER_PASS, orderSize, CardSuit.C_NONE);
                 }
                 else
                 {
-                    result = new Order(OrderType.ORDER_BET, orderSize, Suit);
+                    if (orderSize >= 250)
+                    {
+                        result = new Order(OrderType.ORDER_CAPOT, orderSize, Suit);
+                    }
+                    else
+                    {
+                        result = new Order(OrderType.ORDER_BET, orderSize, Suit);
+                    }
                 }
+                return result;
             }
-            return result;
+            catch
+            {
+                return new Order(OrderType.ORDER_PASS, 0, CardSuit.C_NONE);
+            }
         }
 
         // Просчет максимально возможного заказа
@@ -184,112 +190,119 @@ namespace BeloteServer
         // Выбор карты для хода
         private Card GetMovingCard(CardList PossibleCards)
         {
-            int movePlace = (usedCards.Count % 4) + 1;
-            // Если игрок ходит первым
-            if (movePlace == 1)
+            try
             {
-                // Если игра с козырем
-                if (botCards.CardListTrump != CardSuit.C_NONE)
+                int movePlace = (usedCards.Count % 4) + 1;
+                // Если игрок ходит первым
+                if (movePlace == 1)
                 {
-                    Card higherTrump = PossibleCards.GetHigherCard(botCards.CardListTrump);
-                    // Если какой-то козырь найден...
-                    if (higherTrump != null)
+                    // Если игра с козырем
+                    if (botCards.CardListTrump != CardSuit.C_NONE)
                     {
-                        Card higherTrumpInDeck = dontUsedCards.GetHigherCard(botCards.CardListTrump);
-                        // Если в колоде есть еще козыри...
-                        if (higherTrumpInDeck != null)
+                        Card higherTrump = PossibleCards.GetHigherCard(botCards.CardListTrump);
+                        // Если какой-то козырь найден...
+                        if (higherTrump != null)
                         {
-                            // Если у бота имеется самый старший из оставшихся козырей, то ходим им
-                            if ((higherTrump.Cost >= higherTrumpInDeck.Cost) && (higherTrump.Type != CardType.C_7))
+                            Card higherTrumpInDeck = dontUsedCards.GetHigherCard(botCards.CardListTrump);
+                            // Если в колоде есть еще козыри...
+                            if (higherTrumpInDeck != null)
+                            {
+                                // Если у бота имеется самый старший из оставшихся козырей, то ходим им
+                                if ((higherTrump.Cost >= higherTrumpInDeck.Cost) && (higherTrump.Type != CardType.C_7))
+                                {
+                                    return higherTrump;
+                                }
+                            }
+                            // Иначе это самый старший, ходим им
+                            else
                             {
                                 return higherTrump;
                             }
                         }
-                        // Иначе это самый старший, ходим им
-                        else
+                    }
+
+                    // Если козырем пойти не удалось, то пытаемся найти такую карту, чтобы она была старше всех карт оставшихся в колоде данной масти
+                    foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
+                    {
+                        if ((s == CardSuit.C_NONE) || (s == botCards.CardListTrump))
+                            continue;
+                        Card possibleCard = PossibleCards.GetHigherCard(s);
+                        Card higherCardInDeck = dontUsedCards.GetHigherCard(s);
+                        if ((higherCardInDeck != null) && (possibleCard != null))
                         {
-                            return higherTrump;
+                            if (possibleCard.ThisIsBiggerThen(higherCardInDeck))
+                                return possibleCard;
                         }
                     }
-                }
 
-                // Если козырем пойти не удалось, то пытаемся найти такую карту, чтобы она была старше всех карт оставшихся в колоде данной масти
-                foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
-                {
-                    if ((s == CardSuit.C_NONE) || (s == botCards.CardListTrump))
-                        continue;
-                    Card possibleCard = PossibleCards.GetHigherCard(s);
-                    Card higherCardInDeck = dontUsedCards.GetHigherCard(s);
-                    if ((higherCardInDeck != null) && (possibleCard != null))
+                    List<Card> lowCards = new List<Card>();
+                    // Если не удалось найти старшую карту, то пытаемся найти самую младшую из некозырных
+                    foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
                     {
-                        if (possibleCard.ThisIsBiggerThen(higherCardInDeck))
-                            return possibleCard;
+                        if ((s == CardSuit.C_NONE) || (s == botCards.CardListTrump))
+                            continue;
+                        Card lowCard = PossibleCards.GetLowerCard(s);
+                        if (lowCard != null)
+                            lowCards.Add(lowCard);
                     }
-                }
-
-                List<Card> lowCards = new List<Card>();
-                // Если не удалось найти старшую карту, то пытаемся найти самую младшую из некозырных
-                foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
-                {
-                    if ((s == CardSuit.C_NONE) || (s == botCards.CardListTrump))
-                        continue;
-                    Card lowCard = PossibleCards.GetLowerCard(s);
-                    if (lowCard != null)
-                        lowCards.Add(lowCard);
-                }
-                if (lowCards.Count > 0)
-                {
-                    if (lowCards.Count == 1)
-                        return lowCards[0];
-                    Card tempCard = lowCards[0];
-                    for (var i = 1; i < lowCards.Count - 1; i++)
+                    if (lowCards.Count > 0)
                     {
-                        if (tempCard.ThisIsBiggerThen(lowCards[i]))
-                            tempCard = lowCards[i];
+                        if (lowCards.Count == 1)
+                            return lowCards[0];
+                        Card tempCard = lowCards[0];
+                        for (var i = 1; i < lowCards.Count - 1; i++)
+                        {
+                            if (tempCard.ThisIsBiggerThen(lowCards[i]))
+                                tempCard = lowCards[i];
+                        }
+                        return tempCard;
                     }
-                    return tempCard;
-                }
 
-                // Если неудалось пойти ни одной картой, значит ходим минимальной козырной
-                Card lowTrump = PossibleCards.GetLowerCard(botCards.CardListTrump);
-                if (lowTrump != null)
-                    return lowTrump;
+                    // Если неудалось пойти ни одной картой, значит ходим минимальной козырной
+                    Card lowTrump = PossibleCards.GetLowerCard(botCards.CardListTrump);
+                    if (lowTrump != null)
+                        return lowTrump;
+                    else
+                        return PossibleCards[0];
+                }
                 else
-                    return PossibleCards[0];
+                {
+                    // Если ходит бот не первым, то сначала пытается скинуть самую младшую карту из некозырных, потом самую младшую из козырных
+                    /*List<Card> lowCards = new List<Card>();
+                    foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
+                    {
+                        if ((s == CardSuit.C_NONE) || (s == botCards.CardListTrump))
+                            continue;
+                        Card lowCard = PossibleCards.GetLowerCard(s);
+                        if (lowCard != null)
+                            lowCards.Add(lowCard);
+                    }
+                    if (lowCards.Count > 0)
+                    {
+                        if (lowCards.Count == 1)
+                            return lowCards[0];
+                        Card tempCard = lowCards[0];
+                        for (var i = 1; i < lowCards.Count - 1; i++)
+                        {
+                            if (tempCard.ThisIsBiggerThen(lowCards[i]))
+                                tempCard = lowCards[i];
+                        }
+                        return tempCard;
+                    }
+
+                    // Если неудалось пойти ни одной картой, значит ходим минимальной козырной
+                    Card lowTrump = PossibleCards.GetLowerCard(botCards.CardListTrump);
+                    if (lowTrump != null)
+                        return lowTrump;
+                    else
+                        return PossibleCards[0];*/
+                    PossibleCards.Sort();
+                    return PossibleCards[PossibleCards.Count - 1];
+                }
             }
-            else
+            catch
             {
-                // Если ходит бот не первым, то сначала пытается скинуть самую младшую карту из некозырных, потом самую младшую из козырных
-                /*List<Card> lowCards = new List<Card>();
-                foreach (CardSuit s in Enum.GetValues(typeof(CardSuit)))
-                {
-                    if ((s == CardSuit.C_NONE) || (s == botCards.CardListTrump))
-                        continue;
-                    Card lowCard = PossibleCards.GetLowerCard(s);
-                    if (lowCard != null)
-                        lowCards.Add(lowCard);
-                }
-                if (lowCards.Count > 0)
-                {
-                    if (lowCards.Count == 1)
-                        return lowCards[0];
-                    Card tempCard = lowCards[0];
-                    for (var i = 1; i < lowCards.Count - 1; i++)
-                    {
-                        if (tempCard.ThisIsBiggerThen(lowCards[i]))
-                            tempCard = lowCards[i];
-                    }
-                    return tempCard;
-                }
-
-                // Если неудалось пойти ни одной картой, значит ходим минимальной козырной
-                Card lowTrump = PossibleCards.GetLowerCard(botCards.CardListTrump);
-                if (lowTrump != null)
-                    return lowTrump;
-                else
-                    return PossibleCards[0];*/
-                PossibleCards.Sort();
-                return PossibleCards[PossibleCards.Count - 1];
+                return PossibleCards[0];
             }
         }
 
