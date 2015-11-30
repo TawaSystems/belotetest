@@ -81,7 +81,6 @@
             this.ScoreTeamInfo = new System.Windows.Forms.Label();
             this.backImageList = new System.Windows.Forms.ImageList(this.components);
             this.EndOrderPanel = new System.Windows.Forms.Panel();
-            this.EndOrderTypeLabel = new System.Windows.Forms.Label();
             this.EndOrderTeam = new System.Windows.Forms.Label();
             this.EndOrderSuit = new System.Windows.Forms.PictureBox();
             this.EndOrderSizeLabel = new System.Windows.Forms.Label();
@@ -91,6 +90,7 @@
             this.LastBribePlayer4PB = new System.Windows.Forms.PictureBox();
             this.LastBribePlayer1PB = new System.Windows.Forms.PictureBox();
             this.ScoreLastLabel = new System.Windows.Forms.Label();
+            this.EndOrderTypeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CloseButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard1PB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerCard2PB)).BeginInit();
@@ -658,22 +658,12 @@
             this.EndOrderPanel.TabIndex = 33;
             this.EndOrderPanel.Visible = false;
             // 
-            // EndOrderTypeLabel
-            // 
-            this.EndOrderTypeLabel.AutoSize = true;
-            this.EndOrderTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.EndOrderTypeLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.EndOrderTypeLabel.Location = new System.Drawing.Point(150, 5);
-            this.EndOrderTypeLabel.Name = "EndOrderTypeLabel";
-            this.EndOrderTypeLabel.Size = new System.Drawing.Size(0, 20);
-            this.EndOrderTypeLabel.TabIndex = 5;
-            // 
             // EndOrderTeam
             // 
             this.EndOrderTeam.AutoSize = true;
             this.EndOrderTeam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.EndOrderTeam.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.EndOrderTeam.Location = new System.Drawing.Point(180, 5);
+            this.EndOrderTeam.Location = new System.Drawing.Point(182, 5);
             this.EndOrderTeam.Name = "EndOrderTeam";
             this.EndOrderTeam.Size = new System.Drawing.Size(89, 20);
             this.EndOrderTeam.TabIndex = 4;
@@ -681,7 +671,7 @@
             // 
             // EndOrderSuit
             // 
-            this.EndOrderSuit.Location = new System.Drawing.Point(130, 5);
+            this.EndOrderSuit.Location = new System.Drawing.Point(122, 5);
             this.EndOrderSuit.Name = "EndOrderSuit";
             this.EndOrderSuit.Size = new System.Drawing.Size(16, 16);
             this.EndOrderSuit.TabIndex = 3;
@@ -757,6 +747,17 @@
             this.ScoreLastLabel.Size = new System.Drawing.Size(72, 17);
             this.ScoreLastLabel.TabIndex = 39;
             this.ScoreLastLabel.Text = "L   35   10";
+            // 
+            // EndOrderTypeLabel
+            // 
+            this.EndOrderTypeLabel.AutoSize = true;
+            this.EndOrderTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EndOrderTypeLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.EndOrderTypeLabel.Location = new System.Drawing.Point(144, 5);
+            this.EndOrderTypeLabel.Name = "EndOrderTypeLabel";
+            this.EndOrderTypeLabel.Size = new System.Drawing.Size(32, 20);
+            this.EndOrderTypeLabel.TabIndex = 5;
+            this.EndOrderTypeLabel.Text = "SC";
             // 
             // GameForm
             // 
@@ -904,12 +905,12 @@
         private System.Windows.Forms.Label EndOrderTeam;
         private System.Windows.Forms.PictureBox EndOrderSuit;
         private System.Windows.Forms.Label EndOrderSizeLabel;
-        private System.Windows.Forms.Label EndOrderTypeLabel;
         private System.Windows.Forms.Panel MakingMovePanel;
         private System.Windows.Forms.PictureBox LastBribePlayer3PB;
         private System.Windows.Forms.PictureBox LastBribePlayer2PB;
         private System.Windows.Forms.PictureBox LastBribePlayer4PB;
         private System.Windows.Forms.PictureBox LastBribePlayer1PB;
         private System.Windows.Forms.Label ScoreLastLabel;
+        private System.Windows.Forms.Label EndOrderTypeLabel;
     }
 }

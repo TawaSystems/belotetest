@@ -344,10 +344,14 @@ namespace BeloteServer
                     betType = BetType.BET_CAPOT;
                 }
                 else
-                // Если уже был сделан хотя бы один заказ, то можно ответить заказом или контрой
+                // Если уже был сделан хотя бы один заказ, то можно ответить заказом или контрой на заказ другой команды
                 if (distributions.Current.Orders.Current != null)
                 {
-                    betType = BetType.T_BETABET;
+                    BeloteTeam curTeam = ((currentPlayer == 1) || (currentPlayer == 3)) ? BeloteTeam.TEAM1_1_3 : BeloteTeam.TEAM2_2_4;
+                    if (distributions.Current.Orders.OrderedTeam == curTeam)
+                        betType = BetType.T_BET;
+                    else
+                        betType = BetType.T_BETABET;
                 }
                 // Если еще ни одного заказа не сделано, то можно ответить только заказом
                 else

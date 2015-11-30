@@ -33,6 +33,11 @@ namespace BeloteClient
                         ContraButton.Visible = false;
                         break;
                     }
+                case BetType.T_BETABET:
+                    {
+                        ContraButton.Visible = true;
+                        break;
+                    }
                 case BetType.BET_CAPOT:
                     {
                         CapotCheck.Checked = true;
