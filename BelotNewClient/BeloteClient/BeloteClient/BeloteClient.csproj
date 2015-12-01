@@ -84,6 +84,13 @@
   <ItemGroup>
     <Compile Include="New source\Level0%28Base Classes%29\BeloteEnums.cs" />
     <Compile Include="New source\Level1%28Server%29\BeloteClientException.cs" />
+    <Compile Include="New source\Level2%28Server Actions%29\AuthorizationActions.cs" />
+    <Compile Include="New source\Level2%28Server Actions%29\BaseActionsType.cs" />
+    <Compile Include="New source\Level2%28Server Actions%29\GameActions.cs" />
+    <Compile Include="New source\Level2%28Server Actions%29\MessageHandlers.cs" />
+    <Compile Include="New source\Level2%28Server Actions%29\PlayersActions.cs" />
+    <Compile Include="New source\Level2%28Server Actions%29\TablesActions.cs" />
+    <Compile Include="New source\Level3%28Game Data%29\ClientInformation.cs" />
     <Compile Include="Old\BetFormType4.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,7 +133,7 @@
     <Compile Include="New source\Level0%28Base Classes%29\PlayersList.cs" />
     <Compile Include="New source\Level0%28Base Classes%29\Profile.cs" />
     <Compile Include="New source\Level1%28Server%29\Message.cs" />
-    <Compile Include="Old\ServerActions.cs" />
+    <Compile Include="New source\Level2%28Server Actions%29\ServerActions.cs" />
     <Compile Include="New source\Level1%28Server%29\ServerConnection.cs" />
     <Compile Include="Old\EmailAutorizationForm.cs">
       <SubType>Form</SubType>
@@ -148,6 +155,7 @@
       <DependentUpon>MainUserForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Old\Program.cs" />
+    <Compile Include="New source\Level2%28Server Actions%29\TestActions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Old\RegistrationEmail.cs">
       <SubType>Form</SubType>
@@ -247,8 +255,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="New source\Level2%28Server Actions%29\" />
-    <Folder Include="New source\Level3%28Game Data%29\" />
     <Folder Include="New source\Level4%28Graphic Helpers%29\" />
     <Folder Include="New source\Level5%28Graphic%29\" />
   </ItemGroup>

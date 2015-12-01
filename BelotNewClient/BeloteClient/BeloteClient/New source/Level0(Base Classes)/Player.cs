@@ -21,7 +21,7 @@ namespace BeloteClient
             Profile.Id = Id;
         }
 
-        public Player(Dictionary<string, string> pParams)
+        public Player(MessageResult pParams)
         {
             Statistics = new Statistics();
             Profile = new Profile();

@@ -59,61 +59,8 @@ namespace BeloteClient
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
-        public void UpdatePlayers()
-        {
-            Players.Clear();
-            Players.Add(Player);
-            if (Tables.Count > 0)
-            {
-                for (var i = 0; i < Tables.Count; i++)
-                {
-                    Player p = null;
-                    Table t = Tables.GetTableAt(i);
-                    if (!Players.PlayerExists(t.TableCreator))
-                    {
-                        p = serverActions.GetPlayer(t.TableCreator);
-                        if (p != null)
-                            Players.Add(p);
-                    }
-                    if (t.Player2 >= 0)
-                    {
-                        if (!Players.PlayerExists(t.Player2))
-                        {
-                            p = serverActions.GetPlayer(t.Player2);
-                            if (p != null)
-                                Players.Add(p);
-                        }
-                    }
-                    if (t.Player3 >= 0)
-                    {
-                        if (!Players.PlayerExists(t.Player3))
-                        {
-                            p = serverActions.GetPlayer(t.Player3);
-                            if (p != null)
-                                Players.Add(p);
-                        }
-                    }
-                    if (t.Player4 >= 0)
-                    {
-                        if (!Players.PlayerExists(t.Player4))
-                        {
-                            p = serverActions.GetPlayer(t.Player4);
-                            if (p != null)
-                                Players.Add(p);
-                        }
-                    }
-                }
-            }
-        }
 
-        // Добавление информации о всех доступных столах и игроках с них в соответствующие списки
-        public void UpdatePossibleTables()
-        {
-            Tables = serverActions.GetAllPossibleTables();
-            if (Tables == null)
-                Tables = new TablesList();
-            UpdatePlayers();
-        }
+
 
         public void ChangeCurrentTable(Table newCurrentTable)
         {
@@ -954,24 +901,6 @@ namespace BeloteClient
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
 
-        public ServerActions serverActions
-        {
-            get;
-            private set;
-        }
-
-        public Player Player
-        {
-            get;
-            private set;
-        }
-
-        public TablesList Tables
-        {
-            get;
-            private set;
-        }
-
         public Table CurrentTable
         {
             get;
@@ -979,12 +908,6 @@ namespace BeloteClient
         }
 
         public int Place
-        {
-            get;
-            private set;
-        }
-
-        public PlayersList Players
         {
             get;
             private set;

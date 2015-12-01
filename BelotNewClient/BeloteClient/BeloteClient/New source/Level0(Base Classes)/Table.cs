@@ -30,7 +30,7 @@ namespace BeloteClient
             this.Player4 = -1;
         }
 
-        public Table(Dictionary<string, string> tParams)
+        public Table(MessageResult tParams)
         {
             ID = Int32.Parse(tParams["ID"]);
             Bet = Int32.Parse(tParams["Bet"]);
@@ -63,6 +63,27 @@ namespace BeloteClient
         {
             get;
             private set;
+        }
+
+        // Возвращает номер игрока по месту посадки
+        public int this[int Place]
+        {
+            get
+            {
+                switch (Place)
+                {
+                    case 1:
+                        return TableCreator;
+                    case 2:
+                        return Player2;
+                    case 3:
+                        return Player3;
+                    case 4:
+                        return Player4;
+                    default:
+                        return -1;
+                }
+            }
         }
 
         public int TableCreator

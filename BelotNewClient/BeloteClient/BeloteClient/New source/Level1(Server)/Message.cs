@@ -36,4 +36,23 @@ namespace BeloteClient
 
     // Делегат - обработчик сообщений
     public delegate void MessageDelegate(Message msg);
+
+    // Результат сообщения
+    public class MessageResult
+    {
+        private Dictionary<string, string> mParams;
+
+        public MessageResult(Message message)
+        {
+            mParams = Helpers.SplitCommandString(message.Msg);
+        }
+
+        public string this[string Key]
+        {
+            get
+            {
+                return mParams[Key];
+            }
+        }
+    }
 }

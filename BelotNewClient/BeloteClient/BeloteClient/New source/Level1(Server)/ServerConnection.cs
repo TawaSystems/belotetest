@@ -233,9 +233,9 @@ namespace BeloteClient
         }
 
         // Выполнение команды на сервере и получение результата в виде словаря
-        public Dictionary<string, string> ExecuteMessage(Message msg)
+        public MessageResult ExecuteMessage(Message msg)
         {
-            return Helpers.SplitCommandString(ExecuteMessageGetMessage(msg).Msg);
+            return new MessageResult(ExecuteMessageGetMessage(msg));
         }
 
         // Выполняет сообщение без ожидания результата
