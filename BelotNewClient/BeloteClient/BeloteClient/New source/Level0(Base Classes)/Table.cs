@@ -59,6 +59,28 @@ namespace BeloteClient
             ID = NewID;
         }
 
+        public void SetPlayerAtPlace(int PlayerID, int Place)
+        {
+            switch (Place)
+            {
+                case 2:
+                    {
+                        Player2 = PlayerID;
+                        break;    
+                    }
+                case 3:
+                    {
+                        Player3 = PlayerID;
+                        break;
+                    }
+                case 4:
+                    {
+                        Player4 = PlayerID;
+                        break;
+                    }
+            }
+        }
+
         public int ID
         {
             get;

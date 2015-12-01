@@ -2,6 +2,14 @@
 
 namespace BeloteClient
 {
+    // Статус игрового процесса
+    public enum GameStatus
+    {
+        NON_GAME = 0,
+        WAITING = 1,
+        GAMING = 2
+    }
+
     // Статус игрового стола
     public enum TableStatus
     {

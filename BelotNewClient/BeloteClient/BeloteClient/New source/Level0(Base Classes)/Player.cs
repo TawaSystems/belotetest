@@ -60,6 +60,14 @@ namespace BeloteClient
             get;
             private set;
         }
+
+        public int ID
+        {
+            get
+            {
+                return Profile.Id;
+            }
+        }
         
     }
 }

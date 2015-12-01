@@ -62,21 +62,6 @@ namespace BeloteClient
 
 
 
-        public void ChangeCurrentTable(Table newCurrentTable)
-        {
-            Tables.Clear();
-            CurrentTable = newCurrentTable;
-            if (CurrentTable != null)
-            {
-                Tables.AddTable(CurrentTable);
-            }
-            UpdatePlayers();
-        }
-
-        public void ChangeCurrentPlace(int newPlace)
-        {
-            Place = newPlace;
-        }
 
         private int NextPlaceNumber(int curPlace)
         {
@@ -167,7 +152,7 @@ namespace BeloteClient
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
         // Регистрация с помощью электронной почты
-        public void RegistrationEmail(string Email, string Password, string Nickname, string Sex, string Country)
+        /*public void RegistrationEmail(string Email, string Password, string Nickname, string Sex, string Country)
         {
             if (serverActions.RegistrationEmail(Email, Password, Nickname, Sex, Country))
             {
@@ -177,10 +162,10 @@ namespace BeloteClient
             {
                 MessageBox.Show("Регистрация не удалась");
             }
-        }
+        }*/
 
         // Авторизация с помощью электронной почты
-        public void AutorizationEmail(string Email, string Password)
+        /*public void AutorizationEmail(string Email, string Password)
         {
             int PlayerID;
             if (serverActions.AutorizationEmail(Email, Password, out PlayerID))
@@ -198,10 +183,10 @@ namespace BeloteClient
             {
                 MessageBox.Show("Не удалось войти");
             }
-        }
+        }*/
 
         // Создание тренировочного стола
-        public void CreateTrainingTable()
+        /*public void CreateTrainingTable()
         {
             Table t = serverActions.CreateTable(this.Player.Profile.Id, 0, true, false, 0, false, false, false, false);
             if (t != null)
@@ -223,9 +208,9 @@ namespace BeloteClient
             {
                 MessageBox.Show("Не удалось создать игровой стол");
             }
-        }
+        }*/
 
-        public void CreateTable(int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility,
+        /*public void CreateTable(int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility,
             bool VIPOnly, bool Moderation, bool AI)
         {
             Table t = serverActions.CreateTable(this.Player.Profile.Id, Bet, PlayersVisibility, Chat, MinimalLevel, TableVisibility,
@@ -249,10 +234,10 @@ namespace BeloteClient
             {
                 MessageBox.Show("Не удалось создать игровой стол");
             }
-        }
+        }*/
 
         // Посадка на игровой стол
-        public void EnterTheTable(int PlayerPlace, int TableID)
+        /*public void EnterTheTable(int PlayerPlace, int TableID)
         {
             if (Tables[TableID] == null)
                 return;
@@ -276,10 +261,10 @@ namespace BeloteClient
                 MessageBox.Show("Не удалось сесть на игровой стол");
                 userForm.UpdateTables();
             }
-        }
+        }*/
 
         // Выход игрока со стола. IsSelf - сам ли игрок вышел со стола
-        public void ExitFromTable(bool IsSelf)
+        /*public void ExitFromTable(bool IsSelf)
         {
             if (IsSelf)
                 serverActions.ExitPlayerFromTable(Place);
@@ -292,9 +277,9 @@ namespace BeloteClient
             userForm.UpdateTables();
             userForm.Show();
         }
-
+        */
         // Добавление бота на стол
-        public void AddBot(int BotPlace)
+        /*public void AddBot(int BotPlace)
         {
             if (serverActions.AddBotToTable(BotPlace))
             {
@@ -325,13 +310,8 @@ namespace BeloteClient
             {
                 MessageBox.Show("Не удалось добавить бота на стол!");
             }
-        }
+        }*/
 
-        // Удаление бота с игрового стола
-        public void DeleteBot(int BotPlace)
-        {
-            serverActions.DeleteBotFromTable(BotPlace);
-        }
 
         // Игрок совершает ход. Параметр - индекс карты в списке всех карт
         public void MakeMove(int CardIndex)
