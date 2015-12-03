@@ -214,7 +214,7 @@ namespace BeloteClient
         }
 
         // Выход игрока со стола. IsSelf - сам ли игрок вышел со стола
-        public void ExitFromTable(bool IsSelf)
+        private void ExitFromTable(bool IsSelf)
         {
             if (IsSelf)
             {
@@ -545,6 +545,53 @@ namespace BeloteClient
             catch (Exception Ex)
             {
                 throw new BeloteClientException("Произошла ошибка при завершении игры", Ex);
+            }
+        }
+
+        //**********************************************************************************************************************************************************************************
+        //                      Совершаемые игроком действия: ход, объявление заявки и т.д.
+        //**********************************************************************************************************************************************************************************
+
+        // Игрок совершает ход. Параметр - индекс карты в списке всех карт
+        public void MakeMove(Card c)
+        {
+            try
+            {
+                Card card = gameData.AllCards[c.Type, c.Suit];
+                gameData.AllCards.Remove(card);
+                gameData.IsMakingMove = false;
+                serverActions.Game.PlayerMakeMove(card);
+            }
+            catch (Exception Ex)
+            {
+                throw new BeloteClientException("Произошла ошибка во время хода игрока", Ex);
+            }
+        }
+
+        // Выход игрока со стола
+        public void QuitTable()
+        {
+            try
+            {
+                ExitFromTable(true);
+            }
+            catch (Exception Ex)
+            {
+                throw new BeloteClientException("Произошла ошибка при выходе игрока со стола", Ex);
+            }
+        }
+
+        // Сделать заказ
+        public void MakeOrder(Order order)
+        {
+            try
+            {
+                serverActions.Game.PlayerMakeOrder(order);
+                gameData.IsMakingMove = false;
+            }
+            catch (Exception Ex)
+            {
+                throw new BeloteClientException("Произошла ошибка во время совершения заказа", Ex);
             }
         }
 

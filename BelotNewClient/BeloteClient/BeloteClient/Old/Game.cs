@@ -313,49 +313,7 @@ namespace BeloteClient
         }*/
 
 
-        // Игрок совершает ход. Параметр - индекс карты в списке всех карт
-        public void MakeMove(int CardIndex)
-        {
-            Card card = AllCards[CardIndex];
-            AllCards.Remove(card);
-            IsMakingMove = false;
-            serverActions.PlayerMakeMove(card);
-            gameForm.UpdateGraphics();
-        }
 
-        // Выход игрока со стола
-        public void QuitTable()
-        {
-            //SetGameHandlers(false);
-            if (Place != 1)
-            {
-                serverActions.PlayerQuitFromTable();
-            }
-            else
-            {// Завершаем игру иначе
-                SetGameHandlers(false);
-                serverActions.ExitPlayerFromTable(Place);
-                ChangeCurrentTable(null);
-                ChangeCurrentPlace(-1);
-                if (betForm123 != null)
-                    betForm123.Close();
-                if (betForm4 != null)
-                    betForm4.Close();
-                MessageBox.Show("Игра завершена. Кто-то вышел со стола");
-                gameForm.Close();
-                gameForm = null;
-                userForm = new MainUserForm(this);
-                userForm.UpdateTables();
-                userForm.Show();
-            }
-        }
-
-        // Сделать заказ
-        public void MakeOrder(Order order)
-        {
-            serverActions.PlayerMakeOrder(order);
-            IsMakingMove = false;
-        }
 
         /// <summary>
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
