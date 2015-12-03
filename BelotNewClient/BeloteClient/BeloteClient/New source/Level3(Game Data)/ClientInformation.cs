@@ -8,11 +8,20 @@ namespace BeloteClient
 {
     class ClientInformation
     {
+        //**********************************************************************************************************************************************************************************
+        //                      Поля данных
+        //**********************************************************************************************************************************************************************************
         private ServerActions serverActions;
         private Player player;
         private TablesList tablesList;
         private PlayersList playersList;
+        private Table currentTable;
+        private int place;
 
+
+        //**********************************************************************************************************************************************************************************
+        //                      Конструкторы
+        //**********************************************************************************************************************************************************************************
         public ClientInformation()
         {
             try
@@ -20,13 +29,18 @@ namespace BeloteClient
                 serverActions = new ServerActions();
                 tablesList = new TablesList();
                 playersList = new PlayersList();
-                CurrentGame = new GameProcess(serverActions);
+                place = -1;
+                Status = GameStatus.NON_GAME;
             }
             catch (Exception Ex)
             {
                 throw new BeloteClientException("Невозможно начать взаимодействие с сервером", Ex);
             }
         }
+
+        //**********************************************************************************************************************************************************************************
+        //                      Вспомогательные закрытые методы для работы со списками игроков и столов
+        //**********************************************************************************************************************************************************************************
 
         // Составляет список игроков со всех доступных столов для быстрой возможности получения информации
         private void UpdatePlayers()
@@ -57,16 +71,23 @@ namespace BeloteClient
         }
 
         // Смена текущего игрового стола
-        private void ChangeCurrentTable(Table newCurrentTable, int newPlace)
+        private void ChangeCurrentTable(Table newCurrentTable, int newPlace = -1)
         {
             tablesList.Clear();
-            CurrentGame.ChangeTable(newCurrentTable, newPlace);
+            currentTable = newCurrentTable;
+            place = (currentTable == null) ? -1 : newPlace;
+            Status = (currentTable == null) ? GameStatus.NON_GAME : GameStatus.WAITING;
             if (newCurrentTable != null)
             {
                 tablesList.AddTable(newCurrentTable);
             }
             UpdatePlayers();
         }
+
+
+        //**********************************************************************************************************************************************************************************
+        //                      Методы авторизации
+        //**********************************************************************************************************************************************************************************
 
         // Регистрация с помощью электронной почты
         public bool RegistrationEmail(string Email, string Password, string Nickname, string Sex, string Country)
@@ -97,6 +118,11 @@ namespace BeloteClient
             }
         }
 
+
+        //**********************************************************************************************************************************************************************************
+        //                      Методы работы со столами: обновление списка столов, создание, посадка на стол, выход со стола
+        //**********************************************************************************************************************************************************************************
+
         // Добавление информации о всех доступных столах и игроках с них в соответствующие списки
         public void UpdatePossibleTables()
         {
@@ -116,7 +142,6 @@ namespace BeloteClient
             {
                 ChangeCurrentTable(t, 1);
                 //SetPreGameHandlers(true);
-                //waitingForm.UpdateLabels();
                 return true;
             }
             else
@@ -135,7 +160,7 @@ namespace BeloteClient
                 //SetPreGameHandlers(true);
                 for (var i = 2; i <= 4; i++)
                 {
-                    CurrentGame.AddBot(i);
+                    AddBot(i);
                 }
                 return true;
             }
@@ -153,7 +178,7 @@ namespace BeloteClient
             if (serverActions.Tables.AddPlayerToTable(TableID, PlayerPlace))
             {
                 ChangeCurrentTable(serverActions.Tables.GetTable(TableID), PlayerPlace);
-                if (CurrentGame.CurrentTable == null)
+                if (currentTable == null)
                     return false;
                 //SetPreGameHandlers(true);
                 serverActions.Tables.TestFullfillTable();
@@ -164,6 +189,108 @@ namespace BeloteClient
                 return false;
             }
         }
+
+        // Добавление бота на текущий стол
+        public bool AddBot(int BotPlace)
+        {
+            if (currentTable == null)
+                return false;
+            if (serverActions.Tables.AddBotToTable(BotPlace))
+            {
+                currentTable.SetPlayerAtPlace(-BotPlace, BotPlace);
+                serverActions.Tables.TestFullfillTable();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // Удаление бота с игрового стола
+        public void DeleteBot(int BotPlace)
+        {
+            serverActions.Tables.DeleteBotFromTable(BotPlace);
+        }
+
+        // Выход игрока со стола. IsSelf - сам ли игрок вышел со стола
+        public void ExitFromTable(bool IsSelf)
+        {
+            if (IsSelf)
+            {
+                if (Status == GameStatus.WAITING)
+                    serverActions.Tables.ExitPlayerFromTable(place);
+                else
+                    serverActions.Game.PlayerQuitFromTable(place);
+            }
+            //SetPreGameHandlers(false);
+            ChangeCurrentTable(null);
+        }
+
+        //**********************************************************************************************************************************************************************************
+        //                      Методы установки и снятия обработчиков игровых событий
+        //**********************************************************************************************************************************************************************************
+
+        // Устанавливает все необходимые обработчики событий для игры
+        private void SetPreGameHandlers(bool IsSet)
+        {
+            // Установка
+            if (IsSet)
+            {
+                serverActions.Handlers.SetPreGameHandlers(PlayerAddHandler, PlayerDeleteHandler, CreatorLeaveHandler, StartGameHandler);
+            }
+            // Снятие
+            else
+            {
+                serverActions.Handlers.UnsetPreGameHandlers(PlayerAddHandler, PlayerDeleteHandler, CreatorLeaveHandler, StartGameHandler);
+            }
+        }
+
+        //**********************************************************************************************************************************************************************************
+        //                      Обработчики доигровых событий: посадка игрока на стол, удаление игрока со стола, старт игры
+        //**********************************************************************************************************************************************************************************
+
+        // Обработчик добавления другого игрока на стол
+        private void PlayerAddHandler(Message Msg)
+        {
+            MessageResult pParams = new MessageResult(Msg);
+            int PlayerID = Int32.Parse(pParams["Player"]);
+            int PlayerPlace = Int32.Parse(pParams["Place"]);
+            currentTable.SetPlayerAtPlace(PlayerID, PlayerPlace);
+            if (!Players.PlayerExists(PlayerID))
+            {
+                Player p = serverActions.Players.GetPlayer(PlayerID);
+                if (p != null)
+                    Players.Add(p);
+            }
+        }
+
+        // Обработчик удаление другого игрока со стола
+        private void PlayerDeleteHandler(Message Msg)
+        {
+            MessageResult pParams = new MessageResult(Msg);
+            int PlayerPlace = Int32.Parse(pParams["Place"]);
+            Players.Delete(Players[currentTable[PlayerPlace]]);
+            currentTable.SetPlayerAtPlace(-1, PlayerPlace);
+        }
+
+        // Обработчик выхода со стола создателя
+        private void CreatorLeaveHandler(Message Msg)
+        {
+            ExitFromTable(false);
+        }
+
+        // Обработка начала игры
+        private void StartGameHandler(Message Msg)
+        {
+            SetPreGameHandlers(false);
+            Status = GameStatus.GAMING;
+            SetGameHandlers(true);
+        }
+
+        //**********************************************************************************************************************************************************************************
+        //                      Основные доступные извне игровые свойства
+        //**********************************************************************************************************************************************************************************
 
         // Список столов
         public TablesList Tables
@@ -183,8 +310,7 @@ namespace BeloteClient
             }
         }
 
-        // Текущий игровой процесс
-        public GameProcess CurrentGame
+        public GameStatus Status
         {
             get;
             private set;
