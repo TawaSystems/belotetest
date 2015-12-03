@@ -90,7 +90,11 @@
     <Compile Include="New source\Level2%28Server Actions%29\MessageHandlers.cs" />
     <Compile Include="New source\Level2%28Server Actions%29\PlayersActions.cs" />
     <Compile Include="New source\Level2%28Server Actions%29\TablesActions.cs" />
+    <Compile Include="New source\Level3%28Game Data%29\Bribes.cs" />
     <Compile Include="New source\Level3%28Game Data%29\ClientInformation.cs" />
+    <Compile Include="New source\Level3%28Game Data%29\GameData.cs" />
+    <Compile Include="New source\Level3%28Game Data%29\Orders.cs" />
+    <Compile Include="New source\Level3%28Game Data%29\Scores.cs" />
     <Compile Include="Old\BetFormType4.cs">
       <SubType>Form</SubType>
     </Compile>
