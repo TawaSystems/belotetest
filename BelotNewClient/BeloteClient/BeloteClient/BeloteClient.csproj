@@ -90,29 +90,30 @@
     <Compile Include="New source\Level2%28Server Actions%29\MessageHandlers.cs" />
     <Compile Include="New source\Level2%28Server Actions%29\PlayersActions.cs" />
     <Compile Include="New source\Level2%28Server Actions%29\TablesActions.cs" />
+    <Compile Include="New source\Level3%28Game Data%29\BonusesTypes.cs" />
     <Compile Include="New source\Level3%28Game Data%29\Bribes.cs" />
     <Compile Include="New source\Level3%28Game Data%29\ClientInformation.cs" />
     <Compile Include="New source\Level3%28Game Data%29\GameData.cs" />
     <Compile Include="New source\Level3%28Game Data%29\Orders.cs" />
     <Compile Include="New source\Level3%28Game Data%29\Scores.cs" />
     <Compile Include="New source\Level4%28Graphic Helpers%29\CoordinatesTransmitor.cs" />
-    <Compile Include="Old\BetFormType4.cs">
+    <Compile Include="New source\Level5%28Graphic%29\BetFormType4.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Old\BetFormType4.Designer.cs">
+    <Compile Include="New source\Level5%28Graphic%29\BetFormType4.Designer.cs">
       <DependentUpon>BetFormType4.cs</DependentUpon>
     </Compile>
-    <Compile Include="Old\BetFromType123.cs">
+    <Compile Include="New source\Level5%28Graphic%29\BetFromType123.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Old\BetFromType123.Designer.cs">
+    <Compile Include="New source\Level5%28Graphic%29\BetFromType123.Designer.cs">
       <DependentUpon>BetFromType123.cs</DependentUpon>
     </Compile>
     <Compile Include="New source\Level0%28Base Classes%29\Bonus.cs" />
-    <Compile Include="Old\BonusAnnounceForm.cs">
+    <Compile Include="New source\Level5%28Graphic%29\BonusAnnounceForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Old\BonusAnnounceForm.Designer.cs">
+    <Compile Include="New source\Level5%28Graphic%29\BonusAnnounceForm.Designer.cs">
       <DependentUpon>BonusAnnounceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="New source\Level0%28Base Classes%29\BonusList.cs" />
@@ -125,11 +126,11 @@
     <Compile Include="New source\Level5%28Graphic%29\CreatingTableForm.Designer.cs">
       <DependentUpon>CreatingTableForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Old\Game.cs" />
-    <Compile Include="Old\GameForm.cs">
+    <Compile Include="New source\Level4%28Graphic Helpers%29\Game.cs" />
+    <Compile Include="New source\Level5%28Graphic%29\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Old\GameForm.Designer.cs">
+    <Compile Include="New source\Level5%28Graphic%29\GameForm.Designer.cs">
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="New source\Level0%28Base Classes%29\Messages.cs" />
@@ -177,13 +178,13 @@
     <Compile Include="New source\Level5%28Graphic%29\WaitingForm.Designer.cs">
       <DependentUpon>WaitingForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Old\BetFormType4.resx">
+    <EmbeddedResource Include="New source\Level5%28Graphic%29\BetFormType4.resx">
       <DependentUpon>BetFormType4.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Old\BetFromType123.resx">
+    <EmbeddedResource Include="New source\Level5%28Graphic%29\BetFromType123.resx">
       <DependentUpon>BetFromType123.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Old\BonusAnnounceForm.resx">
+    <EmbeddedResource Include="New source\Level5%28Graphic%29\BonusAnnounceForm.resx">
       <DependentUpon>BonusAnnounceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="New source\Level5%28Graphic%29\CreatingTableForm.resx">
@@ -192,7 +193,7 @@
     <EmbeddedResource Include="New source\Level5%28Graphic%29\EmailAutorizationForm.resx">
       <DependentUpon>EmailAutorizationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Old\GameForm.resx">
+    <EmbeddedResource Include="New source\Level5%28Graphic%29\GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="New source\Level5%28Graphic%29\MainForm.resx">

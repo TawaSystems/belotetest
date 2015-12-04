@@ -16,6 +16,9 @@ namespace BeloteClient
             LastDistributionScores = new Scores();
             Orders = new Orders();
             Bribes = new Bribes();
+            AnnouncedBonuses = new BonusesTypes();
+            AllCards = new CardList();
+            PossibleCards = new CardList();
             IsMakingMove = false;
         }
 
@@ -90,6 +93,13 @@ namespace BeloteClient
 
         // Бонусы игрока
         public BonusList Bonuses
+        {
+            get;
+            set;
+        }
+
+        // Все оглашенные бонусы
+        public BonusesTypes AnnouncedBonuses
         {
             get;
             set;

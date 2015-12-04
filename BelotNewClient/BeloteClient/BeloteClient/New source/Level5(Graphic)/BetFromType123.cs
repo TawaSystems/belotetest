@@ -22,6 +22,8 @@ namespace BeloteClient
 
         public void ShowForm(int MinBetSize, BetType betType)
         {
+            if (this.Visible == true)
+                return;
             OrderSizeUpDown.Minimum = MinBetSize;
             OrderSizeUpDown.Value = MinBetSize;
             CapotCheck.Enabled = (MinBetSize >= 250);
@@ -47,6 +49,7 @@ namespace BeloteClient
             }
             ShowDialog();
         }
+
         private CardSuit GetOrderSuit()
         {
             if (WithoutTrumpCheck.Checked)

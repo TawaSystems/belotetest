@@ -40,9 +40,9 @@ namespace BeloteClient
 
         private void UpdateBonusCheckList()
         {
-            for (var i = 0; i < game.Bonuses.Count; i++)
+            for (var i = 0; i < game.Information.GameData.Bonuses.Count; i++)
             {
-                BonusesCheckList.Items.Add(TextFromBonusType(game.Bonuses[i].Type));
+                BonusesCheckList.Items.Add(TextFromBonusType(game.Information.GameData.Bonuses[i].Type));
             }
         }
 
@@ -75,26 +75,26 @@ namespace BeloteClient
             {
                 return;
             }
-            BonusTypeLabel.Text = String.Format("Тип бонуса: {0}", TextFromBonusType(game.Bonuses[index].Type));
-            if (game.Bonuses[index].Suit != CardSuit.C_NONE)
-                SuitImage.Image = suitesImageList.Images[(int)game.Bonuses[index].Suit - 1];
+            BonusTypeLabel.Text = String.Format("Тип бонуса: {0}", TextFromBonusType(game.Information.GameData.Bonuses[index].Type));
+            if (game.Information.GameData.Bonuses[index].Suit != CardSuit.C_NONE)
+                SuitImage.Image = suitesImageList.Images[(int)game.Information.GameData.Bonuses[index].Suit - 1];
             else
                 SuitImage.Image = null;
-            IsTrumpCheckBox.Visible = (game.Bonuses[index].Type != BonusType.BONUS_4X);
-            IsTrumpCheckBox.Checked = game.Bonuses[index].IsTrump;
-            if (game.Bonuses[index].Type != BonusType.BONUS_4X)
+            IsTrumpCheckBox.Visible = (game.Information.GameData.Bonuses[index].Type != BonusType.BONUS_4X);
+            IsTrumpCheckBox.Checked = game.Information.GameData.Bonuses[index].IsTrump;
+            if (game.Information.GameData.Bonuses[index].Type != BonusType.BONUS_4X)
             {
-                HighCardLabel.Text = String.Format("Старшая карта: {0}", TextCardFromCard(game.Bonuses[index].HighCard));
+                HighCardLabel.Text = String.Format("Старшая карта: {0}", TextCardFromCard(game.Information.GameData.Bonuses[index].HighCard));
             }
             else
             {
-                HighCardLabel.Text = String.Format("Карта: {0}", TextCardFromCard(game.Bonuses[index].HighCard));
+                HighCardLabel.Text = String.Format("Карта: {0}", TextCardFromCard(game.Information.GameData.Bonuses[index].HighCard));
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            game.Bonuses.Clear();
+            game.Information.GameData.Bonuses.Clear();
             Close();
         }
 
@@ -104,7 +104,7 @@ namespace BeloteClient
             {
                 if (!BonusesCheckList.CheckedItems.Contains(BonusesCheckList.Items[i]))
                 {
-                    game.Bonuses.Delete(game.Bonuses[i]);
+                    game.Information.GameData.Bonuses.Delete(game.Information.GameData.Bonuses[i]);
                 }
             }
             Close();

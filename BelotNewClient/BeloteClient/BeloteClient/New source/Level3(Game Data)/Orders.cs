@@ -31,15 +31,17 @@ namespace BeloteClient
         {
             get
             {
-                if ((Place >= 0) && (Place < 4))
-                    return orders[Place];
+                if ((Place >= 1) && (Place <= 4))
+                    return orders[Place - 1];
                 else
                     return null;
             }
             set
             {
-                if ((Place >= 0) && (Place < 4))
-                    orders[Place] = value;
+                if ((Place >= 1) && (Place <= 4))
+                {
+                    orders[Place - 1] = value;
+                }
             }
         }
 
@@ -48,5 +50,18 @@ namespace BeloteClient
             get;
             private set;
         }
+
+        public BetType PossibleBetType
+        {
+            get;
+            set;
+        }
+
+        public int PossibleBetSize
+        {
+            get;
+            set;
+        }
+
     }
 }

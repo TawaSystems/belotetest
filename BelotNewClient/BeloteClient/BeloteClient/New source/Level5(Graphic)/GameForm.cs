@@ -44,22 +44,22 @@ namespace BeloteClient
             {
                 case 1:
                     {
-                        PlayerID = game.CurrentTable.TableCreator;
+                        PlayerID = game.Information.CurrentTable.TableCreator;
                         break;
                     }
                 case 2:
                     {
-                        PlayerID = game.CurrentTable.Player2;
+                        PlayerID = game.Information.CurrentTable.Player2;
                         break;
                     }
                 case 3:
                     {
-                        PlayerID = game.CurrentTable.Player3;
+                        PlayerID = game.Information.CurrentTable.Player3;
                         break;
                     }
                 case 4:
                     {
-                        PlayerID = game.CurrentTable.Player4;
+                        PlayerID = game.Information.CurrentTable.Player4;
                         break;
                     }
                 default:
@@ -70,7 +70,7 @@ namespace BeloteClient
             }
             if (PlayerID < 0)
                 return null;
-            return game.Players[PlayerID];
+            return game.Information.Players[PlayerID];
         }
 
         // Возвращает ссылку на пикчербокс нужной карты
@@ -102,30 +102,32 @@ namespace BeloteClient
         // Рисует игровые карты и рубашки
         private void DrawPlayersCards()
         {
-            if (game.AllCards.Count > 0)
+            if (game.Information.GameData.AllCards == null)
+                return;
+            if (game.Information.GameData.AllCards.Count > 0)
             {
-                for (var i = 0; i < game.AllCards.Count; i++)
+                for (var i = 0; i < game.Information.GameData.AllCards.Count; i++)
                 {
-                    switch (game.AllCards[i].Suit)
+                    switch (game.Information.GameData.AllCards[i].Suit)
                     {
                         case CardSuit.C_CLUBS:
                             {
-                                pCards[i].Image = Clubs.Images[(int)game.AllCards[i].Type];
+                                pCards[i].Image = Clubs.Images[(int)game.Information.GameData.AllCards[i].Type];
                                 break;
                             }
                         case CardSuit.C_HEARTS:
                             {
-                                pCards[i].Image = Hearts.Images[(int)game.AllCards[i].Type];
+                                pCards[i].Image = Hearts.Images[(int)game.Information.GameData.AllCards[i].Type];
                                 break;
                             }
                         case CardSuit.C_SPADES:
                             {
-                                pCards[i].Image = Spades.Images[(int)game.AllCards[i].Type];
+                                pCards[i].Image = Spades.Images[(int)game.Information.GameData.AllCards[i].Type];
                                 break;
                             }
                         case CardSuit.С_DIAMONDS:
                             {
-                                pCards[i].Image = Diamonds.Images[(int)game.AllCards[i].Type];
+                                pCards[i].Image = Diamonds.Images[(int)game.Information.GameData.AllCards[i].Type];
                                 break;
                             }
                     }
@@ -140,7 +142,7 @@ namespace BeloteClient
                 Player3Back.Image = null;
                 Player4Back.Image = null;
             }
-            for (var i = game.AllCards.Count; i < 8; i++)
+            for (var i = game.Information.GameData.AllCards.Count; i < 8; i++)
             {
                 ClearPlayerCard(i);
             }
@@ -149,7 +151,7 @@ namespace BeloteClient
         // Отображение хоженой карты
         public void DrawMovedCard(int ServerPlace, Card Card)
         {
-            int graphicPlace = game.ServerPlaceToGraphicPlace(ServerPlace);
+            int graphicPlace = CoordinatesTransmitor.ServerPlaceToGraphicPlace(ServerPlace, game.Information.Place);
             PictureBox cardBox = null;
             switch (graphicPlace)
             {
@@ -208,7 +210,7 @@ namespace BeloteClient
         // Отрисовка карт последней взятки
         private void DrawLastBribeCard(int ServerPlace, Card Card)
         {
-            int graphicPlace = game.ServerPlaceToGraphicPlace(ServerPlace);
+            int graphicPlace = CoordinatesTransmitor.ServerPlaceToGraphicPlace(ServerPlace, game.Information.Place);
             PictureBox cardBox = null;
             switch (graphicPlace)
             {
@@ -299,7 +301,7 @@ namespace BeloteClient
         // Отрисовывает информацию о сделанной игроком ставке
         private void UpdatePlayerAddInfoBazar(int serverNumber, Order order)
         {
-            int graphicNumber = game.ServerPlaceToGraphicPlace(serverNumber);
+            int graphicNumber = CoordinatesTransmitor.ServerPlaceToGraphicPlace(serverNumber, game.Information.Place);
             switch (graphicNumber)
             {
                 case 1:
@@ -368,7 +370,7 @@ namespace BeloteClient
         // Отображает информацию об оглашенных типах бонусов
         private void UpdateBonusesTypes(int serverNumber, string bonusType)
         {
-            int graphicNumber = game.ServerPlaceToGraphicPlace(serverNumber);
+            int graphicNumber = CoordinatesTransmitor.ServerPlaceToGraphicPlace(serverNumber, game.Information.Place);
             switch (graphicNumber)
             {
                 case 1:
@@ -397,7 +399,7 @@ namespace BeloteClient
         // Отображение надписей БЛОТ и РЕБЛОТ
         private void UpdateBeloteRebelote(int serverNumber, string beloteText)
         {
-            int graphicNumber = game.ServerPlaceToGraphicPlace(serverNumber);
+            int graphicNumber = CoordinatesTransmitor.ServerPlaceToGraphicPlace(serverNumber, game.Information.Place);
             switch (graphicNumber)
             {
                 case 1:
@@ -451,48 +453,45 @@ namespace BeloteClient
                 // Обновление игровых карт
                 DrawPlayersCards();
                 // Обновление номеров игроков
-                Player1Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(1).ToString();
-                Player2Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(2).ToString();
-                Player3Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(3).ToString();
-                Player4Label.Text = "Игрок №" + game.GraphicPlaceToServerPlace(4).ToString();
+                Player1Label.Text = "Игрок №" + CoordinatesTransmitor.GraphicPlaceToServerPlace(1, game.Information.Place).ToString();
+                Player2Label.Text = "Игрок №" + CoordinatesTransmitor.GraphicPlaceToServerPlace(2, game.Information.Place).ToString();
+                Player3Label.Text = "Игрок №" + CoordinatesTransmitor.GraphicPlaceToServerPlace(3, game.Information.Place).ToString();
+                Player4Label.Text = "Игрок №" + CoordinatesTransmitor.GraphicPlaceToServerPlace(4, game.Information.Place).ToString();
                 // Обновление имен (емейлов) игроков
-                Player p1 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(1));
-                Player p2 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(2));
-                Player p3 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(3));
-                Player p4 = GetPlayerFromNumber(game.GraphicPlaceToServerPlace(4));
+                Player p1 = GetPlayerFromNumber(CoordinatesTransmitor.GraphicPlaceToServerPlace(1, game.Information.Place));
+                Player p2 = GetPlayerFromNumber(CoordinatesTransmitor.GraphicPlaceToServerPlace(2, game.Information.Place));
+                Player p3 = GetPlayerFromNumber(CoordinatesTransmitor.GraphicPlaceToServerPlace(3, game.Information.Place));
+                Player p4 = GetPlayerFromNumber(CoordinatesTransmitor.GraphicPlaceToServerPlace(4, game.Information.Place));
                 Player1Name.Text = (p1 != null) ? p1.Profile.Email : "Бот";
                 Player2Name.Text = (p2 != null) ? p2.Profile.Email : "Бот";
                 Player3Name.Text = (p3 != null) ? p3.Profile.Email : "Бот";
                 Player4Name.Text = (p4 != null) ? p4.Profile.Email : "Бот";
                 // Обновление информации по заявкам
-                UpdatePlayerAddInfoBazar(1, game.Player1Order);
-                UpdatePlayerAddInfoBazar(2, game.Player2Order);
-                UpdatePlayerAddInfoBazar(3, game.Player3Order);
-                UpdatePlayerAddInfoBazar(4, game.Player4Order);
+                UpdatePlayerAddInfoBazar(1, game.Information.GameData.Orders[1]);
+                UpdatePlayerAddInfoBazar(2, game.Information.GameData.Orders[2]);
+                UpdatePlayerAddInfoBazar(3, game.Information.GameData.Orders[3]);
+                UpdatePlayerAddInfoBazar(4, game.Information.GameData.Orders[4]);
                 // Обновление счета
-                ScoreLocalLabel.Text = String.Format("C   {0} | {1}", game.LocalScore1, game.LocalScore2);
-                ScoreSummLabel.Text = String.Format("S   {0} | {1}", game.TotalScore1, game.TotalScore2);
-                ScoreLastLabel.Text = String.Format("L   {0} | {1}", game.LastScore1, game.LastScore2);
-                // Обновление похоженных карт
-                DrawMovedCard(1, game.P1Card);
-                DrawMovedCard(2, game.P2Card);
-                DrawMovedCard(3, game.P3Card);
-                DrawMovedCard(4, game.P4Card);
+                ScoreLocalLabel.Text = String.Format("C   {0} | {1}", game.Information.GameData.LocalScores[BeloteTeam.TEAM1_1_3], game.Information.GameData.LocalScores[BeloteTeam.TEAM2_2_4]);
+                ScoreSummLabel.Text = String.Format("S   {0} | {1}", game.Information.GameData.TotalScores[BeloteTeam.TEAM1_1_3], game.Information.GameData.TotalScores[BeloteTeam.TEAM2_2_4]);
+                ScoreLastLabel.Text = String.Format("L   {0} | {1}", game.Information.GameData.LastDistributionScores[BeloteTeam.TEAM1_1_3], game.Information.GameData.LastDistributionScores[BeloteTeam.TEAM2_2_4]);
+                
+            
                 // Обновление информациио конечном заказе в раздаче
-                EndOrderPanel.Visible = (game.Status != TableStatus.BAZAR);
-                if (game.Status != TableStatus.BAZAR)
+                EndOrderPanel.Visible = (game.Information.GameData.GameStatus != TableStatus.BAZAR);
+                if (game.Information.GameData.GameStatus != TableStatus.BAZAR)
                 {
                     Player1AddLabel.Text = "";
                     Player2AddLabel.Text = "";
                     Player3AddLabel.Text = "";
                     Player4AddLabel.Text = "";
 
-                    if (game.EndOrder != null)
+                    if (game.Information.GameData.Orders.EndOrder != null)
                     {
-                        EndOrderSizeLabel.Text = String.Format("Заказ: {0}", game.EndOrder.Size);
-                        EndOrderSuit.Image = suitesImageList.Images[(int)game.EndOrder.Trump];
-                        EndOrderTeam.Text = String.Format("Команда: {0} - {1}", (int)game.EndOrder.Team, (game.EndOrder.Team == BeloteTeam.TEAM1_1_3) ? "№1,3" : "№2,4");
-                        switch (game.EndOrder.Type)
+                        EndOrderSizeLabel.Text = String.Format("Заказ: {0}", game.Information.GameData.Orders.EndOrder.Size);
+                        EndOrderSuit.Image = suitesImageList.Images[(int)game.Information.GameData.Orders.EndOrder.Trump];
+                        EndOrderTeam.Text = String.Format("Команда: {0} - {1}", (int)game.Information.GameData.Orders.EndOrder.Team, (game.Information.GameData.Orders.EndOrder.Team == BeloteTeam.TEAM1_1_3) ? "№1,3" : "№2,4");
+                        switch (game.Information.GameData.Orders.EndOrder.Type)
                         {
                             case OrderType.ORDER_CAPOT:
                                 {
@@ -518,7 +517,7 @@ namespace BeloteClient
                     }
                 }
                 // Обновление картинок последней взятки
-                if (game.Status == TableStatus.BAZAR)
+                if (game.Information.GameData.GameStatus == TableStatus.BAZAR)
                 {
                     LastBribePlayer1PB.Image = null;
                     LastBribePlayer2PB.Image = null;
@@ -527,29 +526,27 @@ namespace BeloteClient
                 }
                 else
                 {
-                    if ((game.P1Card != null) && (game.P2Card != null) && (game.P3Card != null) && (game.P4Card != null))
+                    if (game.Information.GameData.Bribes.PredBribe != null)
                     {
-                        DrawLastBribeCard(1, game.P1Card);
-                        DrawLastBribeCard(2, game.P2Card);
-                        DrawLastBribeCard(3, game.P3Card);
-                        DrawLastBribeCard(4, game.P4Card);
+                        for (var i = 1; i <= 4; i++)
+                            DrawLastBribeCard(i, game.Information.GameData.Bribes.PredBribe[i]);
                     }
                 }
                 // Отображение типов объявленных бонусов
-                if (game.Status == TableStatus.BONUSES)
+                /*if (game.Information.GameData.GameStatus == TableStatus.BONUSES)
                 {
                     UpdateBonusesTypes(1, game.Player1BonusesTypes);
                     UpdateBonusesTypes(2, game.Player2BonusesTypes);
                     UpdateBonusesTypes(3, game.Player3BonusesTypes);
                     UpdateBonusesTypes(4, game.Player4BonusesTypes);
-                }
+                }*/
                 // Если игроку позволяется сделать ход, то делаем неактивными карты, которыми нельзя ходить
-                MakingMovePanel.Visible = game.IsMakingMove;
-                if ((game.IsMakingMove) && (game.Status != TableStatus.BAZAR))
+                MakingMovePanel.Visible = game.Information.GameData.IsMakingMove;
+                if ((game.Information.GameData.IsMakingMove) && (game.Information.GameData.GameStatus != TableStatus.BAZAR))
                 {
-                    for (var i = 0; i < game.AllCards.Count; i++)
+                    for (var i = 0; i < game.Information.GameData.AllCards.Count; i++)
                     {
-                        if (!game.PossibleCards.Exists(game.AllCards[i]))
+                        if (!game.Information.GameData.PossibleCards.Exists(game.Information.GameData.AllCards[i]))
                         {
                             PictureBox pb = PictureBoxFromNumber(i);
                             pb.Image = (Image)MakeImageBlackWhite(new Bitmap(pb.Image));
@@ -557,11 +554,23 @@ namespace BeloteClient
                         }
                     }
                 }
-                // Обновление блот и реблот
-                if (game.BelotePlace != 0)
-                    UpdateBeloteRebelote(game.BelotePlace, "BELOTE");
-                if (game.RebelotePlace != 0)
-                    UpdateBeloteRebelote(game.RebelotePlace, "REBELOTE");
+                // Обновление похоженных карт
+                if (game.Information.GameData.Bribes.CurrentBribe != null)
+                {
+                    for (var i = 1; i <= 4; i++)
+                        DrawMovedCard(i, game.Information.GameData.Bribes.CurrentBribe[i]);
+                    // Обновление блот и реблот
+                    if (game.Information.GameData.Bribes.CurrentBribe.BelotePlace != 0)
+                        UpdateBeloteRebelote(game.Information.GameData.Bribes.CurrentBribe.BelotePlace, "BELOTE");
+                    if (game.Information.GameData.Bribes.CurrentBribe.RebelotePlace != 0)
+                        UpdateBeloteRebelote(game.Information.GameData.Bribes.CurrentBribe.RebelotePlace, "REBELOTE");
+
+                }
+                else
+                {
+                    for (var i = 1; i <= 4; i++)
+                        DrawMovedCard(i, null);
+                }
             }
             catch (Exception Ex)
             {
@@ -577,12 +586,12 @@ namespace BeloteClient
 
         private void PlayerCard1PB_Click(object sender, EventArgs e)
         {
-            if (!game.IsMakingMove)
+            if (!game.Information.GameData.IsMakingMove)
                 return;
             if ((sender as PictureBox).Image == null)
                 return;
             int cardIndex = Int32.Parse((sender as PictureBox).Tag.ToString());
-            if (!game.PossibleCards.Exists(game.AllCards[cardIndex]))
+            if (!game.Information.GameData.PossibleCards.Exists(game.Information.GameData.AllCards[cardIndex]))
                 return;
             game.MakeMove(cardIndex);
         }

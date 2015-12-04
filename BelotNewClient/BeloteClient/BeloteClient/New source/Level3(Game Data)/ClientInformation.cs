@@ -359,8 +359,10 @@ namespace BeloteClient
             {
                 gameData.IsMakingMove = true;
                 MessageResult bParams = new MessageResult(Msg);
-                BetType bType = (BetType)Int32.Parse(bParams["Type"]);
-                int minSize = Int32.Parse(bParams["MinSize"]);
+                gameData.Orders.PossibleBetType = (BetType)Int32.Parse(bParams["Type"]);
+                gameData.Orders.PossibleBetSize = Int32.Parse(bParams["MinSize"]);
+                if (OnBazarMakingBet != null)
+                    OnBazarMakingBet();
             }
             catch (Exception Ex)
             {
@@ -379,6 +381,8 @@ namespace BeloteClient
                 int orderSize = Int32.Parse(bParams["Size"]);
                 CardSuit orderSuit = Helpers.StringToSuit(bParams["Trump"]);
                 gameData.Orders[playerNum] = new Order(orderType, orderSize, orderSuit);
+                if (OnUpdateGraphics != null)
+                    OnUpdateGraphics();
             }
             catch (Exception Ex)
             {
@@ -399,6 +403,8 @@ namespace BeloteClient
                 gameData.Orders.SetEndOrder(new Order(oType, oSize, oSuit));
                 gameData.Orders.EndOrder.ChangeTeam(oTeam);
                 gameData.ChangeGameStatus(TableStatus.BONUSES);
+                if (OnUpdateGraphics != null)
+                    OnUpdateGraphics();
             }
             catch (Exception Ex)
             {
@@ -429,6 +435,8 @@ namespace BeloteClient
                     // Если есть неоглашенные бонусы, то предлагаем их огласить
                     if (gameData.Bonuses.Count != 0)
                     {
+                        if (OnAnnounceBonuses != null)
+                            OnAnnounceBonuses();
                         serverActions.Game.PlayerAnnounceBonuses(gameData.Bonuses);
                         // Обнуляем бонусы
                         gameData.Bonuses = null;
@@ -439,6 +447,8 @@ namespace BeloteClient
                 gameData.PossibleCards = new CardList(cParams["Cards"]);
                 // Разрешаем игроку сделать ход
                 gameData.IsMakingMove = true;
+                if (OnUpdateGraphics != null)
+                    OnUpdateGraphics();
             }
             catch (Exception Ex)
             {
@@ -456,38 +466,13 @@ namespace BeloteClient
                 int place = Int32.Parse(tParams["Place"]);
                 if (count == 0)
                     return;
-                string bonusStr = "";
                 for (var i = 0; i < count; i++)
                 {
                     BonusType nextB = (BonusType)Int32.Parse(tParams["Type" + i.ToString()]);
-                    string addstr = "";
-                    if (i != 0)
-                        addstr += " + ";
-                    switch (nextB)
-                    {
-                        case BonusType.BONUS_TERZ:
-                            {
-                                addstr += "TERZ";
-                                break;
-                            }
-                        case BonusType.BONUS_50:
-                            {
-                                addstr += "50";
-                                break;
-                            }
-                        case BonusType.BONUS_100:
-                            {
-                                addstr += "100";
-                                break;
-                            }
-                        case BonusType.BONUS_4X:
-                            {
-                                addstr += "4X";
-                                break;
-                            }
-                    }
-                    bonusStr += addstr;
+                    gameData.AnnouncedBonuses.AddBonus(place, nextB);
                 }
+                if (OnUpdateGraphics != null)
+                    OnUpdateGraphics();
             }
             catch (Exception Ex)
             {
@@ -504,6 +489,12 @@ namespace BeloteClient
                 MessageResult wParams = new MessageResult(Msg);
                 BeloteTeam winner = (BeloteTeam)Int32.Parse(wParams["Winner"]);
                 int scores = Int32.Parse(wParams["Scores"]);
+                gameData.AnnouncedBonuses.SetWinner(winner, scores);
+                if (OnShowBonusesWinner != null)
+                    OnShowBonusesWinner();
+                gameData.AnnouncedBonuses.Clear();
+                if (OnUpdateGraphics != null)
+                    OnUpdateGraphics();
             }
             catch (Exception Ex)
             {
@@ -520,9 +511,16 @@ namespace BeloteClient
                 int cardPlace = Int32.Parse(cParams["Place"]);
                 Card newCard = new Card(cParams["Card"]);
                 int beloteRemind = Int32.Parse(cParams["Belote"]);
-                gameData.Bribes.PutCard(newCard, place);
+                gameData.Bribes.PutCard(newCard, cardPlace);
                 gameData.LocalScores[BeloteTeam.TEAM1_1_3] = Int32.Parse(cParams["Scores1"]);
                 gameData.LocalScores[BeloteTeam.TEAM2_2_4] = Int32.Parse(cParams["Scores2"]);
+                if (beloteRemind == 1)
+                    gameData.Bribes.CurrentBribe.BelotePlace = cardPlace;
+                else
+                if (beloteRemind == 2)
+                    gameData.Bribes.CurrentBribe.RebelotePlace = cardPlace;
+                if (OnUpdateGraphics != null)
+                    OnUpdateGraphics();
             }
             catch (Exception Ex)
             {
@@ -543,10 +541,13 @@ namespace BeloteClient
                     if (BotPlace != place)
                     {
                         currentTable.SetPlayerAtPlace(-BotPlace, BotPlace);
+                        if (OnUpdateGraphics != null)
+                            OnUpdateGraphics();
                         return;
                     }
                 }
-                // Завершаем игру иначе
+                if (OnPlayerQuit != null)
+                    OnPlayerQuit();
                 ExitFromTable(false);
             }
             catch (Exception Ex)
@@ -563,7 +564,8 @@ namespace BeloteClient
                 MessageResult gParams = new MessageResult(Msg);
                 gameData.TotalScores[BeloteTeam.TEAM1_1_3] = Int32.Parse(gParams["Scores1"]);
                 gameData.TotalScores[BeloteTeam.TEAM2_2_4] = Int32.Parse(gParams["Scores2"]);
-                // Проинформировать игрока о результате
+                if (OnGameEnd != null)
+                    OnGameEnd();
                 ExitFromTable(false);
             }
             catch (Exception Ex)
@@ -651,6 +653,40 @@ namespace BeloteClient
             set;
         }
 
+        // Вызывается при необходимости совершить ставку
+        public GraphicCallbackDelegate OnBazarMakingBet
+        {
+            get;
+            set;
+        }
+
+        // Вызывается когда необходимо анонсировать бонусы
+        public GraphicCallbackDelegate OnAnnounceBonuses
+        {
+            get;
+            set;
+        }
+
+        // Событие объявления победителей по бонусам
+        public GraphicCallbackDelegate OnShowBonusesWinner
+        {
+            get;
+            set;
+        }
+
+        // Событие завершения игры
+        public GraphicCallbackDelegate OnGameEnd
+        {
+            get;
+            set;
+        }
+
+        // Событие выхода игрока со стола во время игры
+        public GraphicCallbackDelegate OnPlayerQuit
+        {
+            get;
+            set;
+        }
         //**********************************************************************************************************************************************************************************
         //                      Основные доступные извне игровые свойства
         //**********************************************************************************************************************************************************************************
@@ -711,7 +747,7 @@ namespace BeloteClient
         {
             get
             {
-                return Place;
+                return place;
             }
         }
     }

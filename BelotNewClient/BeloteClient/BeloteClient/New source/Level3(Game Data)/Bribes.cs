@@ -13,6 +13,8 @@ namespace BeloteClient
         public Bribe()
         {
             cards = new Card[4];
+            BelotePlace = 0;
+            RebelotePlace = 0;
         }
 
         public bool IsFull()
@@ -34,11 +36,23 @@ namespace BeloteClient
         {
             get
             {
-                if ((Place >= 0) && (Place < 4))
-                    return cards[Place];
+                if ((Place >= 1) && (Place <= 4))
+                    return cards[Place - 1];
                 else
                     return null;
             }
+        }
+
+        public int BelotePlace
+        {
+            get;
+            set;
+        }
+
+        public int RebelotePlace
+        {
+            get;
+            set;
         }
     }
 
