@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BeloteClient
 {
-    class ClientInformation
+    public delegate void GraphicCallbackDelegate();
+    public class ClientInformation
     {
         //**********************************************************************************************************************************************************************************
         //                      Поля данных
@@ -39,7 +40,7 @@ namespace BeloteClient
         }
 
         //**********************************************************************************************************************************************************************************
-        //                      Вспомогательные закрытые методы для работы со списками игроков и столов
+        //                      Вспомогательные закрытые методы для работы со списками игроков и столов, а также обновления графики
         //**********************************************************************************************************************************************************************************
 
         // Составляет список игроков со всех доступных столов для быстрой возможности получения информации
@@ -84,6 +85,19 @@ namespace BeloteClient
             UpdatePlayers();
         }
 
+        //**********************************************************************************************************************************************************************************
+        //                      Системные методы связи с сервером
+        //**********************************************************************************************************************************************************************************
+
+        public bool TestVersion()
+        {
+            return serverActions.Test.TestClientVersion();
+        }
+
+        public void Disconnect()
+        {
+            serverActions.Disconnect();
+        }
 
         //**********************************************************************************************************************************************************************************
         //                      Методы авторизации
@@ -141,7 +155,7 @@ namespace BeloteClient
             if (t != null)
             {
                 ChangeCurrentTable(t, 1);
-                //SetPreGameHandlers(true);
+                SetPreGameHandlers(true);
                 return true;
             }
             else
@@ -157,7 +171,7 @@ namespace BeloteClient
             if (t != null)
             {
                 ChangeCurrentTable(t, 1);
-                //SetPreGameHandlers(true);
+                SetPreGameHandlers(true);
                 for (var i = 2; i <= 4; i++)
                 {
                     AddBot(i);
@@ -180,7 +194,7 @@ namespace BeloteClient
                 ChangeCurrentTable(serverActions.Tables.GetTable(TableID), PlayerPlace);
                 if (currentTable == null)
                     return false;
-                //SetPreGameHandlers(true);
+                SetPreGameHandlers(true);
                 serverActions.Tables.TestFullfillTable();
                 return true;
             }
@@ -281,6 +295,8 @@ namespace BeloteClient
                 if (p != null)
                     Players.Add(p);
             }
+            if (OnUpdateWaitingTable != null)
+                OnUpdateWaitingTable();
         }
 
         // Обработчик удаление другого игрока со стола
@@ -290,17 +306,23 @@ namespace BeloteClient
             int PlayerPlace = Int32.Parse(pParams["Place"]);
             Players.Delete(Players[currentTable[PlayerPlace]]);
             currentTable.SetPlayerAtPlace(-1, PlayerPlace);
+            if (OnUpdateWaitingTable != null)
+                OnUpdateWaitingTable();
         }
 
         // Обработчик выхода со стола создателя
         private void CreatorLeaveHandler(Message Msg)
         {
             ExitFromTable(false);
+            if (OnExitFromTable != null)
+                OnExitFromTable();
         }
 
         // Обработка начала игры
         private void StartGameHandler(Message Msg)
         {
+            if (OnGameStart != null)
+                OnGameStart();
             SetPreGameHandlers(false);
             Status = GameStatus.GAMING;
             gameData = new GameData();
@@ -321,6 +343,8 @@ namespace BeloteClient
                 int totalScore1 = Int32.Parse(cParams["Scores1"]);
                 int totalScore2 = Int32.Parse(cParams["Scores2"]);
                 gameData.NewDistribution(new CardList(cardsStr), totalScore1, totalScore2);
+                if (OnUpdateGraphics != null)
+                    OnUpdateGraphics();
             }
             catch (Exception Ex)
             {
@@ -553,11 +577,11 @@ namespace BeloteClient
         //**********************************************************************************************************************************************************************************
 
         // Игрок совершает ход. Параметр - индекс карты в списке всех карт
-        public void MakeMove(Card c)
+        public void MakeMove(int CardIndex)
         {
             try
             {
-                Card card = gameData.AllCards[c.Type, c.Suit];
+                Card card = gameData.AllCards[CardIndex];
                 gameData.AllCards.Remove(card);
                 gameData.IsMakingMove = false;
                 serverActions.Game.PlayerMakeMove(card);
@@ -596,6 +620,38 @@ namespace BeloteClient
         }
 
         //**********************************************************************************************************************************************************************************
+        //                      Обработчики событий
+        //**********************************************************************************************************************************************************************************
+
+        // Вызывается в режиме ожидания игроков на стол
+        public GraphicCallbackDelegate OnUpdateWaitingTable
+        {
+            get;
+            set;
+        }
+
+        // Вызывается во время игры для обновления графики на столе
+        public GraphicCallbackDelegate OnUpdateGraphics
+        {
+            get;
+            set;
+        }
+
+        // Вызывается при выходе со стола
+        public GraphicCallbackDelegate OnExitFromTable
+        {
+            get;
+            set;
+        }
+
+        // Вызывается при старте игры
+        public GraphicCallbackDelegate OnGameStart
+        {
+            get;
+            set;
+        }
+
+        //**********************************************************************************************************************************************************************************
         //                      Основные доступные извне игровые свойства
         //**********************************************************************************************************************************************************************************
 
@@ -617,10 +673,46 @@ namespace BeloteClient
             }
         }
 
+        // Текущий статус
         public GameStatus Status
         {
             get;
             private set;
+        }
+
+        // Текущий стол
+        public Table CurrentTable
+        {
+            get
+            {
+                return currentTable;
+            }
+        }
+
+        // Текущий игрок
+        public Player CurrentPlayer
+        {
+            get
+            {
+                return player;
+            }
+        }
+
+        // Игровая информация
+        public GameData GameData
+        {
+            get
+            {
+                return gameData;
+            }
+        }
+
+        public int Place
+        {
+            get
+            {
+                return Place;
+            }
         }
     }
 }

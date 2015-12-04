@@ -183,6 +183,7 @@
             this.Controls.Add(this.CreatorPanel);
             this.Name = "WaitingForm";
             this.Text = "Ожидание игроков...";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WaitingForm_FormClosing);
             this.CreatorPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

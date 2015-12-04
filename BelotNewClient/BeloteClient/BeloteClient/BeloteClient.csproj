@@ -95,6 +95,7 @@
     <Compile Include="New source\Level3%28Game Data%29\GameData.cs" />
     <Compile Include="New source\Level3%28Game Data%29\Orders.cs" />
     <Compile Include="New source\Level3%28Game Data%29\Scores.cs" />
+    <Compile Include="New source\Level4%28Graphic Helpers%29\CoordinatesTransmitor.cs" />
     <Compile Include="Old\BetFormType4.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,10 +119,10 @@
     <Compile Include="New source\Level0%28Base Classes%29\Card.cs" />
     <Compile Include="New source\Level0%28Base Classes%29\CardList.cs" />
     <Compile Include="New source\Level0%28Base Classes%29\Constants.cs" />
-    <Compile Include="Old\CreatingTableForm.cs">
+    <Compile Include="New source\Level5%28Graphic%29\CreatingTableForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Old\CreatingTableForm.Designer.cs">
+    <Compile Include="New source\Level5%28Graphic%29\CreatingTableForm.Designer.cs">
       <DependentUpon>CreatingTableForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Old\Game.cs" />
@@ -139,41 +140,41 @@
     <Compile Include="New source\Level1%28Server%29\Message.cs" />
     <Compile Include="New source\Level2%28Server Actions%29\ServerActions.cs" />
     <Compile Include="New source\Level1%28Server%29\ServerConnection.cs" />
-    <Compile Include="Old\EmailAutorizationForm.cs">
+    <Compile Include="New source\Level5%28Graphic%29\EmailAutorizationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Old\EmailAutorizationForm.Designer.cs">
+    <Compile Include="New source\Level5%28Graphic%29\EmailAutorizationForm.Designer.cs">
       <DependentUpon>EmailAutorizationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Old\MainForm.cs">
+    <Compile Include="New source\Level5%28Graphic%29\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Old\MainForm.Designer.cs">
+    <Compile Include="New source\Level5%28Graphic%29\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="New source\Level0%28Base Classes%29\Helpers.cs" />
-    <Compile Include="Old\MainUserForm.cs">
+    <Compile Include="New source\Level5%28Graphic%29\MainUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Old\MainUserForm.Designer.cs">
+    <Compile Include="New source\Level5%28Graphic%29\MainUserForm.Designer.cs">
       <DependentUpon>MainUserForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Old\Program.cs" />
     <Compile Include="New source\Level2%28Server Actions%29\TestActions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Old\RegistrationEmail.cs">
+    <Compile Include="New source\Level5%28Graphic%29\RegistrationEmail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Old\RegistrationEmail.Designer.cs">
+    <Compile Include="New source\Level5%28Graphic%29\RegistrationEmail.Designer.cs">
       <DependentUpon>RegistrationEmail.cs</DependentUpon>
     </Compile>
     <Compile Include="New source\Level0%28Base Classes%29\Statistics.cs" />
     <Compile Include="New source\Level0%28Base Classes%29\Table.cs" />
     <Compile Include="New source\Level0%28Base Classes%29\TablesList.cs" />
-    <Compile Include="Old\WaitingForm.cs">
+    <Compile Include="New source\Level5%28Graphic%29\WaitingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Old\WaitingForm.Designer.cs">
+    <Compile Include="New source\Level5%28Graphic%29\WaitingForm.Designer.cs">
       <DependentUpon>WaitingForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Old\BetFormType4.resx">
@@ -185,19 +186,19 @@
     <EmbeddedResource Include="Old\BonusAnnounceForm.resx">
       <DependentUpon>BonusAnnounceForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Old\CreatingTableForm.resx">
+    <EmbeddedResource Include="New source\Level5%28Graphic%29\CreatingTableForm.resx">
       <DependentUpon>CreatingTableForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Old\EmailAutorizationForm.resx">
+    <EmbeddedResource Include="New source\Level5%28Graphic%29\EmailAutorizationForm.resx">
       <DependentUpon>EmailAutorizationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Old\GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Old\MainForm.resx">
+    <EmbeddedResource Include="New source\Level5%28Graphic%29\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Old\MainUserForm.resx">
+    <EmbeddedResource Include="New source\Level5%28Graphic%29\MainUserForm.resx">
       <DependentUpon>MainUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -210,10 +211,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Old\RegistrationEmail.resx">
+    <EmbeddedResource Include="New source\Level5%28Graphic%29\RegistrationEmail.resx">
       <DependentUpon>RegistrationEmail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Old\WaitingForm.resx">
+    <EmbeddedResource Include="New source\Level5%28Graphic%29\WaitingForm.resx">
       <DependentUpon>WaitingForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="BeloteClient_TemporaryKey.pfx" />
@@ -258,10 +259,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="New source\Level4%28Graphic Helpers%29\" />
-    <Folder Include="New source\Level5%28Graphic%29\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

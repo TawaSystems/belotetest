@@ -27,16 +27,16 @@ namespace BeloteClient
             TablesListBox.Items.Clear();
             TablesListBox.SelectedIndex = -1;
             CurrentTableID = -1;
-            game.UpdatePossibleTables();
-            if (game.Tables == null)
+            game.Information.UpdatePossibleTables();
+            if (game.Information.Tables == null)
             {
                 MessageBox.Show("Нет доступных столов!");
             }
             else
             {
-                for (var i = 0; i < game.Tables.Count; i++)
+                for (var i = 0; i < game.Information.Tables.Count; i++)
                 {
-                    TablesListBox.Items.Add(game.Tables.GetTableAt(i).ID.ToString());
+                    TablesListBox.Items.Add(game.Information.Tables.GetTableAt(i).ID.ToString());
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace BeloteClient
             if (TablesListBox.SelectedIndex >= 0)
             {
                 int ID = Int32.Parse(TablesListBox.SelectedItem.ToString());
-                Table t = game.Tables[ID];
+                Table t = game.Information.Tables[ID];
                 CurrentTableID = ID;
                 if (t != null)
                 {
@@ -67,9 +67,9 @@ namespace BeloteClient
                     TableMinLevelLabel.Text = t.MinimalLevel.ToString();
                     TableBetSizeLabel.Text = t.Bet.ToString();
                     TablePlayersVisibilityCheckBox.Checked = t.PlayersVisibility;
-                    if (game.Players[t.TableCreator] != null)
+                    if (game.Information.Players[t.TableCreator] != null)
                     {
-                        Player1Label.Text = game.Players[t.TableCreator].Profile.Email;
+                        Player1Label.Text = game.Information.Players[t.TableCreator].Profile.Email;
                     }
                     else
                     {
@@ -77,9 +77,9 @@ namespace BeloteClient
                     }
                     if (t.Player2 != -1)
                     {
-                        if (game.Players[t.Player2] != null)
+                        if (game.Information.Players[t.Player2] != null)
                         {
-                            Player2Label.Text = game.Players[t.Player2].Profile.Email;
+                            Player2Label.Text = game.Information.Players[t.Player2].Profile.Email;
                         }
                         else
                         if (t.Player2 < -1)
@@ -97,9 +97,9 @@ namespace BeloteClient
                     }
                     if (t.Player3 != -1)
                     {
-                        if (game.Players[t.Player3] != null)
+                        if (game.Information.Players[t.Player3] != null)
                         {
-                            Player3Label.Text = game.Players[t.Player3].Profile.Email;
+                            Player3Label.Text = game.Information.Players[t.Player3].Profile.Email;
                         }
                         else
                         if (t.Player3 < -1)
@@ -117,9 +117,9 @@ namespace BeloteClient
                     }
                     if (t.Player4 != -1)
                     {
-                        if (game.Players[t.Player4] != null)
+                        if (game.Information.Players[t.Player4] != null)
                         {
-                            Player4Label.Text = game.Players[t.Player4].Profile.Email;
+                            Player4Label.Text = game.Information.Players[t.Player4].Profile.Email;
                         }
                         else
                         if (t.Player4 < -1)
