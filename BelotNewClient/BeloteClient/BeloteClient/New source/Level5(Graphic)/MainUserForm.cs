@@ -156,8 +156,7 @@ namespace BeloteClient
 
         private void button6_Click(object sender, EventArgs e)
         {
-            CreatingTableForm creatingTable = new CreatingTableForm(this.game);
-            creatingTable.ShowDialog();
+            game.Graphics.ShowCreatingTableScreen();
         }
 
         private void Player3Label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

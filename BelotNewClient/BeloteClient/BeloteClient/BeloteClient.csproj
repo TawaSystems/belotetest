@@ -97,6 +97,7 @@
     <Compile Include="New source\Level3%28Game Data%29\Orders.cs" />
     <Compile Include="New source\Level3%28Game Data%29\Scores.cs" />
     <Compile Include="New source\Level4%28Graphic Helpers%29\CoordinatesTransmitor.cs" />
+    <Compile Include="New source\Level4%28Graphic Helpers%29\GameGraphics.cs" />
     <Compile Include="New source\Level5%28Graphic%29\BetFormType4.cs">
       <SubType>Form</SubType>
     </Compile>

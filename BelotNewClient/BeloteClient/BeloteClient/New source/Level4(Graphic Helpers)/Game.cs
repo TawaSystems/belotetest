@@ -11,48 +11,43 @@ namespace BeloteClient
 {
     public class Game
     {
-        private MainGuestForm guestForm;
-        private MainUserForm userForm;
-        private WaitingForm waitingForm;
-        private GameForm gameForm;
-        private BetFormType4 betForm4;
-        private BetFromType123 betForm123;
 
+
+        //**********************************************************************************************************************************************************************************
+        //                      Поля данных
+        //**********************************************************************************************************************************************************************************
         private ClientInformation clientInformation;
 
+        //**********************************************************************************************************************************************************************************
+        //                      Методы инициализации и завершения
+        //**********************************************************************************************************************************************************************************
+
+        // Конструктор
         public Game()
         {
             AppDomain.CurrentDomain.ProcessExit += ProcessExit;
             try
             {
                 clientInformation = new ClientInformation();
+                Graphics = new GameGraphics(this);
+
                 clientInformation.OnGameStart = StartGameHandler;
+                clientInformation.OnUpdateWaitingTable = UpdateWaitingPlayers;
+
                 if (!clientInformation.TestVersion())
                 {
-                    MessageBox.Show("У вас устаревшая версия приложения! Скачайте новую");
+                    Graphics.ShowMessage("У вас устаревшая версия приложения! Скачайте новую");
                     Environment.Exit(0);
                 }
-                guestForm = new MainGuestForm(this);
-                guestForm.Show();
+                Graphics.ShowGuestScreen();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
                 Environment.Exit(0);
             }
         }
 
-
-
-        /// <summary>
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// 
-        ///                             Системные методы
-        /// 
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// </summary>
         // Событие при выходе из приложения
         public void ProcessExit(Object Sender, EventArgs e)
         {
@@ -60,25 +55,20 @@ namespace BeloteClient
                 clientInformation.Disconnect();
         }
 
-        /// <summary>
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// 
-        ///                             Методы выполнения основных игровых событий: регистрация, авторизация, вход/создание столов, игра
-        /// 
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// </summary>
+        //**********************************************************************************************************************************************************************************
+        //                      Действия выполняемые пользователем
+        //**********************************************************************************************************************************************************************************
+
         // Регистрация с помощью электронной почты
         public void RegistrationEmail(string Email, string Password, string Nickname, string Sex, string Country)
         {
             if (clientInformation.RegistrationEmail(Email, Password, Nickname, Sex, Country))
             {
-                MessageBox.Show("Регистрация прошла успешно!");
+                Graphics.ShowMessage("Регистрация прошла успешно!");
             }
             else
             {
-                MessageBox.Show("Регистрация не удалась");
+                Graphics.ShowMessage("Регистрация не удалась");
             }
         }
 
@@ -87,15 +77,12 @@ namespace BeloteClient
         {
             if (clientInformation.AutorizationEmail(Email, Password))
             {
-                guestForm.Close();
-                guestForm = null;
-                userForm = new MainUserForm(this);
-                userForm.UpdateTables();
-                userForm.Show();
+                Graphics.ShowUserScreen();
+                Graphics.UpdateTablesList();
             }
             else
             {
-                MessageBox.Show("Не удалось войти");
+                Graphics.ShowMessage("Не удалось войти");
             }
         }
 
@@ -104,36 +91,30 @@ namespace BeloteClient
         {
             if (clientInformation.CreateTrainingTable())
             {
-                if (userForm != null)
-                {
-                    userForm.Close();
-                    userForm = null;
-                }
+                Graphics.CloseUserScreen();
             }
             else
             {
-                MessageBox.Show("Не удалось создать игровой стол");
+                Graphics.ShowMessage("Не удалось создать игровой стол");
+                Graphics.UpdateTablesList();
             }
         }
 
+        // Создание игрового стола
         public void CreateTable(int Bet, bool PlayersVisibility, bool Chat, int MinimalLevel, bool TableVisibility,
             bool VIPOnly, bool Moderation, bool AI)
         {
             if (clientInformation.CreateTable(Bet, PlayersVisibility, Chat, MinimalLevel, TableVisibility,
                 VIPOnly, Moderation, AI))
             {
-                if (userForm != null)
-                {
-                    userForm.Close();
-                    userForm = null;
-                }
-                waitingForm = new WaitingForm(this);
-                waitingForm.UpdateLabels();
-                waitingForm.Show();
+                Graphics.CloseUserScreen();
+                Graphics.ShowWaitingPlayersScreen();
+                Graphics.UpdateWaitingPlayers();
             }
             else
             {
-                MessageBox.Show("Не удалось создать игровой стол");
+                Graphics.ShowMessage("Не удалось создать игровой стол");
+                Graphics.UpdateTablesList();
             }
         }
 
@@ -142,30 +123,23 @@ namespace BeloteClient
         {
             if (clientInformation.EnterTheTable(PlayerPlace, TableID))
             {
-                if (userForm != null)
-                {
-                    userForm.Close();
-                    userForm = null;
-                }
-                waitingForm = new WaitingForm(this);
-                waitingForm.UpdateLabels();
-                waitingForm.Show();
+                Graphics.CloseUserScreen();
+                Graphics.ShowWaitingPlayersScreen();
+                Graphics.UpdateWaitingPlayers();
             }
             else
             {
-                MessageBox.Show("Не удалось сесть на игровой стол");
-                userForm.UpdateTables();
+                Graphics.ShowMessage("Не удалось сесть на игровой стол");
+                Graphics.UpdateTablesList();
             }
         }
 
         public void ExitFromWaitingTable()
         {
             clientInformation.QuitTable();
-            waitingForm.Close();
-            waitingForm = null;
-            userForm = new MainUserForm(this);
-            userForm.UpdateTables();
-            userForm.Show();
+            Graphics.CloseWaitingPlayersScreen();
+            Graphics.ShowUserScreen();
+            Graphics.UpdateWaitingPlayers();
         }
 
         // Добавление бота на стол
@@ -173,12 +147,11 @@ namespace BeloteClient
         {
             if (clientInformation.AddBot(BotPlace))
             {
-                if (waitingForm != null)
-                    waitingForm.UpdateLabels();
+                Graphics.UpdateWaitingPlayers();
             }
             else
             {
-                MessageBox.Show("Не удалось добавить бота на стол!");
+                Graphics.ShowMessage("Не удалось добавить бота на стол!");
             }
         }
 
@@ -186,31 +159,23 @@ namespace BeloteClient
         public void DeleteBot(int BotPlace)
         {
             clientInformation.DeleteBot(BotPlace);
-            //if (waitingForm != null)
-            //   waitingForm.UpdateLabels();
         }
 
         // Игрок совершает ход. Параметр - индекс карты в списке всех карт
         public void MakeMove(int CardIndex)
         {
             clientInformation.MakeMove(CardIndex);
-            gameForm.UpdateGraphics();
+            Graphics.UpdateGameGraphics();
         }
 
         // Выход игрока со стола во время игры
         public void QuitTable()
         {
-            clientInformation.QuitTable();
-            if (betForm123 != null)
-                betForm123.Close();
-            if (betForm4 != null)
-                betForm4.Close();
-            MessageBox.Show("Игра завершена. Кто-то вышел со стола");
-            gameForm.Close();
-            gameForm = null;
-            userForm = new MainUserForm(this);
-            userForm.UpdateTables();
-            userForm.Show();
+            clientInformation.QuitTable();        
+            Graphics.ShowMessage("Игра завершена. Кто-то вышел со стола");
+            Graphics.CloseGameScreen();
+            Graphics.ShowUserScreen();
+            Graphics.UpdateTablesList();
         }
 
         // Сделать заказ
@@ -219,70 +184,53 @@ namespace BeloteClient
             clientInformation.MakeOrder(order);
         }
 
+        //**********************************************************************************************************************************************************************************
+        //                      Обработчики доигровых событий
+        //**********************************************************************************************************************************************************************************
+
         // Обработка начала игры
         public void StartGameHandler()
         {
-            if (waitingForm != null)
-            {
-                waitingForm.Close();
-                waitingForm = null;
-            }
+            Graphics.CloseWaitingPlayersScreen();
             clientInformation.OnUpdateGraphics = UpdateGraphics;
             clientInformation.OnBazarMakingBet = BazarNextPlayerHandler;
             clientInformation.OnAnnounceBonuses = PlayerShowBonuses;
             clientInformation.OnShowBonusesWinner = BonusesShowWinnerHandler;
             clientInformation.OnPlayerQuit = PlayerQuitHandler;
             clientInformation.OnGameEnd = GameEndHandler;
-            gameForm = new GameForm(this);
-            betForm123 = new BetFromType123(this);
-            gameForm.Show();
+            Graphics.ShowGameScreen();
+        }
+
+        // Событие обновления списка игроков
+        public void UpdateWaitingPlayers()
+        {
+            Graphics.UpdateWaitingPlayers();
         }
 
         // Событие обновления графики
         public void UpdateGraphics()
         {
-            if (gameForm != null)
-                gameForm.UpdateGraphics();
+            Graphics.UpdateGameGraphics();
         }
 
         // Событие обновления торговли
         public void BazarNextPlayerHandler()
         {
-            try
-            {
-                if (clientInformation.GameData.Orders.PossibleBetType == BetType.BET_SURCOINCHE)
-                {
-                    betForm4 = new BetFormType4(this);
-                    betForm4.ShowDialog();
-                    betForm4 = null;
-                }
-                else
-                {
-                    betForm123.ShowForm(clientInformation.GameData.Orders.PossibleBetSize, clientInformation.GameData.Orders.PossibleBetType);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            Graphics.ShowBetScreen(clientInformation.GameData.Orders.PossibleBetSize, clientInformation.GameData.Orders.PossibleBetType);
         }
 
         // Событие показа бонусов
         public void PlayerShowBonuses()
         {
-            // Показываем форму
-            BonusAnnounceForm form = new BonusAnnounceForm(this);
-            form.ShowDialog();
+            Graphics.ShowChooseBonusesScreen();
         }
-
-
 
         // Объявление победителя по бонусам
         public void BonusesShowWinnerHandler()
         {
             if (clientInformation.GameData.AnnouncedBonuses.Winner != BeloteTeam.TEAM_NONE)
             {
-                MessageBox.Show(String.Format("Команда №{0} получает {1} очков за бонусы", (int)clientInformation.GameData.AnnouncedBonuses.Winner, clientInformation.GameData.AnnouncedBonuses.Scores));
+                Graphics.ShowMessage(String.Format("Команда №{0} получает {1} очков за бонусы", (int)clientInformation.GameData.AnnouncedBonuses.Winner, clientInformation.GameData.AnnouncedBonuses.Scores));
             }
             else
             {
@@ -305,47 +253,33 @@ namespace BeloteClient
             if (TotalScore1 > TotalScore2)
             {
                 if ((Place == 1) || (Place == 3))
-                    MessageBox.Show(String.Format("Вы победили! Счет - {0} : {1}", TotalScore1, TotalScore2));
+                    Graphics.ShowMessage(String.Format("Вы победили! Счет - {0} : {1}", TotalScore1, TotalScore2));
                 else
-                    MessageBox.Show(String.Format("Вы проиграли! Счет - {0} : {1}", TotalScore1, TotalScore2));
+                    Graphics.ShowMessage(String.Format("Вы проиграли! Счет - {0} : {1}", TotalScore1, TotalScore2));
             }
             else
             {
                 if ((Place == 2) || (Place == 4))
-                    MessageBox.Show(String.Format("Вы победили! Счет - {0} : {1}", TotalScore1, TotalScore2));
+                    Graphics.ShowMessage(String.Format("Вы победили! Счет - {0} : {1}", TotalScore1, TotalScore2));
                 else
-                    MessageBox.Show(String.Format("Вы проиграли! Счет - {0} : {1}", TotalScore1, TotalScore2));
+                    Graphics.ShowMessage(String.Format("Вы проиграли! Счет - {0} : {1}", TotalScore1, TotalScore2));
             }
-            
-            gameForm.Close();
-            gameForm = null;
-            userForm = new MainUserForm(this);
-            userForm.UpdateTables();
-            userForm.Show();
+            Graphics.CloseGameScreen();
+            Graphics.ShowUserScreen();
+            Graphics.UpdateTablesList();
         }
 
         // Выход игрока со стола во время игры
         public void PlayerQuitHandler()
         {
-            MessageBox.Show("Игра завершена. Кто-то вышел со стола");
-            if (betForm123 != null)
-                betForm123.Close();
-            if (betForm4 != null)
-                betForm4.Close();
-            gameForm.Close();
-            gameForm = null;
-            userForm = new MainUserForm(this);
-            userForm.UpdateTables();
-            userForm.Show();
+            Graphics.ShowMessage("Игра завершена. Кто-то вышел со стола");
+            Graphics.CloseGameScreen();
+            Graphics.ShowUserScreen();
         }
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// 
-        ///                             Свойства
-        /// 
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// </summary>
+
+        //**********************************************************************************************************************************************************************************
+        //                      Открытые свойства
+        //**********************************************************************************************************************************************************************************
 
         public ClientInformation Information
         {
@@ -353,6 +287,12 @@ namespace BeloteClient
             {
                 return clientInformation;
             }
+        }
+
+        public GameGraphics Graphics
+        {
+            get;
+            private set;
         }
     }
 }

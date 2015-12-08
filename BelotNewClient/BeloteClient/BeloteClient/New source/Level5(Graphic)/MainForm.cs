@@ -31,14 +31,12 @@ namespace BeloteClient
 
         private void сПомощьюEmailToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RegistrationEmail regEmailForm = new RegistrationEmail(game);
-            regEmailForm.ShowDialog();
+            game.Graphics.ShowRegistrationEmailScreen();
         }
 
         private void войтиСПомощьюEmailToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EmailAutorizationForm form = new EmailAutorizationForm(game);
-            form.ShowDialog();
+            game.Graphics.ShowAuthorizationEmailScreen();
         }
 
         private void MainGuestForm_FormClosing(object sender, FormClosingEventArgs e)

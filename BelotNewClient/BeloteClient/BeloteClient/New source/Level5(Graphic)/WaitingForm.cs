@@ -18,7 +18,6 @@ namespace BeloteClient
             this.game = Game;
             InitializeComponent();
             CreatorPanel.Visible = (Game.Information.Place == 1);
-            game.Information.OnUpdateWaitingTable = UpdateLabels;
         }
 
         public void UpdateLabels()
