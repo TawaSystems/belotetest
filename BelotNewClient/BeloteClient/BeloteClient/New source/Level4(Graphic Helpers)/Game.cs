@@ -77,6 +77,7 @@ namespace BeloteClient
         {
             if (clientInformation.AutorizationEmail(Email, Password))
             {
+                Graphics.CloseGuestScreen();
                 Graphics.ShowUserScreen();
                 Graphics.UpdateTablesList();
             }
@@ -171,11 +172,7 @@ namespace BeloteClient
         // Выход игрока со стола во время игры
         public void QuitTable()
         {
-            clientInformation.QuitTable();        
-            Graphics.ShowMessage("Игра завершена. Кто-то вышел со стола");
-            Graphics.CloseGameScreen();
-            Graphics.ShowUserScreen();
-            Graphics.UpdateTablesList();
+            clientInformation.QuitTable(); 
         }
 
         // Сделать заказ
@@ -196,8 +193,8 @@ namespace BeloteClient
             clientInformation.OnBazarMakingBet = BazarNextPlayerHandler;
             clientInformation.OnAnnounceBonuses = PlayerShowBonuses;
             clientInformation.OnShowBonusesWinner = BonusesShowWinnerHandler;
-            clientInformation.OnPlayerQuit = PlayerQuitHandler;
             clientInformation.OnGameEnd = GameEndHandler;
+            clientInformation.OnPlayerQuit = PlayerQuitHandler;
             Graphics.ShowGameScreen();
         }
 
@@ -245,8 +242,8 @@ namespace BeloteClient
             clientInformation.OnBazarMakingBet = null;
             clientInformation.OnAnnounceBonuses = null;
             clientInformation.OnShowBonusesWinner = null;
-            clientInformation.OnPlayerQuit = null;
             clientInformation.OnGameEnd = null;
+            clientInformation.OnPlayerQuit = null;
             int TotalScore1 = clientInformation.GameData.TotalScores[BeloteTeam.TEAM1_1_3];
             int TotalScore2 = clientInformation.GameData.TotalScores[BeloteTeam.TEAM2_2_4];
             int Place = clientInformation.Place;
@@ -272,7 +269,7 @@ namespace BeloteClient
         // Выход игрока со стола во время игры
         public void PlayerQuitHandler()
         {
-            Graphics.ShowMessage("Игра завершена. Кто-то вышел со стола");
+            Graphics.ShowMessage("Игра завершена. Кто-то вышел со стола: " + clientInformation.CurrentPlayer.Profile.Name);
             Graphics.CloseGameScreen();
             Graphics.ShowUserScreen();
         }

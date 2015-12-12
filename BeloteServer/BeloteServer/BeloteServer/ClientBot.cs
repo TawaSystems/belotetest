@@ -188,7 +188,7 @@ namespace BeloteServer
 
             // Выбираем максимальный заказ
             Order order = suitOrders[0];
-            for (var i = 1; i < suitOrders.Count; i++)
+            for (var i = 0; i < suitOrders.Count; i++)
             {
                 if (suitOrders[i].Size > order.Size)
                     order = suitOrders[i];
@@ -376,15 +376,18 @@ namespace BeloteServer
                         CardList PossibleCards = new CardList(bParams["Cards"]);
                         // Расчет и показ бонусов
                         Thread.Sleep(500);
-                        if (botBonuses.Count > 0)
+                        if (botBonuses != null)
                         {
-                            for (var i = botBonuses.Count - 1; i >= 0; i--)
+                            if (botBonuses.Count > 0)
                             {
-                                if (botBonuses[i] != botBonuses.SeniorBonus)
-                                    botBonuses.Delete(botBonuses[i]);
+                                for (var i = botBonuses.Count - 1; i >= 0; i--)
+                                {
+                                    if (botBonuses[i] != botBonuses.SeniorBonus)
+                                        botBonuses.Delete(botBonuses[i]);
+                                }
                             }
+                            AnnounceBonuses(botBonuses);
                         }
-                        AnnounceBonuses(botBonuses);
                         Thread.Sleep(500);
                         // Расчет и совершение хода
                         MakeMove(GetMovingCard(PossibleCards));
@@ -459,6 +462,7 @@ namespace BeloteServer
                     try
                     {
                         ActiveTable.AnnounceBonuses(ActivePlace, Bonuses);
+                        botBonuses = null;
                     }
                     catch (Exception ex)
                     {

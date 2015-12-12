@@ -138,7 +138,6 @@ namespace BeloteClient
 
         private void WaitingForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            game.Information.OnUpdateWaitingTable = null;
         }
     }
 }

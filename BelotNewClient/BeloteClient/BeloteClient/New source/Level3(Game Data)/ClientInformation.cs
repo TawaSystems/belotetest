@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BeloteClient
 {
@@ -238,10 +239,10 @@ namespace BeloteClient
                     serverActions.Game.PlayerQuitFromTable(place);
             }
             if (Status == GameStatus.WAITING)
+            {
                 SetPreGameHandlers(false);
-            else
-                SetGameHandlers(false);
-            ChangeCurrentTable(null);
+                ChangeCurrentTable(null);
+            }
         }
 
         //**********************************************************************************************************************************************************************************
@@ -546,9 +547,10 @@ namespace BeloteClient
                         return;
                     }
                 }
+                SetGameHandlers(false);
+                ChangeCurrentTable(null);
                 if (OnPlayerQuit != null)
                     OnPlayerQuit();
-                ExitFromTable(false);
             }
             catch (Exception Ex)
             {
@@ -564,9 +566,10 @@ namespace BeloteClient
                 MessageResult gParams = new MessageResult(Msg);
                 gameData.TotalScores[BeloteTeam.TEAM1_1_3] = Int32.Parse(gParams["Scores1"]);
                 gameData.TotalScores[BeloteTeam.TEAM2_2_4] = Int32.Parse(gParams["Scores2"]);
+                SetGameHandlers(false);
+                ChangeCurrentTable(null);
                 if (OnGameEnd != null)
                     OnGameEnd();
-                ExitFromTable(false);
             }
             catch (Exception Ex)
             {

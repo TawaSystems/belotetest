@@ -24,19 +24,6 @@ namespace BeloteServer
 #if DEBUG
             Debug.WriteLine("{0} Создание списка бонусов из бонусной строки: {1}", DateTime.Now, bonusString);
 #endif
-            list = new List<Bonus>();
-            Dictionary<string, string> bonuses = Helpers.SplitCommandString(bonusString);
-            if (bonuses.Count > 0)
-            {
-                int c;
-                if (Int32.TryParse(bonuses["Count"], out c))
-                {
-                    for (var i = 0; i < c; i++)
-                    {
-                        list.Add(new Bonus(bonuses["Bonus" + i.ToString()]));
-                    }
-                }
-            }
         }
 
         // Добавляет бонус в список

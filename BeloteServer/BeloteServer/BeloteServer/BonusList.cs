@@ -99,6 +99,19 @@ namespace BeloteServer
         // Создание списка бонусов из строки
         public BonusList(string bonusString) : base(bonusString)
         {
+            list = new List<Bonus>();
+            Dictionary<string, string> bonuses = Helpers.SplitCommandString(bonusString);
+            if (bonuses.Count > 0)
+            {
+                int c;
+                if (Int32.TryParse(bonuses["Count"], out c))
+                {
+                    for (var i = 0; i < c; i++)
+                    {
+                        AddBonusToList(new Bonus(bonuses["Bonus" + i.ToString()]));
+                    }
+                }
+            }
         }
 
         // Сумма бонусов в списке

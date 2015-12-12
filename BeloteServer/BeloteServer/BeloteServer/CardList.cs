@@ -181,7 +181,6 @@ namespace BeloteServer
                     }
                     else
                     {
-                        /*
                         // Если ходит 4 игрок, то он не обязан перебивать карту своего сокомандника (игрока №2), если она козырная, иначе необходимо перебить, если возможно
                         if (bribe.FulledCount == 3)
                         {
@@ -214,7 +213,6 @@ namespace BeloteServer
                                 }
                             }
                         }
-                        */
                         Card card = list.Find(c => (c.IsTrump) && (c.Cost >= bribe.SeniorTrump.Cost) && (c.Type != CardType.C_7));
                         // В случае, если у игрока имеются козыри, старше чем использовались на раздаче, нужно использовать их
                         if (card != null)
