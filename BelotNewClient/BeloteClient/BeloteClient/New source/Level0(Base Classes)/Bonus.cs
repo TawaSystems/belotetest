@@ -21,14 +21,15 @@ namespace BeloteClient
         // Создание бонуса из строки
         public Bonus(string BonusString)
         {
+            Cards = new CardList();
             // Если длина строки не равна четырем - то это никакой и не бонус
-            if (BonusString.Length != 4)
+            if (BonusString.Length < 4)
             {
                 Type = BonusType.BONUS_NONE;
                 HighCard = CardType.C_UNDEFINED;
                 Suit = CardSuit.C_NONE;
                 IsTrump = false;
-            }    
+            }
             else
             {
                 // Считываем из строки значения всех необходимых параметров бонуса
@@ -36,6 +37,10 @@ namespace BeloteClient
                 HighCard = (CardType)Int32.Parse(BonusString.Substring(1, 1));
                 Suit = Helpers.StringToSuit(BonusString.Substring(2, 1));
                 IsTrump = Helpers.StringToBool(BonusString.Substring(3, 1));
+                if (BonusString.Length > 4)
+                {
+                    Cards = new CardList(BonusString.Substring(4, BonusString.Length - 4));
+                }
             }
         }
 
@@ -65,6 +70,12 @@ namespace BeloteClient
 
         // Козырные ли карты в бонусе
         public bool IsTrump
+        {
+            get;
+            private set;
+        }
+
+        public CardList Cards
         {
             get;
             private set;

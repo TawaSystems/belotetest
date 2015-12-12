@@ -75,7 +75,11 @@ namespace BeloteServer
             {
                 bonusType = BonusType.BONUS_100;
             }
-            AddBonusToList(new Bonus(bonusType, cards[Position - Streak].Type, cards[Position - Streak].IsTrump, cards[Position - Streak].Suit));
+            Bonus bonus = new Bonus(bonusType, cards[Position - Streak].Type, cards[Position - Streak].IsTrump, cards[Position - Streak].Suit);
+            // Заполнение списка карт бонуса
+            for (var i = Position - Streak; i < Position; i++)
+                bonus.Cards.Add(cards[i]);
+            AddBonusToList(bonus);
         }
 
         // Добавляет бонус в список, проверяя на старшенство

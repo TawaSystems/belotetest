@@ -12,6 +12,7 @@ namespace BeloteServer
         // Метод создания бонуса - ему присваиваются тип, младшая карта, а также опционно для бонусов типа "последовательность" - масть
         public Bonus(BonusType Type, CardType HighCard, bool IsTrump, CardSuit Suit = CardSuit.C_NONE)
         {
+            Cards = new BaseCardList();
             this.Type = Type;
             this.HighCard = HighCard;
             this.Suit = Suit;
@@ -86,8 +87,9 @@ namespace BeloteServer
         // Создание бонуса из строки
         public Bonus(string BonusString)
         {
+            Cards = new BaseCardList();
             // Если длина строки не равна четырем - то это никакой и не бонус
-            if (BonusString.Length != 4)
+            if (BonusString.Length < 4)
             {
                 Type = BonusType.BONUS_NONE;
                 HighCard = CardType.C_UNDEFINED;
@@ -103,6 +105,10 @@ namespace BeloteServer
                 Suit = Helpers.StringToSuit(BonusString.Substring(2, 1));
                 IsTrump = Helpers.StringToBool(BonusString.Substring(3, 1));
                 Cost = CalculateCost();
+                if (BonusString.Length > 4)
+                {
+                    Cards = new BaseCardList(BonusString.Substring(4, BonusString.Length - 4));
+                }
             }
 #if DEBUG
             Debug.WriteLine("{0} Создан бонус: Тип - {1}, Старшая карта - {2}, Масть - {3}, Козырь - {4}, Стоимость - {5}",
@@ -203,10 +209,10 @@ namespace BeloteServer
             private set;
         }
 
-        // Бонус преобразуется к строке следующим образом: Тип + Младшая карта + Масть + Козырь
+        // Бонус преобразуется к строке следующим образом: Тип + Младшая карта + Масть + Козырь + Карты
         public override string ToString()
         {
-            return ((int)Type).ToString() + ((int)HighCard).ToString() + Helpers.SuitToString(Suit) + Helpers.BoolToString(IsTrump);
+            return ((int)Type).ToString() + ((int)HighCard).ToString() + Helpers.SuitToString(Suit) + Helpers.BoolToString(IsTrump) + Cards.ToString();
         }
 
         // Стоимость бонуса
@@ -218,6 +224,13 @@ namespace BeloteServer
 
         // Козырные ли карты в бонусе
         public bool IsTrump
+        {
+            get;
+            private set;
+        }
+
+        // Карты содержащиеся в бонусе
+        public BaseCardList Cards
         {
             get;
             private set;
