@@ -20,29 +20,12 @@ namespace BeloteClient
             InitializeComponent();
             UpdateBonusCheckList();
         }
-
-        private string TextFromBonusType(BonusType bonus)
-        {
-            switch (bonus)
-            {
-                case BonusType.BONUS_100:
-                    return "100";
-                case BonusType.BONUS_4X:
-                    return "4X";
-                case BonusType.BONUS_50:
-                    return "50";
-                case BonusType.BONUS_TERZ:
-                    return "Терц";
-                default:
-                    return "";
-            }
-        }
-
+        
         private void UpdateBonusCheckList()
         {
             for (var i = 0; i < game.Information.GameData.Bonuses.Count; i++)
             {
-                BonusesCheckList.Items.Add(TextFromBonusType(game.Information.GameData.Bonuses[i].Type));
+                BonusesCheckList.Items.Add(CoordinatesTransmitor.TextFromBonusType(game.Information.GameData.Bonuses[i].Type));
             }
         }
 
@@ -75,7 +58,7 @@ namespace BeloteClient
             {
                 return;
             }
-            BonusTypeLabel.Text = String.Format("Тип бонуса: {0}", TextFromBonusType(game.Information.GameData.Bonuses[index].Type));
+            BonusTypeLabel.Text = String.Format("Тип бонуса: {0}", CoordinatesTransmitor.TextFromBonusType(game.Information.GameData.Bonuses[index].Type));
             if (game.Information.GameData.Bonuses[index].Suit != CardSuit.C_NONE)
                 SuitImage.Image = suitesImageList.Images[(int)game.Information.GameData.Bonuses[index].Suit - 1];
             else
@@ -108,6 +91,25 @@ namespace BeloteClient
                 }
             }
             Close();
+        }
+
+        private void BonusesCheckList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            /*int index = BonusesCheckList.SelectedIndex;
+            bool IsChecked = BonusesCheckList.CheckedItems.Contains(BonusesCheckList.Items[index]);
+            if (game.Information.GameData.Bonuses.Count > 1)
+            {
+                for (var i = 0; i < game.Information.GameData.Bonuses.Count; i++)
+                {
+                    if (i != index)
+                    {
+                        if (game.Information.GameData.Bonuses[index].IsIntersect(game.Information.GameData.Bonuses[i]))
+                        {
+                            BonusesCheckList.
+                        }
+                    }
+                }
+            }*/
         }
     }
 }

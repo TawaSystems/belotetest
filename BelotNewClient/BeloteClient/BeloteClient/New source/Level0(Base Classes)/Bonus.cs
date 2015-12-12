@@ -62,6 +62,24 @@ namespace BeloteClient
             private set;
         }
 
+        // Пересекаются ли два бонуса
+        public bool IsIntersect(Bonus bonus)
+        {
+            if (bonus == null)
+                return true;
+            if ((this.Cards.Count == 0) || (bonus.Cards.Count == 00))
+                return true;
+            for (var i = 0; i < this.Cards.Count; i++)
+            {
+                for (var j = 0; j < bonus.Cards.Count; j++)
+                {
+                    if ((this.Cards[i].Suit == bonus.Cards[j].Suit) && (this.Cards[i].Type == bonus.Cards[j].Type))
+                        return true; 
+                }
+            }
+            return false;
+        }
+
         // Бонус преобразуется к строке следующим образом: Тип + Младшая карта + Масть + Козырь
         public override string ToString()
         {

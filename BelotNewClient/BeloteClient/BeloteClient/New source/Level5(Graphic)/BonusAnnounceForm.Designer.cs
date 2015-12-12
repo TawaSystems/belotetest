@@ -33,12 +33,12 @@
             this.BonusesCheckList = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.BonusInfoPanel = new System.Windows.Forms.Panel();
+            this.IsTrumpCheckBox = new System.Windows.Forms.CheckBox();
+            this.HighCardLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.BonusTypeLabel = new System.Windows.Forms.Label();
             this.SuitImage = new System.Windows.Forms.PictureBox();
             this.suitesImageList = new System.Windows.Forms.ImageList(this.components);
-            this.HighCardLabel = new System.Windows.Forms.Label();
-            this.IsTrumpCheckBox = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.BonusInfoPanel.SuspendLayout();
@@ -52,6 +52,7 @@
             this.BonusesCheckList.Name = "BonusesCheckList";
             this.BonusesCheckList.Size = new System.Drawing.Size(161, 169);
             this.BonusesCheckList.TabIndex = 0;
+            this.BonusesCheckList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.BonusesCheckList_ItemCheck);
             this.BonusesCheckList.SelectedIndexChanged += new System.EventHandler(this.BonusesCheckList_SelectedIndexChanged);
             // 
             // label1
@@ -75,6 +76,26 @@
             this.BonusInfoPanel.Size = new System.Drawing.Size(160, 169);
             this.BonusInfoPanel.TabIndex = 2;
             this.BonusInfoPanel.Visible = false;
+            // 
+            // IsTrumpCheckBox
+            // 
+            this.IsTrumpCheckBox.AutoSize = true;
+            this.IsTrumpCheckBox.Enabled = false;
+            this.IsTrumpCheckBox.Location = new System.Drawing.Point(6, 94);
+            this.IsTrumpCheckBox.Name = "IsTrumpCheckBox";
+            this.IsTrumpCheckBox.Size = new System.Drawing.Size(109, 17);
+            this.IsTrumpCheckBox.TabIndex = 7;
+            this.IsTrumpCheckBox.Text = "Козырной бонус";
+            this.IsTrumpCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // HighCardLabel
+            // 
+            this.HighCardLabel.AutoSize = true;
+            this.HighCardLabel.Location = new System.Drawing.Point(3, 64);
+            this.HighCardLabel.Name = "HighCardLabel";
+            this.HighCardLabel.Size = new System.Drawing.Size(86, 13);
+            this.HighCardLabel.TabIndex = 6;
+            this.HighCardLabel.Text = "Старшая карта:";
             // 
             // label3
             // 
@@ -110,26 +131,6 @@
             this.suitesImageList.Images.SetKeyName(1, "червы.png");
             this.suitesImageList.Images.SetKeyName(2, "пики.png");
             this.suitesImageList.Images.SetKeyName(3, "бубны.png");
-            // 
-            // HighCardLabel
-            // 
-            this.HighCardLabel.AutoSize = true;
-            this.HighCardLabel.Location = new System.Drawing.Point(3, 64);
-            this.HighCardLabel.Name = "HighCardLabel";
-            this.HighCardLabel.Size = new System.Drawing.Size(86, 13);
-            this.HighCardLabel.TabIndex = 6;
-            this.HighCardLabel.Text = "Старшая карта:";
-            // 
-            // IsTrumpCheckBox
-            // 
-            this.IsTrumpCheckBox.AutoSize = true;
-            this.IsTrumpCheckBox.Enabled = false;
-            this.IsTrumpCheckBox.Location = new System.Drawing.Point(6, 94);
-            this.IsTrumpCheckBox.Name = "IsTrumpCheckBox";
-            this.IsTrumpCheckBox.Size = new System.Drawing.Size(109, 17);
-            this.IsTrumpCheckBox.TabIndex = 7;
-            this.IsTrumpCheckBox.Text = "Козырной бонус";
-            this.IsTrumpCheckBox.UseVisualStyleBackColor = true;
             // 
             // button1
             // 

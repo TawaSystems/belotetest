@@ -70,5 +70,23 @@ namespace BeloteClient
                     return graphicPlace;
             }
         }
+
+        // Возвращает название бонуса по его типу
+        public static string TextFromBonusType(BonusType bonus)
+        {
+            switch (bonus)
+            {
+                case BonusType.BONUS_100:
+                    return "100";
+                case BonusType.BONUS_4X:
+                    return "4X";
+                case BonusType.BONUS_50:
+                    return "50";
+                case BonusType.BONUS_TERZ:
+                    return "Terz";
+                default:
+                    return "";
+            }
+        }
     }
 }
