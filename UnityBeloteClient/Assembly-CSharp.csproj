@@ -80,6 +80,7 @@
      <Compile Include="Assets\Code\Level4(Graphics Helpers)\CoordinatesTransmitor.cs" />
      <Compile Include="Assets\Code\Level4(Graphics Helpers)\Game.cs" />
      <Compile Include="Assets\Code\Level4(Graphics Helpers)\GameGraphics.cs" />
+     <Compile Include="Assets\Scenes\SplashScreenScript.cs" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
