@@ -45,24 +45,41 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Code\Level0\BeloteEnums.cs" />
-     <Compile Include="Assets\Code\Level0\Bonus.cs" />
-     <Compile Include="Assets\Code\Level0\BonusList.cs" />
-     <Compile Include="Assets\Code\Level0\Card.cs" />
-     <Compile Include="Assets\Code\Level0\CardList.cs" />
-     <Compile Include="Assets\Code\Level0\Constants.cs" />
-     <Compile Include="Assets\Code\Level0\Helpers.cs" />
-     <Compile Include="Assets\Code\Level0\Messages.cs" />
-     <Compile Include="Assets\Code\Level0\Order.cs" />
-     <Compile Include="Assets\Code\Level0\Player.cs" />
-     <Compile Include="Assets\Code\Level0\PlayersList.cs" />
-     <Compile Include="Assets\Code\Level0\Profile.cs" />
-     <Compile Include="Assets\Code\Level0\Statistics.cs" />
-     <Compile Include="Assets\Code\Level0\Table.cs" />
-     <Compile Include="Assets\Code\Level0\TablesList.cs" />
-     <Compile Include="Assets\Code\Level1\BeloteClientException.cs" />
-     <Compile Include="Assets\Code\Level1\Message.cs" />
-     <Compile Include="Assets\Code\Level1\ServerConnection.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\BeloteEnums.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\Bonus.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\BonusList.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\Card.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\CardList.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\Constants.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\Helpers.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\Messages.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\Order.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\Player.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\PlayersList.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\Profile.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\Statistics.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\Table.cs" />
+     <Compile Include="Assets\Code\Level0(Base Classes)\TablesList.cs" />
+     <Compile Include="Assets\Code\Level1(Server)\BeloteClientException.cs" />
+     <Compile Include="Assets\Code\Level1(Server)\Message.cs" />
+     <Compile Include="Assets\Code\Level1(Server)\ServerConnection.cs" />
+     <Compile Include="Assets\Code\Level2(Server Actions)\AuthorizationActions.cs" />
+     <Compile Include="Assets\Code\Level2(Server Actions)\BaseActionsType.cs" />
+     <Compile Include="Assets\Code\Level2(Server Actions)\GameActions.cs" />
+     <Compile Include="Assets\Code\Level2(Server Actions)\MessageHandlers.cs" />
+     <Compile Include="Assets\Code\Level2(Server Actions)\PlayersActions.cs" />
+     <Compile Include="Assets\Code\Level2(Server Actions)\ServerActions.cs" />
+     <Compile Include="Assets\Code\Level2(Server Actions)\TablesActions.cs" />
+     <Compile Include="Assets\Code\Level2(Server Actions)\TestActions.cs" />
+     <Compile Include="Assets\Code\Level3(Game Data)\BonusesTypes.cs" />
+     <Compile Include="Assets\Code\Level3(Game Data)\Bribes.cs" />
+     <Compile Include="Assets\Code\Level3(Game Data)\ClientInformation.cs" />
+     <Compile Include="Assets\Code\Level3(Game Data)\GameData.cs" />
+     <Compile Include="Assets\Code\Level3(Game Data)\Orders.cs" />
+     <Compile Include="Assets\Code\Level3(Game Data)\Scores.cs" />
+     <Compile Include="Assets\Code\Level4(Graphics Helpers)\CoordinatesTransmitor.cs" />
+     <Compile Include="Assets\Code\Level4(Graphics Helpers)\Game.cs" />
+     <Compile Include="Assets\Code\Level4(Graphics Helpers)\GameGraphics.cs" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
