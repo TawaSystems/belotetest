@@ -1,0 +1,15 @@
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/Xamarin.iOS,Version=v1.0.AssemblyAttribute.cs
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/ibtool/LaunchScreen.nib
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/ibtool/Main.storyboardc/BV1-FR-VrT-view-3se-qz-xqx.nib
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/ibtool/Main.storyboardc/Info.plist
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/ibtool/Main.storyboardc/UIViewController-BV1-FR-VrT.nib
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/partial-info.plist
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/asset-manifest.plist
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/Assets.car
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/optimized/
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/BLOT-ONLINE.exe.mdb
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/BLOT-ONLINE.exe
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/BLOT-ONLINE.exe
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/BLOT-ONLINE.exe.mdb
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/Xamarin.Insights.dll
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/PLCrashReporterUnifiedBinding.dll
