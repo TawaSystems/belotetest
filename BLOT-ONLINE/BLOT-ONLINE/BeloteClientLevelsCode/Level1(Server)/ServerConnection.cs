@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
 using System.Net.Sockets;
-
+using Xamarin.Forms;
 
 namespace BeloteClient
 {
@@ -22,8 +22,6 @@ namespace BeloteClient
         private List<Message> messagesList;
         // Список с обработчиками сообщений
         private Dictionary<string, List<MessageDelegate>> messageHandlers;
-        // Диспетчер для главного потока
-        //private Dispatcher dispatcher;
 
         // Конструктор - создание всех объектов
         public ServerConnection()
@@ -32,7 +30,6 @@ namespace BeloteClient
             {
                 throw new BeloteClientException("Не удалось подключиться к серверу");
             }
-            //dispatcher = Dispatcher.CurrentDispatcher;
             stream = client.GetStream();
             messagesList = new List<Message>();
             messageHandlers = new Dictionary<string, List<MessageDelegate>>();
@@ -129,7 +126,7 @@ namespace BeloteClient
                 {
                     foreach (MessageDelegate md in msgHandlers)
                     {
-                        //dispatcher.BeginInvoke(new Action(() => md(Msg)));
+						Device.BeginInvokeOnMainThread (new Action (() => md (Msg)));
                     }
                     return true;
                 }
@@ -173,7 +170,7 @@ namespace BeloteClient
                                 Message m = messagesList[i];
                                 if (m.Command == Command)
                                 {
-                                    //dispatcher.BeginInvoke(new Action(() => Handler(m)));
+									Device.BeginInvokeOnMainThread (new Action (() => Handler (m)));
                                     messagesList.Remove(m);
                                 }
                             }

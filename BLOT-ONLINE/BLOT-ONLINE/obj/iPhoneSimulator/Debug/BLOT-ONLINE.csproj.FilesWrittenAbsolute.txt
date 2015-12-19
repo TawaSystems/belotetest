@@ -13,3 +13,7 @@
 /Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/BLOT-ONLINE.exe.mdb
 /Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/Xamarin.Insights.dll
 /Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/PLCrashReporterUnifiedBinding.dll
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/Xamarin.Forms.Platform.iOS.dll
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/Xamarin.Forms.Core.dll
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/Xamarin.Forms.Xaml.dll
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/Xamarin.Forms.Platform.dll

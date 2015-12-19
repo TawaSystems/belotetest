@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace BeloteClient
 {
@@ -101,7 +102,7 @@ namespace BeloteClient
         // Отображение информационного экрана с сообщением
         public void ShowMessage(string Message)
         {
-            
+			
         }
 
         // Обновление списка столов в режиме выбора стола
