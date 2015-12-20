@@ -17,3 +17,14 @@
 /Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/Xamarin.Forms.Core.dll
 /Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/Xamarin.Forms.Xaml.dll
 /Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/bin/iPhoneSimulator/Debug/Xamarin.Forms.Platform.dll
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/optimized/Default@2x.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/optimized/Default-568h@2x.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/optimized/Default-Landscape.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/optimized/Default-Landscape@2x.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/optimized/Default.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage@2x.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage-568h@2x.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-160x60@2x.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-176x76~ipad.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-176x76@2x~ipad.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-276x76~ipad.png

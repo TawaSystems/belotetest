@@ -20,6 +20,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Spaceship" width="394" height="347"/>
+        <image name="Default.png" width="320" height="480"/>
+        <image name="Default-568h.png" width="320" height="568"/>
+        <image name="Default-Landscape.png" width="1024" height="748"/>
+        <image name="640=960.png" width="640" height="960"/>
+    </resources>
 </document>

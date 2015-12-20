@@ -103,12 +103,22 @@
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\Spaceship.imageset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\Spaceship.imageset\Spaceship.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-Landscape.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-Landscape%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-60%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-76.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-76%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Icon-76.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\GameScene.sks" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
     <InterfaceDefinition Include="Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
