@@ -111,8 +111,14 @@
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Icon-76%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\GuestScene.sks" />
     <BundleResource Include="Resources\EmailRegistrationScene.sks" />
+    <BundleResource Include="InterfaceImages\GuestScreen\ActiveButton.png" />
+    <BundleResource Include="InterfaceImages\GuestScreen\background.png" />
+    <BundleResource Include="InterfaceImages\GuestScreen\TextField.png" />
+    <BundleResource Include="InterfaceImages\GuestScreen\UnactiveButton.png" />
+    <BundleResource Include="InterfaceImages\GuestScreen\VKButton.png" />
+    <BundleResource Include="Resources\GuestScene.sks" />
+    <BundleResource Include="InterfaceImages\GuestScreen\FacebookButton.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -165,12 +171,14 @@
     <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\Game.cs" />
     <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\GameGraphics.cs" />
     <Compile Include="GuestScene.cs" />
-    <Compile Include="ERS.cs" />
+    <Compile Include="EmailRegistrationScene.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.10.6\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.10.6\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
   <Import Project="..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <ItemGroup>
     <Folder Include="BeloteClientLevelsCode\" />
+    <Folder Include="InterfaceImages\" />
+    <Folder Include="InterfaceImages\GuestScreen\" />
   </ItemGroup>
 </Project>

@@ -11,7 +11,6 @@
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-276x76@2x~ipad.png</string>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage@2x.png</string>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage-568h@2x.png</string>
-			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/Assets.car</string>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/partial-info.plist</string>
 		</array>
 	</dict>
@@ -59,18 +58,6 @@
 		<dict>
 			<key>affected-items</key>
 			<array>
-				<string>./LaunchImage.launchimage/[ipad][][1x][landscape][full-screen][]</string>
-			</array>
-			<key>catalog</key>
-			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/Resources/Images.xcassets</string>
-			<key>message</key>
-			<string>LaunchImage.launchimage/Default-Landscape.png is 1024x748 but should be 1024x768.</string>
-			<key>type</key>
-			<string>Ambiguous Content</string>
-		</dict>
-		<dict>
-			<key>affected-items</key>
-			<array>
 				<string>./LaunchImage.launchimage/[ipad][][2x][landscape][full-screen][]</string>
 			</array>
 			<key>catalog</key>
@@ -83,12 +70,12 @@
 		<dict>
 			<key>affected-items</key>
 			<array>
-				<string>./AppIcons.appiconset/[car][120x120][][][1x][2d][(null)]</string>
+				<string>./LaunchImage.launchimage/[ipad][][1x][landscape][full-screen][]</string>
 			</array>
 			<key>catalog</key>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/Resources/Images.xcassets</string>
 			<key>message</key>
-			<string>The app icon set "AppIcons" has an unassigned child.</string>
+			<string>LaunchImage.launchimage/Default-Landscape.png is 1024x748 but should be 1024x768.</string>
 			<key>type</key>
 			<string>Ambiguous Content</string>
 		</dict>

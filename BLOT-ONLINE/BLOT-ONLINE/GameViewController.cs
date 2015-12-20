@@ -28,13 +28,12 @@ namespace BLOTONLINE
 			skView.ShowsFPS = true;
 			skView.ShowsNodeCount = true;
 			/* Sprite Kit applies additional optimizations to improve rendering performance */
-			skView.IgnoresSiblingOrder = true;
+			//skView.IgnoresSiblingOrder = true;
 
 			// Create and configure the scene.
 			GuestScene scene = SKNode.FromFile<GuestScene> ("GuestScene");
 			scene.Game = this.Game;
-			scene.ScaleMode = SKSceneScaleMode.ResizeFill;
-
+			scene.ScaleMode = SKSceneScaleMode.Fill;
 			// Present the scene.
 			skView.PresentScene (scene);
 		}
