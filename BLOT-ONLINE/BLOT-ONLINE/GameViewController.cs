@@ -2,11 +2,17 @@
 
 using SpriteKit;
 using UIKit;
+using BeloteClient;
 
 namespace BLOTONLINE
 {
 	public partial class GameViewController : UIViewController
 	{
+		public Game Game {
+			get;
+			private set;
+		}
+
 		public GameViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -14,6 +20,8 @@ namespace BLOTONLINE
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			Game = new Game ();
 
 			// Configure the view.
 			var skView = (SKView)View;
@@ -23,7 +31,8 @@ namespace BLOTONLINE
 			skView.IgnoresSiblingOrder = true;
 
 			// Create and configure the scene.
-			var scene = SKNode.FromFile<GameScene> ("GameScene");
+			GuestScene scene = SKNode.FromFile<GuestScene> ("GuestScene");
+			scene.Game = this.Game;
 			scene.ScaleMode = SKSceneScaleMode.ResizeFill;
 
 			// Present the scene.

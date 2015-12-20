@@ -71,9 +71,10 @@ namespace BeloteClient
         }
 
         // Авторизация с помощью электронной почты
-        public void AutorizationEmail(string Email, string Password)
+		public bool AutorizationEmail(string Email, string Password)
         {
-            if (clientInformation.AutorizationEmail(Email, Password))
+			return clientInformation.AutorizationEmail (Email, Password);
+            /*if (clientInformation.AutorizationEmail(Email, Password))
             {
                 Graphics.CloseGuestScreen();
                 Graphics.ShowUserScreen();
@@ -82,7 +83,7 @@ namespace BeloteClient
             else
             {
                 Graphics.ShowMessage("Не удалось войти");
-            }
+            }*/
         }
 
         // Создание тренировочного стола

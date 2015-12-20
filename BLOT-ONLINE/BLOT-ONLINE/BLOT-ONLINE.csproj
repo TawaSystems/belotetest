@@ -100,23 +100,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\Spaceship.imageset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\Spaceship.imageset\Spaceship.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-Landscape.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-Landscape%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-60%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-76.png" />
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-76%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Icon-60%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Icon-76.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Icon-76%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\GameScene.sks" />
+    <BundleResource Include="Resources\GuestScene.sks" />
+    <BundleResource Include="Resources\EmailRegistrationScene.sks" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -133,7 +129,6 @@
     <Compile Include="GameViewController.designer.cs">
       <DependentUpon>GameViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameScene.cs" />
     <Compile Include="BeloteClientLevelsCode\Level0%28Base Classes%29\BeloteEnums.cs" />
     <Compile Include="BeloteClientLevelsCode\Level0%28Base Classes%29\Bonus.cs" />
     <Compile Include="BeloteClientLevelsCode\Level0%28Base Classes%29\BonusList.cs" />
@@ -169,6 +164,8 @@
     <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\CoordinatesTransmitor.cs" />
     <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\Game.cs" />
     <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\GameGraphics.cs" />
+    <Compile Include="GuestScene.cs" />
+    <Compile Include="ERS.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.10.6\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.10.6\build\Xamarin.iOS10\Xamarin.Insights.targets')" />

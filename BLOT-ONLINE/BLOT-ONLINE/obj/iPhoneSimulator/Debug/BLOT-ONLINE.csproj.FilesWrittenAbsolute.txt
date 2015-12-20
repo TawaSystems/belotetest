@@ -28,3 +28,5 @@
 /Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-176x76~ipad.png
 /Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-176x76@2x~ipad.png
 /Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-276x76~ipad.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-260x60@2x.png
+/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-276x76@2x~ipad.png

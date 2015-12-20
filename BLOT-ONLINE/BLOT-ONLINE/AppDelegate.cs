@@ -16,14 +16,8 @@ namespace BLOTONLINE
 			set;
 		}
 
-		public Game Game {
-			get;
-			private set;
-		}
-
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
-			Game = new Game ();
 
 			// Override point for customization after application launch.
 			// If not required for your application you can safely delete this method

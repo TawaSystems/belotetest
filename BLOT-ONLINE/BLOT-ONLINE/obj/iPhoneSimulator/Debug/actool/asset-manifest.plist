@@ -6,7 +6,9 @@
 	<dict>
 		<key>output-files</key>
 		<array>
+			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-260x60@2x.png</string>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-276x76~ipad.png</string>
+			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-276x76@2x~ipad.png</string>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage@2x.png</string>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage-568h@2x.png</string>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/Assets.car</string>
@@ -42,30 +44,6 @@
 	</array>
 	<key>com.apple.actool.document.warnings</key>
 	<array>
-		<dict>
-			<key>affected-items</key>
-			<array>
-				<string>./AppIcons-2.appiconset</string>
-			</array>
-			<key>catalog</key>
-			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/Resources/Images.xcassets</string>
-			<key>message</key>
-			<string>A 60x60@2x app icon is required for iPhone apps targeting iOS 7.0 and later</string>
-			<key>type</key>
-			<string>Missing Content</string>
-		</dict>
-		<dict>
-			<key>affected-items</key>
-			<array>
-				<string>./AppIcons-2.appiconset</string>
-			</array>
-			<key>catalog</key>
-			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/Resources/Images.xcassets</string>
-			<key>message</key>
-			<string>A 76x76@2x app icon is required for iPad apps targeting iOS 7.0 and later</string>
-			<key>type</key>
-			<string>Missing Content</string>
-		</dict>
 		<dict>
 			<key>affected-items</key>
 			<array>
