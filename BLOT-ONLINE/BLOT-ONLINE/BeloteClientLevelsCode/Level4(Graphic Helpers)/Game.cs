@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using SpriteKit;
+using UIKit;
 
 namespace BeloteClient
 {
@@ -21,13 +23,14 @@ namespace BeloteClient
         //**********************************************************************************************************************************************************************************
 
         // Конструктор
-        public Game()
+		public Game(SKView GameView)
         {
             AppDomain.CurrentDomain.ProcessExit += ProcessExit;
             try
             {
+				GraphicsProvider = new GraphicsProvider();
+				Graphics = new GameGraphics(this, GameView);
                 clientInformation = new ClientInformation();
-                Graphics = new GameGraphics(this);
 
                 clientInformation.OnGameStart = StartGameHandler;
                 clientInformation.OnUpdateWaitingTable = UpdateWaitingPlayers;
@@ -41,7 +44,7 @@ namespace BeloteClient
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message);
+				Graphics.ShowMessage (ex.Message);
                 Environment.Exit(0);
             }
         }
@@ -290,5 +293,11 @@ namespace BeloteClient
             get;
             private set;
         }
+
+		public GraphicsProvider GraphicsProvider
+		{
+			get;
+			private set;
+		}
     }
 }

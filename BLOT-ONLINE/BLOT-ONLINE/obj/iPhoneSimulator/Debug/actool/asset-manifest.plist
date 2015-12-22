@@ -9,8 +9,11 @@
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-260x60@2x.png</string>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-276x76~ipad.png</string>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/AppIcons-276x76@2x~ipad.png</string>
-			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage@2x.png</string>
-			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage-568h@2x.png</string>
+			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage-800-Portrait-736h@3x.png</string>
+			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage-800-Landscape-736h@3x.png</string>
+			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage-800-667h@2x.png</string>
+			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage-700@2x.png</string>
+			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/bundle/LaunchImage-700-568h@2x.png</string>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/obj/iPhoneSimulator/Debug/actool/partial-info.plist</string>
 		</array>
 	</dict>
@@ -19,7 +22,7 @@
 		<dict>
 			<key>affected-items</key>
 			<array>
-				<string>./LaunchImage.launchimage/[iphone][][2x][portrait][full-screen][]</string>
+				<string>./LaunchImage.launchimage/[iphone][736h][3x][portrait][full-screen][8.0]</string>
 			</array>
 			<key>catalog</key>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/Resources/Images.xcassets</string>
@@ -31,7 +34,19 @@
 		<dict>
 			<key>affected-items</key>
 			<array>
-				<string>./LaunchImage.launchimage/[iphone][retina4][2x][portrait][full-screen][]</string>
+				<string>./LaunchImage.launchimage/[iphone][736h][3x][landscape][full-screen][8.0]</string>
+			</array>
+			<key>catalog</key>
+			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/Resources/Images.xcassets</string>
+			<key>message</key>
+			<string>This launch image only applies to iOS 6.x and prior but the minimum deployment is 7.0 or later.</string>
+			<key>type</key>
+			<string>Inapplicable Content</string>
+		</dict>
+		<dict>
+			<key>affected-items</key>
+			<array>
+				<string>./LaunchImage.launchimage/[iphone][667h][2x][portrait][full-screen][8.0]</string>
 			</array>
 			<key>catalog</key>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/Resources/Images.xcassets</string>
@@ -46,36 +61,13 @@
 		<dict>
 			<key>affected-items</key>
 			<array>
-				<string>./LaunchImage.launchimage</string>
+				<string>./LaunchImage.launchimage/[ipad][][2x][landscape][full-screen][9.0][2d][2048=2732.png]</string>
+				<string>./LaunchImage.launchimage/[ipad][][2x][portrait][full-screen][9.0][2d][2732=2048.png]</string>
 			</array>
 			<key>catalog</key>
 			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/Resources/Images.xcassets</string>
 			<key>message</key>
-			<string>An iPhone Retina (4-inch) launch image for iOS 7.0 and later is required.</string>
-			<key>type</key>
-			<string>Missing Content</string>
-		</dict>
-		<dict>
-			<key>affected-items</key>
-			<array>
-				<string>./LaunchImage.launchimage/[ipad][][2x][landscape][full-screen][]</string>
-			</array>
-			<key>catalog</key>
-			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/Resources/Images.xcassets</string>
-			<key>message</key>
-			<string>LaunchImage.launchimage/Default-Landscape@2x.png is 2048x1496 but should be 2048x1536.</string>
-			<key>type</key>
-			<string>Ambiguous Content</string>
-		</dict>
-		<dict>
-			<key>affected-items</key>
-			<array>
-				<string>./LaunchImage.launchimage/[ipad][][1x][landscape][full-screen][]</string>
-			</array>
-			<key>catalog</key>
-			<string>/Users/thandle/belotetest/BLOT-ONLINE/BLOT-ONLINE/Resources/Images.xcassets</string>
-			<key>message</key>
-			<string>LaunchImage.launchimage/Default-Landscape.png is 1024x748 but should be 1024x768.</string>
+			<string>The launch image set "LaunchImage" has 2 unassigned children.</string>
 			<key>type</key>
 			<string>Ambiguous Content</string>
 		</dict>

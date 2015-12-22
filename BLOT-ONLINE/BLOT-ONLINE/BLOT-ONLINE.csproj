@@ -37,7 +37,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchFloat32>true</MtouchFloat32>
     <MtouchUseSGen>true</MtouchUseSGen>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -66,7 +65,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
@@ -100,25 +98,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-568h%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-Landscape.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-Landscape%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Contents.json" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Icon-60%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Icon-76.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Icon-76%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\640=1136.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\640=960.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\2048=2732.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\2732=2048.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\1242=2208.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\750=1334.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\2208=1242.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\EmailRegistrationScene.sks" />
-    <BundleResource Include="InterfaceImages\GuestScreen\ActiveButton.png" />
-    <BundleResource Include="InterfaceImages\GuestScreen\background.png" />
-    <BundleResource Include="InterfaceImages\GuestScreen\TextField.png" />
-    <BundleResource Include="InterfaceImages\GuestScreen\UnactiveButton.png" />
-    <BundleResource Include="InterfaceImages\GuestScreen\VKButton.png" />
     <BundleResource Include="Resources\GuestScene.sks" />
-    <BundleResource Include="InterfaceImages\GuestScreen\FacebookButton.png" />
+    <BundleResource Include="InterfaceImages\5_6\GuestScreen\ActiveButton.png" />
+    <BundleResource Include="InterfaceImages\5_6\GuestScreen\background.png" />
+    <BundleResource Include="InterfaceImages\5_6\GuestScreen\FacebookButton.png" />
+    <BundleResource Include="InterfaceImages\5_6\GuestScreen\TextField.png" />
+    <BundleResource Include="InterfaceImages\5_6\GuestScreen\UnactiveButton.png" />
+    <BundleResource Include="InterfaceImages\5_6\GuestScreen\VKButton.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -172,6 +173,9 @@
     <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\GameGraphics.cs" />
     <Compile Include="GuestScene.cs" />
     <Compile Include="EmailRegistrationScene.cs" />
+    <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\GraphicsProvider.cs" />
+    <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\BeloteScene.cs" />
+    <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\CoordinatesDictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.10.6\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.10.6\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
@@ -179,6 +183,7 @@
   <ItemGroup>
     <Folder Include="BeloteClientLevelsCode\" />
     <Folder Include="InterfaceImages\" />
-    <Folder Include="InterfaceImages\GuestScreen\" />
+    <Folder Include="InterfaceImages\5_6\" />
+    <Folder Include="InterfaceImages\5_6\GuestScreen\" />
   </ItemGroup>
 </Project>

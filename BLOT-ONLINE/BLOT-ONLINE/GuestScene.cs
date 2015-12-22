@@ -8,17 +8,14 @@ using BeloteClient;
 
 namespace BLOTONLINE
 {
-	public class GuestScene : SKScene
+	public class GuestScene : BeloteScene
 	{
-
-		public Game Game {
-			get;
-			set;
-		}
-
 		private void DrawBackGround()
 		{
-			SKTexture backTexture = SKTexture.FromImageNamed ("InterfaceImages/GuestScreen/background.png");
+			SKTexture backTexture;
+			backTexture = SKTexture.FromImageNamed (Game.GraphicsProvider.Path + "GuestScreen/background.png");
+			//else
+			//	backTexture = SKTexture.FromImageNamed ("InterfaceImages/GuestScreen/2X.png");
 			SKSpriteNode backSprite = SKSpriteNode.FromTexture (backTexture);
 			backSprite.Size = new CGSize(1344, 750);
 			backSprite.Position = new CGPoint (0, 0);
@@ -30,10 +27,10 @@ namespace BLOTONLINE
 
 		private void DrawFacebookButton()
 		{
-			SKTexture fbTexture = SKTexture.FromImageNamed ("InterfaceImages/GuestScreen/FacebookButton.png");
+			SKTexture fbTexture = SKTexture.FromImageNamed (Game.GraphicsProvider.Path + "GuestScreen/FacebookButton.png");
 			SKSpriteNode fbSprite = SKSpriteNode.FromTexture (fbTexture);
 			fbSprite.Size = new CGSize(227, 227);
-			fbSprite.Position = new CGPoint (364, 750 - 150 - 227);
+			fbSprite.Position = this["FBButton"];
 			fbSprite.AnchorPoint = new CGPoint (0, 0);
 			fbSprite.Name = "FacebookButtonSprite";
 			AddChild (fbSprite);
@@ -41,10 +38,10 @@ namespace BLOTONLINE
 
 		private void DrawVKButton()
 		{
-			SKTexture vkTexture = SKTexture.FromImageNamed ("InterfaceImages/GuestScreen/VKButton.png");
+			SKTexture vkTexture = SKTexture.FromImageNamed (Game.GraphicsProvider.Path + "GuestScreen/VKButton.png");
 			SKSpriteNode vkSprite = SKSpriteNode.FromTexture (vkTexture);
 			vkSprite.Size = new CGSize(227, 227);
-			vkSprite.Position = new CGPoint (749, 750 - 150 - 227);
+			vkSprite.Position = this["VKButton"];
 			vkSprite.AnchorPoint = new CGPoint (0, 0);
 			vkSprite.Name = "VKButtonSprite";
 			AddChild (vkSprite);
@@ -52,16 +49,16 @@ namespace BLOTONLINE
 
 		private void DrawTextFields()
 		{
-			SKTexture tfTexture = SKTexture.FromImageNamed ("InterfaceImages/GuestScreen/TextField.png");
+			SKTexture tfTexture = SKTexture.FromImageNamed (Game.GraphicsProvider.Path + "GuestScreen/TextField.png");
 			SKSpriteNode emailSprite = SKSpriteNode.FromTexture (tfTexture);
 			emailSprite.Size = new CGSize(647, 65);
-			emailSprite.Position = new CGPoint (347, 750 - 405 - 65);
+			emailSprite.Position = this["Email"];
 			emailSprite.AnchorPoint = new CGPoint (0, 0);
 			emailSprite.Name = "EmailFieldSprite";
 			AddChild (emailSprite);
 			SKSpriteNode passwordSprite = SKSpriteNode.FromTexture (tfTexture);
 			passwordSprite.Size = new CGSize(647, 65);
-			passwordSprite.Position = new CGPoint (347, 750 - 478 - 65);
+			passwordSprite.Position = this["Password"];
 			passwordSprite.AnchorPoint = new CGPoint (0, 0);
 			passwordSprite.Name = "PasswordFieldSprite";
 			AddChild (passwordSprite);
@@ -80,7 +77,7 @@ namespace BLOTONLINE
 			SKLabelNode enterLabel = new SKLabelNode ("Roboto") {
 				Text = "Войти через: ",
 				FontSize = 30,
-				Position = new CGPoint (576, 750 - 98 - 30),
+				Position = this["EnterLabel"],
 				HorizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
 			};
 			AddChild (enterLabel);
@@ -89,6 +86,22 @@ namespace BLOTONLINE
 
 		public GuestScene (IntPtr handle) : base (handle)
 		{
+		}
+
+		protected override void FillCoordinates()
+		{
+			base.FillCoordinates ();
+			coordinates.AddValue ("VKButton", DeviceType.IPhone_5_5S, new CGPoint (749, 378));
+			coordinates.AddValue ("VKButton", DeviceType.IPhone_6_6S, new CGPoint (749, 378));
+			coordinates.AddValue ("FBButton", DeviceType.IPhone_5_5S, new CGPoint (364, 378));
+			coordinates.AddValue ("FBButton", DeviceType.IPhone_6_6S, new CGPoint (364, 378));
+			coordinates.AddValue ("Email", DeviceType.IPhone_5_5S, new CGPoint (347, 300));
+			coordinates.AddValue ("Email", DeviceType.IPhone_6_6S, new CGPoint (347, 300));
+			coordinates.AddValue ("Password", DeviceType.IPhone_5_5S, new CGPoint (347, 225));
+			coordinates.AddValue ("Password", DeviceType.IPhone_6_6S, new CGPoint (347, 225));
+			coordinates.AddValue ("EnterLabel", DeviceType.IPhone_5_5S, new CGPoint (576, 750 - 98 - 30));
+			coordinates.AddValue ("EnterLabel", DeviceType.IPhone_6_6S, new CGPoint (576, 750 - 98 - 30));
+
 		}
 
 		public override void DidMoveToView (SKView view)
@@ -100,20 +113,6 @@ namespace BLOTONLINE
 			DrawRegistrationButton ();
 			DrawEnterButton ();
 			DrawLabels ();
-			/*string txt = "";
-			if (Game.AutorizationEmail ("a", "a"))
-				txt = "Login";
-			else
-				txt = "((((";
-			// Setup your scene here
-			var myLabel = new SKLabelNode ("Chalkduster") {
-				Text = txt,
-				FontSize = 50,
-				Position = new CGPoint (Frame.Width / 2, Frame.Height / 2)
-			};*/
-
-
-			//AddChild (myLabel);
 		}
 
 		public override void TouchesBegan (NSSet touches, UIEvent evt)

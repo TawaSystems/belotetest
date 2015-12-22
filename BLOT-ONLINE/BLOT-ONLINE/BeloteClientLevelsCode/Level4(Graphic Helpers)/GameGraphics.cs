@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using SpriteKit;
+using UIKit;
+using BLOTONLINE;
 
 namespace BeloteClient
 {
@@ -14,10 +17,13 @@ namespace BeloteClient
         //**********************************************************************************************************************************************************************************
 
         private Game Game;
+		private SKView GameView;
+		private BeloteScene Scene;
 
-        public GameGraphics(Game Game)
+		public GameGraphics(Game Game, SKView GameView)
         {
             this.Game = Game;
+			this.GameView = GameView;
         }
         //**********************************************************************************************************************************************************************************
         //                      Методы отображения графики
@@ -26,6 +32,10 @@ namespace BeloteClient
         // Отображение гостевого экрана
         public void ShowGuestScreen()
         {
+			Scene = SKNode.FromFile<GuestScene> ("GuestScene");
+			Scene.Initialize (Game);
+			Scene.ScaleMode = SKSceneScaleMode.Fill;
+			GameView.PresentScene (Scene);
         }
 
         // Закрытие гостевого экрана
