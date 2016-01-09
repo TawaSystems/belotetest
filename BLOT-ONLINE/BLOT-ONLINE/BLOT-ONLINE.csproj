@@ -103,23 +103,43 @@
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Icon-76.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-2.appiconset\Icon-76%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\2208=1242.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\750=1334.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\640=1136.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\640=960.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\2048=2732.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\2732=2048.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\1242=2208.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\750=1334.png" />
-    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\2208=1242.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\2048=2732.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\EmailRegistrationScene.sks" />
     <BundleResource Include="Resources\GuestScene.sks" />
-    <BundleResource Include="InterfaceImages\5_6\GuestScreen\ActiveButton.png" />
-    <BundleResource Include="InterfaceImages\5_6\GuestScreen\background.png" />
-    <BundleResource Include="InterfaceImages\5_6\GuestScreen\FacebookButton.png" />
-    <BundleResource Include="InterfaceImages\5_6\GuestScreen\TextField.png" />
-    <BundleResource Include="InterfaceImages\5_6\GuestScreen\UnactiveButton.png" />
-    <BundleResource Include="InterfaceImages\5_6\GuestScreen\VKButton.png" />
+    <BundleResource Include="Resources\Textures\ActiveButton.png" />
+    <BundleResource Include="Resources\Textures\GuestScreen\FacebookButton.png" />
+    <BundleResource Include="Resources\Textures\GuestScreen\VKButton.png" />
+    <BundleResource Include="Resources\Textures\TextField.png" />
+    <BundleResource Include="Resources\Textures\UnactiveButton.png" />
+    <BundleResource Include="Resources\Textures\woodbg.png" />
+    <BundleResource Include="Resources\Textures\PopupCloseActive.png" />
+    <BundleResource Include="Resources\Textures\popupbg2.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\chips.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\exit.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\money.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\photoback.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\store.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\topbg.png" />
+    <BundleResource Include="Resources\Textures\bluebg.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\right.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\left.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\createtable.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\tables.png" />
+    <BundleResource Include="Resources\Textures\MainMenuScreen\traininglevel.png" />
+    <BundleResource Include="Resources\Textures\Cards\back.png" />
+    <BundleResource Include="Resources\Textures\Cards\c1.png" />
+    <BundleResource Include="Resources\Textures\Cards\c2.png" />
+    <BundleResource Include="Resources\Textures\Cards\d1.png" />
+    <BundleResource Include="Resources\Textures\Cards\d2.png" />
+    <BundleResource Include="Resources\Textures\Cards\back2.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -171,19 +191,39 @@
     <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\CoordinatesTransmitor.cs" />
     <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\Game.cs" />
     <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\GameGraphics.cs" />
-    <Compile Include="GuestScene.cs" />
-    <Compile Include="EmailRegistrationScene.cs" />
-    <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\GraphicsProvider.cs" />
-    <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\BeloteScene.cs" />
-    <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\CoordinatesDictionary.cs" />
+    <Compile Include="BeloteClientLevelsCode\Dontuse\GraphicsProvider.cs" />
+    <Compile Include="BeloteClientLevelsCode\Dontuse\CoordinatesDictionary.cs" />
+    <Compile Include="Scenes Code\EmailRegistrationScene.cs" />
+    <Compile Include="Scenes Code\GuestScene.cs" />
+    <Compile Include="BeloteForms\BaseBeloteForm.cs" />
+    <Compile Include="BeloteControls\BaseBeloteControl.cs" />
+    <Compile Include="BeloteControls\BeloteButton.cs" />
+    <Compile Include="BeloteControls\BeloteEdit.cs" />
+    <Compile Include="BeloteControls\BeloteLabel.cs" />
+    <Compile Include="BeloteForms\AuthorizationForm.cs" />
+    <Compile Include="BeloteClientLevelsCode\Level4%28Graphic Helpers%29\BaseBeloteScene.cs" />
+    <Compile Include="BeloteForms\BaseBelotePopupForm.cs" />
+    <Compile Include="BeloteForms\PasswordRemindForm.cs" />
+    <Compile Include="BeloteForms\MainMenuForm.cs" />
+    <Compile Include="BeloteControls\BeloteCard.cs" />
+    <Compile Include="BeloteForms\DaylyBonusForm.cs" />
+    <Compile Include="BeloteClientLevelsCode\Level0%28Base Classes%29\CardDeck.cs" />
+    <Compile Include="BeloteControls\BeloteCheckBox.cs" />
+    <Compile Include="BeloteControls\BeloteUpDown.cs" />
+    <Compile Include="BeloteForms\CreationTableForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.10.6\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.10.6\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
   <Import Project="..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.0.6490\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <ItemGroup>
     <Folder Include="BeloteClientLevelsCode\" />
-    <Folder Include="InterfaceImages\" />
-    <Folder Include="InterfaceImages\5_6\" />
-    <Folder Include="InterfaceImages\5_6\GuestScreen\" />
+    <Folder Include="BeloteClientLevelsCode\Dontuse\" />
+    <Folder Include="Scenes Code\" />
+    <Folder Include="BeloteForms\" />
+    <Folder Include="BeloteControls\" />
+    <Folder Include="Resources\Textures\" />
+    <Folder Include="Resources\Textures\GuestScreen\" />
+    <Folder Include="Resources\Textures\MainMenuScreen\" />
+    <Folder Include="Resources\Textures\Cards\" />
   </ItemGroup>
 </Project>

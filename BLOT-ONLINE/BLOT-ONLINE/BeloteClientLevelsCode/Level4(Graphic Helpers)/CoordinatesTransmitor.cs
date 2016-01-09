@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoreGraphics;
+using Foundation;
+using SpriteKit;
+using UIKit;
+using BeloteClient;
+using BLOTONLINE;
 
 namespace BeloteClient
 {
@@ -88,5 +94,17 @@ namespace BeloteClient
                     return "";
             }
         }
+
+		public static CoreGraphics.CGRect ConvertRectFromSceneToView(SKView View, float sceneMaxX, float sceneMaxY, float Width, float Height, float X, float Y)
+		{
+			float viewMaxY = (float)View.Frame.Height;
+			float viewMaxX = (float)View.Frame.Width;
+
+			float yFactor = viewMaxY / sceneMaxY;
+			float xFactor = viewMaxX / sceneMaxX;
+
+			CGRect res = new CGRect (X * xFactor, viewMaxY - ((Y + Height) * yFactor), Width * xFactor, Height * yFactor);
+			return res;
+		}
     }
 }

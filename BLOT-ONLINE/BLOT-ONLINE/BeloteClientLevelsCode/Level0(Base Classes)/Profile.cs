@@ -14,11 +14,10 @@ namespace BeloteClient
             set;
         }
 
-        public string Nickname
-        {
-            get;
-            set;
-        }
+		public DateTime RegistrationDate {
+			get;
+			set;
+		}
 
         public string Name
         {

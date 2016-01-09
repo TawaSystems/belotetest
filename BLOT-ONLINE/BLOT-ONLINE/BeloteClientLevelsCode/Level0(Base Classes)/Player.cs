@@ -27,7 +27,8 @@ namespace BeloteClient
             Profile = new Profile();
             this.Profile.Id = Int32.Parse(pParams["PlayerID"]);
             DateTime d;
-            Profile.Nickname = pParams["Nickname"];
+			if (DateTime.TryParse(pParams["RegistrationDate"], out d))
+				Profile.RegistrationDate = d;
             Profile.Name = pParams["Name"];
             Profile.Surname = pParams["Surname"];
             Profile.Email = pParams["Email"];

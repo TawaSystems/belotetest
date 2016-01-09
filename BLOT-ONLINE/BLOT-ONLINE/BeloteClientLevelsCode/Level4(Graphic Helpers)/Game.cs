@@ -28,8 +28,8 @@ namespace BeloteClient
             AppDomain.CurrentDomain.ProcessExit += ProcessExit;
             try
             {
-				GraphicsProvider = new GraphicsProvider();
 				Graphics = new GameGraphics(this, GameView);
+				/*
                 clientInformation = new ClientInformation();
 
                 clientInformation.OnGameStart = StartGameHandler;
@@ -40,6 +40,7 @@ namespace BeloteClient
                     Graphics.ShowMessage("У вас устаревшая версия приложения! Скачайте новую");
                     Environment.Exit(0);
                 }
+                */
                 Graphics.ShowGuestScreen();
             }
             catch (Exception ex)
@@ -293,11 +294,5 @@ namespace BeloteClient
             get;
             private set;
         }
-
-		public GraphicsProvider GraphicsProvider
-		{
-			get;
-			private set;
-		}
     }
 }

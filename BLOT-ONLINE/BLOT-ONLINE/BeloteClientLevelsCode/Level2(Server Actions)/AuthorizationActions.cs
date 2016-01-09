@@ -13,10 +13,10 @@ namespace BeloteClient
         }
 
         // Регистрация с помощью электронной почты
-        public bool RegistrationEmail(string Email, string Password, string Nickname, string Sex, string Country)
+        public bool RegistrationEmail(string Email, string Password, string Name, string Sex, string Country)
         {
             Message regMessage = new Message(Messages.MESSAGE_AUTORIZATION_REGISTRATION_EMAIL,
-                String.Format("Nickname={0},Email={1},Password={2},Country={3},Sex={4}", Nickname, Email, Password, Country, Sex));
+                String.Format("Name={0},Email={1},Password={2},Country={3},Sex={4}", Name, Email, Password, Country, Sex));
             MessageResult res = ServerConnection.ExecuteMessage(regMessage);
             return (res["Registration"] == "1");
         }
@@ -30,5 +30,25 @@ namespace BeloteClient
             PlayerID = Int32.Parse(res["PlayerID"]);
             return (PlayerID != -1);
         }
+
+		// Авторизация через Facebook
+		public bool AuthorizationFB(string ID, string Name, string Sex, string Country, out int PlayerID)
+		{
+			Message regMessage = new Message(Messages.MESSAGE_AUTORIZATION_AUTORIZATION_FB,
+				String.Format("Name={0},ID={1},Country={3},Sex={4}", Name, ID, Country, Sex));
+			MessageResult res = ServerConnection.ExecuteMessage(regMessage);
+			PlayerID = Int32.Parse(res["PlayerID"]);
+			return (PlayerID != -1);
+		}
+
+		// Авторизация через VK
+		public bool AuthorizationVK(string ID, string Name, string Sex, string Country, out int PlayerID)
+		{
+			Message regMessage = new Message(Messages.MESSAGE_AUTORIZATION_AUTORIZATION_VK,
+				String.Format("Name={0},ID={1},Country={3},Sex={4}", Name, ID, Country, Sex));
+			MessageResult res = ServerConnection.ExecuteMessage(regMessage);
+			PlayerID = Int32.Parse(res["PlayerID"]);
+			return (PlayerID != -1);
+		}
     }
 }

@@ -1,15 +1,11 @@
 ﻿<Properties StartupItem="BLOT-ONLINE/BLOT-ONLINE.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6.9.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="BLOT-ONLINE/Resources/Images.xcassets/LaunchImage.launchimage/Contents.json">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BLOT-ONLINE/Scenes Code/GuestScene.cs">
     <Files>
-      <File FileName="BLOT-ONLINE/GameViewController.cs" Line="36" Column="39" />
-      <File FileName="BLOT-ONLINE/GuestScene.cs" Line="83" Column="19" />
-      <File FileName="BLOT-ONLINE/EmailRegistrationScene.cs" Line="23" Column="2" />
-      <File FileName="BLOT-ONLINE/AppDelegate.cs" Line="18" Column="3" />
-      <File FileName="BLOT-ONLINE/BeloteClientLevelsCode/Level4(Graphic Helpers)/Game.cs" Line="76" Column="65" />
-      <File FileName="BLOT-ONLINE/Info.plist" />
-      <File FileName="BLOT-ONLINE/Resources/Images.xcassets/LaunchImage.launchimage/Contents.json" />
-      <File FileName="BLOT-ONLINE/Entitlements.plist" />
+      <File FileName="BLOT-ONLINE/Scenes Code/GuestScene.cs" Line="31" Column="27" />
+      <File FileName="BLOT-ONLINE/BeloteForms/MainMenuForm.cs" Line="31" Column="35" />
+      <File FileName="BLOT-ONLINE/BeloteForms/AuthorizationForm.cs" Line="99" Column="33" />
+      <File FileName="BLOT-ONLINE/BeloteForms/BaseBeloteForm.cs" Line="73" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

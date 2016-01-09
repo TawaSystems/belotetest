@@ -18,7 +18,7 @@ namespace BeloteClient
 
         private Game Game;
 		private SKView GameView;
-		private BeloteScene Scene;
+		private BaseBeloteScene Scene;
 
 		public GameGraphics(Game Game, SKView GameView)
         {
@@ -34,7 +34,11 @@ namespace BeloteClient
         {
 			Scene = SKNode.FromFile<GuestScene> ("GuestScene");
 			Scene.Initialize (Game);
+			GameView.ShowsFPS = true;
+			GameView.ShowsNodeCount = true;
+			GameView.ShowsDrawCount = true;
 			Scene.ScaleMode = SKSceneScaleMode.Fill;
+			//Scene.AnchorPoint = new CoreGraphics.CGPoint (0, 1);
 			GameView.PresentScene (Scene);
         }
 
