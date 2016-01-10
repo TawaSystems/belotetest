@@ -33,12 +33,12 @@ namespace BLOTONLINE
 			this.AnimateWindow ();
 		}
 
-		public void OnSendPasswordButtonClick(BaseBeloteControl Sender)
+		public void OnSendPasswordButtonClick(BaseBeloteControl Sender, string SpriteName)
 		{
 			Close ();
 		}
 
-		public void OnEmailEndEditing(BaseBeloteControl Sender)
+		public void OnEmailEndEditing(BaseBeloteControl Sender, string SpriteName)
 		{
 			if (EmailRemindEdit.Text != "")
 				SendPasswordButton.Enabled = true;

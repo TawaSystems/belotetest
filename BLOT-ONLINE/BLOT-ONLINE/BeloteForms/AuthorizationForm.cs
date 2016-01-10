@@ -61,18 +61,18 @@ namespace BLOTONLINE
 			AddChildControl (EnterLabel);
 		}
 
-		public void OnVKButtonClick(BaseBeloteControl Sender)
+		public void OnVKButtonClick(BaseBeloteControl Sender, string SpriteName)
 		{
 			EnterLabel.Text = "VK";
 		}
 
-		public void OnFBButtonClick(BaseBeloteControl Sender)
+		public void OnFBButtonClick(BaseBeloteControl Sender, string SpriteName)
 		{
 			EnterLabel.Text = "FB";
 
 		}
 
-		public void OnEnterButtonClick(BaseBeloteControl Sender)
+		public void OnEnterButtonClick(BaseBeloteControl Sender, string SpriteName)
 		{
 			EnterLabel.Text = "Enter";
 			EmailEdit.Text = "";
@@ -80,7 +80,7 @@ namespace BLOTONLINE
 			Close ();
 		}
 
-		public void OnRemindPasswordButtonClick(BaseBeloteControl Sender)
+		public void OnRemindPasswordButtonClick(BaseBeloteControl Sender, string SpriteName)
 		{
 			EnterLabel.Text = "Remind";
 			EmailEdit.Text = "";
@@ -92,7 +92,7 @@ namespace BLOTONLINE
 			EmailEdit.TextField.Enabled = false;
 		}
 
-		public void OnEmailEndEditing(BaseBeloteControl Sender)
+		public void OnEmailEndEditing(BaseBeloteControl Sender, string SpriteName)
 		{
 			if (EmailEdit.Text != "")
 				EnterButton.Enabled = true;
@@ -101,12 +101,12 @@ namespace BLOTONLINE
 			EnterLabel.Text = "Email Edited";
 		}
 
-		public void OnPasswordEndEditing(BaseBeloteControl Sender)
+		public void OnPasswordEndEditing(BaseBeloteControl Sender, string SpriteName)
 		{
 			EnterLabel.Text = "PasswordEdited";
 		}
 
-		public void OnClosePasswordRemindForm(BaseBeloteControl Sender)
+		public void OnClosePasswordRemindForm(BaseBeloteControl Sender, string SpriteName)
 		{
 			this.ParentScene.ChangeActiveForm (this);
 			PasswordEdit.TextField.Enabled = true;

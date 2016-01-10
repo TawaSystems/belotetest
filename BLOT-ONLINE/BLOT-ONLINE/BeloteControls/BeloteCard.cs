@@ -25,15 +25,14 @@ namespace BLOTONLINE
 			this.Suit = Suit;
 			this.Type = Type;
 			this.IsHide = IsHide;
-			this.Width = 104;
-			this.Height = 152;
+			this.Width = 105;
+			this.Height = 147;
 			this.X = X;
 			this.Y = Y;
 			this.OnTouchEnd = onTouchEnd;
 			this.OnTouchStart = onTouchStart;
-			backTexture = SKTexture.FromImageNamed ("Textures/cards/back.png");
-			//cardTexture = SKTexture.FromImageNamed ("Textures/cards/" + this.Name + ".png");
-			cardTexture = SKTexture.FromImageNamed("Textures/cards/c2.png");
+			backTexture = SKTexture.FromImageNamed ("Textures/Cards/back.png");
+			cardTexture = SKTexture.FromImageNamed ("Textures/Cards/" + Helpers.SuitToString(Suit) + "/" + ((int)Type).ToString () + ".png");
 			ConstructControl ();
 		}
 

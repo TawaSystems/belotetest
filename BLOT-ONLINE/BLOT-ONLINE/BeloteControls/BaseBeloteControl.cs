@@ -41,17 +41,23 @@ namespace BLOTONLINE
 		{
 		}
 
-		// Клик по контролу
-		public void TouchStart()
+		// функция для выполнения каких-либо системных действий компонента во время клика
+		protected virtual void SystemClick(string SpriteName)
 		{
-			if (OnTouchStart != null)
-				OnTouchStart (this);
 		}
 
-		public void TouchEnd()
+		// Клик по контролу
+		public void TouchStart(string SpriteName)
+		{
+			if (OnTouchStart != null)
+				OnTouchStart (this, SpriteName);
+			SystemClick (SpriteName);
+		}
+
+		public void TouchEnd(string SpriteName)
 		{
 			if (OnTouchEnd != null)
-				OnTouchEnd (this);
+				OnTouchEnd (this, SpriteName);
 		}
 
 		// Событие по клику

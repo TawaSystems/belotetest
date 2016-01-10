@@ -50,12 +50,12 @@ namespace BLOTONLINE
 		}
 
 		// Вызывается при старте нажатия на кнопку закрытия
-		public virtual void OnClosing(BaseBeloteControl Sender)
+		public virtual void OnClosing(BaseBeloteControl Sender, string SpriteName)
 		{
 		}
 
 		// Вызывается при заканчивании нажатия на кнопку закрытия
-		public virtual void OnClosed(BaseBeloteControl Sender)
+		public virtual void OnClosed(BaseBeloteControl Sender, string SpriteName)
 		{
 			SKAction closingAction = SKAction.MoveTo (new CGPoint (X, - Y * 2), 0.3);
 			this.BackgroundSprite.RunAction(closingAction, new Action(() => Close()));

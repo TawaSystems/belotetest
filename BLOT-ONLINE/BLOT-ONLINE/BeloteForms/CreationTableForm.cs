@@ -30,14 +30,15 @@ namespace BLOTONLINE
 		{
 			base.Show (Width, Height, X, Y);
 
-			BetUpDown = new BeloteUpDown ("BetUpDown", 100, 400, 20, 250, 10, 20);
-			LevelUpDown = new BeloteUpDown ("LevelUpDown", 300, 400, 0, 25, 1, 0);
-			BetLabel = new BeloteLabel ("BetLabel", BetUpDown.X + BetUpDown.Width / 2, 480, "Choose bet for table:", UIColor.White, 20, "Roboto");
-			LevelLabel = new BeloteLabel ("LevelLabel", LevelUpDown.X + LevelUpDown.Width / 2, 480, "Choose minimal player level:", UIColor.White, 20, "Roboto");
-			AICheckBox = new BeloteCheckBox ("AICheck", 150, 100, 300, "Change player to AI");
-			VIPCheckBox = new BeloteCheckBox ("VIPCheck", 150, 300, 300, "Only for VIP");
-			VIPCheckBox.OnTouchStart = OnVIPCheckBoxClick;
-			CreateTableButton = new BeloteButton ("CreateTableButton", 200, 65, this.Width / 2 - 100, 150, OnCreateTableClick, null, SKTexture.FromImageNamed ("Textures/ActiveButton"), null, "Create table!", 20, UIColor.White);
+			BetUpDown = new BeloteUpDown ("BetUpDown", (Width / 2) - 250, (Height / 5) * 3, 20, 250, 10, 20);
+			LevelUpDown = new BeloteUpDown ("LevelUpDown", (Width / 2) + 50, (Height / 5) * 3, 0, 25, 1, 0);
+
+			BetLabel = new BeloteLabel ("BetLabel", BetUpDown.X + BetUpDown.Width / 2, (Height / 5) * 3 + 75, "Choose bet for table:", UIColor.White, 20, "Roboto");
+			LevelLabel = new BeloteLabel ("LevelLabel", LevelUpDown.X + LevelUpDown.Width / 2, (Height / 5) * 3 + 75, "Choose minimal player level:", UIColor.White, 20, "Roboto");
+			AICheckBox = new BeloteCheckBox ("AICheck", 200, (Width / 2) - 275, (Height / 2) - 40, "Change player to AI");
+			VIPCheckBox = new BeloteCheckBox ("VIPCheck", 200, (Width / 2) + 75, (Height / 2) - 40, "Only for VIP");
+			VIPCheckBox.OnTouchStart = OnVIPCheckBoxClick; //ПЕРЕКРЫВАЕТСЯ МЕТОД ИЗМЕНЕНИЯ CHECK
+			CreateTableButton = new BeloteButton ("CreateTableButton", 300, 65, this.Width / 2 - 150, Height / 6, OnCreateTableClick, null, SKTexture.FromImageNamed ("Textures/ActiveButton"), null, "Create table!", 20, UIColor.White);
 
 			AddChildControl (BetUpDown);
 			AddChildControl (LevelUpDown);
@@ -50,12 +51,12 @@ namespace BLOTONLINE
 			this.AnimateWindow ();
 		}
 			
-		private void OnCreateTableClick(BaseBeloteControl Sender)
+		private void OnCreateTableClick(BaseBeloteControl Sender, string SpriteName)
 		{
 			Close ();
 		}
 
-		private void OnVIPCheckBoxClick(BaseBeloteControl Sender)
+		private void OnVIPCheckBoxClick(BaseBeloteControl Sender, string SpriteName)
 		{
 		}
 

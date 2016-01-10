@@ -34,10 +34,14 @@ namespace BLOTONLINE
 		private DaylyBonusForm DaylyBonusForm;
 		private CreationTableForm CreationTableForm;
 
+		private TablesSelectOptionsForm TablesSelectOptionsForm;
+
 		public MainMenuForm (Game Game, BaseBeloteScene ParentScene, BeloteFormAction CloseAction, BaseBeloteForm ParentForm) : base(Game, ParentScene, CloseAction, ParentForm)
 		{
 			DaylyBonusForm = null;
 			CreationTableForm = null;
+
+			TablesSelectOptionsForm = null;
 		}
 
 		public override void Show (float Width, float Height, float X, float Y)
@@ -72,9 +76,6 @@ namespace BLOTONLINE
 			MenuButtons [1] = new BeloteButton ("NewTableButton", 350, 369, this.Width / 2 - 175, this.Height / 2 - 185, OnMenuButtonClick, null, SKTexture.FromImageNamed ("Textures/MainMenuScreen/createtable.png"), null);
 			MenuButtons [2] = new BeloteButton ("TablesListButton", 263, 277, this.Width / 2 + 175 - 63, this.Height / 2 - 139, null, null, SKTexture.FromImageNamed ("Textures/MainMenuScreen/tables.png"), null);
 
-			MenuButtons [0].Sprite.Alpha = 100;
-			MenuButtons [2].Sprite.Alpha = 100;
-
 			MenuButtonLabel = new BeloteLabel ("MenuButtonsLabel", Width / 2, this.Height / 7 + 60, "", UIColor.White, 40, "Roboto");
 
 			RightButton = new BeloteButton ("Right", 131, 142, Width / 2 + 169, this.Height / 7, OnRightClick, null, SKTexture.FromImageNamed ("Textures/MainMenuScreen/right.png"), null);
@@ -106,20 +107,20 @@ namespace BLOTONLINE
 			UpdateMenuButtonLabel ();
 		}
 
-		public void OnProfileClick(BaseBeloteControl Sender)
+		public void OnProfileClick(BaseBeloteControl Sender, string SpriteName)
 		{
 		}
 
-		public void OnStoreClick(BaseBeloteControl Sender)
+		public void OnStoreClick(BaseBeloteControl Sender, string SpriteName)
 		{
 		}
 
-		public void OnExitClick(BaseBeloteControl Sender)
+		public void OnExitClick(BaseBeloteControl Sender, string SpriteName)
 		{
 			Close ();
 		}
 
-		public void OnMenuButtonClick(BaseBeloteControl Sender)
+		public void OnMenuButtonClick(BaseBeloteControl Sender, string SpriteName)
 		{
 			if (MenuButtons [1].Name == "TrainingButton") {
 				
@@ -130,6 +131,9 @@ namespace BLOTONLINE
 				ParentScene.ChangeActiveForm (CreationTableForm);
 			}
 			if (MenuButtons [1].Name == "TablesListButton") {
+				TablesSelectOptionsForm = new TablesSelectOptionsForm (this.Game, this.ParentScene, OnSelectionTablesOptionsFormClose, this);
+				TablesSelectOptionsForm.Show (Width - (Width / 6), Height - (Height / 4), Width / 12, Height / 8);
+				ParentScene.ChangeActiveForm (TablesSelectOptionsForm);
 			}
 		}
 
@@ -140,12 +144,17 @@ namespace BLOTONLINE
 			ParentScene.ChangeActiveForm (DaylyBonusForm);
 		}
 
-		public void OnCreationTableFormClose(BaseBeloteControl Sender)
+		public void OnSelectionTablesOptionsFormClose(BaseBeloteControl Sender, string SpriteName)
 		{
 			ParentScene.ChangeActiveForm (this);
 		}
 
-		public void OnDaylyBonusFormClose(BaseBeloteControl Sender)
+		public void OnCreationTableFormClose(BaseBeloteControl Sender, string SpriteName)
+		{
+			ParentScene.ChangeActiveForm (this);
+		}
+
+		public void OnDaylyBonusFormClose(BaseBeloteControl Sender, string SpriteName)
 		{
 			ParentScene.ChangeActiveForm (this);
 		}
@@ -160,7 +169,7 @@ namespace BLOTONLINE
 				MenuButtonLabel.Text = "Show Tables";
 		}
 
-		public void OnLeftClick(BaseBeloteControl Sender)
+		public void OnLeftClick(BaseBeloteControl Sender, string SpriteName)
 		{
 			SKAction _1to0 = SKAction.Sequence (SKAction.MoveTo (new CGPoint (this.Width / 2 - 175 - 200, this.Height / 2 - 139), 0.2), SKAction.ResizeTo (new CGSize (263, 277), 0.2));
 			SKAction _0to2 = SKAction.MoveTo (new CGPoint(this.Width / 2 + 175 - 63, this.Height / 2 - 139), 0.2);
@@ -183,7 +192,7 @@ namespace BLOTONLINE
 			UpdateMenuButtonLabel ();
 		}
 
-		public void OnRightClick(BaseBeloteControl Sender)
+		public void OnRightClick(BaseBeloteControl Sender, string SpriteName)
 		{
 			SKAction _1to2 = SKAction.Sequence (SKAction.MoveTo (new CGPoint (this.Width / 2 + 175 - 63, this.Height / 2 - 139), 0.2), SKAction.ResizeTo (new CGSize (263, 277), 0.2));
 			SKAction _0to1 = SKAction.Sequence (SKAction.MoveTo (new CGPoint (this.Width / 2 - 175, this.Height / 2 - 185), 0.2), SKAction.ResizeTo (new CGSize (350, 369), 0.2)); 

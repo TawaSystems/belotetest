@@ -10,7 +10,7 @@ using BeloteClient;
 namespace BLOTONLINE
 {
 	// Тип действия, выполняемый при закрытии формы
-	public delegate void BeloteFormAction(BaseBeloteControl Sender);
+	public delegate void BeloteFormAction(BaseBeloteControl Sender, string SpriteName);
 
 	public class BaseBeloteForm
 	{
@@ -108,7 +108,7 @@ namespace BLOTONLINE
 			foreach (BaseBeloteControl control in Controls) {
 				if (node.Name.Contains(control.Name)) {
 					if (control.Enabled)
-						control.TouchStart ();
+						control.TouchStart (node.Name);
 					break;
 				}
 			}
@@ -122,23 +122,24 @@ namespace BLOTONLINE
 			foreach (BaseBeloteControl control in Controls) {
 				if (node.Name.Contains(control.Name)) {
 					if (control.Enabled)
-						control.TouchEnd ();
+						control.TouchEnd (node.Name);
 					break;
 				}
 			}
 		}
 
 		// Метод закрытия формы и удаления контролов
-		public void Close()
+		public void Close(int FormResult = 0)
 		{
 			foreach (BaseBeloteControl control in Controls) {
 				control.Destroy ();
 			}
 			Controls.Clear ();
 			if (CloseAction != null)
-				CloseAction (null);
+				CloseAction (null, null);
 			if (BackgroundSprite != null)
 				BackgroundSprite.RemoveFromParent ();
+			this.Result = FormResult;
 		}
 
 		// Родительский спрайт
@@ -176,6 +177,11 @@ namespace BLOTONLINE
 		{
 			get;
 			protected set;
+		}
+
+		public int Result {
+			get;
+			private set;
 		}
 	}
 }

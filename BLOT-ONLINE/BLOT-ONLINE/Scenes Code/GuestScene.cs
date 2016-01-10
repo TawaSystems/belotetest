@@ -24,7 +24,7 @@ namespace BLOTONLINE
 			ChangeActiveForm (authForm);
 		}
 
-		public void onAutorizationFormClose(BaseBeloteControl Sender)
+		public void onAutorizationFormClose(BaseBeloteControl Sender, string SpriteName)
 		{
 			ChangeActiveForm (null);
 			mainMenuForm = new MainMenuForm (this.Game, this, onMainMenuClose, null);
@@ -33,7 +33,7 @@ namespace BLOTONLINE
 			mainMenuForm.TestDaylyBonus ();
 		}
 
-		public void onMainMenuClose(BaseBeloteControl Sender)
+		public void onMainMenuClose(BaseBeloteControl Sender, string SpriteName)
 		{
 			authForm = new AuthorizationForm (this.Game, this, onAutorizationFormClose, null);
 			authForm.Show (1344, 750, 0, 0);

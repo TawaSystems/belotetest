@@ -21,7 +21,7 @@ namespace BLOTONLINE
 			isCheck = false;
 			CheckedTexture = SKTexture.FromImageNamed ("Textures/checkon.png");
 			UncheckedTexture = SKTexture.FromImageNamed ("Textures/checkoff.png");
-			this.Height = 40;
+			this.Height = 62;
 		}
 
 		public BeloteCheckBox (string Name, float Width, float X, float Y, string Text) : this (Name)
@@ -39,8 +39,8 @@ namespace BLOTONLINE
 				checkLabel = new SKLabelNode ();
 				checkLabel.FontName = "Roboto";
 				checkLabel.FontColor = UIColor.White;
-				checkLabel.FontSize = 20;
-				checkLabel.Position = new CGPoint (40, (this.Height / 2) - 10);
+				checkLabel.FontSize = 25;
+				checkLabel.Position = new CGPoint (75, 20);
 				checkLabel.ZPosition = this.Z + 1;
 				checkLabel.Text = this.Text;
 				checkLabel.HorizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left;
@@ -49,16 +49,23 @@ namespace BLOTONLINE
 			}
 		}
 
+		protected override void SystemClick (string SpriteName)
+		{
+			base.SystemClick (SpriteName);
+			Checked = !isCheck;
+		}
+
 		public override void ConstructControl ()
 		{
 			base.ConstructControl ();
 			SKTexture startTexture = (Checked) ? CheckedTexture : UncheckedTexture;
 			Sprite = SKSpriteNode.FromTexture (startTexture);
-			((SKSpriteNode)Sprite).Size = new CGSize (this.Width, this.Height);
+			((SKSpriteNode)Sprite).Size = new CGSize (66, this.Height);
 			((SKSpriteNode)Sprite).AnchorPoint = AnchorPoint;
 			((SKSpriteNode)Sprite).Position = new CGPoint (this.X, this.Y);
 			((SKSpriteNode)Sprite).ZPosition = this.Z;
 			Sprite.Name = this.Name;
+
 			CreateLabel ();
 		}
 

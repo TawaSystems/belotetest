@@ -37,7 +37,7 @@ namespace BLOTONLINE
 			this.AnimateWindow ();
 		}
 
-		public void OnCardChoose(BaseBeloteControl Sender)
+		public void OnCardChoose(BaseBeloteControl Sender, string SpriteName)
 		{
 			for (var i = 0; i < 8; i++) {
 				if (Sender != BonusCards[i])

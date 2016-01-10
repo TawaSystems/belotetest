@@ -134,12 +134,45 @@
     <BundleResource Include="Resources\Textures\MainMenuScreen\createtable.png" />
     <BundleResource Include="Resources\Textures\MainMenuScreen\tables.png" />
     <BundleResource Include="Resources\Textures\MainMenuScreen\traininglevel.png" />
+    <BundleResource Include="Resources\Textures\Cards\C\3.png" />
+    <BundleResource Include="Resources\Textures\Cards\C\0.png" />
+    <BundleResource Include="Resources\Textures\Cards\C\1.png" />
+    <BundleResource Include="Resources\Textures\Cards\C\2.png" />
+    <BundleResource Include="Resources\Textures\Cards\C\7.png" />
+    <BundleResource Include="Resources\Textures\Cards\C\4.png" />
+    <BundleResource Include="Resources\Textures\Cards\C\5.png" />
+    <BundleResource Include="Resources\Textures\Cards\C\6.png" />
+    <BundleResource Include="Resources\Textures\Cards\D\3.png" />
+    <BundleResource Include="Resources\Textures\Cards\D\0.png" />
+    <BundleResource Include="Resources\Textures\Cards\D\1.png" />
+    <BundleResource Include="Resources\Textures\Cards\D\2.png" />
+    <BundleResource Include="Resources\Textures\Cards\D\7.png" />
+    <BundleResource Include="Resources\Textures\Cards\D\4.png" />
+    <BundleResource Include="Resources\Textures\Cards\D\6.png" />
+    <BundleResource Include="Resources\Textures\Cards\D\5.png" />
+    <BundleResource Include="Resources\Textures\Cards\H\3.png" />
+    <BundleResource Include="Resources\Textures\Cards\H\0.png" />
+    <BundleResource Include="Resources\Textures\Cards\H\1.png" />
+    <BundleResource Include="Resources\Textures\Cards\H\2.png" />
+    <BundleResource Include="Resources\Textures\Cards\H\7.png" />
+    <BundleResource Include="Resources\Textures\Cards\H\4.png" />
+    <BundleResource Include="Resources\Textures\Cards\H\6.png" />
+    <BundleResource Include="Resources\Textures\Cards\H\5.png" />
+    <BundleResource Include="Resources\Textures\Cards\S\3.png" />
+    <BundleResource Include="Resources\Textures\Cards\S\0.png" />
+    <BundleResource Include="Resources\Textures\Cards\S\1.png" />
+    <BundleResource Include="Resources\Textures\Cards\S\2.png" />
+    <BundleResource Include="Resources\Textures\Cards\S\7.png" />
+    <BundleResource Include="Resources\Textures\Cards\S\4.png" />
+    <BundleResource Include="Resources\Textures\Cards\S\6.png" />
+    <BundleResource Include="Resources\Textures\Cards\S\5.png" />
     <BundleResource Include="Resources\Textures\Cards\back.png" />
-    <BundleResource Include="Resources\Textures\Cards\c1.png" />
-    <BundleResource Include="Resources\Textures\Cards\c2.png" />
-    <BundleResource Include="Resources\Textures\Cards\d1.png" />
-    <BundleResource Include="Resources\Textures\Cards\d2.png" />
-    <BundleResource Include="Resources\Textures\Cards\back2.png" />
+    <BundleResource Include="Resources\Textures\checkoff.png" />
+    <BundleResource Include="Resources\Textures\checkon.png" />
+    <BundleResource Include="Resources\Textures\downactive.png" />
+    <BundleResource Include="Resources\Textures\downunactive.png" />
+    <BundleResource Include="Resources\Textures\upactive.png" />
+    <BundleResource Include="Resources\Textures\upunactive.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -211,6 +244,7 @@
     <Compile Include="BeloteControls\BeloteCheckBox.cs" />
     <Compile Include="BeloteControls\BeloteUpDown.cs" />
     <Compile Include="BeloteForms\CreationTableForm.cs" />
+    <Compile Include="BeloteForms\TablesSelectOptionsForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Insights.1.10.6\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\packages\Xamarin.Insights.1.10.6\build\Xamarin.iOS10\Xamarin.Insights.targets')" />

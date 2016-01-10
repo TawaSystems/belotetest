@@ -34,12 +34,15 @@ namespace BLOTONLINE
 			this.downUnactiveTexture = SKTexture.FromImageNamed ("Textures/downunactive.png");
 		}
 
-		public BeloteUpDown(string Name, float X, float Y, int Min, int Max, int Step, int Start) : this(Name)
+		public BeloteUpDown(string Name, float X, float Y, int Min, int Max, int Step, int Start, BeloteFormAction onValueChanged = null) : this(Name)
 		{
+			this.X = X;
+			this.Y = Y;
 			this.minValue = Min;
 			this.maxValue = Max;
 			this.stepValue = Step;
 			this.currentValue = Start;
+			this.OnValueChanged = onValueChanged;
 			ConstructControl ();
 		}
 
@@ -51,15 +54,17 @@ namespace BLOTONLINE
 			((SKSpriteNode)Sprite).AnchorPoint = AnchorPoint;
 			((SKSpriteNode)Sprite).Position = new CGPoint (this.X, this.Y);
 			((SKSpriteNode)Sprite).ZPosition = this.Z;
+			this.OnTouchStart = OnClickOn;
 
-			UpButton = new BeloteButton (this.Name + "Up", 65, 65, 135, 0, OnInc, null, upActiveTexture, upUnactiveTexture);
-			DownButton = new BeloteButton (this.Name + "Down", 65, 65, 0, 0, OnDec, null, downActiveTexture, downUnactiveTexture);
-			UpDownLabel = new BeloteLabel (this.Name + "Label", 100, 22, "80", UIColor.Black, 20, "Roboto");
+			UpButton = new BeloteButton (this.Name + "Up", 44, 44, 155, 10, null, null, upActiveTexture, upUnactiveTexture);
+			DownButton = new BeloteButton (this.Name + "Down", 44, 26, 0, 20, null, null, downActiveTexture, downUnactiveTexture);
+			UpDownLabel = new BeloteLabel (this.Name + "Label", 100, 22, currentValue.ToString(), UIColor.Black, 22, "Roboto");
 
 			Sprite.Name = this.Name;
 			Sprite.AddChild (UpDownLabel.Sprite);
 			Sprite.AddChild (UpButton.Sprite);
 			Sprite.AddChild (DownButton.Sprite);
+			TestButtonEnabled ();
 		}
 
 		public override void Destroy ()
@@ -73,16 +78,6 @@ namespace BLOTONLINE
 			base.Destroy ();
 		}
 
-		private void OnInc(BaseBeloteControl Sender)
-		{
-			Inc ();
-		}
-
-		private void OnDec(BaseBeloteControl Sender)
-		{
-			Dec ();
-		}
-
 		// Выставление активности кнопок вверх-вниз
 		private void TestButtonEnabled()
 		{
@@ -90,6 +85,14 @@ namespace BLOTONLINE
 				return;
 			UpButton.Enabled = ((currentValue + stepValue) <= maxValue);
 			DownButton.Enabled = ((currentValue - stepValue) >= minValue);
+		}
+
+		private void OnClickOn(BaseBeloteControl Sender, string SpriteName)
+		{
+			if (SpriteName == UpButton.Name)
+				Inc ();
+			if (SpriteName == DownButton.Name)
+				Dec ();
 		}
 
 		// Обновление надписи
@@ -119,8 +122,10 @@ namespace BLOTONLINE
 			}
 			set {
 				minValue = value;
-				if (value > currentValue)
+				if (value > currentValue) {
 					currentValue = value;
+					TestButtonEnabled ();
+				}
 			}
 		}
 
@@ -132,8 +137,10 @@ namespace BLOTONLINE
 			}
 			set {
 				maxValue = value;
-				if (value < currentValue)
+				if (value < currentValue) {
 					currentValue = value;
+					TestButtonEnabled ();
+				}
 			}
 		}
 
@@ -148,6 +155,8 @@ namespace BLOTONLINE
 					currentValue = value;
 					TestButtonEnabled ();
 					UpdateLabel ();
+					if (OnValueChanged != null)
+						OnValueChanged (this, this.Name);
 				}
 			}
 		}
@@ -163,6 +172,12 @@ namespace BLOTONLINE
 			}
 		}
 
+
+		public BeloteFormAction OnValueChanged
+		{
+			get;
+			set;
+		}
 	}
 }
 

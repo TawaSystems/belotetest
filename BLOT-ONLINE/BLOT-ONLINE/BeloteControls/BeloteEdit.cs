@@ -38,7 +38,7 @@ namespace BLOTONLINE
 			{
 				Text = TextField.Text;
 				if (OnEndEditing != null)
-					OnEndEditing (this);	
+					OnEndEditing (this, null);	
 			}
 		}
 
